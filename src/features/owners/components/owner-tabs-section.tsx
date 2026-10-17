@@ -7,6 +7,7 @@ import { OwnerActivityTimeline } from "./owner-activity-timeline";
 import { OwnerQuickActions } from "./owner-quick-actions";
 import { OwnerTransferableBalance } from "./owner-transferable-balance";
 import { OwnerPropertiesTabView } from "./owner-properties-tab-view";
+import { OwnerActivityTabView } from "./owner-activity-tab-view";
 
 interface OwnerTabsSectionProps {
   initialTab?: string;
@@ -39,15 +40,18 @@ export function OwnerTabsSection({
 
       {/* Tab Contents */}
       {tab === "properties" ? (
-        /* Tab 2: عقارات المالك (Matching the user's design screenshot) */
+        /* Tab 2: عقارات المالك */
         <OwnerPropertiesTabView />
+      ) : tab === "activity" ? (
+        /* Tab 5: سجل النشاط والتدقيق الأمني */
+        <OwnerActivityTabView />
       ) : (
         /* Tab 1: نظرة عامة (Overview: Two Columns Layout) */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Right Column in RTL: Operations & Properties Card + Activity Timeline (col-span-8) */}
           <div className="lg:col-span-8 space-y-6">
             <OwnerOperationsSummary onNavigateToProperties={() => setTab("properties")} />
-            <OwnerActivityTimeline />
+            <OwnerActivityTimeline onNavigateToActivity={() => setTab("activity")} />
           </div>
 
           {/* Left Column in RTL: Quick Administrative Actions + Transferable Balance (col-span-4) */}

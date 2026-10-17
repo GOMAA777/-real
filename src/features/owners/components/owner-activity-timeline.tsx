@@ -35,11 +35,13 @@ const defaultEvents: TimelineEvent[] = [
 interface OwnerActivityTimelineProps {
   events?: TimelineEvent[];
   totalEventsCount?: number;
+  onNavigateToActivity?: () => void;
 }
 
 export function OwnerActivityTimeline({
   events = defaultEvents,
   totalEventsCount = 24,
+  onNavigateToActivity,
 }: OwnerActivityTimelineProps) {
   return (
     <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
@@ -103,6 +105,7 @@ export function OwnerActivityTimeline({
       <div className="text-center pt-1">
         <button
           type="button"
+          onClick={onNavigateToActivity}
           className="text-xs font-bold text-[#34432E] hover:underline inline-flex items-center gap-1 cursor-pointer transition-colors"
         >
           <span>عرض سجل النشاط الكامل ({totalEventsCount} حدث)</span>
