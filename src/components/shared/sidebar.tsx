@@ -14,7 +14,7 @@ import {
   Receipt,
   BarChart3,
   SlidersHorizontal,
-  UserCircle,
+  UserCircle2,
   ShieldCheck,
   LogOut,
   X,
@@ -43,7 +43,7 @@ const mainNavItems: NavItem[] = [
 
 const systemNavItems: NavItem[] = [
   { title: "الإعدادات", href: "/dashboard/settings", icon: SlidersHorizontal },
-  { title: "الملف الشخصي", href: "/dashboard/profile", icon: UserCircle },
+  { title: "الملف الشخصي", href: "/dashboard/profile", icon: UserCircle2 },
 ];
 
 export function Sidebar() {
@@ -67,7 +67,8 @@ export function Sidebar() {
           sidebarOpen ? "translate-x-0" : "max-lg:translate-x-full"
         )}
       >
-        <div className="flex flex-col gap-6 overflow-y-auto no-scrollbar">
+        {/* Top Scrollable Area: Brand & Main Navigation */}
+        <div className="flex flex-col gap-5 overflow-y-auto no-scrollbar">
           {/* Header Brand */}
           <div className="flex items-center justify-between pt-2 px-2">
             <div className="flex items-center gap-3">
@@ -146,10 +147,13 @@ export function Sidebar() {
               })}
             </nav>
           </div>
+        </div>
 
+        {/* Bottom Section: Group 2 (النظام والإعدادات) Directly Above User Card */}
+        <div className="mt-auto pt-4 space-y-4">
           {/* Group 2: System & Settings */}
-          <div className="space-y-1 pt-2">
-            <div className="px-3 pb-1.5 text-[11px] font-semibold text-white/40">
+          <div className="space-y-1">
+            <div className="px-3 pb-1 text-[11px] font-semibold text-white/40">
               النظام والإعدادات
             </div>
 
@@ -181,10 +185,8 @@ export function Sidebar() {
               })}
             </nav>
           </div>
-        </div>
 
-        {/* User Card at Bottom */}
-        <div className="pt-4 border-t border-white/10">
+          {/* User Profile Card */}
           <div className="p-2.5 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center">
