@@ -43,32 +43,9 @@ export function Topbar() {
         </div>
       </div>
 
-      {/* Left side in Topbar: From left to right: Bell -> Divider -> Name/Role -> Avatar */}
+      {/* Left side in Topbar: From left to right: Avatar -> Name/Role -> Divider -> Bell */}
       <div className="flex items-center" dir="ltr">
-        {/* 1. Notification Bell with Red Dot on top-left */}
-        <button
-          type="button"
-          className="relative p-1.5 text-[#2C3825] hover:text-[#172115] transition-colors cursor-pointer"
-          aria-label="التنبيهات"
-        >
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1 start-1 w-2 h-2 rounded-full bg-[#E53E3E] ring-2 ring-white" />
-        </button>
-
-        {/* 2. Vertical Divider Line */}
-        <div className="h-6 w-px bg-[#E2E6DC] mx-3 sm:mx-4" />
-
-        {/* 3. User Name & Role (aligned towards avatar) */}
-        <div className="text-end select-none me-3" dir="rtl">
-          <div className="text-xs sm:text-sm font-bold text-[#172115] leading-tight">
-            محمد أحمد
-          </div>
-          <div className="text-[11px] text-[#788574] leading-tight mt-0.5">
-            مدير المنصة
-          </div>
-        </div>
-
-        {/* 4. Circular Avatar Photo */}
+        {/* 1. Circular Avatar Photo */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden ring-1 ring-black/5 shrink-0 shadow-2xs">
           <Image
             src="/avatar.jpg"
@@ -78,6 +55,29 @@ export function Topbar() {
             priority
           />
         </div>
+
+        {/* 2. User Name & Role */}
+        <div className="select-none ms-3 text-start" dir="rtl">
+          <div className="text-xs sm:text-sm font-bold text-[#172115] leading-tight">
+            محمد أحمد
+          </div>
+          <div className="text-[11px] text-[#788574] leading-tight mt-0.5">
+            مدير المنصة
+          </div>
+        </div>
+
+        {/* 3. Vertical Divider Line */}
+        <div className="h-6 w-px bg-[#E2E6DC] mx-3 sm:mx-4" />
+
+        {/* 4. Notification Bell with Red Dot */}
+        <button
+          type="button"
+          className="relative p-1.5 text-[#2C3825] hover:text-[#172115] transition-colors cursor-pointer"
+          aria-label="التنبيهات"
+        >
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-1 start-1 w-2 h-2 rounded-full bg-[#E53E3E] ring-2 ring-white" />
+        </button>
       </div>
     </header>
   );
