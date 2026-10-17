@@ -12,7 +12,7 @@ export function showUnderConstructionToast(
   description: string = "يجري العمل على إتاحة هذا التبويب بجميع بياناته وتفاصيله قريباً ضمن التحديث القادم لمنظومة أبراج."
 ) {
   toast(
-    <div className="flex items-start gap-3 w-full text-start" dir="rtl">
+    <div className="flex items-start gap-3 w-full text-start select-none pe-6" dir="rtl">
       <div className="w-9 h-9 rounded-xl bg-[#EEF2E6] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs border border-[#CCD5C5]/40">
         <Clock className="w-4 h-4" />
       </div>
@@ -26,15 +26,15 @@ export function showUnderConstructionToast(
       </div>
     </div>,
     {
-      duration: 3500,
-      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white",
+      duration: 4000,
+      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white select-none cursor-grab active:cursor-grabbing",
     }
   );
 }
 
 export function showSuccessToast(title: string, description?: string) {
   toast(
-    <div className="flex items-start gap-3 w-full text-start" dir="rtl">
+    <div className="flex items-start gap-3 w-full text-start select-none pe-6" dir="rtl">
       <div className="w-9 h-9 rounded-xl bg-[#E2F0D9] text-[#2E7D32] flex items-center justify-center shrink-0 shadow-2xs border border-[#2E7D32]/20">
         <CheckCircle2 className="w-4 h-4" />
       </div>
@@ -50,15 +50,15 @@ export function showSuccessToast(title: string, description?: string) {
       </div>
     </div>,
     {
-      duration: 3000,
-      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white",
+      duration: 3500,
+      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white select-none cursor-grab active:cursor-grabbing",
     }
   );
 }
 
 export function showInfoToast(title: string, description?: string) {
   toast(
-    <div className="flex items-start gap-3 w-full text-start" dir="rtl">
+    <div className="flex items-start gap-3 w-full text-start select-none pe-6" dir="rtl">
       <div className="w-9 h-9 rounded-xl bg-[#EEF2E6] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs border border-[#CCD5C5]/40">
         <Info className="w-4 h-4" />
       </div>
@@ -74,8 +74,8 @@ export function showInfoToast(title: string, description?: string) {
       </div>
     </div>,
     {
-      duration: 3000,
-      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white",
+      duration: 3500,
+      className: "border-[#E2E6DC] shadow-xl rounded-2xl p-4 bg-white select-none cursor-grab active:cursor-grabbing",
     }
   );
 }
