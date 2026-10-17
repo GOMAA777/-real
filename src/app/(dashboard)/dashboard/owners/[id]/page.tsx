@@ -4,7 +4,6 @@ import { OwnerProfileCard } from "@/features/owners/components/owner-profile-car
 import { OwnerKPICards } from "@/features/owners/components/owner-kpi-cards";
 import { OwnerTabs } from "@/features/owners/components/owner-tabs";
 import { OwnerOperationsSummary } from "@/features/owners/components/owner-operations-summary";
-import { OwnerPropertiesList } from "@/features/owners/components/owner-properties-list";
 import { OwnerActivityTimeline } from "@/features/owners/components/owner-activity-timeline";
 import { OwnerQuickActions } from "@/features/owners/components/owner-quick-actions";
 import { OwnerTransferableBalance } from "@/features/owners/components/owner-transferable-balance";
@@ -61,10 +60,9 @@ export default async function OwnerDetailPage({ params }: PageProps) {
 
       {/* 4. Bottom Main Content (Two Columns Layout) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Right Column in RTL: Operations Summary + Properties + Activity (col-span-8) */}
+        {/* Right Column in RTL: Operations & Properties Card + Activity Timeline (col-span-8) */}
         <div className="lg:col-span-8 space-y-6">
           <OwnerOperationsSummary />
-          <OwnerPropertiesList />
           <OwnerActivityTimeline />
         </div>
 
