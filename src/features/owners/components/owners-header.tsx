@@ -1,4 +1,7 @@
+"use client";
+
 import { Plus, Upload } from "lucide-react";
+import { showUnderConstructionToast } from "@/lib/toast";
 
 export function OwnersHeader() {
   return (
@@ -18,7 +21,8 @@ export function OwnersHeader() {
         {/* Secondary: Export Data */}
         <button
           type="button"
-          className="rounded-2xl px-4 py-2.5 bg-white border border-[#CCD5C5] hover:bg-[#F4F6F0] text-[#2C3825] text-xs sm:text-sm font-medium flex items-center gap-2 transition-all shadow-2xs cursor-pointer"
+          onClick={() => showUnderConstructionToast("خدمة تصدير البيانات")}
+          className="rounded-2xl px-4 py-2.5 bg-white border border-[#CCD5C5] hover:bg-[#F4F6F0] text-[#2C3825] text-xs sm:text-sm font-medium flex items-center gap-2 transition-all shadow-2xs cursor-pointer select-none"
         >
           <Upload className="w-4 h-4 text-[#4A5745]" />
           <span>تصدير البيانات</span>
@@ -27,7 +31,8 @@ export function OwnersHeader() {
         {/* Primary: Add Owner (Outer left in RTL) */}
         <button
           type="button"
-          className="rounded-2xl px-5 py-2.5 bg-[#34432E] hover:bg-[#2A3725] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer"
+          onClick={() => showUnderConstructionToast("إضافة مالك عقار جديد")}
+          className="rounded-2xl px-5 py-2.5 bg-[#34432E] hover:bg-[#2A3725] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer select-none"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>إضافة مالك عقار جديد</span>

@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: "المنظومة المتكاملة لإدارة الأصول والوحدات الفندقية والسكنية بالمملكة",
 };
 
+import { Toaster } from "@/components/ui/sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,6 +25,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={`${ibmPlexSansArabic.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-[#F4F6F0] text-[#182016]">
         {children}
+        <Toaster />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { ShieldCheck, Edit3, ToggleLeft, Mail, Download, AlertCircle, ChevronLeft } from "lucide-react";
+import { showUnderConstructionToast } from "@/lib/toast";
 
 export function OwnerQuickActions() {
   const actions = [
@@ -51,6 +52,7 @@ export function OwnerQuickActions() {
             <button
               key={act.id}
               type="button"
+              onClick={() => showUnderConstructionToast(`إجراء "${act.label}"`)}
               className="w-full bg-[#F4F6F0] hover:bg-[#EAEFE5] text-[#172115] rounded-xl p-3 sm:px-4 flex items-center justify-between text-xs font-semibold transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-2.5">
@@ -67,6 +69,7 @@ export function OwnerQuickActions() {
       <div className="pt-2 text-center">
         <button
           type="button"
+          onClick={() => showUnderConstructionToast("إجراء تعليق الحساب")}
           className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] inline-flex items-center gap-1.5 cursor-pointer transition-colors"
         >
           <AlertCircle className="w-4 h-4" />

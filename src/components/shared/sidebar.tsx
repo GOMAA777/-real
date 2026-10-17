@@ -21,6 +21,11 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/use-ui-store";
+import { showUnderConstructionToast } from "@/lib/toast";
+
+const isRouteAvailable = (href: string) => {
+  return ["/dashboard", "/dashboard/owners", "/dashboard/properties"].includes(href);
+};
 
 interface NavItem {
   title: string;
@@ -94,6 +99,12 @@ export function Sidebar() {
                 href={item.href}
                 title={item.title}
                 aria-label={item.title}
+                onClick={(e) => {
+                  if (!isRouteAvailable(item.href)) {
+                    e.preventDefault();
+                    showUnderConstructionToast(`صفحة "${item.title}"`);
+                  }
+                }}
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
@@ -136,6 +147,12 @@ export function Sidebar() {
                 href={item.href}
                 title={item.title}
                 aria-label={item.title}
+                onClick={(e) => {
+                  if (!isRouteAvailable(item.href)) {
+                    e.preventDefault();
+                    showUnderConstructionToast(`صفحة "${item.title}"`);
+                  }
+                }}
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
@@ -237,6 +254,14 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={(e) => {
+                      if (!isRouteAvailable(item.href)) {
+                        e.preventDefault();
+                        showUnderConstructionToast(`صفحة "${item.title}"`);
+                      } else {
+                        setSidebarOpen(false);
+                      }
+                    }}
                     className={cn(
                       "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
                       isActive
@@ -290,6 +315,14 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={(e) => {
+                      if (!isRouteAvailable(item.href)) {
+                        e.preventDefault();
+                        showUnderConstructionToast(`صفحة "${item.title}"`);
+                      } else {
+                        setSidebarOpen(false);
+                      }
+                    }}
                     className={cn(
                       "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
                       isActive

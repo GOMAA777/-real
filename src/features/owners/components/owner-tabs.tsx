@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { LayoutGrid, Building2, Calendar, CreditCard, History } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { showUnderConstructionToast } from "@/lib/toast";
 
 interface OwnerTabsProps {
   activeTab?: string;
@@ -21,7 +22,11 @@ export function OwnerTabs({
 }: OwnerTabsProps) {
   const [currentTab, setCurrentTab] = useState(activeTab);
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: string, label: string) => {
+    if (id !== "overview") {
+      showUnderConstructionToast(`تبويب ${label}`);
+      return;
+    }
     setCurrentTab(id);
     onTabChange?.(id);
   };
@@ -63,7 +68,7 @@ export function OwnerTabs({
           <button
             key={tab.id}
             type="button"
-            onClick={() => handleSelect(tab.id)}
+            onClick={() => handleSelect(tab.id, tab.label)}
             className={cn(
               "px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer select-none",
               isActive
