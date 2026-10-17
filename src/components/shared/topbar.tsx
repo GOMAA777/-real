@@ -44,7 +44,7 @@ export function Topbar() {
       </div>
 
       {/* Left side in Topbar: From left to right: Avatar -> Name/Role -> Divider -> Bell */}
-      <div className="flex items-center" dir="ltr">
+      <div className="flex items-center gap-3 sm:gap-3.5" dir="ltr">
         {/* 1. Circular Avatar Photo */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden ring-1 ring-black/5 shrink-0 shadow-2xs">
           <Image
@@ -56,23 +56,23 @@ export function Topbar() {
           />
         </div>
 
-        {/* 2. User Name & Role */}
-        <div className="select-none ms-3 text-start" dir="rtl">
-          <div className="text-xs sm:text-sm font-bold text-[#172115] leading-tight">
+        {/* 2. User Name & Role with proper spacing and no overlap */}
+        <div className="select-none text-start" dir="rtl">
+          <div className="text-xs sm:text-sm font-bold text-[#172115] leading-tight whitespace-nowrap">
             محمد أحمد
           </div>
-          <div className="text-[11px] text-[#788574] leading-tight mt-0.5">
+          <div className="text-[11px] text-[#788574] leading-tight mt-0.5 whitespace-nowrap">
             مدير المنصة
           </div>
         </div>
 
         {/* 3. Vertical Divider Line */}
-        <div className="h-6 w-px bg-[#E2E6DC] mx-3 sm:mx-4" />
+        <div className="h-6 w-px bg-[#E2E6DC] shrink-0 mx-1" />
 
         {/* 4. Notification Bell with Red Dot */}
         <button
           type="button"
-          className="relative p-1.5 text-[#2C3825] hover:text-[#172115] transition-colors cursor-pointer"
+          className="relative p-1.5 text-[#2C3825] hover:text-[#172115] transition-colors cursor-pointer shrink-0"
           aria-label="التنبيهات"
         >
           <Bell className="w-5 h-5" />
