@@ -9,7 +9,9 @@ export interface AdvancedFilterState {
   propertiesRange: string; // "all" | "1-2" | "3-5" | "6+"
   minUnits: string;
   maxUnits: string;
-  period: string; // "all" | "today" | "september" | "august"
+  period: string; // "all" | "today" | "last7" | "last30" | "this_month" | "custom"
+  startDate: string; // "YYYY-MM-DD"
+  endDate: string; // "YYYY-MM-DD"
   sortBy: string; // "date_desc" | "date_asc" | "properties_desc" | "units_desc"
 }
 
@@ -58,6 +60,50 @@ export function OwnersAdvancedFilterDrawer({
 
   if (!isOpen) return null;
 
+  const handlePeriodSelect = (periodId: string) => {
+    if (periodId === "all") {
+      setLocalFilters({
+        ...localFilters,
+        period: "all",
+        startDate: "",
+        endDate: "",
+      });
+    } else if (periodId === "today") {
+      setLocalFilters({
+        ...localFilters,
+        period: "today",
+        startDate: "2026-09-16",
+        endDate: "2026-09-16",
+      });
+    } else if (periodId === "last7") {
+      setLocalFilters({
+        ...localFilters,
+        period: "last7",
+        startDate: "2026-09-09",
+        endDate: "2026-09-16",
+      });
+    } else if (periodId === "last30") {
+      setLocalFilters({
+        ...localFilters,
+        period: "last30",
+        startDate: "2026-08-16",
+        endDate: "2026-09-16",
+      });
+    } else if (periodId === "this_month") {
+      setLocalFilters({
+        ...localFilters,
+        period: "this_month",
+        startDate: "2026-09-01",
+        endDate: "2026-09-30",
+      });
+    } else {
+      setLocalFilters({
+        ...localFilters,
+        period: "custom",
+      });
+    }
+  };
+
   const handleApply = () => {
     onApplyFilters(localFilters);
     onClose();
@@ -70,6 +116,8 @@ export function OwnersAdvancedFilterDrawer({
       minUnits: "",
       maxUnits: "",
       period: "all",
+      startDate: "",
+      endDate: "",
       sortBy: "date_desc",
     };
     setLocalFilters(resetState);
@@ -226,27 +274,49 @@ export function OwnersAdvancedFilterDrawer({
               </div>
             </div>
 
-            {/* 4. Registration Period */}
-            <div className="space-y-2.5 pt-4 border-t border-[#EEF2E6]">
-              <label className="text-xs font-bold text-[#172115] flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#7D8A78]" />
-                <span>تاريخ التسجيل</span>
-              </label>
-              <div className="grid grid-cols-2 gap-2">
+            {/* 4. Registration Date & Custom Date Range (Improved Date Selection) */}
+            <div className="space-y-3 pt-4 border-t border-[#EEF2E6]">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-[#172115] flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#7D8A78]" />
+                  <span>تاريخ التسجيل</span>
+                </label>
+                {(localFilters.startDate || localFilters.endDate || localFilters.period !== "all") && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setLocalFilters({
+                        ...localFilters,
+                        period: "all",
+                        startDate: "",
+                        endDate: "",
+                      })
+                    }
+                    className="text-[11px] text-[#7D8A78] hover:text-[#34432E] underline cursor-pointer"
+                  >
+                    مسح التاريخ
+                  </button>
+                )}
+              </div>
+
+              {/* Quick Period Presets */}
+              <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: "all", label: "جميع الفترات" },
-                  { id: "today", label: "تسجيلات اليوم" },
-                  { id: "september", label: "شهر سبتمبر 2026" },
-                  { id: "august", label: "شهر أغسطس 2026" },
+                  { id: "all", label: "الكل" },
+                  { id: "today", label: "اليوم" },
+                  { id: "last7", label: "آخر 7 أيام" },
+                  { id: "last30", label: "آخر 30 يوماً" },
+                  { id: "this_month", label: "هذا الشهر" },
+                  { id: "custom", label: "مخصص" },
                 ].map((item) => {
                   const isSelected = localFilters.period === item.id;
                   return (
                     <button
                       key={item.id}
                       type="button"
-                      onClick={() => setLocalFilters({ ...localFilters, period: item.id })}
+                      onClick={() => handlePeriodSelect(item.id)}
                       className={cn(
-                        "py-2.5 px-3 rounded-xl border text-xs transition-all cursor-pointer select-none text-center",
+                        "py-2 px-2.5 rounded-xl border text-xs transition-all cursor-pointer select-none text-center",
                         isSelected
                           ? "bg-[#34432E] text-white border-[#34432E] shadow-2xs font-bold"
                           : "bg-white hover:bg-[#F9FAF7] text-[#2C3825] border-[#E2E6DC] font-medium"
@@ -256,6 +326,54 @@ export function OwnersAdvancedFilterDrawer({
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Custom Date Range Picker (من تاريخ - إلى تاريخ) */}
+              <div className="bg-[#F8FAF6] p-3.5 rounded-2xl border border-[#E2E6DC] space-y-2.5">
+                <div className="text-[11px] font-bold text-[#2C3825] flex items-center justify-between">
+                  <span>تحديد نطاق زمني مخصص:</span>
+                  {localFilters.startDate && localFilters.endDate && (
+                    <span className="text-[10px] text-[#2E7D32] bg-[#E2F0D9] px-2 py-0.5 rounded-full font-semibold">
+                      نطاق محدد
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5">
+                  {/* Start Date */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-semibold text-[#7D8A78] block">من تاريخ</span>
+                    <input
+                      type="date"
+                      value={localFilters.startDate}
+                      onChange={(e) => {
+                        setLocalFilters({
+                          ...localFilters,
+                          period: "custom",
+                          startDate: e.target.value,
+                        });
+                      }}
+                      className="w-full h-10 px-2.5 text-xs text-[#172115] bg-white border border-[#CCD5C5] rounded-xl focus:outline-none focus:border-[#34432E] focus:ring-1 focus:ring-[#34432E] transition-all shadow-2xs"
+                    />
+                  </div>
+
+                  {/* End Date */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-semibold text-[#7D8A78] block">إلى تاريخ</span>
+                    <input
+                      type="date"
+                      value={localFilters.endDate}
+                      onChange={(e) => {
+                        setLocalFilters({
+                          ...localFilters,
+                          period: "custom",
+                          endDate: e.target.value,
+                        });
+                      }}
+                      className="w-full h-10 px-2.5 text-xs text-[#172115] bg-white border border-[#CCD5C5] rounded-xl focus:outline-none focus:border-[#34432E] focus:ring-1 focus:ring-[#34432E] transition-all shadow-2xs"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

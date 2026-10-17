@@ -625,6 +625,8 @@ export function OwnersTable() {
     minUnits: "",
     maxUnits: "",
     period: "all",
+    startDate: "",
+    endDate: "",
     sortBy: "date_desc",
   });
 
@@ -632,7 +634,7 @@ export function OwnersTable() {
     (advancedFilters.status !== "all" ? 1 : 0) +
     (advancedFilters.propertiesRange !== "all" ? 1 : 0) +
     (advancedFilters.minUnits !== "" || advancedFilters.maxUnits !== "" ? 1 : 0) +
-    (advancedFilters.period !== "all" ? 1 : 0) +
+    (advancedFilters.startDate !== "" || advancedFilters.endDate !== "" || advancedFilters.period !== "all" ? 1 : 0) +
     (advancedFilters.sortBy !== "date_desc" ? 1 : 0);
 
   const handleFilterChange = (newFilter: string) => {
@@ -664,6 +666,8 @@ export function OwnersTable() {
       minUnits: "",
       maxUnits: "",
       period: "all",
+      startDate: "",
+      endDate: "",
       sortBy: "date_desc",
     });
     setFilter("all");
@@ -706,22 +710,51 @@ export function OwnersTable() {
       )
         return false;
 
-      // Registration Period filter
-      if (
-        advancedFilters.period === "today" &&
-        !owner.relativeTime.includes("اليوم")
-      )
-        return false;
-      if (
-        advancedFilters.period === "september" &&
-        !owner.registrationDate.includes("سبتمبر")
-      )
-        return false;
-      if (
-        advancedFilters.period === "august" &&
-        !owner.registrationDate.includes("أغسطس")
-      )
-        return false;
+      // Registration Period / Date Range filter
+      if (advancedFilters.startDate || advancedFilters.endDate) {
+        const arabicMonthMap: Record<string, string> = {
+          يناير: "01",
+          فبراير: "02",
+          مارس: "03",
+          أبريل: "04",
+          مايو: "05",
+          يونيو: "06",
+          يوليو: "07",
+          أغسطس: "08",
+          سبتمبر: "09",
+          أكتوبر: "10",
+          نوفمبر: "11",
+          ديسمبر: "12",
+        };
+        const parts = owner.registrationDate.trim().split(" ");
+        if (parts.length === 3) {
+          const day = parts[0].padStart(2, "0");
+          const month = arabicMonthMap[parts[1]] || "01";
+          const year = parts[2];
+          const ownerIso = `${year}-${month}-${day}`;
+
+          if (advancedFilters.startDate && ownerIso < advancedFilters.startDate)
+            return false;
+          if (advancedFilters.endDate && ownerIso > advancedFilters.endDate)
+            return false;
+        }
+      } else if (advancedFilters.period !== "all") {
+        if (
+          advancedFilters.period === "today" &&
+          !owner.relativeTime.includes("اليوم")
+        )
+          return false;
+        if (
+          advancedFilters.period === "september" &&
+          !owner.registrationDate.includes("سبتمبر")
+        )
+          return false;
+        if (
+          advancedFilters.period === "august" &&
+          !owner.registrationDate.includes("أغسطس")
+        )
+          return false;
+      }
 
       // Search query
       if (search.trim()) {
