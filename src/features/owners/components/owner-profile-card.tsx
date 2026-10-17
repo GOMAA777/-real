@@ -84,9 +84,9 @@ export function OwnerProfileCard({ owner }: OwnerProfileCardProps) {
         {/* Phone */}
         <div className="space-y-1">
           <div className="text-[11px] text-[#7D8A78] font-medium">رقم الجوال</div>
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#172115]" dir="ltr">
-            <span className="font-mono text-[12px]">{phone}</span>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#172115]">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#2E7D32]" />
+            <span className="font-mono text-[12px]" dir="ltr">{phone}</span>
           </div>
         </div>
 
