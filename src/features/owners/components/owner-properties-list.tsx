@@ -45,11 +45,13 @@ const defaultProperties: PropertyItem[] = [
 export interface OwnerPropertiesListProps {
   properties?: PropertyItem[];
   totalCount?: number;
+  onNavigateToProperties?: () => void;
 }
 
 export function OwnerPropertiesList({
   properties = defaultProperties,
   totalCount = 3,
+  onNavigateToProperties,
 }: OwnerPropertiesListProps) {
   return (
     <div className="space-y-3.5 pt-1">
@@ -59,7 +61,13 @@ export function OwnerPropertiesList({
           العقارات التابعة للمالك ({totalCount})
         </h3>
         <Link
-          href="/dashboard/properties"
+          href="?tab=properties"
+          onClick={(e) => {
+            if (onNavigateToProperties) {
+              e.preventDefault();
+              onNavigateToProperties();
+            }
+          }}
           className="text-xs font-semibold text-[#5C6B56] hover:text-[#172115] hover:underline flex items-center gap-1 transition-colors"
         >
           <span>إدارة العقارات والوحدات</span>

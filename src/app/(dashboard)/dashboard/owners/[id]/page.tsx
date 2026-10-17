@@ -2,11 +2,7 @@ import Link from "next/link";
 import { ChevronRight, ArrowRight } from "lucide-react";
 import { OwnerProfileCard } from "@/features/owners/components/owner-profile-card";
 import { OwnerKPICards } from "@/features/owners/components/owner-kpi-cards";
-import { OwnerTabs } from "@/features/owners/components/owner-tabs";
-import { OwnerOperationsSummary } from "@/features/owners/components/owner-operations-summary";
-import { OwnerActivityTimeline } from "@/features/owners/components/owner-activity-timeline";
-import { OwnerQuickActions } from "@/features/owners/components/owner-quick-actions";
-import { OwnerTransferableBalance } from "@/features/owners/components/owner-transferable-balance";
+import { OwnerTabsSection } from "@/features/owners/components/owner-tabs-section";
 
 export const metadata = {
   title: "بيانات صاحب العقار | منصة أبراج",
@@ -15,10 +11,13 @@ export const metadata = {
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams?: Promise<{ tab?: string }>;
 }
 
-export default async function OwnerDetailPage({ params }: PageProps) {
+export default async function OwnerDetailPage({ params, searchParams }: PageProps) {
   const { id } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const initialTab = resolvedSearchParams?.tab || "overview";
 
   // Mock owner matching design screenshots
   const ownerData = {
@@ -55,23 +54,8 @@ export default async function OwnerDetailPage({ params }: PageProps) {
       {/* 2. 4 Metric KPI Cards */}
       <OwnerKPICards />
 
-      {/* 3. Navigation Tabs */}
-      <OwnerTabs />
-
-      {/* 4. Bottom Main Content (Two Columns Layout) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Right Column in RTL: Operations & Properties Card + Activity Timeline (col-span-8) */}
-        <div className="lg:col-span-8 space-y-6">
-          <OwnerOperationsSummary />
-          <OwnerActivityTimeline />
-        </div>
-
-        {/* Left Column in RTL: Quick Administrative Actions + Transferable Balance (col-span-4) */}
-        <div className="lg:col-span-4 space-y-6">
-          <OwnerQuickActions />
-          <OwnerTransferableBalance />
-        </div>
-      </div>
+      {/* 3. Navigation Tabs & Active Tab View */}
+      <OwnerTabsSection initialTab={initialTab} />
     </div>
   );
 }

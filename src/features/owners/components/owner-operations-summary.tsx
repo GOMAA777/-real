@@ -9,6 +9,7 @@ interface OwnerOperationsSummaryProps {
   lastLoginTime?: string;
   lastLoginPlatform?: string;
   lastLoginSecurity?: string;
+  onNavigateToProperties?: () => void;
 }
 
 export function OwnerOperationsSummary({
@@ -19,6 +20,7 @@ export function OwnerOperationsSummary({
   lastLoginTime = "اليوم، 09:24 ص",
   lastLoginPlatform = "الرياض - Web Console",
   lastLoginSecurity = "عبر IP آمن ومعتمد",
+  onNavigateToProperties,
 }: OwnerOperationsSummaryProps) {
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-6">
@@ -91,7 +93,7 @@ export function OwnerOperationsSummary({
       </div>
 
       {/* 3. Owner Properties Section inside the exact same card */}
-      <OwnerPropertiesList />
+      <OwnerPropertiesList onNavigateToProperties={onNavigateToProperties} />
     </div>
   );
 }

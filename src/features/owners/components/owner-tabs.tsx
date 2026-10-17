@@ -14,20 +14,23 @@ interface OwnerTabsProps {
 }
 
 export function OwnerTabs({
-  activeTab = "overview",
+  activeTab: controlledTab,
   onTabChange,
   propertiesCount = 3,
   bookingsCount = 18,
   activityCount = 24,
 }: OwnerTabsProps) {
-  const [currentTab, setCurrentTab] = useState(activeTab);
+  const [internalTab, setInternalTab] = useState("overview");
+  const currentTab = controlledTab ?? internalTab;
 
   const handleSelect = (id: string, label: string) => {
-    if (id !== "overview") {
+    if (id !== "overview" && id !== "properties") {
       showUnderConstructionToast(`تبويب ${label}`);
       return;
     }
-    setCurrentTab(id);
+    if (controlledTab === undefined) {
+      setInternalTab(id);
+    }
     onTabChange?.(id);
   };
 
