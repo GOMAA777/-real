@@ -115,8 +115,8 @@ export function OwnerPropertiesTabView({
 
   return (
     <div className="space-y-4">
-      {/* 1. Top Action Buttons Bar */}
-      <div className="flex items-center justify-start gap-3">
+      {/* 1. Top Action Buttons Bar (Left in RTL: justify-end) */}
+      <div className="flex items-center justify-end gap-3">
         {/* Primary Action: إضافة عقار للمالك */}
         <button
           type="button"
@@ -137,10 +137,22 @@ export function OwnerPropertiesTabView({
         </Link>
       </div>
 
-      {/* 2. Filter & Search Bar */}
+      {/* 2. Filter & Search Bar: Search on the Right (first in RTL), Filters on the Left (second in RTL) */}
       <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xs">
+        {/* Search Input (Right in RTL) */}
+        <div className="relative w-full sm:w-80 lg:w-96">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="ابحث باسم العقار أو الحي..."
+            className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2 pe-10 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none transition-all"
+          />
+          <Search className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+        </div>
+
         {/* Filter Pills (Left in RTL) */}
-        <div className="flex items-center gap-1.5 w-full sm:w-auto order-2 sm:order-1">
+        <div className="flex items-center gap-1.5 w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setStatusFilter("all")}
@@ -174,18 +186,6 @@ export function OwnerPropertiesTabView({
           >
             محجوزة ({counts.reserved})
           </button>
-        </div>
-
-        {/* Search Input (Right in RTL) */}
-        <div className="relative w-full sm:w-80 lg:w-96 order-1 sm:order-2">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث باسم العقار أو الحي..."
-            className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2 pe-10 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none transition-all"
-          />
-          <Search className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
       </div>
 
