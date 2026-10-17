@@ -259,32 +259,32 @@ export function OwnersTable() {
             عرض 1-7 من أصل 248 مالك عقار
           </div>
 
-          {/* Pagination Controls */}
-          <div className="flex items-center gap-2">
-            {/* Previous */}
+          {/* Pagination Controls: From Left to Right: السابق -> 1 -> التالي */}
+          <div className="flex items-center gap-2" dir="ltr">
+            {/* Previous Button (Leftmost) */}
             <button
               type="button"
-              className="px-3 py-1.5 rounded-lg border border-[#CCD5C5] text-[#2C3825] hover:bg-[#F4F6F0] flex items-center gap-1 font-medium transition-colors cursor-pointer shadow-2xs"
+              className="px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] hover:bg-[#F4F6F0] flex items-center gap-1.5 font-medium text-xs transition-colors cursor-pointer shadow-2xs"
             >
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronLeft className="w-3.5 h-3.5" />
               <span>السابق</span>
             </button>
 
             {/* Page 1 (Active) */}
             <button
               type="button"
-              className="w-7 h-7 rounded-lg bg-[#34432E] text-white font-bold text-xs flex items-center justify-center shadow-xs"
+              className="w-8 h-8 rounded-xl bg-[#34432E] text-white font-bold text-xs flex items-center justify-center shadow-xs select-none"
             >
               1
             </button>
 
-            {/* Next */}
+            {/* Next Button (Right) */}
             <button
               type="button"
-              className="px-3 py-1.5 rounded-lg border border-[#CCD5C5] text-[#2C3825] hover:bg-[#F4F6F0] flex items-center gap-1 font-medium transition-colors cursor-pointer shadow-2xs"
+              className="px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] hover:bg-[#F4F6F0] flex items-center gap-1.5 font-medium text-xs transition-colors cursor-pointer shadow-2xs"
             >
               <span>التالي</span>
-              <ChevronLeft className="w-3.5 h-3.5" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
