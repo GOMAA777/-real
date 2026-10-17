@@ -6,7 +6,7 @@ export function Toaster({ ...props }: ToasterProps) {
   return (
     <Sonner
       dir="rtl"
-      position="top-center"
+      position="bottom-left"
       className="toaster group font-sans"
       toastOptions={{
         classNames: {
