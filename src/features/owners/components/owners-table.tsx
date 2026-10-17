@@ -875,7 +875,7 @@ export function OwnersTable() {
             <thead>
               <tr className="border-b border-[#EEF2E6] text-[#7D8A78] text-[11px] font-semibold bg-[#FAFCF8]/60">
                 <th className="py-4 px-4 sm:px-6 text-start">مالك العقار</th>
-                <th className="py-4 px-4 sm:px-6 text-start">رقم الجوال</th>
+                <th className="py-4 px-4 sm:px-6 text-center">رقم الجوال</th>
                 <th className="py-4 px-4 sm:px-6 text-center">عدد العقارات</th>
                 <th className="py-4 px-4 sm:px-6 text-center">عدد الوحدات</th>
                 <th className="py-4 px-4 sm:px-6 text-center">تاريخ التسجيل</th>
@@ -919,8 +919,8 @@ export function OwnersTable() {
                     </td>
 
                     {/* Phone */}
-                    <td className="py-4 px-4 sm:px-6 text-start font-medium text-[#2C3825] font-mono text-[11px]" dir="ltr">
-                      {owner.phone}
+                    <td className="py-4 px-4 sm:px-6 text-center font-medium text-[#2C3825] font-mono text-[11px]">
+                      <span dir="ltr" className="inline-block">{owner.phone}</span>
                     </td>
 
                     {/* Properties Count */}
