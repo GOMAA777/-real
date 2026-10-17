@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronRight, ChevronLeft, Calendar as CalendarIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +35,8 @@ export function DatePicker({
   className,
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [placementY, setPlacementY] = useState<"top" | "bottom">("bottom");
+  const [placementX, setPlacementX] = useState<"start" | "end">("start");
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Parse initial selected date or default to current date
@@ -48,16 +50,70 @@ export function DatePicker({
     parsedDate && !isNaN(parsedDate.getTime()) ? parsedDate.getMonth() : today.getMonth()
   );
 
+  // Dynamic placement calculation (opens ABOVE when near bottom, BELOW when near top)
+  const calculatePlacement = useCallback(() => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const popupHeight = 330;
+    const popupWidth = 270;
+
+    // Check nearest scrollable parent container (like the filter drawer) or viewport
+    const scrollParent = containerRef.current.closest(".overflow-y-auto, .overflow-auto") as HTMLElement | null;
+
+    let spaceBelow = window.innerHeight - rect.bottom;
+    let spaceAbove = rect.top;
+
+    if (scrollParent) {
+      const parentRect = scrollParent.getBoundingClientRect();
+      spaceBelow = parentRect.bottom - rect.bottom;
+      spaceAbove = rect.top - parentRect.top;
+    }
+
+    // Vertical placement: if not enough space below, open ABOVE
+    if (spaceBelow < popupHeight && spaceAbove > spaceBelow) {
+      setPlacementY("top");
+    } else {
+      setPlacementY("bottom");
+    }
+
+    // Horizontal placement: in RTL, start-0 extends left. If it would clip on left edge, use end-0
+    if (rect.right - popupWidth < 12) {
+      setPlacementX("end");
+    } else {
+      setPlacementX("start");
+    }
+  }, []);
+
   const handleToggleOpen = () => {
-    if (!isOpen && value) {
-      const d = new Date(value + "T00:00:00");
-      if (!isNaN(d.getTime())) {
-        setCurrentYear(d.getFullYear());
-        setCurrentMonth(d.getMonth());
+    if (!isOpen) {
+      calculatePlacement();
+      if (value) {
+        const d = new Date(value + "T00:00:00");
+        if (!isNaN(d.getTime())) {
+          setCurrentYear(d.getFullYear());
+          setCurrentMonth(d.getMonth());
+        }
       }
     }
     setIsOpen((prev) => !prev);
   };
+
+  // Re-calculate placement on scroll or resize while open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleUpdate = () => {
+      calculatePlacement();
+    };
+
+    window.addEventListener("resize", handleUpdate);
+    window.addEventListener("scroll", handleUpdate, true);
+
+    return () => {
+      window.removeEventListener("resize", handleUpdate);
+      window.removeEventListener("scroll", handleUpdate, true);
+    };
+  }, [isOpen, calculatePlacement]);
 
   // Close calendar on outside click
   useEffect(() => {
@@ -193,11 +249,15 @@ export function DatePicker({
         )}
       </div>
 
-      {/* Popover Calendar Dropdown */}
+      {/* Popover Calendar Dropdown with Dynamic Placement */}
       {isOpen && (
         <div
           dir="rtl"
-          className="absolute z-50 top-full mt-2 start-0 w-[290px] bg-white rounded-2xl border border-[#E2E6DC] shadow-xl p-3.5 space-y-3 animate-in fade-in zoom-in-95 duration-150"
+          className={cn(
+            "absolute z-50 w-[270px] bg-white rounded-2xl border border-[#E2E6DC] shadow-xl p-3.5 space-y-3 animate-in fade-in zoom-in-95 duration-150",
+            placementY === "top" ? "bottom-full mb-2" : "top-full mt-2",
+            placementX === "start" ? "start-0" : "end-0"
+          )}
         >
           {/* Calendar Header: Month, Year, and Nav Arrows */}
           <div className="flex items-center justify-between pb-2 border-b border-[#EEF2E6]">
