@@ -15,15 +15,6 @@ export function OwnersHeader() {
 
       {/* Action Buttons */}
       <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
-        {/* Primary: Add Owner */}
-        <button
-          type="button"
-          className="rounded-2xl px-5 py-2.5 bg-[#34432E] hover:bg-[#2A3725] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer"
-        >
-          <Plus className="w-4 h-4 stroke-[2.5]" />
-          <span>إضافة مالك عقار جديد</span>
-        </button>
-
         {/* Secondary: Export Data */}
         <button
           type="button"
@@ -31,6 +22,15 @@ export function OwnersHeader() {
         >
           <Upload className="w-4 h-4 text-[#4A5745]" />
           <span>تصدير البيانات</span>
+        </button>
+
+        {/* Primary: Add Owner (Outer left in RTL) */}
+        <button
+          type="button"
+          className="rounded-2xl px-5 py-2.5 bg-[#34432E] hover:bg-[#2A3725] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer"
+        >
+          <Plus className="w-4 h-4 stroke-[2.5]" />
+          <span>إضافة مالك عقار جديد</span>
         </button>
       </div>
     </div>
