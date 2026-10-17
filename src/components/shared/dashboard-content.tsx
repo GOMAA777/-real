@@ -10,7 +10,7 @@ export function DashboardContent({ children }: { children: React.ReactNode }) {
     <div
       className={cn(
         "flex-1 flex flex-col transition-all duration-300 ease-in-out",
-        sidebarOpen ? "lg:ms-64" : "lg:ms-0"
+        sidebarOpen ? "lg:ms-64" : "lg:ms-[72px]"
       )}
     >
       {children}

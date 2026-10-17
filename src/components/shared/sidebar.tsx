@@ -18,6 +18,8 @@ import {
   ShieldCheck,
   LogOut,
   X,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/use-ui-store";
@@ -48,7 +50,7 @@ const systemNavItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebarOpen } = useUIStore();
+  const { sidebarOpen, setSidebarOpen, toggleSidebar } = useUIStore();
 
   return (
     <>
@@ -60,13 +62,158 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* ========================================================= */}
+      {/* 1. COLLAPSED MINI SIDEBAR (In Website's Dark Olive Colors) */}
+      {/* ========================================================= */}
+      <aside
+        className={cn(
+          "hidden fixed top-0 bottom-0 start-0 z-40 w-[72px] bg-[#34432E] border-e border-white/10 flex-col justify-between py-4 select-none shadow-xs transition-all duration-300",
+          !sidebarOpen && "lg:flex"
+        )}
+      >
+        {/* Top Header: Brand Squircle Icon + Boundary Toggle Button */}
+        <div className="relative flex flex-col items-center">
+          <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center text-white/90 shadow-2xs">
+            <Building className="w-5 h-5 text-white/90" />
+          </div>
+
+          {/* Toggle Expand Button Overlapping Boundary Line */}
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className="absolute -end-3.5 top-5 w-7 h-7 rounded-full bg-white border border-[#CCD5C5] text-[#172115] shadow-xs hover:bg-[#F4F6F0] flex items-center justify-center transition-all cursor-pointer z-50"
+            title="توسيع القائمة الجانبية"
+            aria-label="توسيع القائمة الجانبية"
+          >
+            <ChevronRight className="w-3.5 h-3.5 text-[#172115]" strokeWidth={2} />
+          </button>
+
+          {/* Divider */}
+          <div className="w-full h-px bg-white/10 mt-3.5 mb-2.5" />
+        </div>
+
+        {/* Center Navigation Icons Stack */}
+        <div className="flex-1 flex flex-col items-center gap-2 overflow-y-auto no-scrollbar py-1">
+          {/* Main Navigation Items */}
+          {mainNavItems.map((item) => {
+            const isActive =
+              pathname === item.href ||
+              (item.href === "/dashboard" && pathname === "/");
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                title={item.title}
+                aria-label={item.title}
+                className="group relative flex items-center justify-center"
+              >
+                {isActive ? (
+                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
+                    <Icon className="w-5 h-5 text-[#2C3825]" />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                )}
+
+                {item.badge && (
+                  <span
+                    className={cn(
+                      "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center",
+                      isActive
+                        ? "bg-[#2C3825] text-[#DCE7D3] ring-2 ring-[#DCE7D3]"
+                        : "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#34432E]"
+                    )}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+
+          {/* Subtle separator between main and system */}
+          <div className="w-8 h-px bg-white/10 my-1" />
+
+          {/* System Items */}
+          {systemNavItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                title={item.title}
+                aria-label={item.title}
+                className="group relative flex items-center justify-center"
+              >
+                {isActive ? (
+                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
+                    <Icon className="w-5 h-5 text-[#2C3825]" />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                )}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Bottom Section: Divider + User Avatar with Green Dot + Logout */}
+        <div className="mt-auto pt-2 flex flex-col items-center">
+          <div className="w-full h-px bg-white/10 mb-3" />
+
+          {/* User Avatar with Green Online Dot */}
+          <Link
+            href="/dashboard/profile"
+            className="relative block group"
+            title="الملف الشخصي - محمد أحمد"
+            aria-label="الملف الشخصي"
+          >
+            <div className="w-10 h-10 rounded-xl bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center shadow-xs group-hover:opacity-90 transition-opacity">
+              م
+            </div>
+            <span className="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#86EFAC] ring-2 ring-[#34432E]" />
+          </Link>
+
+          {/* Logout Button */}
+          <Link
+            href="/login"
+            className="mt-2 p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            title="تسجيل الخروج"
+            aria-label="تسجيل الخروج"
+          >
+            <LogOut className="w-4 h-4" />
+          </Link>
+        </div>
+      </aside>
+
+      {/* ========================================================= */}
+      {/* 2. EXPANDED SIDEBAR (Full width in Website Colors)       */}
+      {/* ========================================================= */}
       <aside
         className={cn(
           "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#34432E] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5",
-          sidebarOpen ? "translate-x-0" : "translate-x-full"
+          sidebarOpen ? "translate-x-0" : "translate-x-full lg:hidden"
         )}
       >
+        {/* Toggle Collapse Button on Boundary Line (Desktop only) */}
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          className="hidden lg:flex absolute -end-3.5 top-5 w-7 h-7 rounded-full bg-white border border-[#CCD5C5] text-[#172115] shadow-xs items-center justify-center hover:bg-[#F4F6F0] cursor-pointer z-50 transition-all"
+          title="طي القائمة الجانبية"
+          aria-label="طي القائمة الجانبية"
+        >
+          <ChevronLeft className="w-3.5 h-3.5 text-[#172115]" strokeWidth={2} />
+        </button>
+
         {/* Top Scrollable Area: Brand & Main Navigation */}
         <div className="flex flex-col gap-5 overflow-y-auto no-scrollbar">
           {/* Header Brand */}
