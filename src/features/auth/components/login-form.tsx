@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -17,6 +18,7 @@ import { loginSchema, type LoginInput } from "../schemas/login.schema";
 import { loginAction } from "../actions/login.action";
 
 export function LoginForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -41,6 +43,7 @@ export function LoginForm() {
       const res = await loginAction(data);
       if (res?.data?.success) {
         setFeedback(res.data.message || "تم تسجيل الدخول بنجاح");
+        router.push("/dashboard");
       }
     } catch {
       setFeedback("حدث خطأ أثناء تسجيل الدخول");

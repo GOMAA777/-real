@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -15,6 +16,7 @@ import { registerSchema, type RegisterInput } from "../schemas/register.schema";
 import { registerAction } from "../actions/register.action";
 
 export function RegisterForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -50,6 +52,7 @@ export function RegisterForm() {
       const res = await registerAction(data);
       if (res?.data?.success) {
         setFeedback(res.data.message || "تم إنشاء الحساب بنجاح");
+        router.push("/dashboard");
       }
     } catch {
       setFeedback("حدث خطأ أثناء إنشاء الحساب");
