@@ -55,6 +55,20 @@ export function Sidebar() {
   const pathname = usePathname();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    title: string
+  ) => {
+    if (!isRouteAvailable(href)) {
+      e.preventDefault();
+      showUnderConstructionToast(`صفحة "${title}"`);
+    } else if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      // Only close the drawer on mobile overlay mode, keep open on desktop
+      setSidebarOpen(false);
+    }
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -99,12 +113,7 @@ export function Sidebar() {
                 href={item.href}
                 title={item.title}
                 aria-label={item.title}
-                onClick={(e) => {
-                  if (!isRouteAvailable(item.href)) {
-                    e.preventDefault();
-                    showUnderConstructionToast(`صفحة "${item.title}"`);
-                  }
-                }}
+                onClick={(e) => handleNavClick(e, item.href, item.title)}
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
@@ -147,12 +156,7 @@ export function Sidebar() {
                 href={item.href}
                 title={item.title}
                 aria-label={item.title}
-                onClick={(e) => {
-                  if (!isRouteAvailable(item.href)) {
-                    e.preventDefault();
-                    showUnderConstructionToast(`صفحة "${item.title}"`);
-                  }
-                }}
+                onClick={(e) => handleNavClick(e, item.href, item.title)}
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
@@ -254,14 +258,7 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={(e) => {
-                      if (!isRouteAvailable(item.href)) {
-                        e.preventDefault();
-                        showUnderConstructionToast(`صفحة "${item.title}"`);
-                      } else {
-                        setSidebarOpen(false);
-                      }
-                    }}
+                    onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
                       "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
                       isActive
@@ -315,14 +312,7 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={(e) => {
-                      if (!isRouteAvailable(item.href)) {
-                        e.preventDefault();
-                        showUnderConstructionToast(`صفحة "${item.title}"`);
-                      } else {
-                        setSidebarOpen(false);
-                      }
-                    }}
+                    onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
                       "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
                       isActive
