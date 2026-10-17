@@ -1,23 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { Search, Bell, Menu } from "lucide-react";
+import { Search, Bell, ChevronLeft } from "lucide-react";
 import { useUIStore } from "@/stores/use-ui-store";
+import { cn } from "@/lib/utils";
 
 export function Topbar() {
-  const { toggleSidebar } = useUIStore();
+  const { sidebarOpen, toggleSidebar } = useUIStore();
 
   return (
     <header className="sticky top-0 z-30 w-full bg-white border-b border-[#E5EADF] px-4 sm:px-8 py-3 flex items-center justify-between">
-      {/* Right in RTL: Mobile menu toggle + Search Bar */}
-      <div className="flex items-center gap-3 flex-1 max-w-lg">
+      {/* Right in RTL: Circular Collapse/Expand Button + Search Bar */}
+      <div className="flex items-center gap-3.5 flex-1 max-w-lg">
+        {/* Exact Circular Sidebar Toggle Button from user screenshot */}
         <button
           type="button"
           onClick={toggleSidebar}
-          className="lg:hidden p-2 rounded-xl bg-[#F1F4EB] text-[#344230] hover:bg-[#E4E9DC] transition-colors"
+          className="w-8 h-8 rounded-full bg-white border border-[#CCD5C5] text-[#172115] hover:bg-[#F4F6F0] hover:border-[#B4C1AC] shadow-2xs flex items-center justify-center transition-all cursor-pointer shrink-0 select-none"
+          title={sidebarOpen ? "طي القائمة الجانبية" : "توسيع القائمة الجانبية"}
           aria-label="تبديل القائمة الجانبية"
         >
-          <Menu className="w-4 h-4" />
+          <ChevronLeft
+            className={cn(
+              "w-4 h-4 text-[#172115] transition-transform duration-200",
+              !sidebarOpen && "rotate-180"
+            )}
+            strokeWidth={1.75}
+          />
         </button>
 
         {/* Search Input Box */}

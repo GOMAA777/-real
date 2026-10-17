@@ -63,8 +63,8 @@ export function Sidebar() {
       {/* Sidebar Container */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#34432E] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out lg:translate-x-0 select-none shadow-xl lg:shadow-none border-e border-white/5",
-          sidebarOpen ? "translate-x-0" : "max-lg:translate-x-full"
+          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#34432E] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5",
+          sidebarOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Top Scrollable Area: Brand & Main Navigation */}

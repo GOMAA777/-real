@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/shared/sidebar";
 import { Topbar } from "@/components/shared/topbar";
+import { DashboardContent } from "@/components/shared/dashboard-content";
 
 export default function DashboardLayout({
   children,
@@ -11,13 +12,13 @@ export default function DashboardLayout({
       {/* Sidebar Navigation */}
       <Sidebar />
 
-      {/* Main Content Area (offset by sidebar width on desktop) */}
-      <div className="flex-1 flex flex-col lg:ms-64 transition-all duration-300">
+      {/* Main Content Area (dynamically adapts when sidebar collapses) */}
+      <DashboardContent>
         <Topbar />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
           {children}
         </main>
-      </div>
+      </DashboardContent>
     </div>
   );
 }
