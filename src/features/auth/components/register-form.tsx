@@ -10,8 +10,11 @@ import {
   Lock,
   Eye,
   EyeOff,
-  Check,
+  ShieldCheck,
+  CheckCheck,
+  CheckCircle2,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { registerSchema, type RegisterInput } from "../schemas/register.schema";
 import { registerAction } from "../actions/register.action";
 
@@ -96,7 +99,7 @@ export function RegisterForm() {
               type="text"
               {...register("fullName")}
               placeholder="عبد العزيز بن محمد آل مقرن"
-              className="w-full h-12 px-4 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs"
+              className="w-full h-12 px-4 rounded-2xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs"
             />
             {errors.fullName && (
               <p className="text-[11px] text-red-600 font-medium">
@@ -117,14 +120,14 @@ export function RegisterForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute end-3.5 flex items-center text-[#7D8A78] hover:text-[#273323] transition-colors focus:outline-none"
+                className="absolute end-3.5 flex items-center text-[#2C3825] hover:text-[#172115] transition-colors focus:outline-none cursor-pointer"
                 tabIndex={-1}
                 aria-label="تبديل إظهار كلمة المرور"
               >
                 {showPassword ? (
-                  <EyeOff className="w-4 h-4" />
+                  <EyeOff className="w-5 h-5" />
                 ) : (
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-5 h-5" />
                 )}
               </button>
 
@@ -132,12 +135,12 @@ export function RegisterForm() {
                 id="reg-password"
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
-                placeholder="••••••••••••"
-                className="w-full h-12 pe-11 ps-11 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-start"
+                placeholder="••••••••••"
+                className="w-full h-12 pe-11 ps-11 rounded-2xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-start"
               />
 
               <div className="absolute start-3.5 flex items-center pointer-events-none text-[#7D8A78]">
-                <Lock className="w-4 h-4" />
+                <Lock className="w-5 h-5" />
               </div>
             </div>
             {errors.password && (
@@ -164,7 +167,7 @@ export function RegisterForm() {
               {...register("email")}
               dir="ltr"
               placeholder="name@company.sa"
-              className="w-full h-12 px-4 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-end"
+              className="w-full h-12 px-4 rounded-2xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-end"
             />
             {errors.email && (
               <p className="text-[11px] text-red-600 font-medium">
@@ -184,23 +187,27 @@ export function RegisterForm() {
               </label>
               {passwordsMatch && (
                 <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2C7A39]">
-                  <Check className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>متطابقة</span>
                 </div>
               )}
             </div>
 
             <div className="relative flex items-center">
+              <div className="absolute end-3.5 flex items-center pointer-events-none text-[#2C3825]">
+                <CheckCheck className={cn("w-5 h-5 transition-colors", passwordsMatch ? "text-[#2C3825]" : "text-[#7D8A78]")} />
+              </div>
+
               <input
                 id="confirmPassword"
                 type="password"
                 {...register("confirmPassword")}
-                placeholder="••••••••••••"
-                className="w-full h-12 pe-4 ps-11 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-start"
+                placeholder="••••••••••"
+                className="w-full h-12 pe-11 ps-11 rounded-2xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-start"
               />
 
-              <div className="absolute start-3.5 flex items-center pointer-events-none text-[#2C7A39]">
-                <Check className="w-4 h-4" />
+              <div className="absolute start-3.5 flex items-center pointer-events-none text-[#7D8A78]">
+                <ShieldCheck className="w-5 h-5" />
               </div>
             </div>
             {errors.confirmPassword && (
@@ -219,7 +226,7 @@ export function RegisterForm() {
           >
             رقم الجوال
           </label>
-          <div className="flex items-center rounded-xl bg-white border border-[#E0E4D8] focus-within:ring-2 focus-within:ring-[#374732]/20 focus-within:border-[#374732] transition-all shadow-xs overflow-hidden">
+          <div className="flex items-center rounded-2xl bg-white border border-[#E0E4D8] focus-within:ring-2 focus-within:ring-[#374732]/20 focus-within:border-[#374732] transition-all shadow-xs overflow-hidden">
             <input
               id="phone"
               type="tel"
