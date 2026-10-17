@@ -18,8 +18,6 @@ import {
   ShieldCheck,
   LogOut,
   X,
-  ChevronRight,
-  ChevronLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/use-ui-store";
@@ -50,7 +48,7 @@ const systemNavItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebarOpen, toggleSidebar } = useUIStore();
+  const { sidebarOpen, setSidebarOpen } = useUIStore();
 
   return (
     <>
@@ -71,22 +69,11 @@ export function Sidebar() {
           !sidebarOpen && "lg:flex"
         )}
       >
-        {/* Top Header: Brand Squircle Icon + Boundary Toggle Button */}
+        {/* Top Header: Brand Squircle Icon */}
         <div className="relative flex flex-col items-center">
           <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center text-white/90 shadow-2xs">
             <Building className="w-5 h-5 text-white/90" />
           </div>
-
-          {/* Toggle Expand Button Overlapping Boundary Line */}
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="absolute -end-3.5 top-5 w-7 h-7 rounded-full bg-white border border-[#CCD5C5] text-[#172115] shadow-xs hover:bg-[#F4F6F0] flex items-center justify-center transition-all cursor-pointer z-50"
-            title="توسيع القائمة الجانبية"
-            aria-label="توسيع القائمة الجانبية"
-          >
-            <ChevronRight className="w-3.5 h-3.5 text-[#172115]" strokeWidth={2} />
-          </button>
 
           {/* Divider */}
           <div className="w-full h-px bg-white/10 mt-3.5 mb-2.5" />
@@ -203,16 +190,6 @@ export function Sidebar() {
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:hidden"
         )}
       >
-        {/* Toggle Collapse Button on Boundary Line (Desktop only) */}
-        <button
-          type="button"
-          onClick={toggleSidebar}
-          className="hidden lg:flex absolute -end-3.5 top-5 w-7 h-7 rounded-full bg-white border border-[#CCD5C5] text-[#172115] shadow-xs items-center justify-center hover:bg-[#F4F6F0] cursor-pointer z-50 transition-all"
-          title="طي القائمة الجانبية"
-          aria-label="طي القائمة الجانبية"
-        >
-          <ChevronLeft className="w-3.5 h-3.5 text-[#172115]" strokeWidth={2} />
-        </button>
 
         {/* Top Scrollable Area: Brand & Main Navigation */}
         <div className="flex flex-col gap-5 overflow-y-auto no-scrollbar">
