@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MoreVertical, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Owner, OwnerStatus } from "../types";
@@ -614,6 +616,7 @@ const initialOwners: Owner[] = [
 ];
 
 export function OwnersTable() {
+  const router = useRouter();
   const [pageSize, setPageSize] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
@@ -891,23 +894,28 @@ export function OwnersTable() {
                 paginatedOwners.map((owner) => (
                   <tr
                     key={owner.id}
-                    className="hover:bg-[#F9FAF7] transition-colors group"
+                    onClick={() => router.push(`/dashboard/owners/${owner.id}`)}
+                    className="hover:bg-[#F9FAF7] transition-colors group cursor-pointer"
                   >
                     {/* Owner Name & Avatar */}
                     <td className="py-4 px-4 sm:px-6 text-start">
-                      <div className="flex items-center gap-3">
+                      <Link
+                        href={`/dashboard/owners/${owner.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-3 group/link"
+                      >
                         <div className="w-9 h-9 rounded-full bg-[#E2E6DC] text-[#34432E] font-bold text-xs flex items-center justify-center shrink-0">
                           {owner.initials}
                         </div>
                         <div>
-                          <div className="font-bold text-xs text-[#172115]">
+                          <div className="font-bold text-xs text-[#172115] group-hover/link:text-[#34432E] transition-colors">
                             {owner.name}
                           </div>
                           <div className="text-[11px] text-[#7D8A78]">
                             {owner.email}
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </td>
 
                     {/* Phone */}
@@ -952,6 +960,7 @@ export function OwnersTable() {
                     <td className="py-4 px-4 sm:px-6 text-center">
                       <button
                         type="button"
+                        onClick={(e) => e.stopPropagation()}
                         aria-label="خيارات إضافية"
                         className="w-8 h-8 rounded-lg hover:bg-[#EEF2E6] text-[#7D8A78] hover:text-[#172115] inline-flex items-center justify-center transition-colors cursor-pointer"
                       >
