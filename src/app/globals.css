@@ -10,6 +10,15 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --color-brand-green: #374732;
+  --color-brand-green-hover: #2c3928;
+  --color-brand-green-dark: #263323;
+  --color-brand-cream: #F4F6F0;
+  --color-brand-cream-card: #EEF2E8;
+  --color-brand-border: #E2E6DB;
+  --color-brand-text: #172115;
+  --color-brand-muted: #64715F;
+  --color-brand-tag: #495944;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
