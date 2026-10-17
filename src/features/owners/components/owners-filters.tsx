@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface OwnersFiltersProps {
@@ -14,6 +14,8 @@ interface OwnersFiltersProps {
     pending: number;
     inactive: number;
   };
+  onOpenAdvancedFilter?: () => void;
+  activeFiltersCount?: number;
 }
 
 export function OwnersFilters({
@@ -22,6 +24,8 @@ export function OwnersFilters({
   searchQuery,
   onSearchChange,
   counts,
+  onOpenAdvancedFilter,
+  activeFiltersCount = 0,
 }: OwnersFiltersProps) {
   const tabs = [
     { id: "all", label: `الكل (${counts.all})` },
@@ -46,26 +50,55 @@ export function OwnersFilters({
         </div>
       </div>
 
-      {/* Filter Tabs (Left in RTL) */}
-      <div className="flex items-center gap-1.5 p-1 bg-[#EEF2E6]/60 rounded-xl w-full md:w-auto overflow-x-auto no-scrollbar">
-        {tabs.map((tab) => {
-          const isActive = currentFilter === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => onFilterChange(tab.id)}
-              className={cn(
-                "px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer select-none",
-                isActive
-                  ? "bg-white text-[#172115] font-bold shadow-2xs border border-[#CCD5C5]/60"
-                  : "text-[#7D8A78] hover:text-[#172115] font-medium"
-              )}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
+      {/* Filter Button & Tabs Section (Left in RTL) */}
+      <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+        {/* Advanced Filter Button right where the user indicated in the screenshot */}
+        <button
+          type="button"
+          onClick={onOpenAdvancedFilter}
+          className={cn(
+            "h-10 px-3.5 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none shadow-2xs",
+            activeFiltersCount > 0
+              ? "bg-[#34432E] text-white border-[#34432E]"
+              : "bg-white hover:bg-[#F4F6F0] text-[#2C3825] border-[#CCD5C5]"
+          )}
+          title="التصفية المتقدمة"
+        >
+          <SlidersHorizontal
+            className={cn(
+              "w-4 h-4",
+              activeFiltersCount > 0 ? "text-white" : "text-[#34432E]"
+            )}
+          />
+          <span>فلتر</span>
+          {activeFiltersCount > 0 && (
+            <span className="w-5 h-5 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+              {activeFiltersCount}
+            </span>
+          )}
+        </button>
+
+        {/* Filter Tabs */}
+        <div className="flex items-center gap-1.5 p-1 bg-[#EEF2E6]/60 rounded-xl overflow-x-auto no-scrollbar">
+          {tabs.map((tab) => {
+            const isActive = currentFilter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => onFilterChange(tab.id)}
+                className={cn(
+                  "px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                  isActive
+                    ? "bg-white text-[#172115] font-bold shadow-2xs border border-[#CCD5C5]/60"
+                    : "text-[#7D8A78] hover:text-[#172115] font-medium"
+                )}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

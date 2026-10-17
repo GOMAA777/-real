@@ -5,6 +5,10 @@ import { MoreVertical, ChevronRight, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Owner, OwnerStatus } from "../types";
 import { OwnersFilters } from "./owners-filters";
+import {
+  OwnersAdvancedFilterDrawer,
+  type AdvancedFilterState,
+} from "./owners-advanced-filter-drawer";
 
 const initialOwners: Owner[] = [
   {
@@ -614,9 +618,26 @@ export function OwnersTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<AdvancedFilterState>({
+    status: "all",
+    propertiesRange: "all",
+    minUnits: "",
+    maxUnits: "",
+    period: "all",
+    sortBy: "date_desc",
+  });
+
+  const activeFiltersCount =
+    (advancedFilters.status !== "all" ? 1 : 0) +
+    (advancedFilters.propertiesRange !== "all" ? 1 : 0) +
+    (advancedFilters.minUnits !== "" || advancedFilters.maxUnits !== "" ? 1 : 0) +
+    (advancedFilters.period !== "all" ? 1 : 0) +
+    (advancedFilters.sortBy !== "date_desc" ? 1 : 0);
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
+    setAdvancedFilters((prev) => ({ ...prev, status: newFilter }));
     setCurrentPage(1);
   };
 
@@ -630,23 +651,101 @@ export function OwnersTable() {
     setCurrentPage(1);
   };
 
-  const filteredOwners = initialOwners.filter((owner) => {
-    // Status filter
-    if (filter === "active" && owner.status !== "active") return false;
-    if (filter === "pending" && owner.status !== "pending") return false;
-    if (filter === "inactive" && owner.status !== "inactive") return false;
+  const handleApplyAdvancedFilters = (newFilters: AdvancedFilterState) => {
+    setAdvancedFilters(newFilters);
+    setFilter(newFilters.status);
+    setCurrentPage(1);
+  };
 
-    // Search query
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      return (
-        owner.name.toLowerCase().includes(q) ||
-        owner.phone.includes(q) ||
-        owner.email.toLowerCase().includes(q)
-      );
-    }
-    return true;
-  });
+  const handleResetAdvancedFilters = () => {
+    setAdvancedFilters({
+      status: "all",
+      propertiesRange: "all",
+      minUnits: "",
+      maxUnits: "",
+      period: "all",
+      sortBy: "date_desc",
+    });
+    setFilter("all");
+    setCurrentPage(1);
+  };
+
+  const filteredOwners = initialOwners
+    .filter((owner) => {
+      // Status filter
+      if (filter === "active" && owner.status !== "active") return false;
+      if (filter === "pending" && owner.status !== "pending") return false;
+      if (filter === "inactive" && owner.status !== "inactive") return false;
+
+      // Properties range filter
+      if (
+        advancedFilters.propertiesRange === "1-2" &&
+        (owner.propertiesCount < 1 || owner.propertiesCount > 2)
+      )
+        return false;
+      if (
+        advancedFilters.propertiesRange === "3-5" &&
+        (owner.propertiesCount < 3 || owner.propertiesCount > 5)
+      )
+        return false;
+      if (
+        advancedFilters.propertiesRange === "6+" &&
+        owner.propertiesCount < 6
+      )
+        return false;
+
+      // Units range filter
+      if (
+        advancedFilters.minUnits &&
+        owner.unitsCount < parseInt(advancedFilters.minUnits)
+      )
+        return false;
+      if (
+        advancedFilters.maxUnits &&
+        owner.unitsCount > parseInt(advancedFilters.maxUnits)
+      )
+        return false;
+
+      // Registration Period filter
+      if (
+        advancedFilters.period === "today" &&
+        !owner.relativeTime.includes("اليوم")
+      )
+        return false;
+      if (
+        advancedFilters.period === "september" &&
+        !owner.registrationDate.includes("سبتمبر")
+      )
+        return false;
+      if (
+        advancedFilters.period === "august" &&
+        !owner.registrationDate.includes("أغسطس")
+      )
+        return false;
+
+      // Search query
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        return (
+          owner.name.toLowerCase().includes(q) ||
+          owner.phone.includes(q) ||
+          owner.email.toLowerCase().includes(q)
+        );
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (advancedFilters.sortBy === "date_asc") {
+        return parseInt(a.id) - parseInt(b.id);
+      }
+      if (advancedFilters.sortBy === "properties_desc") {
+        return b.propertiesCount - a.propertiesCount;
+      }
+      if (advancedFilters.sortBy === "units_desc") {
+        return b.unitsCount - a.unitsCount;
+      }
+      return parseInt(b.id) - parseInt(a.id);
+    });
 
   const totalHeadlineCount = 248; // Total from design specification
   const totalFiltered = filteredOwners.length;
@@ -719,6 +818,18 @@ export function OwnersTable() {
         searchQuery={search}
         onSearchChange={handleSearchChange}
         counts={counts}
+        onOpenAdvancedFilter={() => setIsDrawerOpen(true)}
+        activeFiltersCount={activeFiltersCount}
+      />
+
+      {/* Advanced Filter Drawer (Opens from LEFT - opposite of the sidebar) */}
+      <OwnersAdvancedFilterDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        filters={advancedFilters}
+        onApplyFilters={handleApplyAdvancedFilters}
+        onResetFilters={handleResetAdvancedFilters}
+        totalResultsCount={filteredOwners.length}
       />
 
       {/* Table Card */}
