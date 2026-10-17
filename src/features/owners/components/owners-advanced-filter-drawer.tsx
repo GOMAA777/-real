@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, SlidersHorizontal, RotateCcw, Check, Building, Home, Calendar, ArrowUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DatePicker } from "@/components/shared/date-picker";
 
 export interface AdvancedFilterState {
   status: string; // "all" | "active" | "pending" | "inactive"
@@ -343,34 +344,32 @@ export function OwnersAdvancedFilterDrawer({
                   {/* Start Date */}
                   <div className="space-y-1">
                     <span className="text-[10px] font-semibold text-[#7D8A78] block">من تاريخ</span>
-                    <input
-                      type="date"
+                    <DatePicker
                       value={localFilters.startDate}
-                      onChange={(e) => {
+                      onChange={(dateVal) => {
                         setLocalFilters({
                           ...localFilters,
                           period: "custom",
-                          startDate: e.target.value,
+                          startDate: dateVal,
                         });
                       }}
-                      className="w-full h-10 px-2.5 text-xs text-[#172115] bg-white border border-[#CCD5C5] rounded-xl focus:outline-none focus:border-[#34432E] focus:ring-1 focus:ring-[#34432E] transition-all shadow-2xs"
+                      placeholder="من تاريخ..."
                     />
                   </div>
 
                   {/* End Date */}
                   <div className="space-y-1">
                     <span className="text-[10px] font-semibold text-[#7D8A78] block">إلى تاريخ</span>
-                    <input
-                      type="date"
+                    <DatePicker
                       value={localFilters.endDate}
-                      onChange={(e) => {
+                      onChange={(dateVal) => {
                         setLocalFilters({
                           ...localFilters,
                           period: "custom",
-                          endDate: e.target.value,
+                          endDate: dateVal,
                         });
                       }}
-                      className="w-full h-10 px-2.5 text-xs text-[#172115] bg-white border border-[#CCD5C5] rounded-xl focus:outline-none focus:border-[#34432E] focus:ring-1 focus:ring-[#34432E] transition-all shadow-2xs"
+                      placeholder="إلى تاريخ..."
                     />
                   </div>
                 </div>
