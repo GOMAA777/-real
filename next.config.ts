@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   basePath: "/Edaret_Amlak",
   trailingSlash: true,
   images: {
-    unoptimized: true,
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
   },
   turbopack: {
     rules: {
