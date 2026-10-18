@@ -9,6 +9,7 @@ import { Property, PropertyStatus } from "../types";
 import { PropertiesFilters } from "./properties-filters";
 import { OwnerPropertiesFilterDrawer, PropertyFilterState } from "@/features/owners/components/owner-properties-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TableDateCell } from "@/components/shared/table-date-cell";
 
 const initialProperties: Property[] = [
   {
@@ -379,12 +380,10 @@ export function PropertiesTable() {
 
                     {/* 6. Date Added */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <div className="font-medium text-xs text-[#172115]">
-                        {property.dateAdded}
-                      </div>
-                      <div className="text-[10px] font-bold text-[#2E7D32]">
-                        {property.relativeTime}
-                      </div>
+                      <TableDateCell
+                        date={property.dateAdded}
+                        relativeTime={property.relativeTime}
+                      />
                     </td>
 
                     {/* 7. Status */}

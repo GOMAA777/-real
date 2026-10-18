@@ -13,6 +13,7 @@ import {
   type AdvancedFilterState,
 } from "./owners-advanced-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TableDateCell } from "@/components/shared/table-date-cell";
 
 const initialOwners: Owner[] = [
   {
@@ -943,12 +944,10 @@ export function OwnersTable() {
 
                     {/* Registration Date */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <div className="font-medium text-[#172115]">
-                        {owner.registrationDate}
-                      </div>
-                      <div className="text-[10px] text-[#7D8A78]">
-                        {owner.relativeTime}
-                      </div>
+                      <TableDateCell
+                        date={owner.registrationDate}
+                        relativeTime={owner.relativeTime}
+                      />
                     </td>
 
                     {/* Status Badge */}
