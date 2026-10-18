@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Headphones } from "lucide-react";
+import { Globe, HelpCircle } from "lucide-react";
 
 export function AuthHeader() {
   return (
@@ -11,21 +11,25 @@ export function AuthHeader() {
       </div>
 
       {/* Language & Support Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3.5 sm:gap-4">
+        {/* 1. English Switcher Pill (Right in RTL) */}
         <button
           type="button"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 border border-[#E2E6DC] text-xs font-medium text-[#2C3829] hover:bg-white transition-colors"
+          dir="ltr"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-[#E5EAE0] hover:bg-[#DCE1D7] text-xs font-semibold text-[#181D17] transition-colors cursor-pointer select-none"
         >
-          <Globe className="w-3.5 h-3.5 text-[#5A6853]" />
           <span>English</span>
+          <Globe className="w-4 h-4 text-[#181D17]" />
         </button>
 
+        {/* 2. Technical Support Link (Left in RTL) */}
         <Link
           href="#"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#5A6853] hover:text-[#2C3829] transition-colors"
+          dir="ltr"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181D17] hover:text-[#34432E] transition-colors"
         >
-          <Headphones className="w-3.5 h-3.5" />
           <span>الدعم الفني</span>
+          <HelpCircle className="w-4 h-4 text-[#181D17]" />
         </Link>
       </div>
     </header>

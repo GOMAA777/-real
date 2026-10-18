@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building, ArrowLeft, Headphones } from "lucide-react";
+import { Building, ArrowLeft, HelpCircle } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -20,10 +20,11 @@ export default function NotFound() {
 
         <Link
           href="#"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-[#5A6853] hover:text-[#2C3829] transition-colors"
+          dir="ltr"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#181D17] hover:text-[#34432E] transition-colors"
         >
-          <Headphones className="w-3.5 h-3.5" />
           <span>الدعم الفني</span>
+          <HelpCircle className="w-4 h-4 text-[#181D17]" />
         </Link>
       </header>
 
