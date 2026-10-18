@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, ArrowLeft } from "lucide-react";
+import { Calendar, ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 import { PropertyBookingItem } from "../types";
 
@@ -17,14 +17,15 @@ export function PropertyRecentBookings({
 }: PropertyRecentBookingsProps) {
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
-      {/* 1. Header Row */}
+      {/* 1. Header Row matching screenshot 4 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* Right in RTL: Icon Squircle in light sage + Title & Subtitle */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#2E3C29] text-white flex items-center justify-center shrink-0 shadow-2xs">
-            <CalendarDays className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-xl bg-[#EEF2E6] text-[#2E3C29] flex items-center justify-center shrink-0 border border-[#D5DDCF]">
+            <Calendar className="w-5 h-5 text-[#2E3C29]" />
           </div>
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-[#172115]">
+            <h3 className="text-base sm:text-lg font-black text-[#172115]">
               آخر الحجوزات
             </h3>
             <p className="text-xs text-[#7D8A78] mt-0.5">
@@ -33,28 +34,29 @@ export function PropertyRecentBookings({
           </div>
         </div>
 
+        {/* Left in RTL: View All Button */}
         <button
           type="button"
           onClick={() => toast.info(`عرض جميع الحجوزات (${totalBookingsCount})`)}
-          className="bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#172115] border border-[#E2E6DC] rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs self-start sm:self-auto"
+          className="bg-[#EEF2E6] hover:bg-[#E5EAE0] text-[#2C3825] border border-[#D5DDCF] rounded-xl px-4 py-2 text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer self-start sm:self-auto select-none"
         >
+          <ChevronLeft className="w-3.5 h-3.5" />
           <span>عرض جميع الحجوزات ({totalBookingsCount})</span>
-          <ArrowLeft className="w-3.5 h-3.5" />
         </button>
       </div>
 
-      {/* 2. Table */}
+      {/* 2. Table matching screenshot 4 */}
       <div className="overflow-hidden border border-[#E2E6DC] rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-right border-collapse">
             <thead>
               <tr className="border-b border-[#E2E6DC] bg-[#FBFDFB] text-[#7D8A78] text-xs font-bold">
-                <th className="px-5 py-3.5 whitespace-nowrap">العميل / النزيل</th>
-                <th className="px-4 py-3.5 whitespace-nowrap text-center">الوحدة</th>
-                <th className="px-4 py-3.5 whitespace-nowrap text-center">تاريخ الدخول</th>
-                <th className="px-4 py-3.5 whitespace-nowrap text-center">تاريخ المغادرة</th>
-                <th className="px-4 py-3.5 whitespace-nowrap text-center">مصدر الحجز</th>
-                <th className="px-4 py-3.5 whitespace-nowrap text-center">الحالة</th>
+                <th className="px-6 py-4 whitespace-nowrap">العميل / النزيل</th>
+                <th className="px-5 py-4 whitespace-nowrap text-center">الوحدة</th>
+                <th className="px-5 py-4 whitespace-nowrap text-center">تاريخ الدخول</th>
+                <th className="px-5 py-4 whitespace-nowrap text-center">تاريخ المغادرة</th>
+                <th className="px-5 py-4 whitespace-nowrap text-center">مصدر الحجز</th>
+                <th className="px-6 py-4 whitespace-nowrap text-center">الحالة</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#EEF2E6]">
@@ -63,14 +65,18 @@ export function PropertyRecentBookings({
                   key={booking.id}
                   className="hover:bg-[#F6F8F4]/70 transition-colors"
                 >
-                  {/* Guest Info */}
-                  <td className="px-5 py-4 whitespace-nowrap">
+                  {/* 1. Guest Info */}
+                  <td className="px-6 py-4.5 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 select-none border border-black/5"
+                        className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 select-none border"
                         style={{
-                          backgroundColor: booking.avatarBgColor || "#DDE7D3",
+                          backgroundColor: booking.avatarBgColor || "#EEF2E6",
                           color: booking.avatarTextColor || "#283820",
+                          borderColor:
+                            booking.guestInitials === "س ش"
+                              ? "#E8D8BA"
+                              : "#CCD5C5",
                         }}
                       >
                         {booking.guestInitials}
@@ -86,43 +92,43 @@ export function PropertyRecentBookings({
                     </div>
                   </td>
 
-                  {/* Unit */}
-                  <td className="px-4 py-4 whitespace-nowrap text-center">
-                    <span className="font-bold text-xs sm:text-sm text-[#172115]">
+                  {/* 2. Unit */}
+                  <td className="px-5 py-4.5 whitespace-nowrap text-center">
+                    <span className="font-black text-sm text-[#172115]">
                       {booking.unitNumber}
                     </span>
                   </td>
 
-                  {/* Check-in Date */}
-                  <td className="px-4 py-4 whitespace-nowrap text-center">
+                  {/* 3. Check-in Date */}
+                  <td className="px-5 py-4.5 whitespace-nowrap text-center">
                     <span className="text-xs font-medium text-[#172115]">
                       {booking.checkInDate}
                     </span>
                   </td>
 
-                  {/* Check-out Date */}
-                  <td className="px-4 py-4 whitespace-nowrap text-center">
+                  {/* 4. Check-out Date */}
+                  <td className="px-5 py-4.5 whitespace-nowrap text-center">
                     <span className="text-xs font-medium text-[#172115]">
                       {booking.checkOutDate}
                     </span>
                   </td>
 
-                  {/* Source */}
-                  <td className="px-4 py-4 whitespace-nowrap text-center">
+                  {/* 5. Source */}
+                  <td className="px-5 py-4.5 whitespace-nowrap text-center">
                     <span className="text-xs font-bold text-[#2E7D32]" dir="ltr">
                       {booking.source}
                     </span>
                   </td>
 
-                  {/* Status Badge */}
-                  <td className="px-4 py-4 whitespace-nowrap text-center">
+                  {/* 6. Status Badge */}
+                  <td className="px-6 py-4.5 whitespace-nowrap text-center">
                     {booking.status === "active" ? (
-                      <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-bold px-3.5 py-1.5 rounded-full">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
                         <span>{booking.statusText}</span>
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 bg-[#F6F8F4] border border-[#E2E6DC] text-[#4A5745] text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="inline-flex items-center gap-1.5 bg-[#EEF2E6] border border-[#CCD5C5] text-[#4A5745] text-xs font-bold px-3.5 py-1.5 rounded-full">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#4A5745]" />
                         <span>{booking.statusText}</span>
                       </span>

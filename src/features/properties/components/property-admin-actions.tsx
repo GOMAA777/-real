@@ -29,31 +29,31 @@ export function PropertyAdminActions({
           <Settings className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-[#172115]">
+          <h3 className="text-base sm:text-lg font-black text-[#172115]">
             إجراءات المشرف (Admin Actions)
           </h3>
-          <p className="text-xs text-[#7D8A78] mt-0.5">
+          <p className="text-xs text-[#6B7865] mt-0.5">
             أدوات التحكم الإداري ومراجعة الصلاحيات
           </p>
         </div>
       </div>
 
-      {/* 2. Action Rows List */}
+      {/* 2. Action Rows List with soft sage backgrounds */}
       <div className="space-y-2.5">
-        {/* Action 1: عرض بيانات المالك (links to owner profile) */}
+        {/* Action 1: عرض بيانات المالك */}
         <Link
           href={`/dashboard/owners/${ownerId}`}
-          className="w-full bg-[#F6F8F4]/70 hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 border border-[#EEF2E6] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
+          className="w-full bg-[#F0F4EB] hover:bg-[#EAEFE3] rounded-2xl p-3.5 border border-[#E5EAE0] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
         >
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors shadow-2xs">
               <User className="w-4 h-4 text-[#2C3825]" />
             </div>
             <div className="min-w-0">
               <div className="font-bold text-xs sm:text-sm text-[#172115]">
                 عرض بيانات المالك
               </div>
-              <div className="text-[11px] text-[#7D8A78] mt-0.5">
+              <div className="text-[11px] text-[#6B7865] mt-0.5">
                 ملف {ownerName} والاشتراكات
               </div>
             </div>
@@ -65,10 +65,10 @@ export function PropertyAdminActions({
         <button
           type="button"
           onClick={() => toast.info("فتح شاشة تعديل بيانات العقار ومرافقه")}
-          className="w-full bg-[#F6F8F4]/70 hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 border border-[#EEF2E6] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
+          className="w-full bg-[#F0F4EB] hover:bg-[#EAEFE3] rounded-2xl p-3.5 border border-[#E5EAE0] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
         >
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors shadow-2xs">
               <FileEdit className="w-4 h-4 text-[#2C3825]" />
             </div>
             <div className="min-w-0">
@@ -76,11 +76,11 @@ export function PropertyAdminActions({
                 <span className="font-bold text-xs sm:text-sm text-[#172115]">
                   تعديل بيانات العقار
                 </span>
-                <span className="bg-[#EEF2E6] text-[#2C3825] border border-[#CCD5C5] text-[10px] font-bold px-2 py-0.5 rounded-md">
+                <span className="bg-[#DDE7D3] text-[#283820] border border-[#CCD5C5] text-[10px] font-bold px-2 py-0.5 rounded-md">
                   صلاحية كاملة
                 </span>
               </div>
-              <div className="text-[11px] text-[#7D8A78] mt-0.5">
+              <div className="text-[11px] text-[#6B7865] mt-0.5">
                 تحديث العنوان، المرافق، والترخيص
               </div>
             </div>
@@ -92,17 +92,17 @@ export function PropertyAdminActions({
         <button
           type="button"
           onClick={() => toast.info("فحص حالة تكامل الأقفال وبوابات OTA")}
-          className="w-full bg-[#F6F8F4]/70 hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 border border-[#EEF2E6] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
+          className="w-full bg-[#F0F4EB] hover:bg-[#EAEFE3] rounded-2xl p-3.5 border border-[#E5EAE0] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
         >
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors shadow-2xs">
               <Sparkles className="w-4 h-4 text-[#2C3825]" />
             </div>
             <div className="min-w-0">
               <div className="font-bold text-xs sm:text-sm text-[#172115]">
                 مراجعة التكاملات
               </div>
-              <div className="text-[11px] text-[#7D8A78] mt-0.5">
+              <div className="text-[11px] text-[#6B7865] mt-0.5">
                 مزامنة الأقفال وقنوات الـ OTA
               </div>
             </div>
@@ -114,17 +114,17 @@ export function PropertyAdminActions({
         <button
           type="button"
           onClick={() => toast.info("عرض سجل الأنشطة والتدقيق الأمني")}
-          className="w-full bg-[#F6F8F4]/70 hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 border border-[#EEF2E6] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
+          className="w-full bg-[#F0F4EB] hover:bg-[#EAEFE3] rounded-2xl p-3.5 border border-[#E5EAE0] flex items-center justify-between gap-3 text-start transition-colors group cursor-pointer"
         >
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors">
+            <div className="w-9 h-9 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 group-hover:border-[#CCD5C5] transition-colors shadow-2xs">
               <History className="w-4 h-4 text-[#2C3825]" />
             </div>
             <div className="min-w-0">
               <div className="font-bold text-xs sm:text-sm text-[#172115]">
                 عرض سجل النشاط والتدقيق
               </div>
-              <div className="text-[11px] text-[#7D8A78] mt-0.5">
+              <div className="text-[11px] text-[#6B7865] mt-0.5">
                 سجلات الدخول وتغييرات الأسعار
               </div>
             </div>
@@ -137,7 +137,7 @@ export function PropertyAdminActions({
       <button
         type="button"
         onClick={() => toast.error("تنبيه: أرشفة العقار تتطلب تأكيد المشرف العام")}
-        className="w-full bg-white hover:bg-[#FEF2F2] border border-[#FCA5A5] text-[#DC2626] font-bold text-xs py-3 rounded-2xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
+        className="w-full bg-white hover:bg-[#FEF2F2] border border-[#FCA5A5] text-[#DC2626] font-bold text-xs py-3 rounded-2xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs select-none"
       >
         <Archive className="w-4 h-4 text-[#DC2626]" />
         <span>أرشفة العقار من المنظومة العامة</span>

@@ -27,7 +27,7 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
             <button
               type="button"
               onClick={() => toast.info("فتح نافذة تعديل بيانات العقار")}
-              className="inline-flex items-center gap-1.5 bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#2C3825] border border-[#E2E6DC] rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center gap-1.5 bg-[#EEF2E6] hover:bg-[#E5EAE0] text-[#2C3825] border border-[#D5DDCF] rounded-xl px-4 py-2 text-xs font-bold transition-colors cursor-pointer select-none"
             >
               <SlidersHorizontal className="w-3.5 h-3.5 text-[#2C3825]" />
               <span>تعديل</span>
@@ -39,58 +39,58 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
             <h2 className="text-2xl sm:text-3xl font-black text-[#172115] tracking-tight">
               {property.name}
             </h2>
-            <div className="flex items-center gap-1.5 text-xs text-[#7D8A78] font-medium">
-              <MapPin className="w-3.5 h-3.5 text-[#7D8A78] shrink-0" />
+            <div className="flex items-center gap-1.5 text-xs text-[#6B7865] font-medium">
+              <MapPin className="w-3.5 h-3.5 text-[#6B7865] shrink-0" />
               <span>{property.location}</span>
             </div>
           </div>
 
-          {/* 4 Metric KPI Cards */}
+          {/* 4 Metric KPI Cards with exact soft sage tint */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
             {/* Total Units */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3 text-center">
-              <div className="text-[11px] text-[#7D8A78] font-medium">إجمالي الوحدات</div>
-              <div className="text-base sm:text-lg font-black text-[#172115] mt-1">
+            <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-3.5 text-center">
+              <div className="text-xs text-[#6B7865] font-medium">إجمالي الوحدات</div>
+              <div className="text-xl sm:text-2xl font-black text-[#172115] mt-1">
                 {property.totalUnits} وحدة
               </div>
             </div>
 
             {/* Occupied Units */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3 text-center">
-              <div className="text-[11px] text-[#7D8A78] font-medium">الوحدات المشغولة</div>
-              <div className="text-base sm:text-lg font-black text-[#172115] mt-1">
+            <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-3.5 text-center">
+              <div className="text-xs text-[#6B7865] font-medium">الوحدات المشغولة</div>
+              <div className="text-xl sm:text-2xl font-black text-[#172115] mt-1">
                 {property.occupiedUnits} وحدات
               </div>
             </div>
 
             {/* Available Units */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3 text-center">
-              <div className="text-[11px] text-[#7D8A78] font-medium">الوحدات المتاحة</div>
-              <div className="text-base sm:text-lg font-black text-[#172115] mt-1">
+            <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-3.5 text-center">
+              <div className="text-xs text-[#6B7865] font-medium">الوحدات المتاحة</div>
+              <div className="text-xl sm:text-2xl font-black text-[#172115] mt-1">
                 {property.availableUnits} وحدة
               </div>
             </div>
 
             {/* Occupancy Rate */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3 text-center">
-              <div className="text-[11px] text-[#7D8A78] font-medium">معدل الإشغال</div>
-              <div className="text-base sm:text-lg font-black text-[#172115] mt-1">
+            <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-3.5 text-center">
+              <div className="text-xs text-[#6B7865] font-medium">معدل الإشغال</div>
+              <div className="text-xl sm:text-2xl font-black text-[#172115] mt-1">
                 {property.occupancyRate}%
               </div>
             </div>
           </div>
 
           {/* Connected Smart Locks Box */}
-          <div className="bg-[#FBFDFB] border border-[#E2E6DC] rounded-2xl p-3.5 flex items-center justify-between gap-3">
+          <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-3.5 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-[#F6F8F4] border border-[#EEF2E6] flex items-center justify-center text-[#4A5D44] shrink-0">
-                <DoorClosed className="w-4 h-4 text-[#4A5D44]" />
+              <div className="w-10 h-10 rounded-xl bg-white border border-[#E2E6DC] flex items-center justify-center text-[#2C3825] shrink-0 shadow-2xs">
+                <DoorClosed className="w-5 h-5 text-[#2C3825]" />
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-xs text-[#172115] truncate">
+                <div className="font-bold text-xs sm:text-sm text-[#172115] truncate">
                   {property.smartLockStatus.title}
                 </div>
-                <div className="text-[11px] text-[#7D8A78] truncate mt-0.5">
+                <div className="text-[11px] text-[#6B7865] truncate mt-0.5">
                   {property.smartLockStatus.description}
                 </div>
               </div>
@@ -107,18 +107,18 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
           {/* Badges / Tags Row */}
           <div className="flex items-center gap-2 flex-wrap pt-0.5">
             {/* Status Badge */}
-            <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-semibold px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-bold px-3.5 py-1.5 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
               <span>{property.statusText}</span>
             </span>
 
             {/* Category */}
-            <span className="bg-[#F6F8F4] border border-[#E2E6DC] text-[#4A5745] text-xs font-medium px-3 py-1 rounded-full">
+            <span className="bg-[#EEF2E6] border border-[#DCE3D6] text-[#4A5745] text-xs font-semibold px-3.5 py-1.5 rounded-full">
               {property.category}
             </span>
 
             {/* Code */}
-            <span className="bg-[#EEF2E6] border border-[#E2E6DC] text-[#2C3825] text-xs font-bold px-3 py-1 rounded-full" dir="ltr">
+            <span className="bg-[#EEF2E6] border border-[#DCE3D6] text-[#2C3825] text-xs font-bold px-3.5 py-1.5 rounded-full" dir="ltr">
               {property.code}
             </span>
           </div>
@@ -126,7 +126,7 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
 
         {/* Hero Photo Column (Left in RTL - 5 cols) */}
         <div className="lg:col-span-5">
-          <div className="relative rounded-2xl overflow-hidden h-[280px] sm:h-[310px] border border-[#E2E6DC] shadow-2xs group bg-[#EEF2E6]">
+          <div className="relative rounded-2xl overflow-hidden h-[290px] sm:h-[320px] border border-[#E2E6DC] shadow-2xs group bg-[#EEF2E6]">
             <Image
               src={property.heroImage}
               alt={property.name}
@@ -135,17 +135,17 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
 
-            {/* Top Left Overlay: Booking.com Badge */}
-            <div className="absolute top-3 start-3">
-              <span className="bg-black/60 backdrop-blur-xs text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20 select-none">
-                Booking.com
+            {/* Top Right Overlay on Photo: Booking.com Badge */}
+            <div className="absolute top-3 end-3">
+              <span className="bg-[#2A3727]/85 backdrop-blur-xs text-white text-xs font-bold px-3.5 py-1 rounded-full border border-white/20 select-none">
+                Booking . com
               </span>
             </div>
 
             {/* Bottom Right Overlay: Photography Credit */}
             <div className="absolute bottom-3 end-3">
-              <span className="bg-black/60 backdrop-blur-xs text-white text-[10px] font-medium px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5 select-none">
-                <Camera className="w-3 h-3 text-white/80" />
+              <span className="bg-black/60 backdrop-blur-xs text-white text-xs font-medium px-3.5 py-1 rounded-full border border-white/20 flex items-center gap-1.5 select-none">
+                <Camera className="w-3.5 h-3.5 text-white/80" />
                 <span>تصوير معماري حصري • 2024</span>
               </span>
             </div>
@@ -155,7 +155,7 @@ export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
               <button
                 type="button"
                 onClick={() => toast.info("عرض الصور بالحجم الكامل")}
-                className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-xs text-white flex items-center justify-center hover:bg-black/80 transition-colors border border-white/20 cursor-pointer"
+                className="w-8 h-8 rounded-xl bg-black/60 backdrop-blur-xs text-white flex items-center justify-center hover:bg-black/80 transition-colors border border-white/20 cursor-pointer"
                 aria-label="تكبير الصورة"
               >
                 <Maximize2 className="w-3.5 h-3.5" />

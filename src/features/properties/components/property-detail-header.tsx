@@ -23,21 +23,21 @@ export function PropertyDetailHeader({
   };
 
   return (
-    <div className="flex items-center justify-between gap-4">
-      {/* Right side in RTL: Large Title */}
-      <h1 className="text-xl sm:text-2xl font-black text-[#172115] tracking-tight">
-        {title}
-      </h1>
-
-      {/* Left side in RTL: Back Button matching design */}
+    <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] flex items-center justify-between shadow-2xs">
+      {/* Left side in RTL: Back Button matching screenshot 1 */}
       <button
         type="button"
         onClick={handleBack}
-        className="bg-[#EEF2E6] hover:bg-[#E2E8D9] text-[#2C3825] border border-[#CCD5C5]/70 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors cursor-pointer shadow-2xs select-none"
+        className="bg-[#EEF2E6] hover:bg-[#E5EAE0] text-[#2C3825] border border-[#D5DDCF] px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors cursor-pointer select-none"
       >
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>العودة إلى العقارات</span>
       </button>
+
+      {/* Right side in RTL: Large Title */}
+      <h1 className="text-xl sm:text-2xl font-black text-[#172115] tracking-tight">
+        {title}
+      </h1>
     </div>
   );
 }
