@@ -12,7 +12,7 @@ import {
   Eye,
   EyeOff,
   Building2,
-  CheckCircle2,
+  SquareCheck,
 } from "lucide-react";
 import { loginSchema, type LoginInput } from "../schemas/login.schema";
 import { loginAction } from "../actions/login.action";
@@ -185,35 +185,35 @@ export function LoginForm() {
       </div>
 
       {/* Stats Container (18,400+ Units & 99.98% uptime) */}
-      <div className="p-4 rounded-2xl bg-white/80 border border-[#E0E4D8] backdrop-blur-xs shadow-xs flex items-center justify-between">
-        {/* Right Metric */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-[#F1F5EB] flex items-center justify-between">
+        {/* Right Metric in RTL */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#F4F6F0] border border-[#E2E6DC] flex items-center justify-center shrink-0">
-            <Building2 className="w-4 h-4 text-[#374732]" />
+          <div className="w-11 h-11 rounded-2xl bg-white shadow-2xs flex items-center justify-center shrink-0 text-[#34422A]">
+            <Building2 className="w-5 h-5" />
           </div>
           <div className="text-start">
-            <div className="text-xs sm:text-sm font-bold text-[#172115]">
+            <div className="text-sm font-bold text-[#172115] tracking-tight">
               +18,400 وحدة
             </div>
-            <div className="text-[10px] sm:text-[11px] text-[#717F6C]">
-              تُدار وتُشغّل نشطاً بالمنصة
+            <div className="text-xs text-[#717F6C]">
+              تدار وتُشغّل نشطاً بالمنصة
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="w-px h-8 bg-[#E2E6DC]" />
+        <div className="w-px h-10 bg-[#E0E5D8]" />
 
-        {/* Left Metric */}
+        {/* Left Metric in RTL */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#F4F6F0] border border-[#E2E6DC] flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4 text-[#374732]" />
+          <div className="w-11 h-11 rounded-2xl bg-white shadow-2xs flex items-center justify-center shrink-0 text-[#34422A]">
+            <SquareCheck className="w-5 h-5" />
           </div>
           <div className="text-start">
-            <div className="text-xs sm:text-sm font-bold text-[#172115]">
+            <div className="text-sm font-bold text-[#172115] tracking-tight font-inter">
               99.98%
             </div>
-            <div className="text-[10px] sm:text-[11px] text-[#717F6C]">
+            <div className="text-xs text-[#717F6C]">
               جاهزية واستقرار السيرفرات
             </div>
           </div>
