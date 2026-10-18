@@ -18,27 +18,27 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function PropertyDetailPage({ params }: PageProps) {
-  const { id } = await params;
-
+export default function PropertyDetailPage({ params }: PageProps) {
   return (
     <div className="space-y-6 pb-12">
       {/* 1. Header with Breadcrumb / Title & Back Button */}
       <PropertyDetailHeader title="تفاصيل العقار" fallbackHref="/dashboard/properties" />
 
-      {/* 2. Main Content wrapped in Suspense for smooth hydration */}
+      {/* 2. Main Content wrapped in Suspense for instant navigation */}
       <Suspense fallback={<PropertyDetailSkeleton />}>
-        <PropertyDetailContent propertyId={id} />
+        <PropertyDetailContent params={params} />
       </Suspense>
     </div>
   );
 }
 
-function PropertyDetailContent({ propertyId }: { propertyId: string }) {
+async function PropertyDetailContent({ params }: PageProps) {
+  const { id } = await params;
+
   // Use mock property data matching design, enriched with id
   const property = {
     ...defaultPropertyDetail,
-    id: propertyId || defaultPropertyDetail.id,
+    id: id || defaultPropertyDetail.id,
   };
 
   return (
