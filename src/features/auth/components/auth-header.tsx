@@ -16,7 +16,7 @@ export function AuthHeader() {
         <button
           type="button"
           dir="ltr"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-[#E5EAE0] hover:bg-[#DCE1D7] text-xs font-semibold text-[#181D17] transition-colors cursor-pointer select-none"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-[#E5EAE0] hover:bg-[#DCE1D7] text-xs font-medium font-inter text-[#181D17] transition-colors cursor-pointer select-none"
         >
           <span>English</span>
           <Globe className="w-4 h-4 text-[#181D17]" />
