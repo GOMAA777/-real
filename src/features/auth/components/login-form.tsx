@@ -87,10 +87,10 @@ export function LoginForm() {
               {...register("identifier")}
               dir="auto"
               placeholder="مثال: 0501234567 أو name@company.sa"
-              className="w-full h-12 pe-4 ps-11 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs"
+              className="w-full h-12 pe-4 ps-12 rounded-2xl bg-white border border-[#E0E5D8]/80 text-sm text-[#182016] placeholder:text-[#9EA19A] placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-[#374732]/15 focus:border-[#374732] transition-all shadow-xs"
             />
-            <div className="absolute start-3.5 flex items-center pointer-events-none text-[#7D8A78]">
-              <AtSign className="w-4 h-4" />
+            <div className="absolute start-4 flex items-center pointer-events-none text-[#75786F]">
+              <AtSign className="w-[18px] h-[18px]" strokeWidth={1.8} />
             </div>
           </div>
           {errors.identifier && (
@@ -113,14 +113,14 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute end-3.5 flex items-center text-[#7D8A78] hover:text-[#273323] transition-colors focus:outline-none"
+              className="absolute end-4 flex items-center text-[#75786F] hover:text-[#273323] transition-colors focus:outline-none"
               tabIndex={-1}
               aria-label="تبديل إظهار كلمة المرور"
             >
               {showPassword ? (
-                <EyeOff className="w-4 h-4" />
+                <EyeOff className="w-[18px] h-[18px]" strokeWidth={1.8} />
               ) : (
-                <Eye className="w-4 h-4" />
+                <Eye className="w-[18px] h-[18px]" strokeWidth={1.8} />
               )}
             </button>
 
@@ -129,11 +129,11 @@ export function LoginForm() {
               type={showPassword ? "text" : "password"}
               {...register("password")}
               placeholder="••••••••••••"
-              className="w-full h-12 pe-11 ps-11 rounded-xl bg-white border border-[#E0E4D8] text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/20 focus:border-[#374732] transition-all shadow-xs text-start"
+              className="w-full h-12 pe-12 ps-12 rounded-2xl bg-white border border-[#E0E5D8]/80 text-sm text-[#182016] placeholder:text-[#9EA19A] placeholder:tracking-widest focus:outline-none focus:ring-2 focus:ring-[#374732]/15 focus:border-[#374732] transition-all shadow-xs text-start"
             />
 
-            <div className="absolute start-3.5 flex items-center pointer-events-none text-[#7D8A78]">
-              <Lock className="w-4 h-4" />
+            <div className="absolute start-4 flex items-center pointer-events-none text-[#75786F]">
+              <Lock className="w-[18px] h-[18px]" strokeWidth={1.8} />
             </div>
           </div>
           {errors.password && (
