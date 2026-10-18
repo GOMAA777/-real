@@ -27,3 +27,65 @@ export interface OwnersKPIData {
   newGrowth: string;
   newSubtext: string;
 }
+
+export type OwnerBookingFilterStatus = "all" | "active" | "upcoming" | "completed" | "cancelled";
+
+export type BookingStatus =
+  | "active"
+  | "upcoming"
+  | "checkout_today"
+  | "completed"
+  | "cancelled";
+
+export interface OwnerBookingItem {
+  id: string;
+  guestName: string;
+  guestInitials: string;
+  bookingCode: string;
+  phone: string;
+  propertyName: string;
+  propertyLocation: string;
+  unitNumber: string;
+  unitDescription: string;
+  unitHighlightColor?: string;
+  source: string;
+  sourceId: string;
+  checkInDate: string;
+  checkInTime: string;
+  checkInBadge?: string;
+  checkInIsToday?: boolean;
+  checkInSubtext?: string;
+  checkOutDate: string;
+  checkOutTime: string;
+  checkOutBadge?: string;
+  checkOutIsToday?: boolean;
+  checkOutSubtext?: string;
+  status: BookingStatus;
+  statusText: string;
+  accessCode: string;
+  accessDevice: string;
+  accessStatus: "connected" | "pending" | "expiring" | "disabled";
+}
+
+export interface OwnerBookingsKPIData {
+  currentBookings: {
+    count: number;
+    badgeText: string;
+    subtext: string;
+  };
+  monthlyTotal: {
+    count: number;
+    growthText: string;
+    nightsCount: number;
+  };
+  upcomingConfirmed: {
+    count: number;
+    badgeText: string;
+    subtext: string;
+  };
+  cancelled: {
+    count: number;
+    badgeText: string;
+    subtext: string;
+  };
+}

@@ -7,6 +7,7 @@ import { OwnerActivityTimeline } from "./owner-activity-timeline";
 import { OwnerQuickActions } from "./owner-quick-actions";
 import { OwnerTransferableBalance } from "./owner-transferable-balance";
 import { OwnerPropertiesTabView } from "./owner-properties-tab-view";
+import { OwnerBookingsTabView } from "./owner-bookings-tab-view";
 import { OwnerActivityTabView } from "./owner-activity-tab-view";
 
 interface OwnerTabsSectionProps {
@@ -42,6 +43,9 @@ export function OwnerTabsSection({
       {tab === "properties" ? (
         /* Tab 2: عقارات المالك */
         <OwnerPropertiesTabView />
+      ) : tab === "bookings" ? (
+        /* Tab 3: الحجوزات */
+        <OwnerBookingsTabView />
       ) : tab === "activity" ? (
         /* Tab 5: سجل النشاط والتدقيق الأمني */
         <OwnerActivityTabView />

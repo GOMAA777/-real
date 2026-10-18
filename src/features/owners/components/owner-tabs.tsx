@@ -24,7 +24,12 @@ export function OwnerTabs({
   const currentTab = controlledTab ?? internalTab;
 
   const handleSelect = (id: string, label: string) => {
-    if (id !== "overview" && id !== "properties" && id !== "activity") {
+    if (
+      id !== "overview" &&
+      id !== "properties" &&
+      id !== "activity" &&
+      id !== "bookings"
+    ) {
       showUnderConstructionToast(`تبويب ${label}`);
       return;
     }
