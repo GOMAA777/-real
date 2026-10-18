@@ -24,7 +24,12 @@ export function PropertyDetailHeader({
 
   return (
     <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] flex items-center justify-between shadow-2xs">
-      {/* Left side in RTL: Back Button matching screenshot 1 */}
+      {/* 1. Right side in RTL (start): Large Title */}
+      <h1 className="text-xl sm:text-2xl font-black text-[#172115] tracking-tight">
+        {title}
+      </h1>
+
+      {/* 2. Left side in RTL (end): Back Button */}
       <button
         type="button"
         onClick={handleBack}
@@ -33,11 +38,6 @@ export function PropertyDetailHeader({
         <ArrowLeft className="w-3.5 h-3.5" />
         <span>العودة إلى العقارات</span>
       </button>
-
-      {/* Right side in RTL: Large Title */}
-      <h1 className="text-xl sm:text-2xl font-black text-[#172115] tracking-tight">
-        {title}
-      </h1>
     </div>
   );
 }
