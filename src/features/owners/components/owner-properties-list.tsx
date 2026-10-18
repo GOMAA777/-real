@@ -78,9 +78,10 @@ export function OwnerPropertiesList({
       {/* Property Cards List */}
       <div className="space-y-3">
         {properties.map((item) => (
-          <div
+          <Link
             key={item.id}
-            className="bg-[#F6F8F4] hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 sm:p-4 border border-[#EEF2E6] flex items-center justify-between gap-3 transition-colors group cursor-pointer"
+            href={`/dashboard/properties/${item.id}`}
+            className="bg-[#F6F8F4] hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 sm:p-4 border border-[#EEF2E6] flex items-center justify-between gap-3 transition-colors group cursor-pointer block"
           >
             {/* Right in RTL: Image + Name + Details */}
             <div className="flex items-center gap-3.5 min-w-0">
@@ -93,7 +94,7 @@ export function OwnerPropertiesList({
                 />
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-xs sm:text-sm text-[#172115] truncate">
+                <div className="font-bold text-xs sm:text-sm text-[#172115] truncate group-hover:text-[#2E3C29] transition-colors">
                   {item.name}
                 </div>
                 <div className="text-[11px] sm:text-xs text-[#7D8A78] truncate mt-0.5">
@@ -125,7 +126,7 @@ export function OwnerPropertiesList({
                 <ChevronLeft className="w-4 h-4" />
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

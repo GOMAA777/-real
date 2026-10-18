@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Building2, MapPin, MoreVertical, ChevronRight, ChevronLeft, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Property, PropertyStatus } from "../types";
@@ -248,9 +249,12 @@ export function PropertiesTable() {
                           <Building2 className="w-5 h-5" />
                         </div>
                         <div>
-                          <div className="font-bold text-xs text-[#172115]">
+                          <Link
+                            href={`/dashboard/properties/${property.id}`}
+                            className="font-bold text-xs text-[#172115] hover:text-[#2E3C29] hover:underline"
+                          >
                             {property.title}
-                          </div>
+                          </Link>
                           <div className="text-[11px] text-[#7D8A78]">
                             {property.type} • {property.code}
                           </div>

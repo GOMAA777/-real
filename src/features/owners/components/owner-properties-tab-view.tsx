@@ -292,13 +292,12 @@ export function OwnerPropertiesTabView({
                     {/* 7. الاجراءات */}
                     <td className="px-5 py-4 whitespace-nowrap text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => toast.info(`عرض تفاصيل: ${property.name}`)}
-                          className="bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#172115] border border-[#E2E6DC] rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors cursor-pointer"
+                        <Link
+                          href={`/dashboard/properties/${property.id}`}
+                          className="bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#172115] border border-[#E2E6DC] rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors cursor-pointer inline-block"
                         >
                           عرض العقار
-                        </button>
+                        </Link>
                         <button
                           type="button"
                           onClick={() => toast.info(`إجراءات ${property.name}`)}
