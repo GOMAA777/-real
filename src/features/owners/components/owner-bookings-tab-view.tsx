@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   Search,
   Plus,
@@ -86,14 +87,13 @@ export function OwnerBookingsTabView({
         {/* Left side: Action Buttons */}
         <div className="flex items-center gap-3">
           {/* Add Booking Button (Leftmost in RTL) */}
-          <button
-            type="button"
-            onClick={() => toast.success("فتح نموذج إضافة حجز جديد")}
+          <Link
+            href="/dashboard/bookings/new"
             className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>إضافة حجز</span>
-          </button>
+          </Link>
 
           {/* Export List Button */}
           <button
