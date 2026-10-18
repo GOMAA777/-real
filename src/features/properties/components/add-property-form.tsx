@@ -621,7 +621,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
 
       {/* 3. Floating Bottom Confirmation & Save Bar (عائم في الصفحة) matching Image 3 */}
       <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-4 px-6 sm:px-10 z-50 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Status message on the right in RTL */}
           <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#172115]">
             <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse shrink-0" />
