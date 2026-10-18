@@ -1,34 +1,18 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { AddPropertyForm } from "@/features/properties/components/add-property-form";
-import { AddPropertySuccessView } from "@/features/properties/components/add-property-success-view";
+import { NewPropertyClientContent } from "@/features/properties/components/new-property-client-content";
 
 export const metadata: Metadata = {
   title: "إضافة عقار جديد | منصة أبراج",
   description: "إدراج عقار جديد وتعيينه لمالك مسجل في المنصة وربط التراخيص والبيانات الجغرافية بدقة.",
 };
 
-interface PageProps {
-  searchParams?: Promise<{ success?: string }>;
-}
-
-export default function NewPropertyPage({ searchParams }: PageProps) {
+export default function NewPropertyPage() {
   return (
     <Suspense fallback={<NewPropertySkeleton />}>
-      <NewPropertyContent searchParams={searchParams} />
+      <NewPropertyClientContent />
     </Suspense>
   );
-}
-
-async function NewPropertyContent({ searchParams }: PageProps) {
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const isSuccess = resolvedSearchParams?.success === "true";
-
-  if (isSuccess) {
-    return <AddPropertySuccessView />;
-  }
-
-  return <AddPropertyForm />;
 }
 
 function NewPropertySkeleton() {

@@ -10,12 +10,24 @@ export const metadata = {
   description: "ملف صاحب العقار وتفاصيل العقارات والوحدات والحجوزات والأداء التشغيلي",
 };
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-  searchParams?: Promise<{ tab?: string }>;
+export function generateStaticParams() {
+  return [
+    { id: "1" },
+    { id: "2" },
+    { id: "3" },
+    { id: "4" },
+    { id: "5" },
+    { id: "6" },
+    { id: "7" },
+    { id: "8" },
+  ];
 }
 
-export default function OwnerDetailPage({ params, searchParams }: PageProps) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default function OwnerDetailPage({ params }: PageProps) {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Breadcrumb Navigation (Instant Static Shell) */}
@@ -33,16 +45,15 @@ export default function OwnerDetailPage({ params, searchParams }: PageProps) {
 
       {/* Dynamic Data wrapped in Suspense for Instant Navigation */}
       <Suspense fallback={<OwnerDetailSkeleton />}>
-        <OwnerDetailContent params={params} searchParams={searchParams} />
+        <OwnerDetailContent params={params} />
       </Suspense>
     </div>
   );
 }
 
-async function OwnerDetailContent({ params, searchParams }: PageProps) {
+async function OwnerDetailContent({ params }: PageProps) {
   const { id } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const initialTab = resolvedSearchParams?.tab || "overview";
+  const initialTab = "overview";
 
   // Mock owner matching design screenshots
   const ownerData = {

@@ -1,15 +1,15 @@
-"use server";
+import { registerSchema, RegisterInput } from "../schemas/register.schema";
 
-import { actionClient } from "@/lib/safe-action";
-import { registerSchema } from "../schemas/register.schema";
-
-export const registerAction = actionClient
-  .schema(registerSchema)
-  .action(async ({ parsedInput }) => {
-    // Mock simulation until backend API is ready
-    const { fullName } = parsedInput;
-    return {
+export async function registerAction(input: RegisterInput) {
+  const parsed = registerSchema.safeParse(input);
+  if (!parsed.success) {
+    return { validationErrors: parsed.error.format() };
+  }
+  const { fullName } = parsed.data;
+  return {
+    data: {
       success: true,
       message: `تم إنشاء الحساب بنجاح مرحباً ${fullName}`,
-    };
-  });
+    },
+  };
+}
