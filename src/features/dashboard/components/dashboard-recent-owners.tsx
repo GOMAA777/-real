@@ -1,14 +1,19 @@
 import Link from "next/link";
-import { Users2, ArrowLeft } from "lucide-react";
+import { Users2 } from "lucide-react";
 
 interface OwnerItem {
   id: string;
   name: string;
   email: string;
   initials: string;
-  properties: string;
-  units: string;
-  date: string;
+  propertyCount: string;
+  propertyLabel: string;
+  unitCount: string;
+  unitLabel: string;
+  date: {
+    primary: string;
+    secondary?: string;
+  };
   status: "active" | "pending";
 }
 
@@ -16,31 +21,37 @@ const recentOwners: OwnerItem[] = [
   {
     id: "1",
     name: "محمد العتيبي",
-    email: "m.otaibi@dammam.sa",
+    email: "m.otaibi@domain.sa",
     initials: "مع",
-    properties: "3 عقارات",
-    units: "42 وحدة",
-    date: "اليوم",
+    propertyCount: "3",
+    propertyLabel: "عقارات",
+    unitCount: "42",
+    unitLabel: "وحدة",
+    date: { primary: "اليوم" },
     status: "active",
   },
   {
     id: "2",
     name: "خالد الحربي",
-    email: "k.harbi@westinvest.com",
+    email: "k.harbi@investment.com",
     initials: "دخ",
-    properties: "1 عقار",
-    units: "12 وحدة",
-    date: "أمس",
+    propertyCount: "1",
+    propertyLabel: "عقار",
+    unitCount: "12",
+    unitLabel: "وحدة",
+    date: { primary: "أمس" },
     status: "active",
   },
   {
     id: "3",
     name: "سارة القحطاني",
     email: "sara.q@holding.sa",
-    initials: "س ق",
-    properties: "2 عقارات",
-    units: "28 وحدة",
-    date: "14 سبتمبر",
+    initials: "سق",
+    propertyCount: "2",
+    propertyLabel: "عقارات",
+    unitCount: "28",
+    unitLabel: "وحدة",
+    date: { primary: "14", secondary: "سبتمبر" },
     status: "pending",
   },
   {
@@ -48,102 +59,137 @@ const recentOwners: OwnerItem[] = [
     name: "عبدالله المطيري",
     email: "a.mutairi@properties.sa",
     initials: "عم",
-    properties: "5 عقارات",
-    units: "65 وحدة",
-    date: "13 سبتمبر",
+    propertyCount: "5",
+    propertyLabel: "عقارات",
+    unitCount: "64",
+    unitLabel: "وحدة",
+    date: { primary: "13", secondary: "سبتمبر" },
     status: "active",
   },
 ];
 
 export function DashboardRecentOwners() {
   return (
-    <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E0E4D8] shadow-xs flex flex-col justify-between">
-      {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-[#F0F2EB]">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#F4F6F0] border border-[#E0E4D8] flex items-center justify-center text-[#374732]">
-            <Users2 className="w-4 h-4" />
+    <div className="p-5 sm:p-6 rounded-3xl bg-white border border-[#E0E4D8]/60 shadow-xs flex flex-col justify-between h-full">
+      <div>
+        {/* Header */}
+        <div className="flex items-center justify-between pb-3">
+          <div className="flex items-center gap-2">
+            <Users2 className="w-5 h-5 text-[#172115]" />
+            <h2 className="text-base sm:text-lg font-bold text-[#172115]">
+              أحدث أصحاب العقارات
+            </h2>
           </div>
-          <div>
-            <h2 className="text-sm font-bold text-[#172115]">أحدث أصحاب العقارات</h2>
-            <p className="text-[11px] text-[#788574]">سجل الملاك المنضمين حديثاً للمنظومة</p>
-          </div>
+
+          <Link
+            href="/dashboard/owners"
+            className="font-medium text-[#2E3A2B] hover:text-[#172115] hover:underline flex items-center gap-1.5 text-xs sm:text-sm transition-colors"
+            dir="ltr"
+          >
+            <span className="text-sm leading-none">←</span>
+            <span>عرض جميع أصحاب العقارات</span>
+          </Link>
         </div>
 
-        <Link
-          href="/dashboard/owners"
-          className="text-xs font-semibold text-[#34432E] hover:underline flex items-center gap-1"
-        >
-          <span>عرض جميع أصحاب العقارات</span>
-          <ArrowLeft className="w-3.5 h-3.5" />
-        </Link>
-      </div>
-
-      {/* Table Container */}
-      <div className="overflow-x-auto pt-2">
-        <table className="w-full text-start text-xs">
-          <thead>
-            <tr className="border-b border-[#F0F2EB] text-[#788574] font-semibold text-[11px]">
-              <th className="py-3 px-2 text-start font-medium">المالك</th>
-              <th className="py-3 px-2 text-center font-medium">العقارات</th>
-              <th className="py-3 px-2 text-center font-medium">الوحدات</th>
-              <th className="py-3 px-2 text-center font-medium">تاريخ التسجيل</th>
-              <th className="py-3 px-2 text-end font-medium">الحالة</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#F6F8F2]">
-            {recentOwners.map((owner) => (
-              <tr key={owner.id} className="hover:bg-[#F9FAF7] transition-colors">
-                {/* Owner info */}
-                <td className="py-3 px-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-[#EAEFE5] text-[#2C3825] font-bold text-[11px] flex items-center justify-center shrink-0">
-                      {owner.initials}
-                    </div>
-                    <div className="space-y-0.5">
-                      <div className="font-bold text-[#172115] text-xs">
-                        {owner.name}
-                      </div>
-                      <div className="text-[10px] text-[#808E7C] font-mono" dir="ltr">
-                        {owner.email}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-
-                {/* Properties */}
-                <td className="py-3 px-2 text-center text-[#273323] font-medium">
-                  {owner.properties}
-                </td>
-
-                {/* Units */}
-                <td className="py-3 px-2 text-center text-[#273323] font-medium">
-                  {owner.units}
-                </td>
-
-                {/* Date */}
-                <td className="py-3 px-2 text-center text-[#7B8876]">
-                  {owner.date}
-                </td>
-
-                {/* Status */}
-                <td className="py-3 px-2 text-end">
-                  {owner.status === "active" ? (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8F2E3] text-[#2C6E33] text-[10px] font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2C6E33]" />
-                      <span>نشط</span>
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFFBEB] text-[#B45309] text-[10px] font-bold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
-                      <span>بانتظار المراجعة</span>
-                    </span>
-                  )}
-                </td>
+        {/* Table Container */}
+        <div className="overflow-x-auto pt-2">
+          <table className="w-full text-start text-xs border-collapse">
+            <thead>
+              <tr className="bg-[#F1F5EB] text-[#5C6958] text-xs font-medium">
+                <th className="py-2.5 px-4 text-start font-medium rounded-r-xl">المالك</th>
+                <th className="py-2.5 px-3 text-center font-medium">العقارات</th>
+                <th className="py-2.5 px-3 text-center font-medium">الوحدات</th>
+                <th className="py-2.5 px-3 text-center font-medium">تاريخ التسجيل</th>
+                <th className="py-2.5 px-4 text-center font-medium rounded-l-xl">الحالة</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {recentOwners.map((owner) => (
+                <tr
+                  key={owner.id}
+                  className="hover:bg-[#F9FAF7] transition-colors"
+                >
+                  {/* Owner Column */}
+                  <td className="py-3 px-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#DCE6D7] text-[#2C3825] font-bold text-xs flex items-center justify-center shrink-0 select-none">
+                        {owner.initials}
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="font-bold text-[#172115] text-sm">
+                          {owner.name}
+                        </div>
+                        <div className="text-xs text-[#7A8574]" dir="ltr">
+                          {owner.email}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Properties Column */}
+                  <td className="py-3 px-3 text-center">
+                    <div className="flex flex-col items-center justify-center">
+                      <span className="text-sm font-bold text-[#172115]">
+                        {owner.propertyCount}
+                      </span>
+                      <span className="text-xs text-[#7A8574]">
+                        {owner.propertyLabel}
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* Units Column */}
+                  <td className="py-3 px-3 text-center">
+                    <div className="flex flex-col items-center justify-center">
+                      <span className="text-sm font-bold text-[#172115]">
+                        {owner.unitCount}
+                      </span>
+                      <span className="text-xs text-[#7A8574]">
+                        {owner.unitLabel}
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* Date Column */}
+                  <td className="py-3 px-3 text-center">
+                    {owner.date.secondary ? (
+                      <div className="flex flex-col items-center justify-center">
+                        <span className="text-xs font-semibold text-[#172115]">
+                          {owner.date.primary}
+                        </span>
+                        <span className="text-xs text-[#7A8574]">
+                          {owner.date.secondary}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-[#5C6958] font-medium">
+                        {owner.date.primary}
+                      </span>
+                    )}
+                  </td>
+
+                  {/* Status Column */}
+                  <td className="py-3 px-4 text-center">
+                    {owner.status === "active" ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF0E6] text-[#2C6E33] text-xs font-semibold select-none">
+                        <span className="w-2 h-2 rounded-full bg-[#347A4B]" />
+                        <span>نشط</span>
+                      </span>
+                    ) : (
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#FFF6E7] text-[#D97706] text-xs font-semibold select-none leading-tight">
+                        <span className="w-2 h-2 rounded-full bg-[#E58B24] shrink-0" />
+                        <div className="flex flex-col text-start">
+                          <span>بانتظار</span>
+                          <span>المراجعة</span>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

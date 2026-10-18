@@ -23,7 +23,7 @@ const data = [
 
 export function DashboardGrowthChart() {
   return (
-    <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E0E4D8] shadow-xs flex flex-col justify-between h-full">
+    <div className="p-5 sm:p-6 rounded-3xl bg-white border border-[#E0E4D8]/60 shadow-xs flex flex-col justify-between h-full">
       {/* Chart Header */}
       <div className="flex items-center justify-between pb-4 border-b border-[#F0F2EB]">
         <div className="flex items-center gap-2">
