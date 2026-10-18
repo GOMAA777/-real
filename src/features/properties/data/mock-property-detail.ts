@@ -37,7 +37,7 @@ export const defaultPropertyDetail: PropertyDetail = {
     ],
   },
   locationInfo: {
-    mapImage: "/properties/riyadh_map.jpg",
+    mapImage: "/properties/riyadh_google_map.png",
     pinText: "عمارة النخيل - طريق أنس بن مالك، الرياض",
     nationalAddress: "طريق أنس بن مالك، حي الياسمين، الرياض 13326، المملكة العربية السعودية",
     gpsCoordinates: "24.8143° N, 46.6341° E",

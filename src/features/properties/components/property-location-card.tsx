@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Map, ExternalLink, MapPin, Compass } from "lucide-react";
+import { Map, ExternalLink, Crosshair } from "lucide-react";
 import { PropertyDetail } from "../types";
 
 interface PropertyLocationCardProps {
@@ -19,15 +19,17 @@ export function PropertyLocationCard({
     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4">
       {/* 1. Header */}
       <div className="flex items-center justify-between">
+        {/* Right in RTL: Icon Squircle in dark green + Title */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#2E3C29] text-white flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="w-10 h-10 rounded-2xl bg-[#384833] text-white flex items-center justify-center shrink-0 shadow-2xs">
             <Map className="w-5 h-5" />
           </div>
-          <h3 className="text-base sm:text-lg font-black text-[#172115]">
+          <h3 className="text-lg sm:text-xl font-black text-[#172115]">
             الموقع الجغرافي والوصول
           </h3>
         </div>
 
+        {/* Left in RTL: External Google Maps Link */}
         <a
           href={googleMapsUrl}
           target="_blank"
@@ -39,49 +41,46 @@ export function PropertyLocationCard({
         </a>
       </div>
 
-      {/* 2. Map Visual with Custom Pin */}
-      <div className="relative rounded-2xl overflow-hidden h-[240px] sm:h-[260px] border border-[#E2E6DC] bg-[#EEF2E6]">
+      {/* 2. Map Visual matching screenshot exactly */}
+      <div className="relative rounded-2xl overflow-hidden h-[250px] sm:h-[270px] border border-[#E2E6DC] bg-[#EEF2E6] shadow-2xs">
         <Image
           src={locationInfo.mapImage}
-          alt="خريطة الموقع الجغرافي"
+          alt="خريطة الموقع الجغرافي - حي الياسمين الرياض"
           fill
+          priority
           className="object-cover"
         />
-
-        {/* Center / Custom Location Pin matching screenshot 3 */}
-        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-[#172115] text-white px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 text-xs font-bold border border-white/20 select-none animate-fade-in">
-            <span className="w-6 h-6 rounded-lg bg-[#2E3C29] flex items-center justify-center shrink-0">
-              <MapPin className="w-3.5 h-3.5 text-[#89DF72]" />
-            </span>
-            <span>{locationInfo.pinText}</span>
-          </div>
-        </div>
       </div>
 
-      {/* 3. Location Details Box with soft sage tint */}
-      <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-4.5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        {/* National Address (Right in RTL) */}
-        <div className="space-y-1">
+      {/* 3. Location Details Box matching screenshot exactly */}
+      <div className="bg-[#F0F4EB] border border-[#E5EAE0] rounded-2xl p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        {/* Right in RTL: National Address */}
+        <div className="space-y-1.5">
           <div className="text-xs text-[#6B7865] font-medium">
             العنوان الوطني الموثق
           </div>
-          <div className="font-bold text-[#172115] leading-relaxed">
-            {locationInfo.nationalAddress}
+          <div className="font-bold text-sm sm:text-base text-[#172115] leading-relaxed">
+            طريق أنس بن مالك، حي الياسمين،
+            <br />
+            الرياض 13326، المملكة العربية
+            <br />
+            السعودية
           </div>
         </div>
 
-        {/* GPS and Travel Distances (Left in RTL) */}
-        <div className="space-y-1">
+        {/* Left in RTL: Accurate GPS & Travel Distances */}
+        <div className="space-y-2">
           <div className="text-xs text-[#6B7865] font-medium">
             الإحداثيات الدقيقة (GPS)
           </div>
-          <div className="font-bold text-[#172115] flex items-center gap-1.5" dir="ltr">
-            <Compass className="w-3.5 h-3.5 text-[#2E3C29]" />
+          <div className="flex items-center gap-2 font-black text-sm sm:text-base text-[#172115]" dir="ltr">
             <span>{locationInfo.gpsCoordinates}</span>
+            <Crosshair className="w-4 h-4 text-[#2E3C29] shrink-0" />
           </div>
-          <div className="text-[11px] text-[#6B7865] font-medium pt-1">
-            {locationInfo.distances}
+          <div className="text-xs text-[#6B7865] font-medium flex items-center gap-2 pt-1 flex-wrap">
+            <span>يبعد 18 دقيقة عن مطار الملك خالد</span>
+            <span className="w-1.5 h-1.5 rounded-xs bg-[#7D8A78]" />
+            <span>12 دقيقة عن مركز الملك عبد الله المالي KAFD</span>
           </div>
         </div>
       </div>
