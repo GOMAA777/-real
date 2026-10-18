@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -46,6 +45,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
     "عقار سكني حديث التشطيب مكون من 4 أدوار، مزود بمصعدين حديثين ومواقف سفلية مخصصة لكل وحدة، كاميرات مراقبة وحراسة أمنية متكاملة على مدار الساعة."
   );
   const [operationalStatus, setOperationalStatus] = useState<"active" | "inactive">("active");
+  const [mapType, setMapType] = useState<"m" | "k">("m"); // 'm' for roadmap, 'k' for satellite
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -357,12 +357,17 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
 
             {/* Visual Map matching design with Center Pin and Bottom Floating Info Bar */}
             <div className="relative rounded-3xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6] shadow-2xs w-full aspect-[696/340]">
-              <Image
-                src="/properties/add_property_map.png"
-                alt="خريطة الموقع الجغرافي للعقار"
-                fill
-                priority
-                className="object-cover"
+              {/* Live Interactive Google Map */}
+              <iframe
+                src={`https://maps.google.com/maps?q=24.7136,46.6753&hl=ar&z=15&t=${mapType}&output=embed`}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full border-0 absolute inset-0"
+                title="خريطة الموقع الجغرافي الحية للعقار"
               />
 
               {/* Center Pin & Property Badge */}
@@ -377,7 +382,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
               </div>
 
               {/* Floating Bottom Bar inside the map matching user screenshot */}
-              <div className="absolute bottom-3 inset-x-3 bg-white rounded-2xl p-3 sm:p-3.5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 border border-black/5 z-20">
+              <div className="absolute bottom-3 inset-x-3 bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 border border-black/5 z-20">
                 {/* Coordinates & Zone Info */}
                 <div className="flex items-center gap-2 text-xs flex-wrap text-right">
                   <Crosshair className="w-4 h-4 text-[#2E3C29] shrink-0" />
@@ -395,11 +400,12 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                   <button
                     type="button"
-                    onClick={() => toast.info("عرض القمر الصناعي")}
-                    className="border border-[#E2E6DC] bg-white hover:bg-[#F6F8F4] text-[#2C3825] px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                    onClick={() => setMapType((prev) => (prev === "m" ? "k" : "m"))}
+                    className="border border-[#E2E6DC] bg-white hover:bg-[#F6F8F4] text-[#2C3825] px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    title="تبديل وضع الخريطة (قمر صناعي / شوارع)"
                   >
                     <Layers className="w-3.5 h-3.5 text-[#7D8A78]" />
-                    <span>قمر صناعي</span>
+                    <span>{mapType === "m" ? "قمر صناعي" : "خريطة شوارع"}</span>
                   </button>
 
                   <button
