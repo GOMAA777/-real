@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Map, ExternalLink, Crosshair } from "lucide-react";
+import { Map, ExternalLink, Crosshair, MapPin } from "lucide-react";
 import { PropertyDetail } from "../types";
 
 interface PropertyLocationCardProps {
@@ -17,7 +17,7 @@ export function PropertyLocationCard({
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4">
-      {/* 1. Header matching target design exactly */}
+      {/* 1. Header matching target design */}
       <div className="flex items-center justify-between">
         {/* Right in RTL: Icon Squircle in dark green + Title */}
         <div className="flex items-center gap-3">
@@ -41,8 +41,8 @@ export function PropertyLocationCard({
         </a>
       </div>
 
-      {/* 2. Map Visual matching target design exactly */}
-      <div className="relative rounded-2xl overflow-hidden aspect-[696/271] w-full border border-[#E2E6DC] bg-[#EEF2E6] shadow-2xs">
+      {/* 2. Map Visual with floating property card inside with spacing */}
+      <div className="relative rounded-3xl overflow-hidden aspect-[696/280] w-full border border-[#E2E6DC] bg-[#EEF2E6] shadow-2xs">
         <Image
           src={locationInfo.mapImage}
           alt="خريطة الموقع الجغرافي - حي الياسمين الرياض"
@@ -51,6 +51,24 @@ export function PropertyLocationCard({
           sizes="(max-width: 1024px) 100vw, 696px"
           className="object-cover"
         />
+
+        {/* Floating Property Location Card inside the map with margins/spacing */}
+        <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white rounded-2xl sm:rounded-[22px] px-4 py-3 sm:px-5 sm:py-3.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-black/5 flex items-center gap-3.5 z-10 max-w-[90%] select-none">
+          {/* Text Details (Left in RTL, text aligned towards the icon) */}
+          <div className="text-right">
+            <h4 className="text-xs sm:text-sm md:text-base font-bold text-[#172115] leading-tight">
+              عمارة النخيل
+            </h4>
+            <p className="text-[11px] sm:text-xs text-[#7D8A78] mt-1 font-medium whitespace-nowrap">
+              طريق أنس بن مالك، الرياض
+            </p>
+          </div>
+
+          {/* Green MapPin Squircle Icon on the right in RTL */}
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#34432E] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <MapPin className="w-5 h-5 text-white" />
+          </div>
+        </div>
       </div>
 
       {/* 3. Location Details Box matching target design exactly */}
