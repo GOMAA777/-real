@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Building2, MapPin, MoreVertical, ChevronRight, ChevronLeft, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Property, PropertyStatus } from "../types";
 import { PropertiesFilters } from "./properties-filters";
+import { OwnerPropertiesFilterDrawer, PropertyFilterState } from "@/features/owners/components/owner-properties-filter-drawer";
 
 const initialProperties: Property[] = [
   {
@@ -124,6 +125,22 @@ export function PropertiesTable() {
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [showPageSizeMenu, setShowPageSizeMenu] = useState(false);
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [propertyFilters, setPropertyFilters] = useState<PropertyFilterState>({
+    city: "all",
+    status: "all",
+    unitsRange: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (propertyFilters.city !== "all") count++;
+    if (propertyFilters.status !== "all") count++;
+    if (propertyFilters.unitsRange !== "all") count++;
+    if (propertyFilters.sortBy !== "default") count++;
+    return count;
+  }, [propertyFilters]);
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter);
@@ -141,23 +158,58 @@ export function PropertiesTable() {
     setShowPageSizeMenu(false);
   };
 
-  const filteredProperties = initialProperties.filter((property) => {
-    if (filter === "active" && property.status !== "active") return false;
-    if (filter === "inactive" && property.status !== "inactive") return false;
-    if (filter === "archived" && property.status !== "archived") return false;
+  const filteredProperties = useMemo(() => {
+    const result = initialProperties.filter((property) => {
+      // Status tab filter
+      if (filter === "active" && property.status !== "active") return false;
+      if (filter === "inactive" && property.status !== "inactive") return false;
+      if (filter === "archived" && property.status !== "archived") return false;
 
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      return (
-        property.title.toLowerCase().includes(q) ||
-        property.ownerName.toLowerCase().includes(q) ||
-        property.city.toLowerCase().includes(q) ||
-        property.district.toLowerCase().includes(q) ||
-        property.code.toLowerCase().includes(q)
-      );
+      // Advanced drawer filters
+      if (propertyFilters.city !== "all" && !property.city.includes(propertyFilters.city)) {
+        return false;
+      }
+      if (propertyFilters.status === "available" && property.status !== "active") {
+        return false;
+      }
+      if (propertyFilters.status === "reserved" && property.status !== "inactive") {
+        return false;
+      }
+      if (propertyFilters.unitsRange === "less10" && property.totalUnits >= 10) {
+        return false;
+      }
+      if (propertyFilters.unitsRange === "10-20" && (property.totalUnits < 10 || property.totalUnits > 20)) {
+        return false;
+      }
+      if (propertyFilters.unitsRange === "more20" && property.totalUnits <= 20) {
+        return false;
+      }
+
+      // Search query
+      if (search.trim()) {
+        const q = search.toLowerCase();
+        return (
+          property.title.toLowerCase().includes(q) ||
+          property.ownerName.toLowerCase().includes(q) ||
+          property.city.toLowerCase().includes(q) ||
+          property.district.toLowerCase().includes(q) ||
+          property.code.toLowerCase().includes(q)
+        );
+      }
+      return true;
+    });
+
+    // Sorting
+    if (propertyFilters.sortBy === "units_desc") {
+      result.sort((a, b) => b.totalUnits - a.totalUnits);
+    } else if (propertyFilters.sortBy === "bookings_desc") {
+      result.sort((a, b) => b.activeBookings - a.activeBookings);
+    } else if (propertyFilters.sortBy === "name_asc") {
+      result.sort((a, b) => a.title.localeCompare(b.title, "ar"));
     }
-    return true;
-  });
+
+    return result;
+  }, [filter, search, propertyFilters]);
 
   const totalHeadlineCount = 184; // From design specification
   const totalFiltered = filteredProperties.length;
@@ -211,6 +263,8 @@ export function PropertiesTable() {
         searchQuery={search}
         onSearchChange={handleSearchChange}
         counts={counts}
+        onOpenAdvancedFilter={() => setIsFilterDrawerOpen(true)}
+        activeFiltersCount={activeFiltersCount}
       />
 
       {/* Table Card */}
@@ -442,6 +496,27 @@ export function PropertiesTable() {
           </div>
         </div>
       </div>
+
+      {/* Advanced Filter Drawer */}
+      <OwnerPropertiesFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={propertyFilters}
+        onApplyFilters={(newFilters) => {
+          setPropertyFilters(newFilters);
+          setCurrentPage(1);
+        }}
+        onResetFilters={() => {
+          setPropertyFilters({
+            city: "all",
+            status: "all",
+            unitsRange: "all",
+            sortBy: "default",
+          });
+          setCurrentPage(1);
+        }}
+        totalResultsCount={filteredProperties.length}
+      />
     </div>
   );
 }

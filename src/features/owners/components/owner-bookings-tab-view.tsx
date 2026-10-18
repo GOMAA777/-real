@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, MoreVertical, Key, Lock, ChevronRight, ChevronLeft } from "lucide-react";
+import { Search, MoreVertical, Key, Lock, ChevronRight, ChevronLeft, SlidersHorizontal } from "lucide-react";
 import { toast } from "sonner";
 import { OwnerBookingItem, OwnerBookingsKPIData } from "../types";
 import {
@@ -9,6 +9,7 @@ import {
   defaultOwnerBookingsKPIs,
 } from "../data/mock-owner-bookings";
 import { OwnerBookingsKPIs } from "./owner-bookings-kpis";
+import { OwnerBookingsFilterDrawer, BookingFilterState } from "./owner-bookings-filter-drawer";
 
 interface OwnerBookingsTabViewProps {
   bookings?: OwnerBookingItem[];
@@ -24,11 +25,27 @@ export function OwnerBookingsTabView({
     "all" | "active" | "upcoming" | "completed" | "cancelled"
   >("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [bookingFilters, setBookingFilters] = useState<BookingFilterState>({
+    source: "all",
+    accessStatus: "all",
+    propertyName: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (bookingFilters.source !== "all") count++;
+    if (bookingFilters.accessStatus !== "all") count++;
+    if (bookingFilters.propertyName !== "all") count++;
+    if (bookingFilters.sortBy !== "default") count++;
+    return count;
+  }, [bookingFilters]);
 
   // Filter Bookings
   const filteredBookings = useMemo(() => {
-    return bookings.filter((item) => {
-      // Filter status
+    const result = bookings.filter((item) => {
+      // Filter status tab
       if (filterStatus === "active") {
         if (item.status !== "active" && item.status !== "checkout_today") return false;
       } else if (filterStatus === "upcoming") {
@@ -37,6 +54,17 @@ export function OwnerBookingsTabView({
         if (item.status !== "completed") return false;
       } else if (filterStatus === "cancelled") {
         if (item.status !== "cancelled") return false;
+      }
+
+      // Advanced Filters
+      if (bookingFilters.source !== "all" && item.source !== bookingFilters.source) {
+        return false;
+      }
+      if (bookingFilters.accessStatus !== "all" && item.accessStatus !== bookingFilters.accessStatus) {
+        return false;
+      }
+      if (bookingFilters.propertyName !== "all" && !item.propertyName.includes(bookingFilters.propertyName)) {
+        return false;
       }
 
       // Search query
@@ -60,7 +88,17 @@ export function OwnerBookingsTabView({
 
       return true;
     });
-  }, [bookings, filterStatus, searchQuery]);
+
+    if (bookingFilters.sortBy === "checkin_desc") {
+      result.sort((a, b) => b.checkInDate.localeCompare(a.checkInDate, "ar"));
+    } else if (bookingFilters.sortBy === "checkout_asc") {
+      result.sort((a, b) => a.checkOutDate.localeCompare(b.checkOutDate, "ar"));
+    } else if (bookingFilters.sortBy === "code_asc") {
+      result.sort((a, b) => a.bookingCode.localeCompare(b.bookingCode));
+    }
+
+    return result;
+  }, [bookings, filterStatus, searchQuery, bookingFilters]);
 
   return (
     <div className="space-y-5">
@@ -83,6 +121,30 @@ export function OwnerBookingsTabView({
 
         {/* Filter Pills (Left in RTL) */}
         <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
+          {/* Advanced Filter Button */}
+          <button
+            type="button"
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className={`px-3.5 py-1.5 text-xs rounded-xl font-bold border flex items-center gap-1.5 transition-all cursor-pointer select-none ${
+              activeFiltersCount > 0
+                ? "bg-[#2E3C29] text-white border-[#2E3C29] shadow-2xs"
+                : "bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#2C3825] border-[#E2E6DC]"
+            }`}
+            title="تصفية الحجوزات"
+          >
+            <SlidersHorizontal
+              className={`w-3.5 h-3.5 ${
+                activeFiltersCount > 0 ? "text-white" : "text-[#2C3825]"
+              }`}
+            />
+            <span>فلتر</span>
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#2E3C29] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+
           <button
             type="button"
             onClick={() => setFilterStatus("all")}
@@ -411,6 +473,27 @@ export function OwnerBookingsTabView({
           </div>
         </div>
       </div>
+
+      {/* Booking Filter Drawer */}
+      <OwnerBookingsFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={bookingFilters}
+        onApplyFilters={(newFilters) => {
+          setBookingFilters(newFilters);
+          setCurrentPage(1);
+        }}
+        onResetFilters={() => {
+          setBookingFilters({
+            source: "all",
+            accessStatus: "all",
+            propertyName: "all",
+            sortBy: "default",
+          });
+          setCurrentPage(1);
+        }}
+        totalResultsCount={filteredBookings.length}
+      />
     </div>
   );
 }

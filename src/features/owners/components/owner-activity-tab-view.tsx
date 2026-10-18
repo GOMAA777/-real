@@ -19,8 +19,14 @@ import {
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import {
+  OwnerActivityFilterDrawer,
+  ActivityFilterState,
+} from "./owner-activity-filter-drawer";
 
 export interface AuditEvent {
   id: string;
@@ -327,17 +333,45 @@ export function OwnerActivityTabView() {
   const [events] = useState<AuditEvent[]>(defaultAuditEvents);
   const [selectedEventId, setSelectedEventId] = useState<string>("aud-1");
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [activityFilters, setActivityFilters] = useState<ActivityFilterState>({
+    category: "all",
+    actor: "all",
+    timeRange: "all",
+    sortBy: "latest",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (activityFilters.category !== "all") count++;
+    if (activityFilters.actor !== "all") count++;
+    if (activityFilters.timeRange !== "all") count++;
+    if (activityFilters.sortBy !== "latest") count++;
+    return count;
+  }, [activityFilters]);
 
   const selectedEvent = useMemo(() => {
     return events.find((e) => e.id === selectedEventId) || events[0];
   }, [events, selectedEventId]);
 
   const filteredEvents = useMemo(() => {
-    return events.filter((evt) => {
-      if (categoryFilter !== "all" && evt.actionCategory !== categoryFilter) {
+    const result = events.filter((evt) => {
+      // Category filter
+      if (activityFilters.category !== "all" && evt.actionCategory !== activityFilters.category) {
         return false;
       }
+
+      // Actor filter
+      if (activityFilters.actor !== "all" && !evt.actorName.includes(activityFilters.actor)) {
+        return false;
+      }
+
+      // Time range filter
+      if (activityFilters.timeRange === "today" && !evt.date.includes("16 سبتمبر")) {
+        return false;
+      }
+
+      // Search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchesTitle = evt.actionTitle.toLowerCase().includes(q);
@@ -350,7 +384,13 @@ export function OwnerActivityTabView() {
       }
       return true;
     });
-  }, [events, categoryFilter, searchQuery]);
+
+    if (activityFilters.sortBy === "oldest") {
+      return [...result].reverse();
+    }
+
+    return result;
+  }, [events, activityFilters, searchQuery]);
 
   return (
     <div className="space-y-6">
@@ -445,37 +485,30 @@ export function OwnerActivityTabView() {
               <Search className="w-4 h-4 text-[#7D8A78] absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
 
-            {/* Filter 1: نوع الإجراء */}
+            {/* Unified Filter Button (F) */}
             <button
               type="button"
-              onClick={() => {
-                setCategoryFilter((prev) => (prev === "all" ? "إدارة الأصول" : "all"));
-                toast.info("تم تطبيق فلتر نوع الإجراء");
-              }}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
+              onClick={() => setIsFilterDrawerOpen(true)}
+              className={cn(
+                "h-9 px-3.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer select-none",
+                activeFiltersCount > 0
+                  ? "bg-[#2E3C29] text-white border-[#2E3C29] shadow-2xs"
+                  : "bg-white hover:bg-[#F6F8F4] text-[#2C3825] border-[#E2E6DC] shadow-2xs"
+              )}
+              title="تصفية سجل النشاط"
             >
-              <span>جميع الإجراءات (الكل)</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
-
-            {/* Filter 2: المنفذ */}
-            <button
-              type="button"
-              onClick={() => toast.info("فلتر المنفذ: الكل")}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-            >
-              <span>المنفذ: الكل</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
-
-            {/* Filter 3: التاريخ */}
-            <button
-              type="button"
-              onClick={() => toast.info("النطاق الزمني: آخر 30 يوماً")}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-            >
-              <span>آخر 30 يوماً</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
+              <SlidersHorizontal
+                className={cn(
+                  "w-3.5 h-3.5",
+                  activeFiltersCount > 0 ? "text-white" : "text-[#2C3825]"
+                )}
+              />
+              <span>فلتر</span>
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 rounded-full bg-white text-[#2E3C29] text-[10px] font-bold flex items-center justify-center">
+                  {activeFiltersCount}
+                </span>
+              )}
             </button>
 
             {/* Refresh Button */}
@@ -733,6 +766,25 @@ export function OwnerActivityTabView() {
           </div>
         </div>
       </div>
+
+      {/* Activity Filter Drawer */}
+      <OwnerActivityFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={activityFilters}
+        onApplyFilters={(newFilters) => {
+          setActivityFilters(newFilters);
+        }}
+        onResetFilters={() => {
+          setActivityFilters({
+            category: "all",
+            actor: "all",
+            timeRange: "all",
+            sortBy: "latest",
+          });
+        }}
+        totalResultsCount={filteredEvents.length}
+      />
     </div>
   );
 }
