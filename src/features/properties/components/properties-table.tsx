@@ -2,11 +2,13 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Building2, MapPin, MoreVertical, ChevronRight, ChevronLeft, ChevronDown } from "lucide-react";
+import { Building2, MapPin, MoreVertical, ChevronRight, ChevronLeft, ChevronDown, Eye, SlidersHorizontal, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Property, PropertyStatus } from "../types";
 import { PropertiesFilters } from "./properties-filters";
 import { OwnerPropertiesFilterDrawer, PropertyFilterState } from "@/features/owners/components/owner-properties-filter-drawer";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
 
 const initialProperties: Property[] = [
   {
@@ -392,13 +394,34 @@ export function PropertiesTable() {
 
                     {/* 8. Actions */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <button
-                        type="button"
-                        aria-label="خيارات إضافية"
-                        className="w-8 h-8 rounded-lg hover:bg-[#EEF2E6] text-[#7D8A78] hover:text-[#172115] inline-flex items-center justify-center transition-colors cursor-pointer"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <ActionDropdown
+                        items={[
+                          {
+                            label: "تفاصيل العقار",
+                            icon: Eye,
+                            variant: "active",
+                            href: `/dashboard/properties/${property.id}`,
+                          },
+                          {
+                            label: "تعديل البيانات",
+                            icon: SlidersHorizontal,
+                            onClick: () =>
+                              toast.info(`تعديل بيانات: ${property.title}`),
+                          },
+                          {
+                            label: "إدارة الوحدات",
+                            icon: Building2,
+                            href: `/dashboard/properties/${property.id}`,
+                          },
+                          {
+                            label: "أرشفة العقار",
+                            icon: Trash2,
+                            variant: "destructive",
+                            onClick: () =>
+                              toast.error(`تم أرشفة العقار: ${property.title}`),
+                          },
+                        ]}
+                      />
                     </td>
                   </tr>
                 ))

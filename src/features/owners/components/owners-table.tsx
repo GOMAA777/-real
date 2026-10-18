@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MoreVertical, ChevronRight, ChevronLeft } from "lucide-react";
+import { MoreVertical, ChevronRight, ChevronLeft, Eye, SlidersHorizontal, Building2, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Owner, OwnerStatus } from "../types";
 import { OwnersFilters } from "./owners-filters";
@@ -11,6 +12,7 @@ import {
   OwnersAdvancedFilterDrawer,
   type AdvancedFilterState,
 } from "./owners-advanced-filter-drawer";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
 
 const initialOwners: Owner[] = [
   {
@@ -958,14 +960,34 @@ export function OwnersTable() {
 
                     {/* Actions Menu */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <button
-                        type="button"
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label="خيارات إضافية"
-                        className="w-8 h-8 rounded-lg hover:bg-[#EEF2E6] text-[#7D8A78] hover:text-[#172115] inline-flex items-center justify-center transition-colors cursor-pointer"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <ActionDropdown
+                        items={[
+                          {
+                            label: "عرض ملف المالك",
+                            icon: Eye,
+                            variant: "active",
+                            href: `/dashboard/owners/${owner.id}`,
+                          },
+                          {
+                            label: "تعديل بيانات المالك",
+                            icon: SlidersHorizontal,
+                            onClick: () =>
+                              toast.info(`تعديل بيانات المالك: ${owner.name}`),
+                          },
+                          {
+                            label: "سجل العقارات والمحفظة",
+                            icon: Building2,
+                            href: `/dashboard/owners/${owner.id}`,
+                          },
+                          {
+                            label: "تعطيل حساب المالك",
+                            icon: Trash2,
+                            variant: "destructive",
+                            onClick: () =>
+                              toast.error(`تم تعطيل حساب: ${owner.name}`),
+                          },
+                        ]}
+                      />
                     </td>
                   </tr>
                 ))

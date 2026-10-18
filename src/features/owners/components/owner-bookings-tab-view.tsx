@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, MoreVertical, Key, Lock, ChevronRight, ChevronLeft, SlidersHorizontal } from "lucide-react";
+import { Search, MoreVertical, Key, Lock, ChevronRight, ChevronLeft, SlidersHorizontal, Eye, CalendarCheck, CalendarSync, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { OwnerBookingItem, OwnerBookingsKPIData } from "../types";
 import {
   defaultOwnerBookings,
@@ -392,16 +393,42 @@ export function OwnerBookingsTabView({
 
                     {/* 9. الإجراءات (Admin) */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          toast.info(`خيارات الحجز: ${booking.bookingCode} - ${booking.guestName}`)
-                        }
-                        className="text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4] p-1.5 rounded-lg transition-colors cursor-pointer"
-                        aria-label="إجراءات الحجز"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <ActionDropdown
+                        items={[
+                          {
+                            label: "تفاصيل الحجز",
+                            icon: Eye,
+                            variant: "active",
+                            onClick: () =>
+                              toast.info(
+                                `عرض تفاصيل الحجز: ${booking.bookingCode} - ${booking.guestName}`
+                              ),
+                          },
+                          {
+                            label: "تعديل الحجز",
+                            icon: CalendarCheck,
+                            onClick: () =>
+                              toast.info(`تعديل الحجز: ${booking.bookingCode}`),
+                          },
+                          {
+                            label: "تمديد الاقامة",
+                            icon: CalendarSync,
+                            onClick: () =>
+                              toast.info(
+                                `طلب تمديد إقامة النزيل: ${booking.guestName}`
+                              ),
+                          },
+                          {
+                            label: "إلغاء الحجز",
+                            icon: Trash2,
+                            variant: "destructive",
+                            onClick: () =>
+                              toast.error(
+                                `تم إلغاء الحجز رقم: ${booking.bookingCode}`
+                              ),
+                          },
+                        ]}
+                      />
                     </td>
                   </tr>
                 ))

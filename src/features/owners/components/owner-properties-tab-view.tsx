@@ -13,6 +13,8 @@ import {
   ChevronLeft,
   Building2,
   SlidersHorizontal,
+  Eye,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -20,6 +22,7 @@ import {
   OwnerPropertiesFilterDrawer,
   PropertyFilterState,
 } from "./owner-properties-filter-drawer";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
 
 export interface OwnerPropertyItem {
   id: string;
@@ -393,14 +396,35 @@ export function OwnerPropertiesTabView({
                         >
                           عرض العقار
                         </Link>
-                        <button
-                          type="button"
-                          onClick={() => toast.info(`إجراءات ${property.name}`)}
-                          className="text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4] p-1.5 rounded-lg transition-colors cursor-pointer"
-                          aria-label="خيارات إضافية"
-                        >
-                          <MoreHorizontal className="w-4 h-4" />
-                        </button>
+                        <ActionDropdown
+                          triggerIcon="horizontal"
+                          items={[
+                            {
+                              label: "تفاصيل العقار",
+                              icon: Eye,
+                              variant: "active",
+                              href: `/dashboard/properties/${property.id}`,
+                            },
+                            {
+                              label: "تعديل بيانات العقار",
+                              icon: SlidersHorizontal,
+                              onClick: () =>
+                                toast.info(`تعديل بيانات: ${property.name}`),
+                            },
+                            {
+                              label: "عقود ووحدات العقار",
+                              icon: Building2,
+                              href: `/dashboard/properties/${property.id}`,
+                            },
+                            {
+                              label: "تعطيل العقار",
+                              icon: Trash2,
+                              variant: "destructive",
+                              onClick: () =>
+                                toast.error(`تم تعطيل العقار: ${property.name}`),
+                            },
+                          ]}
+                        />
                       </div>
                     </td>
                   </tr>
