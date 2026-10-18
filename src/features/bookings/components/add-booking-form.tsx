@@ -60,32 +60,30 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
 
   return (
     <div className="space-y-6 pb-28" dir="rtl">
-      {/* 1. Page Header Card */}
-      <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+      {/* 1. Page Header Card (Matching exact user crop in media_1792324248844.png) */}
+      <div className="bg-white rounded-[28px] py-7 px-8 sm:px-10 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-2xs">
         {/* Right side: Title & Subtitle */}
-        <div>
-          <h1 className="text-2xl font-bold text-[#172115] tracking-tight">
+        <div className="space-y-1.5">
+          <h1 className="text-2xl sm:text-3xl font-black text-[#172115] tracking-tight">
             إضافة حجز
           </h1>
-          <p className="text-sm text-[#7D8A78] mt-1 font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#7D8A78] font-normal leading-relaxed">
             إدراج عقار جديد وتعيينه لمالك مسجل في المنصة وربط التراخيص والبيانات الجغرافية بدقة.
           </p>
         </div>
 
-        {/* Left side: Auto Transaction ID Badge */}
-        <div className="flex items-center gap-2">
-          <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-xl px-3.5 py-2 text-xs flex items-center gap-2 text-[#172115] shadow-2xs">
-            <span className="text-[#7D8A78]">رقم المعاملة التلقائي:</span>
-            <span className="font-bold font-mono">BK-10483</span>
-            <button
-              type="button"
-              onClick={copyBookingCode}
-              title="نسخ رقم المعاملة"
-              className="text-[#7D8A78] hover:text-[#172115] transition-colors cursor-pointer ms-1"
-            >
-              <Copy className="w-3.5 h-3.5" />
-            </button>
-          </div>
+        {/* Left side: Soft-tinted Sage Pill Badge (No border, rounded-2xl, matching exact design) */}
+        <div className="bg-[#EAF0E6] px-5 py-3 rounded-2xl flex items-center gap-3 text-xs self-start md:self-auto shrink-0 select-none">
+          <span className="text-[#556350] font-medium">رقم المعاملة التلقائي:</span>
+          <span className="font-bold text-sm text-[#172115] font-mono">BK-10483</span>
+          <button
+            type="button"
+            onClick={copyBookingCode}
+            title="نسخ رقم المعاملة"
+            className="text-[#556350] hover:text-[#172115] transition-colors cursor-pointer ms-1 p-0.5"
+          >
+            <Copy className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -94,10 +92,10 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
         {/* RIGHT COLUMN (8 cols): Main Form Sections */}
         <div className="lg:col-span-8 space-y-6 order-1">
           {/* Section 1: بيانات تخصيص الأصل العقاري */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
+          <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#F6F8F4] border border-[#EEF2E6] flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-[#EAF0E6] flex items-center justify-center shrink-0">
                 <Building2 className="w-5 h-5 text-[#2E3C29]" />
               </div>
               <div>
@@ -122,7 +120,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
               </div>
 
               {/* Owner Input / Selector */}
-              <div className="bg-[#F6F8F4] border border-[#CCD5C5] rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-[#172115]">
+              <div className="bg-[#F4F6F0] rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-[#172115]">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-[#7D8A78]" />
                   <span className="font-bold">محمد بن سعود العتيبي</span>
@@ -130,16 +128,16 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 <button
                   type="button"
                   onClick={() => toast.info("تغيير المالك")}
-                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-semibold text-[#172115] px-3 py-1 rounded-lg transition-colors cursor-pointer"
+                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-semibold text-[#172115] px-3 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
                 >
                   تغيير
                 </button>
               </div>
 
               {/* Selected Owner Detail Box */}
-              <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="bg-[#F4F6F0] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#dce6d5] text-[#2E3C29] font-bold text-xs flex items-center justify-center shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-[#DCE6D5] text-[#2E3C29] font-bold text-xs flex items-center justify-center shrink-0">
                     ع.م
                   </div>
                   <div>
@@ -147,7 +145,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                       <span className="font-bold text-sm text-[#172115]">
                         محمد بن سعود العتيبي
                       </span>
-                      <span className="bg-[#EEF2E6] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded-md">
+                      <span className="bg-[#DCE6D5] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded-full">
                         مالك معتمد
                       </span>
                     </div>
@@ -159,7 +157,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
 
                 <Link
                   href="/dashboard/owners/1"
-                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-bold text-[#172115] px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors shadow-2xs self-start sm:self-auto"
+                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-bold text-[#172115] px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors shadow-2xs self-start sm:self-auto"
                 >
                   <span>عرض ملف المالك</span>
                   <span className="text-xs">↗</span>
@@ -174,9 +172,9 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 <label className="block text-xs font-bold text-[#172115]">
                   العقار التابع <span className="text-red-500">*</span>
                 </label>
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] hover:border-[#CCD5C5] rounded-2xl p-3 flex items-center justify-between gap-2 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-[#EEF2E6] text-[#2E3C29] flex items-center justify-center shrink-0">
+                <div className="bg-[#F4F6F0] hover:bg-[#EEF2E6] rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-[#DCE6D5] text-[#2E3C29] flex items-center justify-center shrink-0">
                       <Building2 className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
@@ -197,9 +195,9 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 <label className="block text-xs font-bold text-[#172115]">
                   الوحدة المستهدفة <span className="text-red-500">*</span>
                 </label>
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] hover:border-[#CCD5C5] rounded-2xl p-3 flex items-center justify-between gap-2 transition-colors cursor-pointer">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-[#EEF2E6] text-[#2E3C29] flex items-center justify-center shrink-0">
+                <div className="bg-[#F4F6F0] hover:bg-[#EEF2E6] rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-xl bg-[#DCE6D5] text-[#2E3C29] flex items-center justify-center shrink-0">
                       <DoorOpen className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
@@ -207,7 +205,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                         <span className="font-bold text-xs text-[#172115]">
                           وحدة 204 - جناح تنفيذي
                         </span>
-                        <span className="bg-[#dce6d5] text-[#2E3C29] text-[9px] font-bold px-1.5 py-0.5 rounded">
+                        <span className="bg-[#DCE6D5] text-[#2E3C29] text-[9px] font-bold px-1.5 py-0.5 rounded">
                           الدور الثاني
                         </span>
                       </div>
@@ -253,11 +251,11 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           </div>
 
           {/* Section 2: بيانات الإقامة والمواعيد */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
+          <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#F6F8F4] border border-[#EEF2E6] flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#EAF0E6] flex items-center justify-center shrink-0">
                   <Calendar className="w-5 h-5 text-[#2E3C29]" />
                 </div>
                 <div>
@@ -270,7 +268,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
               </div>
 
-              <span className="bg-[#EEF2E6] text-[#2E3C29] text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 self-start sm:self-auto">
+              <span className="bg-[#DCE6D5] text-[#2E3C29] text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 self-start sm:self-auto">
                 <span>مدة الإقامة: 4 ليال</span>
               </span>
             </div>
@@ -278,13 +276,13 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             {/* Check-in & Check-out Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Check-in Card */}
-              <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-4 space-y-3">
+              <div className="bg-[#F4F6F0] rounded-2xl p-4 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#172115]">
                   <Plane className="w-4 h-4 text-[#2E3C29] rotate-45" />
                   <span>تاريخ ووقت الوصول (Check-in)</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-white border border-[#E2E6DC] rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                  <div className="bg-white rounded-xl px-3 py-2 flex items-center justify-between text-xs shadow-2xs">
                     <div>
                       <div className="text-[10px] text-[#7D8A78]">التاريخ</div>
                       <div className="font-bold text-[#172115] mt-0.5">
@@ -293,7 +291,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     </div>
                     <Calendar className="w-3.5 h-3.5 text-[#7D8A78]" />
                   </div>
-                  <div className="bg-white border border-[#E2E6DC] rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                  <div className="bg-white rounded-xl px-3 py-2 flex items-center justify-between text-xs shadow-2xs">
                     <div>
                       <div className="text-[10px] text-[#7D8A78]">وقت الدخول</div>
                       <div className="font-bold text-[#172115] mt-0.5">
@@ -306,13 +304,13 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
               </div>
 
               {/* Check-out Card */}
-              <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-4 space-y-3">
+              <div className="bg-[#F4F6F0] rounded-2xl p-4 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-[#172115]">
                   <Plane className="w-4 h-4 text-[#2E3C29] -rotate-45" />
                   <span>تاريخ ووقت المغادرة (Check-out)</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-white border border-[#E2E6DC] rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                  <div className="bg-white rounded-xl px-3 py-2 flex items-center justify-between text-xs shadow-2xs">
                     <div>
                       <div className="text-[10px] text-[#7D8A78]">التاريخ</div>
                       <div className="font-bold text-[#172115] mt-0.5">
@@ -321,7 +319,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     </div>
                     <Calendar className="w-3.5 h-3.5 text-[#7D8A78]" />
                   </div>
-                  <div className="bg-white border border-[#E2E6DC] rounded-xl px-3 py-2 flex items-center justify-between text-xs">
+                  <div className="bg-white rounded-xl px-3 py-2 flex items-center justify-between text-xs shadow-2xs">
                     <div>
                       <div className="text-[10px] text-[#7D8A78]">وقت الخروج</div>
                       <div className="font-bold text-[#172115] mt-0.5">
@@ -342,7 +340,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {/* 1. البالغون */}
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3 flex items-center justify-between">
+                <div className="bg-[#F4F6F0] rounded-2xl p-3.5 flex items-center justify-between">
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-[#172115]">البالغون</div>
                     <div className="text-[10px] text-[#7D8A78]">عمر 13 سنة وأكثر</div>
@@ -351,7 +349,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setAdults((prev) => Math.max(1, prev - 1))}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
@@ -361,7 +359,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setAdults((prev) => prev + 1)}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -369,7 +367,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
 
                 {/* 2. الأطفال */}
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3 flex items-center justify-between">
+                <div className="bg-[#F4F6F0] rounded-2xl p-3.5 flex items-center justify-between">
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-[#172115]">الأطفال</div>
                     <div className="text-[10px] text-[#7D8A78]">من عمر 2 إلى 12 سنة</div>
@@ -378,7 +376,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setChildren((prev) => Math.max(0, prev - 1))}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
@@ -388,7 +386,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setChildren((prev) => prev + 1)}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -396,7 +394,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
 
                 {/* 3. الرضع */}
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3 flex items-center justify-between">
+                <div className="bg-[#F4F6F0] rounded-2xl p-3.5 flex items-center justify-between">
                   <div className="min-w-0">
                     <div className="font-bold text-xs text-[#172115]">الرضع</div>
                     <div className="text-[10px] text-[#7D8A78]">أقل من عامين</div>
@@ -405,7 +403,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setInfants((prev) => Math.max(0, prev - 1))}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
@@ -415,7 +413,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     <button
                       type="button"
                       onClick={() => setInfants((prev) => prev + 1)}
-                      className="w-7 h-7 rounded-lg bg-white border border-[#E2E6DC] flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none"
+                      className="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[#172115] hover:bg-[#EEF2E6] transition-colors cursor-pointer select-none shadow-2xs"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -426,11 +424,11 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           </div>
 
           {/* Section 3: بيانات العميل (النزيل الرئيسي) */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
+          <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#F6F8F4] border border-[#EEF2E6] flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#EAF0E6] flex items-center justify-center shrink-0">
                   <Users className="w-5 h-5 text-[#2E3C29]" />
                 </div>
                 <div>
@@ -443,7 +441,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
               </div>
 
-              <span className="bg-[#EEF2E6] text-[#2E7D32] text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 self-start sm:self-auto">
+              <span className="bg-[#DCE6D5] text-[#2E7D32] text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5 self-start sm:self-auto">
                 <span>إرسال آلي عبر WhatsApp</span>
               </span>
             </div>
@@ -460,7 +458,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     type="text"
                     value={guestName}
                     onChange={(e) => setGuestName(e.target.value)}
-                    className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2.5 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all"
+                    className="w-full bg-[#F4F6F0] rounded-xl px-4 py-3 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all"
                   />
                   <User className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
@@ -477,7 +475,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                     value={guestPhone}
                     onChange={(e) => setGuestPhone(e.target.value)}
                     dir="ltr"
-                    className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2.5 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all text-right"
+                    className="w-full bg-[#F4F6F0] rounded-xl px-4 py-3 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all text-right"
                   />
                   <Phone className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
@@ -495,27 +493,27 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                   value={guestEmail}
                   onChange={(e) => setGuestEmail(e.target.value)}
                   dir="ltr"
-                  className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2.5 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all text-right"
+                  className="w-full bg-[#F4F6F0] rounded-xl px-4 py-3 pe-10 text-xs font-medium text-[#172115] focus:outline-none transition-all text-right"
                 />
                 <Mail className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
 
             {/* Smart Lock Generation Note */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-2xl p-3.5 flex items-start gap-2.5">
-              <Key className="w-4 h-4 text-[#7D8A78] shrink-0 mt-0.5" />
-              <p className="text-xs text-[#7D8A78] leading-relaxed">
+            <div className="bg-[#F4F6F0] rounded-2xl p-4 flex items-center gap-3 text-xs text-[#556350] leading-relaxed">
+              <Key className="w-4 h-4 text-[#556350] shrink-0" />
+              <p>
                 سيتم توليد رمز القفل الذكي للباب الخارجي للوحدة 204 تلقائياً ومشاركته مع النزيل قبل موعد الوصول بـ 3 ساعات عبر رسالة نصية وقناة الواتساب الرسمية الموثقة.
               </p>
             </div>
           </div>
 
           {/* Section 4: ملاحظات وتشغيل داخلي */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
+          <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#F6F8F4] border border-[#EEF2E6] flex items-center justify-center shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-[#EAF0E6] flex items-center justify-center shrink-0">
                   <StickyNote className="w-5 h-5 text-[#2E3C29]" />
                 </div>
                 <div>
@@ -538,7 +536,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
               rows={3}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-2xl p-4 text-xs text-[#172115] focus:outline-none leading-relaxed transition-all resize-none"
+              className="w-full bg-[#F4F6F0] rounded-2xl p-4 text-xs text-[#172115] focus:outline-none leading-relaxed transition-all resize-none"
             />
           </div>
         </div>
@@ -546,16 +544,16 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
         {/* LEFT COLUMN (4 cols): Summary, Unit Preview & System Actions */}
         <div className="lg:col-span-4 space-y-6 order-2">
           {/* Card 1: الدفع والرسوم */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
+          <div className="bg-white rounded-[28px] p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-[#EEF2E6] pb-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#F6F8F4] flex items-center justify-center text-[#2E3C29]">
+                <div className="w-8 h-8 rounded-lg bg-[#EAF0E6] flex items-center justify-center text-[#2E3C29]">
                   <Receipt className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-sm text-[#172115]">الدفع والرسوم</h3>
               </div>
-              <span className="bg-[#EEF2E6] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded">
+              <span className="bg-[#DCE6D5] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded">
                 ريال سعودي
               </span>
             </div>
@@ -577,7 +575,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             </div>
 
             {/* Total Highlight Box */}
-            <div className="bg-[#F6F8F4] rounded-2xl p-4 flex items-center justify-between border border-[#EEF2E6]">
+            <div className="bg-[#F4F6F0] rounded-2xl p-4 flex items-center justify-between">
               <div>
                 <div className="font-bold text-xs text-[#172115]">
                   المبلغ الإجمالي المستحق
@@ -604,7 +602,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 <span className="font-bold text-[#2E7D32]">1,700 ر.س</span>
               </div>
 
-              <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-xl p-3 flex items-center justify-between text-xs">
+              <div className="bg-[#F4F6F0] rounded-xl p-3 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#7D8A78]" />
                   <span className="font-semibold text-[#172115]">
@@ -616,7 +614,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             </div>
 
             {/* Escrow Guarantee Note */}
-            <div className="bg-[#F6F8F4] border border-[#EEF2E6] rounded-xl p-3 flex items-center gap-2.5 text-[11px] text-[#7D8A78]">
+            <div className="bg-[#F4F6F0] rounded-xl p-3 flex items-center gap-2.5 text-[11px] text-[#7D8A78]">
               <Lock className="w-4 h-4 text-[#7D8A78] shrink-0" />
               <span>
                 طريقة الاستلام: حساب وسيط المنصة لضمان حقوق المالك والمستأجر.
@@ -625,7 +623,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           </div>
 
           {/* Card 2: معاينة الوحدة */}
-          <div className="bg-white rounded-3xl p-5 border border-[#E2E6DC] shadow-2xs space-y-4">
+          <div className="bg-white rounded-[28px] p-5 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Image Preview with Overlay */}
             <div className="relative h-44 rounded-2xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6]">
               <Image
@@ -670,7 +668,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           </div>
 
           {/* Card 3: إجراءات النظام الفورية بعد الحفظ */}
-          <div className="bg-white rounded-3xl p-5 border border-[#E2E6DC] shadow-2xs space-y-3">
+          <div className="bg-white rounded-[28px] p-5 border border-[#E2E6DC] shadow-2xs space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[#172115]">
               <CheckCircle2 className="w-4 h-4 text-[#2E3C29]" />
               <span>إجراءات النظام الفورية بعد الحفظ</span>
@@ -723,7 +721,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             <button
               type="button"
               onClick={() => toast.info("تم حفظ مسودة الحجز بنجاح")}
-              className="bg-[#dce6d5] hover:bg-[#cdddc4] text-[#2E3C29] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-2xs transition-colors cursor-pointer"
+              className="bg-[#DCE6D5] hover:bg-[#cdddc4] text-[#2E3C29] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-2xs transition-colors cursor-pointer"
             >
               حفظ كمسودة
             </button>
