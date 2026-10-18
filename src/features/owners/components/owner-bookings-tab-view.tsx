@@ -13,12 +13,17 @@ import {
   CalendarCheck,
   CalendarSync,
   Trash2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { OwnerBookingItem } from "../types";
 import { defaultOwnerBookings } from "../data/mock-owner-bookings";
+import {
+  OwnerBookingsFilterDrawer,
+  BookingFilterState,
+} from "./owner-bookings-filter-drawer";
 
 interface OwnerBookingsTabViewProps {
   bookings?: OwnerBookingItem[];
@@ -34,6 +39,32 @@ export function OwnerBookingsTabView({
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showRowsDropdown, setShowRowsDropdown] = useState(false);
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<BookingFilterState>({
+    source: "all",
+    accessStatus: "all",
+    propertyName: "all",
+    sortBy: "default",
+  });
+
+  const counts = useMemo(() => {
+    return {
+      all: bookings.length,
+      upcoming: bookings.filter((b) => b.status === "upcoming").length,
+      active: bookings.filter((b) => b.status === "active").length,
+      completed: bookings.filter((b) => b.status === "completed").length,
+      cancelled: bookings.filter((b) => b.status === "cancelled").length,
+    };
+  }, [bookings]);
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (advancedFilters.source !== "all") count++;
+    if (advancedFilters.accessStatus !== "all") count++;
+    if (advancedFilters.propertyName !== "all") count++;
+    if (advancedFilters.sortBy !== "default") count++;
+    return count;
+  }, [advancedFilters]);
 
   // Filter Bookings based on search and status tabs
   const filteredBookings = useMemo(() => {
@@ -43,6 +74,11 @@ export function OwnerBookingsTabView({
       if (filterStatus === "active" && item.status !== "active") return false;
       if (filterStatus === "completed" && item.status !== "completed") return false;
       if (filterStatus === "cancelled" && item.status !== "cancelled") return false;
+
+      // Advanced drawer filters
+      if (advancedFilters.source !== "all" && item.source !== advancedFilters.source) return false;
+      if (advancedFilters.accessStatus !== "all" && item.accessStatus !== advancedFilters.accessStatus) return false;
+      if (advancedFilters.propertyName !== "all" && item.propertyName !== advancedFilters.propertyName) return false;
 
       // Search query filter
       if (searchQuery.trim()) {
@@ -68,7 +104,7 @@ export function OwnerBookingsTabView({
 
       return true;
     });
-  }, [bookings, filterStatus, searchQuery]);
+  }, [bookings, filterStatus, searchQuery, advancedFilters]);
 
   return (
     <div className="space-y-5" dir="rtl">
@@ -108,85 +144,76 @@ export function OwnerBookingsTabView({
       </div>
 
       {/* 2. Filter & Search Bar */}
-      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-[#E2E6DC] flex flex-col lg:flex-row items-center justify-between gap-3 shadow-2xs">
+      <div className="bg-white rounded-3xl p-2.5 sm:p-3 border border-[#E0E4D8]/60 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
         {/* Search Input (Right side in RTL) */}
-        <div className="relative w-full lg:w-[460px]">
+        <div className="relative w-full md:w-96 lg:w-[440px]">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ابحث باسم العميل، رقم الحجز، العقار أو الوحدة..."
-            className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2.5 pe-10 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none transition-all"
+            className="w-full h-10 pe-4 ps-11 rounded-2xl bg-[#F1F5EB] border border-transparent text-xs text-[#172115] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none transition-all shadow-2xs"
           />
-          <Search className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#7D8A78]">
+            <Search className="w-4 h-4" />
+          </div>
         </div>
 
-        {/* Filter Pills (Left side in RTL) */}
-        <div className="flex items-center gap-1.5 flex-wrap w-full lg:w-auto">
+        {/* Filter Button & Tabs Section (Left side in RTL) */}
+        <div className="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+          {/* Advanced Filter Button */}
           <button
             type="button"
-            onClick={() => setFilterStatus("all")}
+            onClick={() => setIsFilterDrawerOpen(true)}
             className={cn(
-              "px-3.5 py-1.5 text-xs rounded-xl font-bold transition-all cursor-pointer select-none",
-              filterStatus === "all"
-                ? "bg-[#F6F8F4] text-[#172115] border border-[#E2E6DC] shadow-2xs"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
+              "h-10 px-4 rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+              activeFiltersCount > 0
+                ? "bg-[#34432E] text-white shadow-xs"
+                : "bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#172115]"
             )}
+            title="تصفية الحجوزات"
           >
-            الكل (2)
+            <span>فلتر</span>
+            <SlidersHorizontal
+              className={cn(
+                "w-3.5 h-3.5",
+                activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
+              )}
+            />
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
           </button>
 
-          <button
-            type="button"
-            onClick={() => setFilterStatus("upcoming")}
-            className={cn(
-              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
-              filterStatus === "upcoming"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            )}
-          >
-            القادمة (1)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setFilterStatus("active")}
-            className={cn(
-              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
-              filterStatus === "active"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            )}
-          >
-            الحالية (2)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setFilterStatus("completed")}
-            className={cn(
-              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
-              filterStatus === "completed"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            )}
-          >
-            المنتهية (2)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setFilterStatus("cancelled")}
-            className={cn(
-              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
-              filterStatus === "cancelled"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            )}
-          >
-            الملغاة (1)
-          </button>
+          {/* Filter Tabs Container */}
+          <div className="flex items-center gap-1 p-1 bg-[#F1F5EB] rounded-2xl overflow-x-auto no-scrollbar">
+            {[
+              { id: "all", label: `الكل (${counts.all})` },
+              { id: "upcoming", label: `القادمة (${counts.upcoming})` },
+              { id: "active", label: `الحالية (${counts.active})` },
+              { id: "completed", label: `المنتهية (${counts.completed})` },
+              { id: "cancelled", label: `الملغاة (${counts.cancelled})` },
+            ].map((tab) => {
+              const isActive = filterStatus === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setFilterStatus(tab.id as any)}
+                  className={cn(
+                    "px-3.5 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                    isActive
+                      ? "bg-white text-[#172115] font-bold shadow-xs"
+                      : "text-[#7A8574] hover:text-[#172115] font-medium"
+                  )}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -462,6 +489,27 @@ export function OwnerBookingsTabView({
           </div>
         </div>
       </div>
+
+      {/* Advanced Filter Drawer */}
+      <OwnerBookingsFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={advancedFilters}
+        onApplyFilters={(newFilters) => {
+          setAdvancedFilters(newFilters);
+          setCurrentPage(1);
+        }}
+        onResetFilters={() => {
+          setAdvancedFilters({
+            source: "all",
+            accessStatus: "all",
+            propertyName: "all",
+            sortBy: "default",
+          });
+          setCurrentPage(1);
+        }}
+        totalResultsCount={filteredBookings.length}
+      />
     </div>
   );
 }

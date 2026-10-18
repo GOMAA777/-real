@@ -35,15 +35,15 @@ export function PropertiesFilters({
   ];
 
   return (
-    <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-[#E2E6DC] flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xs">
+    <div className="bg-white rounded-3xl p-2.5 sm:p-3 border border-[#E0E4D8]/60 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
       {/* Search Input Box (Right in RTL) */}
-      <div className="relative w-full md:w-96">
+      <div className="relative w-full md:w-96 lg:w-[440px]">
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="ابحث باسم العقار، المالك، أو المدينة..."
-          className="w-full h-10 pe-4 ps-10 rounded-xl bg-[#F6F8F4] border border-transparent text-xs text-[#172115] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none transition-all shadow-2xs"
+          className="w-full h-10 pe-4 ps-11 rounded-2xl bg-[#F1F5EB] border border-transparent text-xs text-[#172115] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none transition-all shadow-2xs"
         />
         <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#7D8A78]">
           <Search className="w-4 h-4" />
@@ -57,20 +57,20 @@ export function PropertiesFilters({
           type="button"
           onClick={onOpenAdvancedFilter}
           className={cn(
-            "h-10 px-3.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer select-none shadow-2xs",
+            "h-10 px-4 rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
             activeFiltersCount > 0
-              ? "bg-[#34432E] text-white border-[#34432E]"
-              : "bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#2C3825] border-[#E2E6DC]"
+              ? "bg-[#34432E] text-white shadow-xs"
+              : "bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#172115]"
           )}
           title="التصفية المتقدمة"
         >
+          <span>فلتر</span>
           <SlidersHorizontal
             className={cn(
               "w-3.5 h-3.5",
-              activeFiltersCount > 0 ? "text-white" : "text-[#2C3825]"
+              activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
             )}
           />
-          <span>فلتر</span>
           {activeFiltersCount > 0 && (
             <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
               {activeFiltersCount}
@@ -78,8 +78,8 @@ export function PropertiesFilters({
           )}
         </button>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#EEF2E6]/60 rounded-xl overflow-x-auto no-scrollbar">
+        {/* Filter Tabs Container */}
+        <div className="flex items-center gap-1 p-1 bg-[#F1F5EB] rounded-2xl overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const isActive = currentFilter === tab.id;
             return (
@@ -88,10 +88,10 @@ export function PropertiesFilters({
                 type="button"
                 onClick={() => onFilterChange(tab.id)}
                 className={cn(
-                  "px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                  "px-3.5 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
                   isActive
-                    ? "bg-white text-[#172115] font-bold shadow-2xs"
-                    : "text-[#7D8A78] hover:text-[#172115] hover:bg-white/40 font-medium"
+                    ? "bg-white text-[#172115] font-bold shadow-xs"
+                    : "text-[#7A8574] hover:text-[#172115] font-medium"
                 )}
               >
                 {tab.label}
