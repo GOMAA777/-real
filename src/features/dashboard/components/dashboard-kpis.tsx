@@ -1,79 +1,116 @@
-import { Users2, Building2, Key, CalendarDays, ArrowUpRight } from "lucide-react";
+import {
+  Building2,
+  DoorOpen,
+  CalendarDays,
+  Banknote,
+  TrendingUp,
+  ReceiptText,
+} from "lucide-react";
 
-interface KPICardProps {
-  title: string;
+interface KPICardItem {
+  id: string;
+  title: React.ReactNode;
   value: string;
-  change: string;
-  subtext: string;
+  unit: string;
+  footer: React.ReactNode;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-const cardsData: KPICardProps[] = [
+const cardsData: KPICardItem[] = [
   {
-    title: "أصحاب العقارات",
-    value: "248",
-    change: "+5.2%",
-    subtext: "12 تسجيل جديد هذا الشهر",
-    icon: Users2,
-  },
-  {
-    title: "العقارات",
-    value: "386",
-    change: "+2.8%",
-    subtext: "العقارات النشطة على المنصة",
+    id: "properties",
+    title: "العقارات المدارة",
+    value: "3",
+    unit: "عقارات رئيسية",
+    footer: (
+      <div className="flex items-center gap-1.5 text-xs text-[#556350]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#347A4B] shrink-0" />
+        <span>الرياض، جدة (نشطة بالكامل)</span>
+      </div>
+    ),
     icon: Building2,
   },
   {
+    id: "units",
     title: "إجمالي الوحدات",
-    value: "4,820",
-    change: "+9.1%",
-    subtext: "وحدة سكنية وتجارية مسجلة",
-    icon: Key,
+    value: "42",
+    unit: "وحدة عقارية",
+    footer: (
+      <div className="flex items-center gap-1.5 text-xs text-[#556350]">
+        <span>36 سكنية</span>
+        <span className="text-[10px] text-[#A3ADA0]">▪</span>
+        <span>6 تجارية</span>
+      </div>
+    ),
+    icon: DoorOpen,
   },
   {
-    title: "الحجوزات",
-    value: "12,640",
-    change: "+12.6%",
-    subtext: "إجمالي الحجوزات هذا الشهر",
+    id: "bookings",
+    title: "الحجوزات النشطة",
+    value: "18",
+    unit: "حجز مؤكد",
+    footer: (
+      <div className="flex items-center gap-1.5 text-xs text-[#556350]">
+        <TrendingUp className="w-3.5 h-3.5 text-[#347A4B] shrink-0" />
+        <span>نسبة إشغال ممتازة (%86)</span>
+      </div>
+    ),
     icon: CalendarDays,
+  },
+  {
+    id: "revenue",
+    title: (
+      <div className="leading-snug">
+        <div>إجمالي الإيرادات</div>
+        <div>الشهرية</div>
+      </div>
+    ),
+    value: "48,500",
+    unit: "ر.س",
+    footer: (
+      <div className="flex items-center gap-1.5 text-xs text-[#556350]">
+        <ReceiptText className="w-3.5 h-3.5 text-[#556350] shrink-0" />
+        <span>دورة التحصيل الحالية لشهر سبتمبر</span>
+      </div>
+    ),
+    icon: Banknote,
   },
 ];
 
 export function DashboardKPIs() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
       {cardsData.map((card) => {
         const Icon = card.icon;
         return (
           <div
-            key={card.title}
-            className="p-5 rounded-2xl bg-white border border-[#E0E4D8] shadow-xs flex flex-col justify-between hover:border-[#CCD4C5] transition-all"
+            key={card.id}
+            className="p-5 sm:p-6 rounded-3xl bg-white border border-[#E0E4D8]/60 shadow-xs flex flex-col justify-between hover:border-[#CCD4C5] transition-all min-h-[175px]"
           >
-            {/* Top row: Label & Icon */}
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-[#616E5D]">
+            {/* Top Row: Title on Right (in RTL) & Icon Squircle on Left */}
+            <div className="flex items-start justify-between gap-2">
+              <div className="text-xs sm:text-sm font-semibold text-[#2C3825] pt-0.5 select-none">
                 {card.title}
-              </span>
-              <div className="w-9 h-9 rounded-xl bg-[#F4F6F0] border border-[#E0E4D8] flex items-center justify-center text-[#374732]">
-                <Icon className="w-4 h-4" />
+              </div>
+
+              <div className="w-11 h-11 rounded-2xl bg-[#EBEFE6] flex items-center justify-center text-[#374732] shrink-0">
+                <Icon className="w-5 h-5" />
               </div>
             </div>
 
-            {/* Middle row: Big Number & Growth Pill */}
-            <div className="my-3 flex items-baseline justify-between">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#172115] tracking-tight">
+            {/* Middle Row: Large Value & Suffix Unit */}
+            <div className="my-2 flex items-baseline gap-2">
+              <span className="text-3xl sm:text-4xl font-extrabold text-[#172115] tracking-tight font-inter">
                 {card.value}
               </span>
-
-              <div className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-[#E8F2E3] text-[#2C6E33] text-[11px] font-bold">
-                <ArrowUpRight className="w-3 h-3" />
-                <span>{card.change}</span>
-              </div>
+              <span className="text-xs text-[#7A8574] font-medium">
+                {card.unit}
+              </span>
             </div>
 
-            {/* Bottom Subtext */}
-            <div className="text-[11px] text-[#7B8876] font-medium pt-1 border-t border-[#F0F2EB]">
-              {card.subtext}
+            {/* Bottom Row: Micro Context / Indicator */}
+            <div className="pt-1 select-none">
+              {card.footer}
             </div>
           </div>
         );

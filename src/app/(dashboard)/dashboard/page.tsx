@@ -22,11 +22,11 @@ export default function DashboardPage() {
       {/* 2. Top Metric KPI Cards */}
       <Suspense
         fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 animate-pulse">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="h-32 rounded-2xl bg-white/70 border border-[#E0E4D8]"
+                className="h-44 rounded-3xl bg-white/70 border border-[#E0E4D8]"
               />
             ))}
           </div>
