@@ -12,8 +12,14 @@ import {
   ChevronRight,
   ChevronLeft,
   Building2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import {
+  OwnerPropertiesFilterDrawer,
+  PropertyFilterState,
+} from "./owner-properties-filter-drawer";
 
 export interface OwnerPropertyItem {
   id: string;
@@ -83,6 +89,21 @@ export function OwnerPropertiesTabView({
 }: OwnerPropertiesTabViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "available" | "reserved">("all");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [propertyFilters, setPropertyFilters] = useState<PropertyFilterState>({
+    city: "all",
+    status: "all",
+    unitsRange: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (propertyFilters.city !== "all") count++;
+    if (propertyFilters.unitsRange !== "all") count++;
+    if (propertyFilters.sortBy !== "default") count++;
+    return count;
+  }, [propertyFilters]);
 
   const counts = useMemo(() => {
     const available = properties.filter((p) => p.status === "available").length;
@@ -94,11 +115,47 @@ export function OwnerPropertiesTabView({
     };
   }, [properties]);
 
+  const handleQuickStatusChange = (status: "all" | "available" | "reserved") => {
+    setStatusFilter(status);
+    setPropertyFilters((prev) => ({ ...prev, status }));
+  };
+
+  const handleApplyFilters = (newFilters: PropertyFilterState) => {
+    setPropertyFilters(newFilters);
+    if (newFilters.status !== "all") {
+      setStatusFilter(newFilters.status as "available" | "reserved");
+    } else {
+      setStatusFilter("all");
+    }
+  };
+
+  const handleResetFilters = () => {
+    setPropertyFilters({
+      city: "all",
+      status: "all",
+      unitsRange: "all",
+      sortBy: "default",
+    });
+    setStatusFilter("all");
+  };
+
   const filteredProperties = useMemo(() => {
-    return properties.filter((item) => {
+    const list = properties.filter((item) => {
       // Status filter
       if (statusFilter === "available" && item.status !== "available") return false;
       if (statusFilter === "reserved" && item.status !== "reserved") return false;
+
+      // City filter
+      if (propertyFilters.city !== "all" && item.city !== propertyFilters.city) return false;
+
+      // Units range filter
+      if (propertyFilters.unitsRange === "less10" && item.unitsCount >= 10) return false;
+      if (
+        propertyFilters.unitsRange === "10-20" &&
+        (item.unitsCount < 10 || item.unitsCount > 20)
+      )
+        return false;
+      if (propertyFilters.unitsRange === "more20" && item.unitsCount <= 20) return false;
 
       // Search filter
       if (searchQuery.trim()) {
@@ -111,7 +168,20 @@ export function OwnerPropertiesTabView({
 
       return true;
     });
-  }, [properties, statusFilter, searchQuery]);
+
+    // Sorting
+    if (propertyFilters.sortBy === "units_desc") {
+      return [...list].sort((a, b) => b.unitsCount - a.unitsCount);
+    }
+    if (propertyFilters.sortBy === "bookings_desc") {
+      return [...list].sort((a, b) => b.activeBookingsCount - a.activeBookingsCount);
+    }
+    if (propertyFilters.sortBy === "name_asc") {
+      return [...list].sort((a, b) => a.name.localeCompare(b.name, "ar"));
+    }
+
+    return list;
+  }, [properties, statusFilter, propertyFilters, searchQuery]);
 
   return (
     <div className="space-y-4">
@@ -152,10 +222,36 @@ export function OwnerPropertiesTabView({
         </div>
 
         {/* Filter Pills (Left in RTL) */}
-        <div className="flex items-center gap-1.5 w-full sm:w-auto">
+        <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
+          {/* Advanced Filter Button exactly matching the design */}
           <button
             type="button"
-            onClick={() => setStatusFilter("all")}
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-bold border flex items-center gap-1.5 transition-all cursor-pointer select-none",
+              activeFiltersCount > 0
+                ? "bg-[#2E3C29] text-white border-[#2E3C29] shadow-2xs"
+                : "bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#2C3825] border-[#E2E6DC]"
+            )}
+            title="تصفية العقارات"
+          >
+            <SlidersHorizontal
+              className={cn(
+                "w-3.5 h-3.5",
+                activeFiltersCount > 0 ? "text-white" : "text-[#2C3825]"
+              )}
+            />
+            <span>فلتر</span>
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#2E3C29] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleQuickStatusChange("all")}
             className={`px-3.5 py-1.5 text-xs rounded-xl font-bold transition-all cursor-pointer ${
               statusFilter === "all"
                 ? "bg-[#F6F8F4] text-[#172115] border border-[#E2E6DC]"
@@ -166,7 +262,7 @@ export function OwnerPropertiesTabView({
           </button>
           <button
             type="button"
-            onClick={() => setStatusFilter("available")}
+            onClick={() => handleQuickStatusChange("available")}
             className={`px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
               statusFilter === "available"
                 ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
@@ -177,7 +273,7 @@ export function OwnerPropertiesTabView({
           </button>
           <button
             type="button"
-            onClick={() => setStatusFilter("reserved")}
+            onClick={() => handleQuickStatusChange("reserved")}
             className={`px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
               statusFilter === "reserved"
                 ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
@@ -347,6 +443,16 @@ export function OwnerPropertiesTabView({
           </div>
         </div>
       </div>
+
+      {/* 5. Advanced Filter Drawer for Properties */}
+      <OwnerPropertiesFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={propertyFilters}
+        onApplyFilters={handleApplyFilters}
+        onResetFilters={handleResetFilters}
+        totalResultsCount={filteredProperties.length}
+      />
     </div>
   );
 }
