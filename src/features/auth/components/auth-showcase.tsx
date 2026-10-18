@@ -2,7 +2,6 @@ import {
   CalendarCheck,
   DoorClosed,
   Landmark,
-  ShieldCheck,
   Lock,
   Building,
 } from "lucide-react";
@@ -120,13 +119,34 @@ export function AuthShowcase() {
       </div>
 
       {/* Bottom Trust & Compliance Row */}
-      <div className="relative z-10 pt-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/75 border-t border-white/10">
-        <div className="flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-[#86EFAC]" />
-          <span>معتمد ومتوافق مع معايير الهيئة العامة للعقار</span>
+      <div className="relative z-10 pt-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs border-t border-white/10">
+        <div className="flex items-center gap-2.5">
+          <svg
+            className="w-5 h-5 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+              fill="#D8E8C7"
+            />
+            <path
+              d="m16 9-5.5 5.5L8 12"
+              stroke="#34422A"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <div className="text-xs text-[#B3C3A4] font-medium leading-tight select-none">
+            <div>معتمد ومتوافق مع معايير الهيئة العامة</div>
+            <div>للعقار</div>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 text-white/70">
           <Lock className="w-3.5 h-3.5 text-white/70" />
           <span>تشفير آمن للبيانات 256-bit</span>
         </div>
