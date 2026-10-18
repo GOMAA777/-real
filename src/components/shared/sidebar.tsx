@@ -24,7 +24,12 @@ import { useUIStore } from "@/stores/use-ui-store";
 import { showUnderConstructionToast } from "@/lib/toast";
 
 const isRouteAvailable = (href: string) => {
-  return ["/dashboard", "/dashboard/owners", "/dashboard/properties"].includes(href);
+  return [
+    "/dashboard",
+    "/dashboard/owners",
+    "/dashboard/properties",
+    "/dashboard/bookings",
+  ].includes(href);
 };
 
 interface NavItem {

@@ -1,87 +1,65 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, MoreVertical, Key, Lock, ChevronRight, ChevronLeft, SlidersHorizontal, Eye, CalendarCheck, CalendarSync, Trash2 } from "lucide-react";
-import { toast } from "sonner";
-import { ActionDropdown } from "@/components/shared/action-dropdown";
-import { OwnerBookingItem, OwnerBookingsKPIData } from "../types";
 import {
-  defaultOwnerBookings,
-  defaultOwnerBookingsKPIs,
-} from "../data/mock-owner-bookings";
-import { OwnerBookingsKPIs } from "./owner-bookings-kpis";
-import { OwnerBookingsFilterDrawer, BookingFilterState } from "./owner-bookings-filter-drawer";
+  Search,
+  Plus,
+  Download,
+  ChevronRight,
+  ChevronLeft,
+  ChevronDown,
+  Eye,
+  CalendarCheck,
+  CalendarSync,
+  Trash2,
+} from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { OwnerBookingItem } from "../types";
+import { defaultOwnerBookings } from "../data/mock-owner-bookings";
 
 interface OwnerBookingsTabViewProps {
   bookings?: OwnerBookingItem[];
-  kpis?: OwnerBookingsKPIData;
 }
 
 export function OwnerBookingsTabView({
   bookings = defaultOwnerBookings,
-  kpis = defaultOwnerBookingsKPIs,
 }: OwnerBookingsTabViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<
-    "all" | "active" | "upcoming" | "completed" | "cancelled"
+    "all" | "upcoming" | "active" | "completed" | "cancelled"
   >("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
-  const [bookingFilters, setBookingFilters] = useState<BookingFilterState>({
-    source: "all",
-    accessStatus: "all",
-    propertyName: "all",
-    sortBy: "default",
-  });
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [showRowsDropdown, setShowRowsDropdown] = useState(false);
 
-  const activeFiltersCount = useMemo(() => {
-    let count = 0;
-    if (bookingFilters.source !== "all") count++;
-    if (bookingFilters.accessStatus !== "all") count++;
-    if (bookingFilters.propertyName !== "all") count++;
-    if (bookingFilters.sortBy !== "default") count++;
-    return count;
-  }, [bookingFilters]);
-
-  // Filter Bookings
+  // Filter Bookings based on search and status tabs
   const filteredBookings = useMemo(() => {
-    const result = bookings.filter((item) => {
-      // Filter status tab
-      if (filterStatus === "active") {
-        if (item.status !== "active" && item.status !== "checkout_today") return false;
-      } else if (filterStatus === "upcoming") {
-        if (item.status !== "upcoming") return false;
-      } else if (filterStatus === "completed") {
-        if (item.status !== "completed") return false;
-      } else if (filterStatus === "cancelled") {
-        if (item.status !== "cancelled") return false;
-      }
+    return bookings.filter((item) => {
+      // Status filter tab
+      if (filterStatus === "upcoming" && item.status !== "upcoming") return false;
+      if (filterStatus === "active" && item.status !== "active") return false;
+      if (filterStatus === "completed" && item.status !== "completed") return false;
+      if (filterStatus === "cancelled" && item.status !== "cancelled") return false;
 
-      // Advanced Filters
-      if (bookingFilters.source !== "all" && item.source !== bookingFilters.source) {
-        return false;
-      }
-      if (bookingFilters.accessStatus !== "all" && item.accessStatus !== bookingFilters.accessStatus) {
-        return false;
-      }
-      if (bookingFilters.propertyName !== "all" && !item.propertyName.includes(bookingFilters.propertyName)) {
-        return false;
-      }
-
-      // Search query
+      // Search query filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchesName = item.guestName.toLowerCase().includes(q);
-        const matchesProperty = item.propertyName.toLowerCase().includes(q);
-        const matchesLocation = item.propertyLocation.toLowerCase().includes(q);
         const matchesCode = item.bookingCode.toLowerCase().includes(q);
+        const matchesProperty = item.propertyName.toLowerCase().includes(q);
         const matchesUnit = item.unitNumber.toLowerCase().includes(q);
+        const matchesType = (item.unitType || item.unitDescription || "").toLowerCase().includes(q);
+        const matchesPhone = item.phone.toLowerCase().includes(q);
+
         if (
           !matchesName &&
-          !matchesProperty &&
-          !matchesLocation &&
           !matchesCode &&
-          !matchesUnit
+          !matchesProperty &&
+          !matchesUnit &&
+          !matchesType &&
+          !matchesPhone
         ) {
           return false;
         }
@@ -89,115 +67,123 @@ export function OwnerBookingsTabView({
 
       return true;
     });
-
-    if (bookingFilters.sortBy === "checkin_desc") {
-      result.sort((a, b) => b.checkInDate.localeCompare(a.checkInDate, "ar"));
-    } else if (bookingFilters.sortBy === "checkout_asc") {
-      result.sort((a, b) => a.checkOutDate.localeCompare(b.checkOutDate, "ar"));
-    } else if (bookingFilters.sortBy === "code_asc") {
-      result.sort((a, b) => a.bookingCode.localeCompare(b.bookingCode));
-    }
-
-    return result;
-  }, [bookings, filterStatus, searchQuery, bookingFilters]);
+  }, [bookings, filterStatus, searchQuery]);
 
   return (
-    <div className="space-y-5">
-      {/* 1. 4 Metric KPI Cards */}
-      <OwnerBookingsKPIs kpis={kpis} />
+    <div className="space-y-5" dir="rtl">
+      {/* 1. Header Card (Matching exact user design) */}
+      <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
+        {/* Right side: Title & Description */}
+        <div>
+          <h1 className="text-2xl font-bold text-[#172115] tracking-tight">
+            الحجوزات
+          </h1>
+          <p className="text-sm text-[#7D8A78] mt-1 font-normal leading-relaxed">
+            إدارة ومتابعة جميع الحجوزات المسجلة على المنصة وحالات الوصول والمغادرة والمدفوعات المتزامنة.
+          </p>
+        </div>
 
-      {/* 2. Search & Filter Bar */}
-      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xs">
-        {/* Search Bar (Right in RTL) */}
-        <div className="relative w-full sm:w-80 lg:w-96">
+        {/* Left side: Action Buttons */}
+        <div className="flex items-center gap-3">
+          {/* Add Booking Button (Leftmost in RTL) */}
+          <button
+            type="button"
+            onClick={() => toast.success("فتح نموذج إضافة حجز جديد")}
+            className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>إضافة حجز</span>
+          </button>
+
+          {/* Export List Button */}
+          <button
+            type="button"
+            onClick={() => toast.info("جاري تصدير قائمة الحجوزات (CSV / Excel)...")}
+            className="bg-white hover:bg-[#F9FAF7] border border-[#E2E6DC] text-[#172115] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
+          >
+            <Download className="w-4 h-4 text-[#7D8A78]" />
+            <span>تصدير القائمة (CSV / Excel)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Filter & Search Bar */}
+      <div className="bg-white rounded-2xl p-2.5 sm:p-3 border border-[#E2E6DC] flex flex-col lg:flex-row items-center justify-between gap-3 shadow-2xs">
+        {/* Search Input (Right side in RTL) */}
+        <div className="relative w-full lg:w-[460px]">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث باسم العقار أو المدينة أو الحي..."
-            className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2 pe-10 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none transition-all"
+            placeholder="ابحث باسم العميل، رقم الحجز، العقار أو الوحدة..."
+            className="w-full bg-[#F6F8F4] border border-transparent focus:border-[#CCD5C5] rounded-xl px-4 py-2.5 pe-10 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none transition-all"
           />
           <Search className="w-4 h-4 text-[#7D8A78] absolute end-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
-        {/* Filter Pills (Left in RTL) */}
-        <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
-          {/* Advanced Filter Button */}
+        {/* Filter Pills (Left side in RTL) */}
+        <div className="flex items-center gap-1.5 flex-wrap w-full lg:w-auto">
           <button
             type="button"
-            onClick={() => setIsFilterDrawerOpen(true)}
-            className={`px-3.5 py-1.5 text-xs rounded-xl font-bold border flex items-center gap-1.5 transition-all cursor-pointer select-none ${
-              activeFiltersCount > 0
-                ? "bg-[#2E3C29] text-white border-[#2E3C29] shadow-2xs"
-                : "bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#2C3825] border-[#E2E6DC]"
-            }`}
-            title="تصفية الحجوزات"
-          >
-            <SlidersHorizontal
-              className={`w-3.5 h-3.5 ${
-                activeFiltersCount > 0 ? "text-white" : "text-[#2C3825]"
-              }`}
-            />
-            <span>فلتر</span>
-            {activeFiltersCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-white text-[#2E3C29] text-[10px] font-bold flex items-center justify-center">
-                {activeFiltersCount}
-              </span>
+            onClick={() => setFilterStatus("all")}
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-bold transition-all cursor-pointer select-none",
+              filterStatus === "all"
+                ? "bg-[#F6F8F4] text-[#172115] border border-[#E2E6DC] shadow-2xs"
+                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
             )}
+          >
+            الكل (2)
           </button>
 
           <button
             type="button"
-            onClick={() => setFilterStatus("all")}
-            className={`px-3 py-1.5 text-xs rounded-xl font-bold transition-all cursor-pointer ${
-              filterStatus === "all"
-                ? "bg-[#F6F8F4] text-[#172115] border border-[#E2E6DC]"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            }`}
-          >
-            الكل (2)
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilterStatus("active")}
-            className={`px-3 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
-              filterStatus === "active"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
-                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            }`}
-          >
-            الحالية (1)
-          </button>
-          <button
-            type="button"
             onClick={() => setFilterStatus("upcoming")}
-            className={`px-3 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
               filterStatus === "upcoming"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
+                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
                 : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            }`}
+            )}
           >
             القادمة (1)
           </button>
+
+          <button
+            type="button"
+            onClick={() => setFilterStatus("active")}
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
+              filterStatus === "active"
+                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
+                : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
+            )}
+          >
+            الحالية (2)
+          </button>
+
           <button
             type="button"
             onClick={() => setFilterStatus("completed")}
-            className={`px-3 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
               filterStatus === "completed"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
+                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
                 : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            }`}
+            )}
           >
-            المنتهية (1)
+            المنتهية (2)
           </button>
+
           <button
             type="button"
             onClick={() => setFilterStatus("cancelled")}
-            className={`px-3 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer ${
+            className={cn(
+              "px-3.5 py-1.5 text-xs rounded-xl font-medium transition-all cursor-pointer select-none",
               filterStatus === "cancelled"
-                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC]"
+                ? "bg-[#F6F8F4] text-[#172115] font-bold border border-[#E2E6DC] shadow-2xs"
                 : "text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4]"
-            }`}
+            )}
           >
             الملغاة (1)
           </button>
@@ -210,23 +196,25 @@ export function OwnerBookingsTabView({
           <table className="w-full text-right border-collapse">
             <thead>
               <tr className="border-b border-[#E2E6DC] text-[#7D8A78] text-xs font-bold bg-[#FBFDFB]">
-                <th className="px-5 py-4 whitespace-nowrap">العميل / النزيل</th>
+                <th className="px-5 py-4 whitespace-nowrap">رقم الحجز</th>
+                <th className="px-4 py-4 whitespace-nowrap">العميل</th>
                 <th className="px-4 py-4 whitespace-nowrap">العقار</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">الوحدة</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">مصدر الحجز</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">تاريخ الدخول</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">تاريخ المغادرة</th>
+                <th className="px-4 py-4 whitespace-nowrap">الوحدة</th>
+                <th className="px-4 py-4 whitespace-nowrap">تاريخ الوصول</th>
+                <th className="px-4 py-4 whitespace-nowrap">تاريخ المغادرة</th>
+                <th className="px-4 py-4 whitespace-nowrap text-center">المصدر</th>
+                <th className="px-4 py-4 whitespace-nowrap">المبلغ والتحصيل</th>
                 <th className="px-4 py-4 whitespace-nowrap text-center">الحالة</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">أكواد الدخول</th>
-                <th className="px-4 py-4 whitespace-nowrap text-center">
-                  الإجراءات (Admin)
-                </th>
+                <th className="px-4 py-4 whitespace-nowrap text-center">الإجراءات</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#EEF2E6]">
               {filteredBookings.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="text-center py-12 text-[#7D8A78] text-xs font-medium">
+                  <td
+                    colSpan={10}
+                    className="text-center py-12 text-[#7D8A78] text-xs font-medium"
+                  >
                     لا توجد حجوزات مطابقة لمعايير البحث
                   </td>
                 </tr>
@@ -236,164 +224,115 @@ export function OwnerBookingsTabView({
                     key={booking.id}
                     className="hover:bg-[#F6F8F4]/70 transition-colors"
                   >
-                    {/* 1. العميل / النزيل */}
-                    <td className="px-5 py-4 whitespace-nowrap">
+                    {/* 1. رقم الحجز */}
+                    <td className="px-5 py-4 whitespace-nowrap font-medium text-xs sm:text-sm text-[#172115]">
+                      {booking.bookingCode}
+                    </td>
+
+                    {/* 2. العميل */}
+                    <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[#EEF2E6] text-[#283820] font-bold text-xs flex items-center justify-center shrink-0 border border-[#E2E6DC]">
+                        <div className="w-9 h-9 rounded-full bg-[#dce6d5] text-[#2e3c29] font-bold text-xs flex items-center justify-center shrink-0">
                           {booking.guestInitials}
                         </div>
                         <div>
                           <div className="font-bold text-sm text-[#172115]">
                             {booking.guestName}
                           </div>
-                          <div className="text-[11px] text-[#7D8A78] font-mono mt-0.5" dir="ltr">
-                            {booking.bookingCode}
-                          </div>
-                          <div className="text-[10px] text-[#7D8A78] mt-0.5" dir="ltr">
+                          <div
+                            className="text-[11px] text-[#7D8A78] mt-0.5"
+                            dir="ltr"
+                          >
                             {booking.phone}
                           </div>
                         </div>
                       </div>
                     </td>
 
-                    {/* 2. العقار */}
+                    {/* 3. العقار */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="font-bold text-xs sm:text-sm text-[#172115]">
+                      <div className="font-bold text-sm text-[#172115]">
                         {booking.propertyName}
                       </div>
-                      <div className="text-[11px] text-[#7D8A78] mt-0.5">
-                        {booking.propertyLocation}
-                      </div>
                     </td>
 
-                    {/* 3. الوحدة */}
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="inline-block bg-[#F6F8F4] border border-[#EEF2E6] font-bold text-xs text-[#172115] px-2.5 py-0.5 rounded-lg">
+                    {/* 4. الوحدة */}
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="font-bold text-sm text-[#172115]">
                         {booking.unitNumber}
                       </div>
-                      <div
-                        className={`text-[10px] mt-1 font-medium ${
-                          booking.unitHighlightColor === "orange"
-                            ? "text-[#D97706] font-bold"
-                            : "text-[#7D8A78]"
-                        }`}
-                      >
-                        {booking.unitDescription}
+                      <div className="text-xs text-[#7D8A78] mt-0.5">
+                        {booking.unitType || booking.unitDescription}
                       </div>
                     </td>
 
-                    {/* 4. مصدر الحجز */}
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#DBEAFE] text-[#1E40AF] font-bold text-xs px-2.5 py-1 rounded-lg">
-                        <span>{booking.source}</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
-                      </div>
-                      <div className="text-[10px] text-[#7D8A78] font-mono mt-1" dir="ltr">
-                        {booking.sourceId}
-                      </div>
-                    </td>
-
-                    {/* 5. تاريخ الدخول */}
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="font-bold text-xs text-[#172115]">
+                    {/* 5. تاريخ الوصول */}
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="font-bold text-xs sm:text-sm text-[#172115]">
                         {booking.checkInDate}
                       </div>
-                      {booking.checkInIsToday ? (
-                        <div className="space-y-0.5 mt-0.5">
-                          <span className="text-[10px] font-bold text-[#D97706] block">
-                            {booking.checkInBadge}
-                          </span>
-                          <span className="text-[10px] text-[#D97706] font-medium block">
-                            {booking.checkInSubtext}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="text-[10px] text-[#7D8A78] mt-0.5">
-                          <div>{booking.checkInTime}</div>
-                          {booking.checkInBadge && <div>{booking.checkInBadge}</div>}
-                        </div>
-                      )}
+                      <div className="text-xs text-[#7D8A78] mt-0.5">
+                        {booking.checkInSubtext || "تسجيل من 03:00 م"}
+                      </div>
                     </td>
 
                     {/* 6. تاريخ المغادرة */}
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div
-                        className={`font-bold text-xs ${
-                          booking.checkOutIsToday ? "text-[#DC2626]" : "text-[#172115]"
-                        }`}
-                      >
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="font-bold text-xs sm:text-sm text-[#172115]">
                         {booking.checkOutDate}
                       </div>
-                      {booking.checkOutIsToday ? (
-                        <div className="space-y-0.5 mt-0.5">
-                          <span className="text-[10px] font-bold text-[#DC2626] block">
-                            {booking.checkOutBadge}
-                          </span>
-                          <span className="text-[10px] text-[#DC2626] font-medium block">
-                            {booking.checkOutSubtext}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="text-[10px] text-[#7D8A78] mt-0.5">
-                          <div>{booking.checkOutTime}</div>
-                          {booking.checkOutBadge && <div>{booking.checkOutBadge}</div>}
-                        </div>
-                      )}
+                      <div className="text-xs text-[#7D8A78] mt-0.5">
+                        {booking.checkOutSubtext || "3 ليال"}
+                      </div>
                     </td>
 
-                    {/* 7. الحالة */}
+                    {/* 7. المصدر */}
+                    <td className="px-4 py-4 whitespace-nowrap text-center">
+                      <div className="inline-flex items-center gap-1.5 bg-[#F6F8F4] border border-[#E2E6DC] px-2.5 py-1 rounded-full text-xs font-semibold text-[#172115]">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#15803d]" />
+                        <span>{booking.source}</span>
+                      </div>
+                    </td>
+
+                    {/* 8. المبلغ والتحصيل */}
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="font-bold text-sm text-[#172115]">
+                        {booking.amount || "2,450 ر.س"}
+                      </div>
+                      <div className="text-xs text-[#7D8A78] mt-0.5">
+                        {booking.paymentStatus || "مدفوع إلكترونياً"}
+                      </div>
+                    </td>
+
+                    {/* 9. الحالة */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
                       {booking.status === "active" ? (
                         <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-bold px-3 py-1 rounded-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
-                          <span>{booking.statusText}</span>
+                          <span>حالي</span>
                         </span>
                       ) : booking.status === "upcoming" ? (
-                        <span className="inline-flex items-center gap-1.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-bold px-3 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
-                          <span>{booking.statusText}</span>
+                        <span className="inline-flex items-center gap-1.5 bg-[#F6F8F4] border border-[#E2E6DC] text-[#4A5745] text-xs font-bold px-3 py-1 rounded-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#7D8A78]" />
+                          <span>قادم</span>
                         </span>
-                      ) : booking.status === "checkout_today" ? (
-                        <span className="inline-flex items-center gap-1.5 bg-[#FFFBEB] border border-[#FDE68A] text-[#D97706] text-xs font-bold px-3 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
-                          <span>{booking.statusText}</span>
+                      ) : booking.status === "cancelled" ? (
+                        <span className="inline-flex items-center gap-1.5 bg-[#FEE2E2] border border-[#FECACA] text-[#DC2626] text-xs font-bold px-3 py-1 rounded-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+                          <span>ملغي</span>
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 bg-[#F6F8F4] border border-[#E2E6DC] text-[#7D8A78] text-xs font-bold px-3 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#7D8A78]" />
-                          <span>{booking.statusText}</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
+                          <span>منتهي</span>
                         </span>
                       )}
                     </td>
 
-                    {/* 8. أكواد الدخول */}
-                    <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="inline-block bg-[#F6F8F4] border border-[#EEF2E6] rounded-xl px-2.5 py-1 text-center min-w-[100px]">
-                        <div className="flex items-center justify-center gap-1 text-xs font-bold text-[#172115]">
-                          {booking.accessStatus === "disabled" ? (
-                            <Lock className="w-3 h-3 text-[#7D8A78]" />
-                          ) : (
-                            <Key className="w-3 h-3 text-[#7D8A78]" />
-                          )}
-                          <span>{booking.accessCode}</span>
-                        </div>
-                        <div
-                          className={`text-[10px] mt-0.5 font-medium ${
-                            booking.accessStatus === "connected"
-                              ? "text-[#2E7D32]"
-                              : booking.accessStatus === "pending"
-                              ? "text-[#D97706]"
-                              : "text-[#7D8A78]"
-                          }`}
-                        >
-                          {booking.accessDevice}
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* 9. الإجراءات (Admin) */}
+                    {/* 10. الإجراءات */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
                       <ActionDropdown
+                        triggerIcon="vertical"
                         items={[
                           {
                             label: "تفاصيل الحجز",
@@ -411,7 +350,7 @@ export function OwnerBookingsTabView({
                               toast.info(`تعديل الحجز: ${booking.bookingCode}`),
                           },
                           {
-                            label: "تمديد الاقامة",
+                            label: "تمديد الإقامة",
                             icon: CalendarSync,
                             onClick: () =>
                               toast.info(
@@ -438,61 +377,84 @@ export function OwnerBookingsTabView({
         </div>
 
         {/* 4. Table Pagination Footer */}
-        <div className="px-6 py-4 border-t border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          {/* Item Count & Rows Per Page (Right in RTL) */}
-          <div className="flex items-center gap-2 text-[#7D8A78] font-medium order-2 sm:order-1">
-            <span className="font-bold text-[#172115]">عرض 6 حجوزات لكل صفحة</span>
-            <span>•</span>
-            <span>من إجمالي 18 حجز نشط مرتبط بمحفظة المالك</span>
+        <div className="px-6 py-4 border-t border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          {/* Item Count & Rows (Right in RTL) */}
+          <div className="text-[#7D8A78] font-medium order-2 sm:order-1">
+            <span>عرض </span>
+            <span className="font-bold text-[#172115]">
+              1 إلى {filteredBookings.length}
+            </span>
+            <span> من أصل </span>
+            <span className="font-bold text-[#172115]">842</span>
+            <span> حجز مسجل</span>
+          </div>
+
+          {/* Rows Per Page Selector (Center) */}
+          <div className="relative flex items-center gap-2 text-[#7D8A78] font-medium order-3 sm:order-2">
+            <span>الصفوف لكل صفحة:</span>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowRowsDropdown((prev) => !prev)}
+                className="bg-white border border-[#E2E6DC] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#172115] flex items-center gap-2 hover:bg-[#F9FAF7] transition-all cursor-pointer shadow-2xs select-none"
+              >
+                <span>{rowsPerPage} حجوزات</span>
+                <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
+              </button>
+
+              {showRowsDropdown && (
+                <div className="absolute start-0 bottom-full mb-1.5 w-32 bg-white border border-[#E2E6DC] rounded-xl shadow-lg py-1 z-30">
+                  {[6, 10, 20, 50].map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => {
+                        setRowsPerPage(size);
+                        setShowRowsDropdown(false);
+                      }}
+                      className={cn(
+                        "w-full text-start px-3 py-1.5 text-xs transition-colors hover:bg-[#EEF2E6] cursor-pointer",
+                        rowsPerPage === size
+                          ? "font-bold text-[#2E3C29] bg-[#EEF2E6]/50"
+                          : "text-[#172115]"
+                      )}
+                    >
+                      {size} حجوزات
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Pagination Controls (Left in RTL) */}
-          <div className="flex items-center gap-1.5 order-1 sm:order-2">
+          <div className="flex items-center gap-1.5 order-1 sm:order-3">
             <button
               type="button"
-              disabled
-              className="px-3 py-1.5 rounded-lg border border-[#E2E6DC] text-[#A2ADA0] cursor-not-allowed flex items-center gap-1 font-medium select-none"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              className={cn(
+                "px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] text-[#2C3825] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed bg-white text-[#7D8A78]"
+                  : "hover:bg-[#F4F6F0] cursor-pointer bg-white"
+              )}
             >
               <ChevronRight className="w-3.5 h-3.5" />
               <span>السابق</span>
             </button>
+
             <button
               type="button"
-              onClick={() => setCurrentPage(1)}
-              className={`w-7 h-7 rounded-lg font-bold flex items-center justify-center select-none ${
-                currentPage === 1
-                  ? "bg-[#2E3C29] text-white"
-                  : "bg-white text-[#172115] border border-[#E2E6DC]"
-              }`}
+              className="w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all select-none border border-[#E2E6DC] bg-[#EEF2E6] text-[#2E3C29] shadow-2xs cursor-pointer"
             >
               1
             </button>
+
             <button
               type="button"
-              onClick={() => setCurrentPage(2)}
-              className={`w-7 h-7 rounded-lg font-bold flex items-center justify-center select-none ${
-                currentPage === 2
-                  ? "bg-[#2E3C29] text-white"
-                  : "bg-white text-[#172115] border border-[#E2E6DC] hover:bg-[#F6F8F4]"
-              }`}
-            >
-              2
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentPage(3)}
-              className={`w-7 h-7 rounded-lg font-bold flex items-center justify-center select-none ${
-                currentPage === 3
-                  ? "bg-[#2E3C29] text-white"
-                  : "bg-white text-[#172115] border border-[#E2E6DC] hover:bg-[#F6F8F4]"
-              }`}
-            >
-              3
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentPage((p) => Math.min(3, p + 1))}
-              className="px-3 py-1.5 rounded-lg border border-[#E2E6DC] text-[#172115] hover:bg-[#F6F8F4] flex items-center gap-1 font-medium select-none cursor-pointer"
+              disabled
+              className="px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] text-[#7D8A78] flex items-center gap-1.5 font-medium text-xs opacity-50 cursor-not-allowed bg-white shadow-2xs select-none"
             >
               <span>التالي</span>
               <ChevronLeft className="w-3.5 h-3.5" />
@@ -500,27 +462,6 @@ export function OwnerBookingsTabView({
           </div>
         </div>
       </div>
-
-      {/* Booking Filter Drawer */}
-      <OwnerBookingsFilterDrawer
-        isOpen={isFilterDrawerOpen}
-        onClose={() => setIsFilterDrawerOpen(false)}
-        filters={bookingFilters}
-        onApplyFilters={(newFilters) => {
-          setBookingFilters(newFilters);
-          setCurrentPage(1);
-        }}
-        onResetFilters={() => {
-          setBookingFilters({
-            source: "all",
-            accessStatus: "all",
-            propertyName: "all",
-            sortBy: "default",
-          });
-          setCurrentPage(1);
-        }}
-        totalResultsCount={filteredBookings.length}
-      />
     </div>
   );
 }

@@ -46,25 +46,28 @@ export interface OwnerBookingItem {
   propertyName: string;
   propertyLocation: string;
   unitNumber: string;
-  unitDescription: string;
+  unitType?: string;
+  unitDescription?: string;
   unitHighlightColor?: string;
   source: string;
-  sourceId: string;
+  sourceId?: string;
   checkInDate: string;
-  checkInTime: string;
+  checkInTime?: string;
   checkInBadge?: string;
   checkInIsToday?: boolean;
   checkInSubtext?: string;
   checkOutDate: string;
-  checkOutTime: string;
+  checkOutTime?: string;
   checkOutBadge?: string;
   checkOutIsToday?: boolean;
   checkOutSubtext?: string;
+  amount?: string;
+  paymentStatus?: string;
   status: BookingStatus;
-  statusText: string;
-  accessCode: string;
-  accessDevice: string;
-  accessStatus: "connected" | "pending" | "expiring" | "disabled";
+  statusText?: string;
+  accessCode?: string;
+  accessDevice?: string;
+  accessStatus?: "connected" | "pending" | "expiring" | "disabled";
 }
 
 export interface OwnerBookingsKPIData {
