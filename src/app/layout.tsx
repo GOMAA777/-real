@@ -24,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={`${ibmPlexSansArabic.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans bg-[#F4F6F0] text-[#182016]">
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col font-sans bg-[#F4F6F0] text-[#182016]"
+      >
         <NuqsAdapter>{children}</NuqsAdapter>
         <Toaster />
       </body>
