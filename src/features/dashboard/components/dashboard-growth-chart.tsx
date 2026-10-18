@@ -10,6 +10,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { TrendingUp, Download } from "lucide-react";
+import { toast } from "sonner";
 
 const data = [
   { month: "أبريل", count: 140 },
@@ -35,14 +36,23 @@ export function DashboardGrowthChart() {
           </div>
         </div>
 
-        {/* Filter / Download button */}
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F4F6F0] hover:bg-[#EAEFE5] border border-[#E0E4D8] text-xs font-semibold text-[#3C4A38] transition-colors"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>آخر 6 أشهر</span>
-        </button>
+        {/* Period badge & Download button */}
+        <div className="flex items-center gap-2">
+          {/* Badge: آخر 6 أشهر (Right in RTL) */}
+          <div className="px-4 py-1.5 rounded-full bg-[#EAF0E6] text-xs sm:text-sm font-medium text-[#172115] select-none">
+            آخر 6 أشهر
+          </div>
+
+          {/* Download button (Left in RTL) */}
+          <button
+            type="button"
+            onClick={() => toast.info("جاري تحميل تقرير النمو...")}
+            title="تحميل التقرير"
+            className="w-9 h-9 rounded-xl bg-[#EAF0E6] hover:bg-[#DDE6D8] flex items-center justify-center text-[#172115] transition-colors cursor-pointer select-none"
+          >
+            <Download className="w-4 h-4 text-[#172115]" />
+          </button>
+        </div>
       </div>
 
       {/* Peak Badge Callout */}
