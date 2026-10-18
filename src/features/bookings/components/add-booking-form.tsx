@@ -12,7 +12,7 @@ import {
   Building2,
   User,
   ChevronDown,
-  DoorOpen,
+  DoorClosed,
   AlertTriangle,
   Calendar,
   Plane,
@@ -23,6 +23,11 @@ import {
   Mail,
   Key,
   StickyNote,
+  ExternalLink,
+  UserSearch,
+  Smartphone,
+  Banknote,
+  MoreHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -95,15 +100,15 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-[#EAF0E6] flex items-center justify-center shrink-0">
-                <Building2 className="w-5 h-5 text-[#2E3C29]" />
+              <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
+                <Building2 className="w-5 h-5" />
               </div>
               <div>
                 <h2 className="text-base font-bold text-[#172115]">
                   بيانات تخصيص الأصل العقاري
                 </h2>
-                <p className="text-xs text-[#7D8A78] mt-0.5">
-                  حدد المالك أولاً لاستعراض العقارات والوحدات المتاحة المرتبطة به
+                <p className="text-xs text-[#7D8A78] mt-0.5 font-medium">
+                  حدد المالك أولا لاستعراض العقارات والوحدات المتاحة المرتبطة به
                 </p>
               </div>
             </div>
@@ -114,74 +119,80 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 <label className="font-bold text-[#172115]">
                   مالك العقار <span className="text-red-500">*</span>
                 </label>
-                <span className="text-[#7D8A78] text-[11px]">
+                <span className="text-[#7D8A78] font-medium">
                   مرخص برخصة فال العقارية
                 </span>
               </div>
 
-              {/* Owner Input / Selector */}
-              <div className="bg-[#F4F6F0] rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-[#172115]">
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-[#7D8A78]" />
-                  <span className="font-bold">محمد بن سعود العتيبي</span>
+              {/* Owner Search Bar */}
+              <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-2.5 flex items-center justify-between gap-3 shadow-2xs">
+                {/* Right in RTL: Icon + Name */}
+                <div className="flex items-center gap-2.5 text-xs text-[#172115] font-semibold px-2">
+                  <UserSearch className="w-4 h-4 text-[#7D8A78]" />
+                  <span>محمد بن سعود العتيبي</span>
                 </div>
+
+                {/* Left in RTL: تغيير button */}
                 <button
                   type="button"
                   onClick={() => toast.info("تغيير المالك")}
-                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-semibold text-[#172115] px-3 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
+                  className="bg-[#DDE5D6] hover:bg-[#D2DDD6] text-[#2C3825] px-3.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer"
                 >
                   تغيير
                 </button>
               </div>
 
               {/* Selected Owner Detail Box */}
-              <div className="bg-[#F4F6F0] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                {/* Right side in RTL: Avatar + Text */}
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#DCE6D5] text-[#2E3C29] font-bold text-xs flex items-center justify-center shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-[#D5E0CD] text-[#34432E] font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs">
                     ع.م
                   </div>
-                  <div>
+                  <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-sm text-[#172115]">
                         محمد بن سعود العتيبي
                       </span>
-                      <span className="bg-[#DCE6D5] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      <span className="bg-[#DDE5D6] text-[#34432E] text-[11px] font-bold px-2 py-0.5 rounded-md">
                         مالك معتمد
                       </span>
                     </div>
-                    <div className="text-xs text-[#7D8A78] mt-0.5 font-mono" dir="ltr">
-                      +966 50 123 4567
+                    <div className="text-xs text-[#7D8A78] flex items-center gap-1.5 font-medium">
+                      <Smartphone className="w-3.5 h-3.5 text-[#7D8A78]" />
+                      <span dir="ltr">+966 50 123 4567</span>
                     </div>
                   </div>
                 </div>
 
+                {/* Left side in RTL: View Owner Profile Button */}
                 <Link
                   href="/dashboard/owners/1"
-                  className="bg-white hover:bg-[#EEF2E6] border border-[#E2E6DC] text-xs font-bold text-[#172115] px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors shadow-2xs self-start sm:self-auto"
+                  className="bg-white hover:bg-[#FAFBF9] border border-[#E2E6DC] text-xs font-bold text-[#172115] px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors shadow-2xs self-start sm:self-auto"
                 >
                   <span>عرض ملف المالك</span>
-                  <span className="text-xs">↗</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#7D8A78]" />
                 </Link>
               </div>
             </div>
 
             {/* Selectors: العقار التابع & الوحدة المستهدفة */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-              {/* العقار التابع */}
+              {/* العقار التابع on the right in RTL */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-[#172115]">
+                <label className="block text-xs font-bold text-[#172115] text-start">
                   العقار التابع <span className="text-red-500">*</span>
                 </label>
-                <div className="bg-[#F4F6F0] hover:bg-[#EEF2E6] rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer">
+                <div className="bg-[#EEF2E8] hover:bg-[#E8EDE2] border border-[#E0E5D8]/70 rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer shadow-2xs">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-[#DCE6D5] text-[#2E3C29] flex items-center justify-center shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-[#D4E2CC] text-[#34432E] flex items-center justify-center shrink-0">
                       <Building2 className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
                       <div className="font-bold text-xs text-[#172115] truncate">
                         عمارة النخيل (الرياض - حي العليا)
                       </div>
-                      <div className="text-[10px] text-[#7D8A78] mt-0.5">
+                      <div className="text-[11px] text-[#7D8A78] mt-0.5 font-medium">
                         كود العقار: PR-1048 • 12 وحدة مسجلة
                       </div>
                     </div>
@@ -190,62 +201,65 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
               </div>
 
-              {/* الوحدة المستهدفة */}
+              {/* الوحدة المستهدفة on the left in RTL */}
               <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-[#172115]">
+                <label className="block text-xs font-bold text-[#172115] text-start">
                   الوحدة المستهدفة <span className="text-red-500">*</span>
                 </label>
-                <div className="bg-[#F4F6F0] hover:bg-[#EEF2E6] rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer">
+                <div className="bg-[#EEF2E8] hover:bg-[#E8EDE2] border border-[#E0E5D8]/70 rounded-2xl p-3.5 flex items-center justify-between gap-2 transition-colors cursor-pointer shadow-2xs">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-[#DCE6D5] text-[#2E3C29] flex items-center justify-center shrink-0">
-                      <DoorOpen className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-xl bg-[#D4E2CC] text-[#34432E] flex items-center justify-center shrink-0">
+                      <DoorClosed className="w-4 h-4" />
                     </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs text-[#172115]">
-                          وحدة 204 - جناح تنفيذي
-                        </span>
-                        <span className="bg-[#DCE6D5] text-[#2E3C29] text-[9px] font-bold px-1.5 py-0.5 rounded">
-                          الدور الثاني
-                        </span>
+                    <div className="min-w-0 text-start">
+                      <div className="font-bold text-xs text-[#172115]">
+                        وحدة 204 - جناح تنفيذي
                       </div>
-                      <div className="text-[10px] text-[#7D8A78] mt-0.5 flex items-center gap-1.5">
+                      <div className="text-[10px] text-[#7D8A78] mt-1 flex items-center gap-1.5 font-medium">
+                        <div className="flex items-center gap-1 text-[#10B981] font-bold">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] inline-block" />
+                          <span>متاحة للحجز</span>
+                        </div>
+                        <span>•</span>
                         <span>غرفتين نوم، صالة متكاملة</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
-                        <span className="text-[#2E7D32] font-semibold">متاحة للحجز</span>
                       </div>
                     </div>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-[#7D8A78] shrink-0" />
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="bg-[#DDE5D6] text-[#34432E] text-[10px] font-bold px-2 py-0.5 rounded-md">
+                      الدور الثاني
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-[#7D8A78]" />
+                  </div>
                 </div>
               </div>
             </div>
 
-            <p className="text-[11px] text-[#7D8A78]">
+            <p className="text-xs text-[#7D8A78] text-center pt-1 font-medium">
               يتم عرض الوحدات التابعة للعقار المحدد فقط وتحديث حالتها بالوقت الفعلي
             </p>
 
             {/* Warning Alert Banner */}
-            <div className="bg-[#FFFBEB] border border-[#FDE68A] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-start gap-2.5">
-                <AlertTriangle className="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
-                <div>
-                  <div className="font-bold text-xs text-[#92400E]">
-                    تنبيه فحص التوافر الزمني:
-                  </div>
-                  <div className="text-xs text-[#B45309] mt-0.5">
+            <div className="bg-[#FFF8E6] border border-[#FDE68A] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+              <div className="flex items-center gap-2.5">
+                <AlertTriangle className="w-5 h-5 text-[#C05621] shrink-0" />
+                <div className="text-xs leading-relaxed text-start">
+                  <span className="font-bold text-[#7B341E]">
+                    تنبيه فحص التوافر الزمني:{" "}
+                  </span>
+                  <span className="text-[#9C4221] font-medium">
                     الوحدة غير متاحة في بعض أيام التمديد المحتملة لوجود حجز تالٍ مؤكد.
-                  </div>
+                  </span>
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => toast.info("عرض الحجوزات المتعارضة: BK-10476")}
-                className="bg-[#FEF3C7] hover:bg-[#FDE68A] border border-[#FCD34D] text-[#92400E] px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto shrink-0"
+                className="bg-[#FEEBC8] hover:bg-[#FBD38D] text-[#7B341E] px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto shrink-0"
               >
                 <span>عرض الحجوزات المتعارضة (BK-10476)</span>
-                <span className="text-xs">↗</span>
+                <ExternalLink className="w-3.5 h-3.5 text-[#7B341E]" />
               </button>
             </div>
           </div>
@@ -546,66 +560,78 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           {/* Card 1: الدفع والرسوم */}
           <div className="bg-white rounded-[28px] p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#EEF2E6] pb-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#EAF0E6] flex items-center justify-center text-[#2E3C29]">
-                  <Receipt className="w-4 h-4" />
+            <div className="flex items-center justify-between">
+              {/* Right in RTL: Icon + Title */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
+                  <Banknote className="w-5 h-5" />
                 </div>
-                <h3 className="font-bold text-sm text-[#172115]">الدفع والرسوم</h3>
+                <h3 className="font-bold text-base text-[#172115]">الدفع والرسوم</h3>
               </div>
-              <span className="bg-[#DCE6D5] text-[#2E3C29] text-[10px] font-bold px-2 py-0.5 rounded">
+
+              {/* Left in RTL: Currency Pill */}
+              <span className="bg-[#EEF2E8] border border-[#E0E5D8]/70 text-[#7D8A78] text-[11px] font-bold px-2.5 py-1 rounded-xl">
                 ريال سعودي
               </span>
             </div>
 
             {/* Cost Breakdown */}
-            <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between text-[#7D8A78]">
-                <span>سعر الليلة الأساسي (× 4 ليال)</span>
+            <div className="space-y-2.5 text-xs pt-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[#556350] font-medium">سعر الليلة الأساسي (× 4 ليالٍ)</span>
                 <span className="font-bold text-[#172115]">2,800 ر.س</span>
               </div>
-              <div className="flex items-center justify-between text-[#7D8A78]">
-                <span>رسوم الخدمة والنظافة المعتمدة</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[#556350] font-medium">رسوم الخدمة والنظافة المعتمدة</span>
                 <span className="font-bold text-[#172115]">156 ر.س</span>
               </div>
-              <div className="flex items-center justify-between text-[#7D8A78]">
-                <span>ضريبة القيمة المضافة (15%)</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[#556350] font-medium">ضريبة القيمة المضافة (15%)</span>
                 <span className="font-bold text-[#172115]">444 ر.س</span>
               </div>
             </div>
 
             {/* Total Highlight Box */}
-            <div className="bg-[#F4F6F0] rounded-2xl p-4 flex items-center justify-between">
-              <div>
-                <div className="font-bold text-xs text-[#172115]">
+            <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-4 flex items-center justify-between shadow-2xs">
+              <div className="text-start">
+                <div className="font-bold text-xs text-[#7D8A78]">
                   المبلغ الإجمالي المستحق
                 </div>
-                <div className="text-[10px] text-[#7D8A78] mt-0.5">
+                <div className="text-[11px] text-[#7D8A78] mt-0.5 font-medium">
                   شامل الضريبة والرسوم
                 </div>
               </div>
-              <div className="text-start">
-                <span className="text-2xl font-black text-[#172115]">3,400</span>
-                <span className="text-xs text-[#7D8A78] ms-1">ر.س</span>
+              <div className="flex items-baseline gap-1 text-end">
+                <span className="text-3xl font-black text-[#172115]">3,400</span>
+                <span className="text-xs text-[#7D8A78] font-bold">ر.س</span>
               </div>
             </div>
 
+            {/* Subtle Divider */}
+            <div className="border-t border-[#E2E6DC]/70 my-3" />
+
             {/* Split Status Pills */}
-            <div className="space-y-2">
-              <div className="bg-[#EAF5EA] border border-[#C8E6C9] rounded-xl p-3 flex items-center justify-between text-xs">
+            <div className="space-y-2.5">
+              <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-3.5 flex items-center justify-between text-xs shadow-2xs">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#2E7D32]" />
-                  <span className="font-semibold text-[#172115]">
+                  <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+                  <span className="font-bold text-[#10B981]">
                     المبلغ المدفوع (مسبقاً)
                   </span>
                 </div>
-                <span className="font-bold text-[#2E7D32]">1,700 ر.س</span>
+                <span className="font-bold text-[#10B981]">1,700 ر.س</span>
               </div>
 
-              <div className="bg-[#F4F6F0] rounded-xl p-3 flex items-center justify-between text-xs">
+              <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-3.5 flex items-center justify-between text-xs shadow-2xs">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#7D8A78]" />
-                  <span className="font-semibold text-[#172115]">
+                  <div className="w-4 h-4 rounded-full border border-[#7D8A78] flex items-center justify-center">
+                    <div className="flex items-center gap-[1.5px]">
+                      <span className="w-[2px] h-[2px] rounded-full bg-[#7D8A78]" />
+                      <span className="w-[2px] h-[2px] rounded-full bg-[#7D8A78]" />
+                      <span className="w-[2px] h-[2px] rounded-full bg-[#7D8A78]" />
+                    </div>
+                  </div>
+                  <span className="font-bold text-[#172115]">
                     المتبقي عند الوصول
                   </span>
                 </div>
@@ -614,11 +640,17 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             </div>
 
             {/* Escrow Guarantee Note */}
-            <div className="bg-[#F4F6F0] rounded-xl p-3 flex items-center gap-2.5 text-[11px] text-[#7D8A78]">
-              <Lock className="w-4 h-4 text-[#7D8A78] shrink-0" />
-              <span>
-                طريقة الاستلام: حساب وسيط المنصة لضمان حقوق المالك والمستأجر.
-              </span>
+            <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-3.5 flex items-center gap-3 shadow-2xs">
+              <Lock className="w-4 h-4 text-[#34432E] shrink-0" />
+              <div className="text-xs leading-relaxed text-start">
+                <div>
+                  <span className="font-bold text-[#172115]">طريقة الاستلام: </span>
+                  <span className="font-bold text-[#172115]">حساب وسيط المنصة</span>
+                </div>
+                <div className="text-[#7D8A78] font-medium">
+                  لضمان حقوق المالك والمستأجر.
+                </div>
+              </div>
             </div>
           </div>
 
