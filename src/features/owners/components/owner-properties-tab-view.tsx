@@ -188,14 +188,13 @@ export function OwnerPropertiesTabView({
       {/* 1. Top Action Buttons Bar (Left in RTL: justify-end) */}
       <div className="flex items-center justify-end gap-3">
         {/* Primary Action: إضافة عقار للمالك */}
-        <button
-          type="button"
-          onClick={() => toast.info("نموذج إضافة عقار جديد للمالك قيد المعالجة")}
+        <Link
+          href="/dashboard/properties/new"
           className="bg-[#2E3C29] hover:bg-[#232F1F] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
         >
           <Building2 className="w-4 h-4" />
           <span>+ إضافة عقار للمالك</span>
-        </button>
+        </Link>
 
         {/* Secondary Action: عرض جميع العقارات في المنصة */}
         <Link

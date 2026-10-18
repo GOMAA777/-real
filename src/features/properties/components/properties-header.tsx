@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Plus, Download } from "lucide-react";
 
 export function PropertiesHeader() {
@@ -27,13 +28,13 @@ export function PropertiesHeader() {
         </button>
 
         {/* Add Property Button */}
-        <button
-          type="button"
+        <Link
+          href="/dashboard/properties/new"
           className="bg-[#34432E] hover:bg-[#253121] text-white px-5 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>إضافة عقار</span>
-        </button>
+        </Link>
       </div>
     </div>
   );
