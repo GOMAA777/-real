@@ -8,7 +8,6 @@ import {
   Search,
   Clock,
   MoreHorizontal,
-  Smartphone,
   ChevronRight,
   ChevronLeft,
   Building2,
@@ -347,14 +346,17 @@ export function OwnerPropertiesTabView({
 
                     {/* 4. الحجوزات الحالية */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="inline-flex flex-col items-center justify-center bg-[#F6F8F4] border border-[#EEF2E6] rounded-xl px-3 py-1.5 min-w-[88px]">
-                        <span className="font-bold text-xs text-[#172115]">
-                          {property.activeBookingsCount}
-                        </span>
-                        <span className="text-[10px] text-[#7D8A78] flex items-center gap-1 font-medium mt-0.5">
-                          <Smartphone className="w-3 h-3 text-[#7D8A78]" />
-                          <span>حجوزات نشطة</span>
-                        </span>
+                      <div className="inline-flex items-center gap-2 bg-[#EBEFE6] rounded-xl px-3 py-1.5 select-none">
+                        {/* Dot indicator (right side in RTL) */}
+                        <span className="w-1.5 h-2.5 rounded-full bg-[#4B5940] shrink-0" />
+                        <div className="flex flex-col text-right leading-tight">
+                          <span className="font-bold text-xs text-[#181D17]">
+                            {property.activeBookingsCount} حجوزات
+                          </span>
+                          <span className="font-bold text-[11px] text-[#181D17]">
+                            نشطة
+                          </span>
+                        </div>
                       </div>
                     </td>
 
