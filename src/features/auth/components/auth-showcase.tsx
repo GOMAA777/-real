@@ -50,8 +50,8 @@ export function AuthShowcase() {
 
         {/* Badge & Big Headline */}
         <div className="space-y-4 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-xs font-medium text-white/90">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#86EFAC]" />
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.12] text-xs font-medium text-[#D8E5D3] select-none">
+            <span className="w-2 h-2 rounded-full bg-[#D2E3CC] shrink-0" />
             <span>الجيل الجديد لإدارة الاملاك</span>
           </div>
 
