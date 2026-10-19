@@ -184,14 +184,7 @@ export function Breadcrumb({
     return result;
   }, [pathname, customItems]);
 
-  const canGoBack = breadcrumbs.length > 1;
-
-  // Do not render anything if on a primary/root tab
-  if (breadcrumbs.length === 0) {
-    return null;
-  }
-
-  // Generate Schema.org BreadcrumbList for rich results
+  // Generate Schema.org BreadcrumbList for rich results (unconditional hook)
   const schemaData = useMemo(() => {
     return {
       "@context": "https://schema.org",
@@ -206,6 +199,13 @@ export function Breadcrumb({
       })),
     };
   }, [breadcrumbs]);
+
+  const canGoBack = breadcrumbs.length > 1;
+
+  // Do not render anything if on a primary/root tab
+  if (breadcrumbs.length === 0) {
+    return null;
+  }
 
   return (
     <>
