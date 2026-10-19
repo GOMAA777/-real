@@ -5,9 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Building2,
-  User,
-  ShieldCheck,
-  Shield,
   MapPin,
   Crosshair,
   DoorClosed,
@@ -18,9 +15,9 @@ import {
   ArrowLeft,
   ArrowRightLeft,
   Phone,
-  Check,
   Menu,
-  IdCard,
+  Shield,
+  ShieldCheck,
   Workflow,
   ToggleRight,
   UserSearch,
@@ -36,8 +33,8 @@ interface AddPropertyFormProps {
 export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
   const router = useRouter();
 
-  // Form State
-  const [ownerSearch, setOwnerSearch] = useState("محمد العتيبي (مؤسسة محمد العتيبي العقارية)");
+  // Form State matching screenshot data
+  const [ownerSearch] = useState("محمد العتيبي (مؤسسة محمد العتيبي العقارية)");
   const [propertyName, setPropertyName] = useState("عمارة النخيل السكنية");
   const [propertyType, setPropertyType] = useState("عمارة سكنية تجارية");
   const [city, setCity] = useState("الرياض");
@@ -50,7 +47,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
     "عقار سكني حديث التشطيب مكون من 4 أدوار، مزود بمصعدين حديثين ومواقف سفلية مخصصة لكل وحدة، كاميرات مراقبة وحراسة أمنية متكاملة على مدار الساعة."
   );
   const [operationalStatus, setOperationalStatus] = useState<"active" | "inactive">("active");
-  const [mapType, setMapType] = useState<"m" | "k">("m"); // 'm' for roadmap, 'k' for satellite
+  const [mapType, setMapType] = useState<"m" | "k">("m"); // 'm' roadmap, 'k' satellite
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -69,10 +66,10 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 pb-36 animate-in fade-in duration-300">
-      {/* 1. Page Header matching design */}
+      {/* 1. Page Header matching Screenshot 1 */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-2xs">
-        {/* Right side: Title & Description */}
-        <div className="space-y-1">
+        {/* Right side in RTL: Title & Subtitle */}
+        <div className="space-y-1 text-right">
           <h1 className="text-2xl sm:text-3xl font-black text-[#172115]">
             إضافة عقار جديد
           </h1>
@@ -81,18 +78,18 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
           </p>
         </div>
 
-        {/* Left side: Administrative Certification Badge */}
-        <div className="bg-[#F0F4EB] border border-[#E2E6DC] rounded-2xl p-3 sm:px-4 sm:py-2.5 flex items-center gap-3 w-fit">
+        {/* Left side in RTL: Administrative Certification Badge */}
+        <div className="bg-[#EBF0E6] border border-[#DEE5D8] rounded-2xl p-3 px-4 py-2.5 flex items-center gap-3 w-fit">
+          <div className="w-10 h-10 rounded-2xl bg-[#374631] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <ShieldCheck className="w-5 h-5 text-[#EBF0E6]" />
+          </div>
           <div className="text-right">
             <div className="text-xs font-bold text-[#172115]">
               إجراء إداري معتمد
             </div>
-            <div className="text-[11px] text-[#7D8A78] font-medium">
+            <div className="text-[11px] text-[#717E6E] font-normal mt-0.5">
               يرتبط العقار مباشرة بمحفظة المالك المحددة مع إشعار فوري.
             </div>
-          </div>
-          <div className="w-9 h-9 rounded-xl bg-[#34432E] text-white flex items-center justify-center shrink-0 shadow-2xs">
-            <ShieldCheck className="w-5 h-5" />
           </div>
         </div>
       </div>
@@ -102,15 +99,15 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
         {/* Right Column (Main Form Fields: 8 cols) */}
         <div className="lg:col-span-8 space-y-6">
           {/* Card 1: مالك العقار */}
-          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC]/80 shadow-2xs space-y-5">
-            {/* Header */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
+            {/* Header: Title on Right, "مطلوب إلزاميا" on Left */}
             <div className="flex items-center justify-between">
-              <span className="bg-[#D8E4D0] text-[#3C4A37] text-xs font-bold px-3.5 py-1 rounded-full select-none">
-                مطلوب إلزامياً
-              </span>
-
-              <div className="flex items-center gap-3">
-                <div className="text-end">
+              {/* Right side: Icon + Title & Subtitle */}
+              <div className="flex items-center gap-3 text-right">
+                <div className="w-10 h-10 rounded-2xl bg-[#EAF0E5] text-[#283820] flex items-center justify-center shrink-0">
+                  <Building2 className="w-5 h-5 text-[#2B3925]" />
+                </div>
+                <div>
                   <h2 className="text-base sm:text-lg font-bold text-[#172115]">
                     مالك العقار
                   </h2>
@@ -118,102 +115,103 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                     المالك القانوني المقيد في هيئة العقار ووثائق الملكية
                   </p>
                 </div>
-                <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-                  <IdCard className="w-5 h-5" />
-                </div>
               </div>
+
+              {/* Left side: Required Pill Badge */}
+              <span className="bg-[#DDE7D6] text-[#364430] text-xs font-bold px-3.5 py-1 rounded-full select-none">
+                مطلوب إلزاميا
+              </span>
             </div>
 
             {/* Owner Search/Selection Bar */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-[#172115] text-end">
+              <label className="block text-xs font-bold text-[#172115] text-right">
                 البحث عن المالك وتحديده
               </label>
-              <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-2.5 flex items-center justify-between gap-3 shadow-2xs">
-                {/* Left: تغيير button */}
+              <div className="bg-[#F1F5EB] border border-[#E0E5D8]/70 rounded-2xl p-2.5 flex items-center justify-between gap-3">
+                {/* Right in RTL: Icon + Text */}
+                <div className="flex items-center gap-2.5 text-xs text-[#172115] font-semibold px-2">
+                  <UserSearch className="w-4 h-4 text-[#7D8A78]" />
+                  <span>{ownerSearch}</span>
+                </div>
+
+                {/* Left in RTL: تغيير button */}
                 <button
                   type="button"
                   onClick={() => toast.info("البحث عن مالك آخر")}
-                  className="bg-[#DDE5D6] hover:bg-[#D2DDD6] text-[#2C3825] px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="bg-[#DEE7D7] hover:bg-[#D5E0CD] text-[#2C3825] px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <ArrowRightLeft className="w-3.5 h-3.5" />
                   <span>تغيير</span>
+                  <ArrowRightLeft className="w-3.5 h-3.5" />
                 </button>
-
-                {/* Right: User icon + text */}
-                <div className="flex items-center gap-2.5 text-xs text-[#172115] font-semibold px-2">
-                  <span>{ownerSearch}</span>
-                  <UserSearch className="w-4 h-4 text-[#7D8A78]" />
-                </div>
               </div>
             </div>
 
-            {/* Selected Owner Preview Box */}
-            <div className="bg-[#F3F6EF] rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-[#E5EAE0]">
-              {/* View Owner Profile Button on the far left */}
-              <Link
-                href="/dashboard/owners/1"
-                className="bg-white hover:bg-[#FAFBF9] border border-[#E2E6DC] text-[#2C3825] px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-xs transition-colors shrink-0 self-start sm:self-center order-2 sm:order-1"
-              >
-                <ExternalLink className="w-3.5 h-3.5 text-[#7D8A78]" />
-                <span>ملف المالك</span>
-              </Link>
-
-              {/* Owner Info with Avatar on the far right in RTL */}
-              <div className="flex items-center gap-3.5 order-1 sm:order-2">
-                <div className="space-y-1 text-end">
-                  <div className="flex items-center justify-end gap-2.5">
-                    <span className="bg-[#DDE5D7] text-[#34432E] text-[11px] font-bold px-2.5 py-0.5 rounded-lg">
-                      حساب موثق
-                    </span>
-                    <h3 className="text-base font-bold text-[#172115]">
-                      محمد بن سعود العتيبي
-                    </h3>
-                  </div>
-
-                  <div className="flex items-center justify-end gap-2 text-xs text-[#7D8A78] flex-wrap font-medium">
-                    <span>•</span>
-                    <span className="flex items-center gap-1 font-semibold text-[#172115]">
-                      <span dir="ltr">1200028491</span>
-                      <span>:رخصة فال</span>
-                      <BadgeCheck className="w-3.5 h-3.5 text-[#7D8A78]" />
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <span dir="ltr">+966 55 123 4567</span>
-                      <Phone className="w-3.5 h-3.5 text-[#7D8A78]" />
-                    </span>
-                  </div>
-
-                  <div className="text-xs text-[#7D8A78] font-medium text-end">
-                    مؤسسة محمد العتيبي للتطوير العقاري
-                  </div>
-                </div>
-
+            {/* Selected Owner Preview Box matching Screenshot 1 */}
+            <div className="bg-[#F8FAF6] rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-[#E8EDE2]">
+              {/* Right in RTL: Owner Avatar & Info */}
+              <div className="flex items-center gap-3.5">
                 <div className="relative shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#4B5945] text-white font-bold flex items-center justify-center text-lg shadow-2xs">
+                  <div className="w-12 h-12 rounded-full bg-[#384832] text-white font-bold flex items-center justify-center text-lg shadow-2xs">
                     م
                   </div>
                   <span className="w-3.5 h-3.5 rounded-full bg-[#10B981] border-2 border-white absolute bottom-0 left-0" />
                 </div>
+
+                <div className="space-y-1 text-right">
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="text-base font-bold text-[#172115]">
+                      محمد بن سعود العتيبي
+                    </h3>
+                    <span className="bg-[#E0E6DA] text-[#34432E] text-[11px] font-bold px-2.5 py-0.5 rounded-lg">
+                      حساب موثق
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs text-[#7D8A78] flex-wrap font-medium">
+                    <span className="flex items-center gap-1">
+                      <Phone className="w-3.5 h-3.5 text-[#7D8A78]" />
+                      <span dir="ltr">+966 55 123 4567</span>
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1 font-semibold text-[#172115]">
+                      <BadgeCheck className="w-3.5 h-3.5 text-[#7D8A78]" />
+                      <span>رخصة فال:</span>
+                      <span dir="ltr">1200028491</span>
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-[#7D8A78] font-medium text-right">
+                    مؤسسة محمد العتيبي للتطوير العقاري
+                  </div>
+                </div>
               </div>
+
+              {/* Left in RTL: View Owner Profile Button */}
+              <Link
+                href="/dashboard/owners/1"
+                className="bg-white hover:bg-[#FAFBF9] border border-[#E2E6DC] text-[#2C3825] px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-xs transition-colors shrink-0 self-start sm:self-center"
+              >
+                <span>ملف المالك</span>
+                <ExternalLink className="w-3.5 h-3.5 text-[#7D8A78]" />
+              </Link>
             </div>
           </div>
 
-          {/* Card 2: بيانات العقار الأساسية */}
-          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC]/80 shadow-2xs space-y-5">
+          {/* Card 2: بيانات العقار الأساسية matching Screenshot 2 */}
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
-            <div className="flex items-center justify-end gap-3">
-              <div className="text-end">
+            <div className="flex items-center gap-3 text-right">
+              <div className="w-10 h-10 rounded-2xl bg-[#EAF0E5] text-[#283820] flex items-center justify-center shrink-0">
+                <Building2 className="w-5 h-5 text-[#2B3925]" />
+              </div>
+              <div>
                 <h2 className="text-base sm:text-lg font-bold text-[#172115]">
                   بيانات العقار الأساسية
                 </h2>
                 <p className="text-xs text-[#7D8A78] mt-0.5 font-medium">
                   الاسم التجاري وتصنيف الأصل وموقعه الإداري
                 </p>
-              </div>
-              <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-                <Building2 className="w-5 h-5" />
               </div>
             </div>
 
@@ -224,7 +222,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                   كما يظهر في منصات التأجير والعقود
                 </span>
                 <label className="text-xs font-bold text-[#172115]">
-                  اسم العقار <span className="text-red-500">*</span>
+                  اسم العقار<span className="text-red-500">*</span>
                 </label>
               </div>
               <input
@@ -232,43 +230,23 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                 required
                 value={propertyName}
                 onChange={(e) => setPropertyName(e.target.value)}
-                placeholder="أدخل اسم العقار..."
-                className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-bold text-[#172115] focus:outline-none transition-all shadow-2xs text-end"
+                placeholder="عمارة النخيل السكنية"
+                className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-bold text-[#172115] focus:outline-none transition-all text-right"
               />
             </div>
 
-            {/* Row 2: نوع العقار & المدينة */}
+            {/* Row 2: نوع العقار (يمين) & المدينة (يسار) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* المدينة on the left in RTL (order-2 sm:order-1) */}
-              <div className="space-y-1.5 order-2 sm:order-1">
-                <label className="block text-xs font-bold text-[#172115] text-end">
-                  المدينة <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-10 text-xs text-[#172115] font-semibold appearance-none focus:outline-none transition-all shadow-2xs cursor-pointer text-end"
-                  >
-                    <option value="الرياض">الرياض</option>
-                    <option value="جدة">جدة</option>
-                    <option value="الدمام">الدمام</option>
-                    <option value="الخبر">الخبر</option>
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-[#7D8A78] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-
-              {/* نوع العقار on the right in RTL (order-1 sm:order-2) */}
-              <div className="space-y-1.5 order-1 sm:order-2">
-                <label className="block text-xs font-bold text-[#172115] text-end">
-                  نوع العقار <span className="text-red-500">*</span>
+              {/* نوع العقار on the right in RTL */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-[#172115] text-right">
+                  نوع العقار<span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <select
                     value={propertyType}
                     onChange={(e) => setPropertyType(e.target.value)}
-                    className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-10 text-xs text-[#172115] font-semibold appearance-none focus:outline-none transition-all shadow-2xs cursor-pointer text-end"
+                    className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-10 text-xs text-[#172115] font-semibold appearance-none focus:outline-none transition-all cursor-pointer text-right"
                   >
                     <option value="عمارة سكنية تجارية">عمارة سكنية تجارية</option>
                     <option value="مجمع سكني">مجمع سكني</option>
@@ -278,13 +256,48 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                   <ChevronDown className="w-4 h-4 text-[#7D8A78] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
+
+              {/* المدينة on the left in RTL */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-[#172115] text-right">
+                  المدينة<span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-10 text-xs text-[#172115] font-semibold appearance-none focus:outline-none transition-all cursor-pointer text-right"
+                  >
+                    <option value="الرياض">الرياض</option>
+                    <option value="جدة">جدة</option>
+                    <option value="الدمام">الدمام</option>
+                    <option value="الخبر">الخبر</option>
+                  </select>
+                  <ChevronDown className="w-4 h-4 text-[#7D8A78] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
             </div>
 
-            {/* Row 3: الحي & عدد الوحدات التقديري */}
+            {/* Row 3: الحي (يمين) & عدد الوحدات التقديري (يسار) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* عدد الوحدات التقديري on the left in RTL (order-2 sm:order-1) */}
-              <div className="space-y-1.5 order-2 sm:order-1">
-                <label className="block text-xs font-bold text-[#172115] text-end">
+              {/* الحي on the right in RTL */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-[#172115] text-right">
+                  الحي<span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
+                  placeholder="حي النخيل الغربي"
+                  className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-semibold text-[#172115] focus:outline-none transition-all text-right"
+                />
+              </div>
+
+              {/* عدد الوحدات التقديري on the left in RTL */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-[#172115] text-right">
                   عدد الوحدات التقديري
                 </label>
                 <div className="relative">
@@ -293,50 +306,36 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                     value={unitsCount}
                     onChange={(e) => setUnitsCount(e.target.value)}
                     placeholder="24"
-                    className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-11 text-xs font-semibold text-[#172115] text-end focus:outline-none transition-all shadow-2xs"
+                    className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 pr-4 pl-11 text-xs font-semibold text-[#172115] text-center focus:outline-none transition-all"
                   />
-                  <DoorClosed className="w-4 h-4 text-[#7D8A78] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <DoorClosed className="w-4 h-4 text-[#7D8A78] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
-              </div>
-
-              {/* الحي on the right in RTL (order-1 sm:order-2) */}
-              <div className="space-y-1.5 order-1 sm:order-2">
-                <label className="block text-xs font-bold text-[#172115] text-end">
-                  الحي <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={district}
-                  onChange={(e) => setDistrict(e.target.value)}
-                  placeholder="أدخل اسم الحي..."
-                  className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-semibold text-[#172115] focus:outline-none transition-all shadow-2xs text-end"
-                />
               </div>
             </div>
 
             {/* Row 4: العنوان التفصيلي والشارع */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-[#172115] text-end">
+              <label className="block text-xs font-bold text-[#172115] text-right">
                 العنوان التفصيلي والشارع
               </label>
               <input
                 type="text"
                 value={addressDetails}
                 onChange={(e) => setAddressDetails(e.target.value)}
-                placeholder="أدخل الشارع والتقاطع والمبنى..."
-                className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-semibold text-[#172115] focus:outline-none transition-all shadow-2xs text-end"
+                placeholder="طريق الإمام سعود بن فيصل، بالقرب من تقاطع الملك فهد، مبنى رقم 482"
+                className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl h-12 px-4 text-xs font-semibold text-[#172115] focus:outline-none transition-all text-right"
               />
             </div>
           </div>
 
-          {/* Card 3: الموقع الجغرافي وإحداثيات الخريطة */}
+          {/* Card 3: الموقع الجغرافي وإحداثيات الخريطة matching Screenshot 2 & 3 */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4">
-            {/* Header */}
+            {/* Header: Title on Right, GPS button on Left */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#EEF2E6] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-                  <MapPin className="w-5 h-5" />
+              {/* Right side: Icon + Title & Subtitle */}
+              <div className="flex items-center gap-3 text-right">
+                <div className="w-10 h-10 rounded-2xl bg-[#EAF0E5] text-[#283820] flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-[#2B3925]" />
                 </div>
                 <div>
                   <h2 className="text-base sm:text-lg font-bold text-[#172115]">
@@ -348,32 +347,36 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                 </div>
               </div>
 
+              {/* Left side: GPS button */}
               <button
                 type="button"
-                onClick={() => toast.success("تم تحديث الإحداثيات عبر نظام GPS بدقة")}
-                className="bg-[#F0F4EB] hover:bg-[#E2E6DC] text-[#2E3C29] text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 border border-[#E2E6DC] transition-colors cursor-pointer"
+                onClick={() => toast.success("تم تحديد الموقع عبر نظام GPS بدقة")}
+                className="bg-[#DEE7D7] hover:bg-[#D5E0CD] text-[#283820] text-xs font-bold px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
               >
-                <Crosshair className="w-3.5 h-3.5 text-[#2E3C29]" />
                 <span>تحديد الموقع عبر GPS</span>
+                <Crosshair className="w-3.5 h-3.5 text-[#283820]" />
               </button>
             </div>
 
-            {/* Address input bar */}
-            <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-2 flex items-center justify-between gap-3">
+            {/* Address Search Row */}
+            <div className="bg-[#F1F5EB] border border-[#E0E5D8]/70 rounded-2xl p-2 flex items-center justify-between gap-3">
+              {/* Left in RTL: Confirm point button */}
               <button
                 type="button"
                 onClick={() => toast.info("تم تأكيد النقطة الجغرافية للعقار")}
-                className="bg-[#2E3C29] hover:bg-[#232F1F] text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                className="bg-[#34432E] hover:bg-[#232F1F] text-white text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
               >
                 تأكيد النقطة
               </button>
+
+              {/* Right in RTL: Address text + pin icon */}
               <div className="flex items-center gap-2 text-xs text-[#172115] font-semibold px-2">
                 <span>حي النخيل، الرياض، المملكة العربية السعودية</span>
                 <MapPin className="w-4 h-4 text-[#7D8A78]" />
               </div>
             </div>
 
-            {/* Visual Map matching design with Center Pin and Bottom Floating Info Bar */}
+            {/* Visual Map Container */}
             <div className="relative rounded-3xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6] shadow-2xs w-full aspect-[696/340]">
               {/* Live Interactive Google Map */}
               <iframe
@@ -399,9 +402,9 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                 </div>
               </div>
 
-              {/* Floating Bottom Bar inside the map matching user screenshot */}
+              {/* Floating Bottom Bar inside the map */}
               <div className="absolute bottom-3 inset-x-3 bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-3.5 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 border border-black/5 z-20">
-                {/* Coordinates & Zone Info */}
+                {/* Right in RTL: Coordinates & Zone Info */}
                 <div className="flex items-center gap-2 text-xs flex-wrap text-right">
                   <Crosshair className="w-4 h-4 text-[#2E3C29] shrink-0" />
                   <span className="font-bold text-[#172115]">الإحداثيات:</span>
@@ -414,7 +417,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                   </span>
                 </div>
 
-                {/* Satellite & External Google Maps Buttons */}
+                {/* Left in RTL: Satellite & External Google Maps Buttons */}
                 <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                   <button
                     type="button"
@@ -434,7 +437,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                         "_blank"
                       )
                     }
-                    className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    className="bg-[#34432E] hover:bg-[#232F1F] text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
                   >
                     <span>خرائط Google</span>
                     <ExternalLink className="w-3.5 h-3.5 text-white" />
@@ -445,12 +448,16 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
           </div>
         </div>
 
-        {/* Left Column in exact order: 1. بيانات إضافية, 2. الحالة التشغيلية */}
+        {/* Left Column (4 cols) matching Screenshot 1, 2, 3 */}
         <div className="lg:col-span-4 space-y-6">
           {/* Card 1: بيانات إضافية */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC]/80 shadow-2xs space-y-4">
-            <div className="flex items-center justify-end gap-3">
-              <div className="text-end">
+          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-3 text-right">
+              <div className="w-10 h-10 rounded-2xl bg-[#EAF0E5] text-[#283820] flex items-center justify-center shrink-0">
+                <Menu className="w-5 h-5 text-[#2B3925]" />
+              </div>
+              <div>
                 <h3 className="text-base font-bold text-[#172115]">
                   بيانات إضافية
                 </h3>
@@ -458,57 +465,55 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                   معلومات تسويقية وتفاصيل تشغيلية
                 </p>
               </div>
-              <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-                <Menu className="w-5 h-5" />
-              </div>
             </div>
 
             {/* Field: وصف العقار */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-[#7D8A78] font-medium">
-                  اختياري
-                </span>
                 <label className="text-xs font-bold text-[#172115]">
                   وصف العقار
                 </label>
+                <span className="text-xs text-[#7D8A78] font-medium">
+                  اختياري
+                </span>
               </div>
               <textarea
                 rows={4}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="أدخل وصف العقار والمواصفات المعمارية..."
-                className="w-full bg-[#EEF2E8] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl p-4 text-xs text-[#172115] leading-relaxed focus:outline-none transition-all shadow-2xs text-end"
+                placeholder="أدخل وصف العقار..."
+                className="w-full bg-[#F1F5EB] border border-[#E0E5D8]/70 focus:bg-white focus:border-[#CCD5C5] rounded-2xl p-4 text-xs font-medium text-[#172115] leading-relaxed focus:outline-none transition-all text-right"
               />
             </div>
 
-            {/* Callout: إعداد الوحدات الفردية */}
-            <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-4 space-y-2">
-              <div className="flex items-center justify-end gap-2 text-end">
+            {/* Sub-card: إعداد الوحدات الفردية */}
+            <div className="bg-[#F8FAF6] border border-[#E8EDE2] rounded-2xl p-4 space-y-2">
+              <div className="flex items-center gap-2 text-right">
+                <Workflow className="w-4 h-4 text-[#34432E] shrink-0" />
                 <h4 className="text-xs font-bold text-[#172115]">
                   إعداد الوحدات الفردية
                 </h4>
-                <Workflow className="w-4 h-4 text-[#34432E] shrink-0" />
               </div>
-              <p className="text-[11px] text-[#7D8A78] leading-relaxed text-end">
+              <p className="text-[11px] text-[#7D8A78] leading-relaxed text-right font-medium">
                 سيتم إنشاء وترقيم الوحدات الفردية (شقق، أجنحة، مكاتب) ومساحاتها وأسعار عقودها فور الانتهاء من حفظ العقار.
               </p>
             </div>
           </div>
 
-          {/* Card 2: الحالة التشغيلية */}
-          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC]/80 shadow-2xs space-y-4">
-            <div className="flex items-center justify-end gap-3">
-              <div className="text-end">
+          {/* Card 2: الحالة التشغيلية matching Screenshot 2 */}
+          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
+            {/* Header */}
+            <div className="flex items-center gap-3 text-right">
+              <div className="w-10 h-10 rounded-2xl bg-[#EAF0E5] text-[#283820] flex items-center justify-center shrink-0">
+                <ToggleRight className="w-5 h-5 text-[#2B3925]" />
+              </div>
+              <div>
                 <h3 className="text-base font-bold text-[#172115]">
                   الحالة التشغيلية
                 </h3>
                 <p className="text-xs text-[#7D8A78] mt-0.5 font-medium">
                   تحديد إمكانية التسكين والظهور
                 </p>
-              </div>
-              <div className="w-10 h-10 rounded-2xl bg-[#EEF2E8] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-                <ToggleRight className="w-5 h-5" />
               </div>
             </div>
 
@@ -518,17 +523,13 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
               <div
                 onClick={() => setOperationalStatus("active")}
                 className={cn(
-                  "rounded-2xl p-4 transition-all cursor-pointer select-none border",
+                  "rounded-2xl p-4 transition-all cursor-pointer select-none border text-right",
                   operationalStatus === "active"
-                    ? "bg-[#EEF2E8] border-[#D5DFC8] shadow-2xs"
-                    : "bg-[#EEF2E8] border-[#E0E5D8]/70 hover:bg-[#E8EDE2]"
+                    ? "bg-[#F1F5EB] border-[#D5DFC8]"
+                    : "bg-[#F1F5EB] border-[#E0E5D8]/70 hover:bg-[#E8EDE2]"
                 )}
               >
-                <div className="flex items-center justify-end gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] shrink-0" />
-                  <span className="font-bold text-xs text-[#172115]">
-                    عقار نشط (موصى به)
-                  </span>
+                <div className="flex items-center gap-2">
                   <span
                     className={cn(
                       "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0",
@@ -541,8 +542,12 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                       <span className="w-2 h-2 rounded-full bg-[#34432E]" />
                     )}
                   </span>
+                  <span className="font-bold text-xs text-[#172115]">
+                    عقار نشط (موصى به)
+                  </span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] shrink-0" />
                 </div>
-                <p className="text-xs text-[#7D8A78] mt-1.5 leading-relaxed text-end">
+                <p className="text-xs text-[#7D8A78] mt-1.5 leading-relaxed pr-6 font-medium">
                   جاهز للإدراج الفوري، قبول العقود، وربط المستأجرين والوحدات بالنظام.
                 </p>
               </div>
@@ -551,16 +556,13 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
               <div
                 onClick={() => setOperationalStatus("inactive")}
                 className={cn(
-                  "rounded-2xl p-4 transition-all cursor-pointer select-none border",
+                  "rounded-2xl p-4 transition-all cursor-pointer select-none border text-right",
                   operationalStatus === "inactive"
-                    ? "bg-[#EEF2E8] border-[#D5DFC8] shadow-2xs"
-                    : "bg-[#EEF2E8] border-[#E0E5D8]/70 hover:bg-[#E8EDE2]"
+                    ? "bg-[#F1F5EB] border-[#D5DFC8]"
+                    : "bg-[#F1F5EB] border-[#E0E5D8]/70 hover:bg-[#E8EDE2]"
                 )}
               >
-                <div className="flex items-center justify-end gap-2">
-                  <span className="font-bold text-xs text-[#172115]">
-                    غير نشط (قيد التجهيز)
-                  </span>
+                <div className="flex items-center gap-2">
                   <span
                     className={cn(
                       "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0",
@@ -573,29 +575,55 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
                       <span className="w-2 h-2 rounded-full bg-[#34432E]" />
                     )}
                   </span>
+                  <span className="font-bold text-xs text-[#172115]">
+                    غير نشط (قيد التجهيز)
+                  </span>
                 </div>
-                <p className="text-xs text-[#7D8A78] mt-1.5 leading-relaxed text-end">
+                <p className="text-xs text-[#7D8A78] mt-1.5 leading-relaxed pr-6 font-medium">
                   يُحفظ كمسودة أولية معطلة عن العمليات المالية لحين اكتمال أوراق التراخيص.
                 </p>
               </div>
             </div>
 
             {/* Callout: توثيق سجل العمليات الإدارية (Audit Trail) */}
-            <div className="bg-[#EEF2E8] border border-[#E0E5D8]/70 rounded-2xl p-4 space-y-1.5">
-              <div className="flex items-center justify-end gap-2 text-xs font-bold text-[#172115]">
-                <span>توثيق سجل العمليات الإدارية (Audit Trail)</span>
+            <div className="bg-[#F8FAF6] border border-[#E8EDE2] rounded-2xl p-4 space-y-1.5 text-right">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#172115]">
                 <Shield className="w-4 h-4 text-[#34432E]" />
+                <span>توثيق سجل العمليات الإدارية (Audit Trail)</span>
               </div>
-              <div className="text-xs text-[#7D8A78] leading-relaxed space-y-0.5 text-end">
+              <div className="text-xs text-[#7D8A78] leading-relaxed space-y-0.5 font-medium">
                 <div>المشرف المنفذ: محمد أحمد (مدير المنصة).</div>
                 <div>سيتم تسجيل وقت الإضافة والبصمة الرقمية للنظام تلقائياً.</div>
               </div>
             </div>
           </div>
+
+          {/* Card 3: سعة المحفظة الحالية للمالك matching Screenshot 3 */}
+          <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-3.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-[#7D8A78] font-medium">
+                سعة المحفظة الحالية للمالك
+              </span>
+              <span className="text-base font-bold text-[#172115]">
+                6 عقارات
+              </span>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-[#EEF2E6] rounded-full h-2 overflow-hidden">
+              <div className="bg-[#384832] h-full rounded-full w-[70%]" />
+            </div>
+
+            {/* Subtext */}
+            <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <span>المستخدم: 70% من باقة المحفظة</span>
+              <span>باقة أعمال غير محدودة</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 3. Floating Bottom Confirmation & Save Bar (عائم في الصفحة) matching Image 3 */}
+      {/* 3. Floating Bottom Confirmation & Save Bar matching Screenshot 3 */}
       <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-4 px-6 sm:px-10 z-50 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
         <div className="max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Status message on the right in RTL */}
@@ -608,7 +636,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
           <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
             <Link
               href="/dashboard/properties"
-              className="bg-[#F0F2ED] hover:bg-[#E5E8E1] text-[#2C3825] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-colors cursor-pointer text-center"
+              className="bg-[#F1F5EB] hover:bg-[#E5EAE0] text-[#172115] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-colors cursor-pointer text-center"
             >
               إلغاء
             </Link>
@@ -617,10 +645,10 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
               type="button"
               disabled={isSubmitting}
               onClick={() => handleSubmit()}
-              className="bg-[#DEE7D7] hover:bg-[#D2DDD5] text-[#2C3825] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="bg-[#DEE7D7] hover:bg-[#D5E0CD] text-[#283820] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
-              <ArrowLeft className="w-4 h-4" />
               <span>حفظ ومتابعة لإضافة الوحدات</span>
+              <ArrowLeft className="w-4 h-4" />
             </button>
 
             <button
