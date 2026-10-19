@@ -54,6 +54,7 @@ const SEGMENT_TITLES: Record<
   reports: { label: "التقارير والإحصائيات", icon: BarChart3 },
   settings: { label: "الإعدادات العامة", icon: SlidersHorizontal },
   profile: { label: "الملف الشخصي", icon: UserCircle2 },
+  guests: { label: "بيانات العميل", icon: Users },
 };
 
 function formatTodayArabic(): string {
@@ -169,6 +170,10 @@ export function Breadcrumb({
         } else if (prevSeg === "units") {
           label = "تفاصيل الوحدة";
           icon = Home;
+        } else if (prevSeg === "guests") {
+          label = "خالد العتيبي";
+          icon = UserCircle2;
+          badge = `#${seg === "1" ? "GUST-89324" : seg}`;
         }
 
         result.push({
