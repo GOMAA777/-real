@@ -74,6 +74,13 @@ async function PropertyDetailContent({ params }: PageProps) {
           <PropertyAdminActions ownerId="1" ownerName="محمد العتيبي" />
         </div>
       </div>
+
+      {/* 3. Bottom Full-Width Table: Recent Bookings */}
+      <PropertyRecentBookings
+        bookings={property.recentBookings}
+        propertyName={property.name}
+        totalBookingsCount={10}
+      />
     </div>
   );
 }
