@@ -66,7 +66,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 pb-36 animate-in fade-in duration-300">
+    <form onSubmit={handleSubmit} className="space-y-8 lg:space-y-10 pb-36 animate-in fade-in duration-300">
       {/* 1. Page Header matching Screenshot 1 */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-2xs">
         {/* Right side in RTL: Title & Subtitle */}
@@ -96,9 +96,9 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
       </div>
 
       {/* 2. Main Two-Column Form Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         {/* Right Column (Main Form Fields: 8 cols) */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="lg:col-span-8 space-y-8 lg:space-y-10">
           {/* Card 1: مالك العقار */}
           <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header: Title on Right, "مطلوب إلزاميا" on Left */}
@@ -450,7 +450,7 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
         </div>
 
         {/* Left Column (4 cols) matching Screenshot 1, 2, 3 */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="lg:col-span-4 space-y-8 lg:space-y-10">
           {/* Card 1: بيانات إضافية */}
           <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Header */}

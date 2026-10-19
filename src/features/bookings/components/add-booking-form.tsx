@@ -65,7 +65,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
   };
 
   return (
-    <div className="space-y-6 pb-28" dir="rtl">
+    <div className="space-y-8 lg:space-y-10 pb-28" dir="rtl">
       {/* 1. Page Header Card (Matching exact user crop in media_1792324248844.png) */}
       <div className="bg-white rounded-[28px] py-7 px-8 sm:px-10 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-2xs">
         {/* Right side: Title & Subtitle */}
@@ -94,9 +94,9 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
       </div>
 
       {/* 2. Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         {/* RIGHT COLUMN (8 cols): Main Form Sections */}
-        <div className="lg:col-span-8 space-y-6 order-1">
+        <div className="lg:col-span-8 space-y-8 lg:space-y-10 order-1">
           {/* Section 1: بيانات تخصيص الأصل العقاري */}
           <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-5">
             {/* Header */}
@@ -557,7 +557,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
         </div>
 
         {/* LEFT COLUMN (4 cols): Summary, Unit Preview & System Actions */}
-        <div className="lg:col-span-4 space-y-6 order-2">
+        <div className="lg:col-span-4 space-y-8 lg:space-y-10 order-2">
           {/* Card 1: الدفع والرسوم */}
           <div className="bg-white rounded-[28px] p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Header */}
