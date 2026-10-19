@@ -6,11 +6,47 @@ import { BookingDetail } from "../types";
 
 interface BookingWhatsAppAutomationCardProps {
   automation: BookingDetail["automation"];
+  isCancelled?: boolean;
 }
 
 export function BookingWhatsAppAutomationCard({
   automation,
+  isCancelled = false,
 }: BookingWhatsAppAutomationCardProps) {
+  const cancelledSteps = [
+    {
+      id: "step-1",
+      title: "1. رسالة تأكيد الحجز والترحيب",
+      timestamp: "15 سبت • 11:33 ص",
+      description: "تم إرسال القسيمة وتفاصيل الحجز واللوكيشن إلى النزيل بنجاح",
+      status: "completed",
+    },
+    {
+      id: "step-2",
+      title: "2. بيانات الدخول وكود القفل الإلكتروني",
+      timestamp: "18 سبت • 12:00 م",
+      description: "مجدولة للإرسال التلقائي قبل موعد الوصول بـ 3 ساعات",
+      status: "scheduled",
+    },
+    {
+      id: "step-3",
+      title: "3. إشعار تأكيد إلغاء الحجز",
+      timestamp: "21 سبت • 09:00 ص",
+      description: "تم إرسال إشعار الإلغاء الفوري للنزيل والمالك آلياً.",
+      status: "cancelled_action",
+    },
+    {
+      id: "step-4",
+      title: "رسائل الدخول والخروج",
+      badge: "تم الالغاء اليا",
+      timestamp: "",
+      description: "تم شطب جدولة تذكيرات الوصول والتقييم اللاحقة.",
+      status: "cancelled_task",
+    },
+  ];
+
+  const stepsToRender = isCancelled ? cancelledSteps : automation.steps;
+
   return (
     <div className="bg-white rounded-3xl p-5 sm:p-6 lg:p-7 border border-[#E2E6DC] space-y-5 shadow-2xs">
       {/* Header */}
@@ -30,32 +66,50 @@ export function BookingWhatsAppAutomationCard({
         </span>
       </div>
 
-      {/* 3 Steps List */}
+      {/* Steps List */}
       <div className="space-y-3">
-        {automation.steps.map((step) => {
+        {stepsToRender.map((step: any) => {
           const isCompleted = step.status === "completed";
+          const isCancelledAction = step.status === "cancelled_action";
+          const isCancelledTask = step.status === "cancelled_task";
 
           return (
             <div
               key={step.id}
-              className="bg-[#EFF3EA] border border-[#DFE5D8] rounded-2xl p-4 space-y-1.5 text-right transition-colors"
+              className={`border rounded-2xl p-4 space-y-1.5 text-right transition-colors ${
+                isCancelledTask
+                  ? "bg-[#F7F9F5] border-[#E8EDE4]"
+                  : "bg-[#EFF3EA] border-[#DFE5D8]"
+              }`}
             >
-              {/* Top Row: Icon + Title (Right), Timestamp (Left) */}
+              {/* Top Row: Icon + Title (Right), Timestamp / Badge (Left) */}
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   {isCompleted ? (
-                    <CheckCircle2 className="w-4 h-4 text-[#2E7D32] shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-[#34432E] shrink-0" />
                   ) : (
-                    <Clock className="w-4 h-4 text-[#7D8A78] shrink-0" />
+                    <Clock className="w-4 h-4 text-[#34432E] shrink-0" />
                   )}
-                  <span className="text-xs sm:text-sm font-bold text-[#172115]">
+                  <span
+                    className={`text-xs sm:text-sm font-bold ${
+                      isCancelledAction
+                        ? "text-[#D9383A]"
+                        : "text-[#172115]"
+                    }`}
+                  >
                     {step.title}
                   </span>
                 </div>
 
-                <span className="text-[11px] sm:text-xs text-[#7D8A78] font-medium shrink-0">
-                  {step.timestamp}
-                </span>
+                {step.badge ? (
+                  <span className="text-xs font-bold text-[#D9383A] shrink-0">
+                    {step.badge}
+                  </span>
+                ) : (
+                  <span className="text-[11px] sm:text-xs text-[#7D8A78] font-medium shrink-0">
+                    {step.timestamp}
+                  </span>
+                )}
               </div>
 
               {/* Description */}
@@ -68,7 +122,7 @@ export function BookingWhatsAppAutomationCard({
       </div>
 
       {/* Footer Link */}
-      <div className="pt-2 border-t border-[#EAEFE6]">
+      <div className="pt-2 flex justify-end">
         <button
           type="button"
           onClick={() =>

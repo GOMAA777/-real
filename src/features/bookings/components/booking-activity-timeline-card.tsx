@@ -6,11 +6,50 @@ import { BookingDetail } from "../types";
 
 interface BookingActivityTimelineCardProps {
   activityLog: BookingDetail["activityLog"];
+  isCancelled?: boolean;
 }
 
 export function BookingActivityTimelineCard({
   activityLog,
+  isCancelled = false,
 }: BookingActivityTimelineCardProps) {
+  const cancelledEvents = [
+    {
+      id: "act-0",
+      title: "تم إلغاء الحجز بواسطة مدير المنصة",
+      timestamp: "15 سبتمبر 2026 ▪ 11:35 ص",
+      dotColor: "bg-[#D9383A] ring-4 ring-[#FDF2F2]",
+      titleColor: "text-[#D9383A]",
+    },
+    {
+      id: "act-1",
+      title: "إرسال رسالة التأكيد عبر WhatsApp",
+      timestamp: "15 سبتمبر 2026 ▪ 11:33 ص",
+      dotColor: "bg-[#2E7D32] ring-4 ring-white",
+      titleColor: "text-[#172115]",
+    },
+    {
+      id: "act-2",
+      title: "تعيين الوحدة 204 وتأكيد التوافر",
+      timestamp: "15 سبتمبر 2026 ▪ 11:32 ص",
+      dotColor: "bg-[#2E7D32] ring-4 ring-white",
+      titleColor: "text-[#172115]",
+    },
+    {
+      id: "act-3",
+      title: "تم إنشاء الحجز عبر Whatsapp",
+      timestamp: "15 سبتمبر 2026 ▪ 11:32 ص ▪ API Sync",
+      dotColor: "bg-[#8A9684] ring-4 ring-white",
+      titleColor: "text-[#172115]",
+    },
+  ];
+
+  const eventsToRender = isCancelled ? cancelledEvents : activityLog.map((ev, i) => ({
+    ...ev,
+    dotColor: "bg-[#3D4C35] ring-4 ring-white",
+    titleColor: "text-[#172115]",
+  }));
+
   return (
     <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] space-y-5 shadow-2xs">
       {/* Header */}
@@ -26,19 +65,19 @@ export function BookingActivityTimelineCard({
 
         {/* Count Badge */}
         <span className="text-xs text-[#7D8A78] font-bold select-none">
-          {activityLog.length} أحداث
+          {eventsToRender.length} أحداث
         </span>
       </div>
 
       {/* Timeline Events */}
       <div className="relative ps-6 space-y-5 before:absolute before:top-2 before:bottom-2 before:start-2 before:w-0.5 before:bg-[#E2E6DC]">
-        {activityLog.map((event, index) => (
+        {eventsToRender.map((event, index) => (
           <div key={event.id || index} className="relative">
-            {/* Green Dot */}
-            <div className="absolute -start-[25px] top-1.5 w-3 h-3 rounded-full bg-[#3D4C35] ring-4 ring-white" />
+            {/* Color Dot */}
+            <div className={`absolute -start-[25px] top-1.5 w-3 h-3 rounded-full ${event.dotColor}`} />
 
             <div className="space-y-0.5">
-              <div className="text-xs sm:text-sm font-bold text-[#172115]">
+              <div className={`text-xs sm:text-sm font-bold ${event.titleColor}`}>
                 {event.title}
               </div>
               <div className="text-[11px] text-[#7D8A78] font-medium">
@@ -50,7 +89,7 @@ export function BookingActivityTimelineCard({
       </div>
 
       {/* Footer Link */}
-      <div className="pt-2 border-t border-[#EAEFE6]">
+      <div className="pt-2 flex justify-end">
         <button
           type="button"
           onClick={() => toast.info("فتح سجل العمليات والأحداث الشامل لهذا الحجز")}

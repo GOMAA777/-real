@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { BookingDetailView } from "@/features/bookings/components/booking-detail-view";
-import { defaultBookingDetail } from "@/features/bookings/data/mock-booking-detail";
+import { defaultBookingDetail, cancelledBookingDetail } from "@/features/bookings/data/mock-booking-detail";
 
 export const metadata: Metadata = {
   title: "تفاصيل الحجز | منصة أبراج",
@@ -38,11 +38,14 @@ export default function BookingDetailPage({ params }: PageProps) {
 async function BookingDetailContent({ params }: PageProps) {
   const { id } = await params;
 
-  // Enrich default booking with provided id
+  const isCancelled = id === "10482" || id === "BK-10482" || id === "bk-10482";
+  const baseBooking = isCancelled ? cancelledBookingDetail : defaultBookingDetail;
+
+  // Enrich booking with provided id
   const booking = {
-    ...defaultBookingDetail,
-    id: id || defaultBookingDetail.id,
-    bookingCode: id?.startsWith("BK-") ? id : defaultBookingDetail.bookingCode,
+    ...baseBooking,
+    id: id || baseBooking.id,
+    bookingCode: id?.startsWith("BK-") ? id : (isCancelled ? "BK-10482" : baseBooking.bookingCode),
   };
 
   return <BookingDetailView booking={booking} />;
