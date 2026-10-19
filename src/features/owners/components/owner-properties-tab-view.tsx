@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Globe,
   Search,
-  Clock,
   MoreHorizontal,
   ChevronRight,
   ChevronLeft,
@@ -22,6 +21,7 @@ import {
   PropertyFilterState,
 } from "./owner-properties-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TableDateCell } from "@/components/shared/table-date-cell";
 
 export interface OwnerPropertyItem {
   id: string;
@@ -32,6 +32,7 @@ export interface OwnerPropertyItem {
   activeBookingsCount: number;
   status: "reserved" | "available";
   lastUpdated: string;
+  relativeTime?: string;
   image: string;
 }
 
@@ -44,7 +45,8 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     unitsCount: 12,
     activeBookingsCount: 10,
     status: "reserved",
-    lastUpdated: "منذ ساعتين",
+    lastUpdated: "16 سبتمبر 2026",
+    relativeTime: "(اليوم)",
     image: "/properties/nakheel.png",
   },
   {
@@ -55,7 +57,8 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     unitsCount: 12,
     activeBookingsCount: 10,
     status: "reserved",
-    lastUpdated: "منذ ساعتين",
+    lastUpdated: "16 سبتمبر 2026",
+    relativeTime: "(اليوم)",
     image: "/properties/oasis.png",
   },
   {
@@ -66,7 +69,8 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     unitsCount: 12,
     activeBookingsCount: 10,
     status: "available",
-    lastUpdated: "منذ ساعتين",
+    lastUpdated: "16 سبتمبر 2026",
+    relativeTime: "(اليوم)",
     image: "/properties/aqeeq.png",
   },
   {
@@ -77,7 +81,8 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     unitsCount: 12,
     activeBookingsCount: 10,
     status: "reserved",
-    lastUpdated: "منذ ساعتين",
+    lastUpdated: "16 سبتمبر 2026",
+    relativeTime: "(اليوم)",
     image: "/properties/nakheel.png",
   },
 ];
@@ -291,7 +296,7 @@ export function OwnerPropertiesTabView({
                 <th className="px-4 py-4 whitespace-nowrap">عدد الوحدات</th>
                 <th className="px-4 py-4 whitespace-nowrap text-center">الحجوزات الحالية</th>
                 <th className="px-4 py-4 whitespace-nowrap text-center">الحالة</th>
-                <th className="px-4 py-4 whitespace-nowrap">اخر تحديث</th>
+                <th className="px-4 py-4 whitespace-nowrap text-center">اخر تحديث</th>
                 <th className="px-5 py-4 whitespace-nowrap text-center">الاجراءات</th>
               </tr>
             </thead>
@@ -376,11 +381,11 @@ export function OwnerPropertiesTabView({
                     </td>
 
                     {/* 6. اخر تحديث */}
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-1.5 text-xs text-[#7D8A78]">
-                        <Clock className="w-3.5 h-3.5 text-[#7D8A78]" />
-                        <span>{property.lastUpdated}</span>
-                      </div>
+                    <td className="px-4 py-4 whitespace-nowrap text-center">
+                      <TableDateCell
+                        date={property.lastUpdated}
+                        relativeTime={property.relativeTime}
+                      />
                     </td>
 
                     {/* 7. الاجراءات */}
