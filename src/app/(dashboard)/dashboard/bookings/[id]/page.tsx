@@ -12,8 +12,10 @@ export function generateStaticParams() {
   const numericIds = Array.from({ length: 100 }, (_, i) => ({ id: String(i + 1) }));
   const bookingIds = [
     { id: "1048" },
+    { id: "10482" },
     { id: "bk-1048" },
     { id: "BK-1048" },
+    { id: "BK-10482" },
     { id: "bk-1" },
     { id: "bk-2" },
     { id: "[id]" },

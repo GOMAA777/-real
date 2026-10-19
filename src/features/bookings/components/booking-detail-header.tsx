@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Calendar, CalendarPlus, FileEdit } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,14 +24,13 @@ export function BookingDetailHeader({ bookingCode = "BK-1048" }: BookingDetailHe
       {/* Action Buttons (Left in RTL) */}
       <div className="flex items-center gap-3 shrink-0">
         {/* Edit Booking Button */}
-        <button
-          type="button"
-          onClick={() => toast.info(`فتح نافذة تعديل الحجز: ${bookingCode}`)}
+        <Link
+          href={`/dashboard/bookings/${bookingCode}/edit`}
           className="bg-white hover:bg-[#F9FAF7] border border-[#D5DDD0] text-[#172115] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs transition-all cursor-pointer select-none active:scale-95"
         >
           <Calendar className="w-4 h-4 text-[#172115]" />
           <span>تعديل الحجز</span>
-        </button>
+        </Link>
 
         {/* Extend Stay Button */}
         <button

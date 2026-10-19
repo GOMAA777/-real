@@ -126,6 +126,16 @@ export function Breadcrumb({
           icon: SEGMENT_TITLES[seg].icon,
           isCurrent: isLast,
         });
+      } else if (seg === "edit") {
+        let label = "تعديل";
+        if (prevSeg.length > 0) label = "تعديل الحجز";
+
+        result.push({
+          label,
+          href: isLast ? undefined : `/dashboard${currentHref}`,
+          icon: CalendarDays,
+          isCurrent: isLast,
+        });
       } else if (seg === "new") {
         let label = "إضافة جديد";
         if (prevSeg === "properties") label = "إضافة عقار جديد";
