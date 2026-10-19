@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { motion } from "motion/react";
 import { clearAuthSession, getAuthUser, type AuthUser } from "@/lib/auth-session";
 import {
   Building,
@@ -64,20 +65,27 @@ export function Sidebar() {
   const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [optimisticHref, setOptimisticHref] = useState<string | null>(null);
 
   // Normalize pathname to strip basePath (/Edaret_Amlak) and any trailing slash
   const cleanPathname = (pathname || "")
     .replace(/^\/Edaret_Amlak/, "")
     .replace(/\/+$/, "") || "/";
 
+  // Reset optimistic href when URL changes
+  useEffect(() => {
+    setOptimisticHref(null);
+  }, [cleanPathname]);
+
   const isItemActive = (href: string) => {
+    const current = optimisticHref ?? cleanPathname;
     const cleanHref = href.replace(/^\/Edaret_Amlak/, "").replace(/\/+$/, "");
     if (cleanHref === "/dashboard") {
-      return cleanPathname === "/dashboard" || cleanPathname === "/";
+      return current === "/dashboard" || current === "/";
     }
     return (
-      cleanPathname === cleanHref ||
-      cleanPathname.startsWith(cleanHref + "/")
+      current === cleanHref ||
+      current.startsWith(cleanHref + "/")
     );
   };
 
@@ -100,9 +108,12 @@ export function Sidebar() {
     if (!isRouteAvailable(href)) {
       e.preventDefault();
       showUnderConstructionToast(`صفحة "${title}"`);
-    } else if (typeof window !== "undefined" && window.innerWidth < 1024) {
-      // Only close the drawer on mobile overlay mode, keep open on desktop
-      setSidebarOpen(false);
+    } else {
+      setOptimisticHref(href);
+      if (typeof window !== "undefined" && window.innerWidth < 1024) {
+        // Only close the drawer on mobile overlay mode, keep open on desktop
+        setSidebarOpen(false);
+      }
     }
   };
 
@@ -149,22 +160,36 @@ export function Sidebar() {
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
-                className="group relative flex items-center justify-center"
+                className="group relative flex items-center justify-center w-11 h-11 select-none outline-none"
               >
-                {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#45583E] text-white flex items-center justify-center shadow-xs border border-white/10">
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                {isActive && (
+                  <motion.div
+                    layoutId="miniMainNavActivePill"
+                    className="absolute inset-0 rounded-[14px] bg-[#45583E] shadow-xs border border-white/10 z-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                      mass: 0.8,
+                    }}
+                  />
                 )}
+
+                <div
+                  className={cn(
+                    "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
+                    isActive
+                      ? "text-white"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
 
                 {item.badge && (
                   <span
                     className={cn(
-                      "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center",
+                      "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center z-20",
                       isActive
                         ? "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#45583E]"
                         : "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#34432E]"
@@ -192,17 +217,31 @@ export function Sidebar() {
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
-                className="group relative flex items-center justify-center"
+                className="group relative flex items-center justify-center w-11 h-11 select-none outline-none"
               >
-                {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#45583E] text-white flex items-center justify-center shadow-xs border border-white/10">
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                {isActive && (
+                  <motion.div
+                    layoutId="miniSystemNavActivePill"
+                    className="absolute inset-0 rounded-[14px] bg-[#45583E] shadow-xs border border-white/10 z-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                      mass: 0.8,
+                    }}
+                  />
                 )}
+
+                <div
+                  className={cn(
+                    "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
+                    isActive
+                      ? "text-white"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
               </Link>
             );
           })}
@@ -247,7 +286,6 @@ export function Sidebar() {
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:hidden"
         )}
       >
-
         {/* Top Scrollable Area: Brand & Main Navigation */}
         <div className="flex flex-col gap-5 overflow-y-auto no-scrollbar">
           {/* Header Brand */}
@@ -294,16 +332,30 @@ export function Sidebar() {
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all",
+                      "group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
-                        ? "bg-[#45583E] text-white font-bold shadow-xs border border-white/10"
-                        : "text-white/75 hover:text-white hover:bg-white/5 font-medium"
+                        ? "text-white font-bold"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.06] font-medium"
                     )}
                   >
-                    <div className="flex items-center gap-2.5">
+                    {/* Animated Sliding Active Indicator Pill */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="mainNavActivePill"
+                        className="absolute inset-0 bg-[#45583E] rounded-xl border border-white/10 shadow-xs z-0"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                          mass: 0.8,
+                        }}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-2.5">
                       <Icon
                         className={cn(
-                          "w-4 h-4 transition-colors",
+                          "w-4 h-4 shrink-0 transition-colors duration-200",
                           isActive ? "text-white" : "text-white/60 group-hover:text-white"
                         )}
                       />
@@ -313,10 +365,8 @@ export function Sidebar() {
                     {item.badge && (
                       <span
                         className={cn(
-                          "text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center",
-                          isActive
-                            ? "bg-[#DCE7D3] text-[#2C3825]"
-                            : "bg-[#DCE7D3] text-[#2C3825]"
+                          "relative z-10 text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105",
+                          "bg-[#DCE7D3] text-[#2C3825]"
                         )}
                       >
                         {item.badge}
@@ -348,19 +398,35 @@ export function Sidebar() {
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs transition-all",
+                      "group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
-                        ? "bg-[#45583E] text-white font-bold shadow-xs border border-white/10"
-                        : "text-white/75 hover:text-white hover:bg-white/5 font-medium"
+                        ? "text-white font-bold"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.06] font-medium"
                     )}
                   >
-                    <Icon
-                      className={cn(
-                        "w-4 h-4 transition-colors",
-                        isActive ? "text-white" : "text-white/60 group-hover:text-white"
-                      )}
-                    />
-                    <span>{item.title}</span>
+                    {/* Animated Sliding Active Indicator Pill */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="systemNavActivePill"
+                        className="absolute inset-0 bg-[#45583E] rounded-xl border border-white/10 shadow-xs z-0"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                          mass: 0.8,
+                        }}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-2.5">
+                      <Icon
+                        className={cn(
+                          "w-4 h-4 shrink-0 transition-colors duration-200",
+                          isActive ? "text-white" : "text-white/60 group-hover:text-white"
+                        )}
+                      />
+                      <span>{item.title}</span>
+                    </div>
                   </Link>
                 );
               })}
