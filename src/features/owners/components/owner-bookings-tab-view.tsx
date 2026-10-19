@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Search,
   Plus,
@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { ExtendStayModal } from "@/features/bookings/components/extend-stay-modal";
 import { CancelBookingModal } from "@/features/bookings/components/cancel-booking-modal";
+import { BookingsEmptyStateView } from "@/features/bookings/components/bookings-empty-state-view";
 import { OwnerBookingItem } from "../types";
 import { defaultOwnerBookings } from "../data/mock-owner-bookings";
 
@@ -89,6 +90,16 @@ export function OwnerBookingsTabView({
       return true;
     });
   }, [bookings, filterStatus, searchQuery]);
+
+  const searchParams = useSearchParams();
+  const forceEmpty =
+    searchParams?.get("empty") === "true" ||
+    searchParams?.get("state") === "empty";
+
+  // If no bookings exist at all or empty state requested, render exact empty state view
+  if (bookings.length === 0 || forceEmpty) {
+    return <BookingsEmptyStateView />;
+  }
 
   return (
     <div className="space-y-5" dir="rtl">

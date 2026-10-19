@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { OwnerBookingsTabView } from "@/features/owners/components/owner-bookings-tab-view";
 
 export const metadata = {
@@ -8,7 +9,13 @@ export const metadata = {
 export default function BookingsPage() {
   return (
     <div className="pb-12">
-      <OwnerBookingsTabView />
+      <Suspense
+        fallback={
+          <div className="h-96 animate-pulse bg-white rounded-3xl border border-[#E2E6DC]" />
+        }
+      >
+        <OwnerBookingsTabView />
+      </Suspense>
     </div>
   );
 }
