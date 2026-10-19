@@ -108,11 +108,11 @@ export function LoginForm() {
               id="identifier"
               type="text"
               {...register("identifier")}
-              dir={identifierValue ? "auto" : "rtl"}
+              dir="ltr"
               placeholder="مثال: 0501234567 أو name@company.sa"
-              className="w-full h-12 pe-4 ps-12 rounded-2xl bg-white border border-[#E0E5D8]/80 text-sm text-[#182016] placeholder:text-[#9EA19A] placeholder:text-sm placeholder:text-start text-start focus:outline-none focus:ring-2 focus:ring-[#374732]/15 focus:border-[#374732] transition-all shadow-xs"
+              className="w-full h-12 pr-12 pl-4 rounded-2xl bg-white border border-[#E0E5D8]/80 text-sm text-[#182016] placeholder:text-[#9EA19A] placeholder:text-sm placeholder:text-right text-right focus:outline-none focus:ring-2 focus:ring-[#374732]/15 focus:border-[#374732] transition-all shadow-xs"
             />
-            <div className="absolute start-4 flex items-center pointer-events-none text-[#75786F]">
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-[#75786F]">
               <AtSign className="w-[18px] h-[18px]" strokeWidth={1.8} />
             </div>
           </div>
