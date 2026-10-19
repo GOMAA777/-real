@@ -124,7 +124,15 @@ export function Breadcrumb({
       const isLast = i === segments.length - 1;
       const prevSeg = i > 0 ? segments[i - 1] : "";
 
-      if (SEGMENT_TITLES[seg]) {
+      if (seg === "activity") {
+        const isPropertyActivity = currentHref.includes("properties");
+        result.push({
+          label: isPropertyActivity ? "سجل الأحداث الكامل للعقار" : "سجل نشاط الحجز",
+          href: isLast ? undefined : `/dashboard${currentHref}`,
+          icon: History,
+          isCurrent: isLast,
+        });
+      } else if (SEGMENT_TITLES[seg]) {
         result.push({
           label: SEGMENT_TITLES[seg].label,
           href: isLast ? undefined : `/dashboard${currentHref}`,

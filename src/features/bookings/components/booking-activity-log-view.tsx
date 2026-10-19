@@ -345,7 +345,7 @@ export function BookingActivityLogView({
             {/* Bottom Link */}
             <div className="pt-2 border-t border-[#F0F2EC]">
               <Link
-                href="/dashboard/properties/1"
+                href="/dashboard/properties/1/activity"
                 className="text-xs font-bold text-[#172115] hover:text-[#384633] inline-flex items-center gap-1.5 transition-colors cursor-pointer select-none"
               >
                 <span>عرض سجل الأحداث الكامل للعقار</span>

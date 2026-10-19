@@ -70,7 +70,11 @@ async function PropertyDetailContent({ params }: PageProps) {
             units={property.units}
             totalUnitsCount={property.totalUnits}
           />
-          <PropertyAdminActions ownerId="1" ownerName="محمد العتيبي" />
+          <PropertyAdminActions
+            ownerId="1"
+            ownerName="محمد العتيبي"
+            propertyId={property.id}
+          />
         </div>
       </div>
 

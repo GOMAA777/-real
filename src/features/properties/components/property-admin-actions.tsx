@@ -15,11 +15,13 @@ import { toast } from "sonner";
 interface PropertyAdminActionsProps {
   ownerId?: string;
   ownerName?: string;
+  propertyId?: string;
 }
 
 export function PropertyAdminActions({
   ownerId = "1",
   ownerName = "محمد العتيبي",
+  propertyId = "1",
 }: PropertyAdminActionsProps) {
   return (
     <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4" dir="rtl">
@@ -108,9 +110,8 @@ export function PropertyAdminActions({
         </button>
 
         {/* Action 4: عرض سجل النشاط والتدقيق */}
-        <button
-          type="button"
-          onClick={() => toast.info("عرض سجل الأنشطة والتدقيق الأمني")}
+        <Link
+          href={`/dashboard/properties/${propertyId}/activity`}
           className="w-full bg-[#F5F7F1] hover:bg-[#EAEFE3] rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3 transition-colors group cursor-pointer text-right"
         >
           <div className="flex items-center gap-3 min-w-0">
@@ -127,7 +128,7 @@ export function PropertyAdminActions({
             </div>
           </div>
           <ChevronLeft className="w-4 h-4 text-[#7D8A78] group-hover:text-[#172115] transition-colors shrink-0" />
-        </button>
+        </Link>
       </div>
 
       {/* 3. Divider & Archive Danger Button */}
