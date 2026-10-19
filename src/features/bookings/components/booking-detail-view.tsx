@@ -81,6 +81,7 @@ export function BookingDetailView({ booking }: BookingDetailViewProps) {
           <BookingActivityTimelineCard
             activityLog={booking.activityLog}
             isCancelled={isCancelled}
+            bookingCode={booking.bookingCode}
           />
         </div>
       </div>

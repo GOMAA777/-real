@@ -1,17 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { History, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import { BookingDetail } from "../types";
 
 interface BookingActivityTimelineCardProps {
   activityLog: BookingDetail["activityLog"];
   isCancelled?: boolean;
+  bookingCode?: string;
 }
 
 export function BookingActivityTimelineCard({
   activityLog,
   isCancelled = false,
+  bookingCode = "BK-10482",
 }: BookingActivityTimelineCardProps) {
   const cancelledEvents = [
     {
@@ -90,14 +92,13 @@ export function BookingActivityTimelineCard({
 
       {/* Footer Link */}
       <div className="pt-2 flex justify-end">
-        <button
-          type="button"
-          onClick={() => toast.info("فتح سجل العمليات والأحداث الشامل لهذا الحجز")}
+        <Link
+          href={`/dashboard/bookings/${bookingCode}/activity`}
           className="text-xs font-bold text-[#34432E] hover:text-[#172115] inline-flex items-center gap-1.5 transition-colors cursor-pointer select-none"
         >
           <span>عرض سجل النشاط الكامل</span>
           <ArrowLeft className="w-3.5 h-3.5" />
-        </button>
+        </Link>
       </div>
     </div>
   );

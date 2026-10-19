@@ -22,6 +22,7 @@ import {
   Plus,
   Sparkles,
   MessageSquare,
+  History,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -57,6 +58,7 @@ const SEGMENT_TITLES: Record<
   profile: { label: "الملف الشخصي", icon: UserCircle2 },
   guests: { label: "بيانات العميل", icon: Users },
   whatsapp: { label: "سجل رسائل WhatsApp", icon: MessageSquare },
+  activity: { label: "سجل نشاط الحجز", icon: History },
 };
 
 function formatTodayArabic(): string {
