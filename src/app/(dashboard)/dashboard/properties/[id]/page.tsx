@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { PropertyDetailHeader } from "@/features/properties/components/property-detail-header";
 import { PropertyHeroCard } from "@/features/properties/components/property-hero-card";
 import { PropertyArchitecturalSpecs } from "@/features/properties/components/property-architectural-specs";
 import { PropertyLocationCard } from "@/features/properties/components/property-location-card";
