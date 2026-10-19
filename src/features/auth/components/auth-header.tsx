@@ -16,10 +16,10 @@ export function AuthHeader() {
         <button
           type="button"
           dir="ltr"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-[#E5EAE0] hover:bg-[#DCE1D7] text-xs font-medium font-inter text-[#181D17] transition-colors cursor-pointer select-none"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#E2E8DC] hover:bg-[#D8DFD1] text-xs font-medium font-inter text-[#151D14] transition-colors cursor-pointer select-none"
         >
           <span>English</span>
-          <Globe className="w-4 h-4 text-[#181D17]" />
+          <Globe className="w-3.5 h-3.5 text-[#151D14]" strokeWidth={2} />
         </button>
 
         {/* 2. Technical Support Link (Left in RTL) */}
