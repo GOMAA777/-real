@@ -71,16 +71,16 @@ export function AddPropertySuccessView({
         </div>
       </div>
 
-      {/* 2. Middle Summary Card: ملخص السجل العقاري المعتمد */}
+      {/* 2. Middle Summary Card: ملخص السجل العقاري المعتمد matching Screenshot */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-6">
         {/* Card Header Strip */}
         <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Right in RTL: Icon + Title */}
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-[#3D4C38] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="w-10 h-10 rounded-2xl bg-[#374631] text-white flex items-center justify-center shrink-0 shadow-2xs">
               <FileCheck className="w-5 h-5 text-white" />
             </div>
-            <div>
+            <div className="text-right">
               <h2 className="text-base sm:text-lg font-black text-[#172115]">
                 ملخص السجل العقاري المعتمد
               </h2>
@@ -92,9 +92,9 @@ export function AddPropertySuccessView({
 
           {/* Left in RTL: Status Badge */}
           <div>
-            <span className="inline-flex items-center gap-2 bg-[#DCEAD4] text-[#2C3825] text-xs font-bold px-4 py-1.5 rounded-full">
+            <span className="inline-flex items-center gap-2 bg-[#DDE7D6] text-[#364430] text-xs font-bold px-3.5 py-1.5 rounded-full select-none">
+              <span className="w-2 h-2 rounded-full bg-[#2E7D32]" />
               <span>حالة العقار: نشط ومفعل</span>
-              <span className="w-2 h-2 rounded-full bg-[#2C3825]" />
             </span>
           </div>
         </div>
@@ -104,14 +104,14 @@ export function AddPropertySuccessView({
           {/* Tile 1: اسم العقار والنوع */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <Building2 className="w-4 h-4 text-[#7D8A78]" />
               <span>اسم العقار والنوع</span>
-              <Building2 className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115]">
+            <div className="text-base sm:text-lg font-black text-[#172115]">
               عمارة النخيل ٠٤
             </div>
             <div>
-              <span className="inline-block bg-[#E7EFE1] text-[#556350] text-xs font-bold px-3 py-1 rounded-md">
+              <span className="inline-block bg-[#EAF0E5] text-[#364430] text-[11px] font-semibold px-2.5 py-0.5 rounded-md">
                 عمارة سكنية تجارية متكاملة
               </span>
             </div>
@@ -120,22 +120,22 @@ export function AddPropertySuccessView({
           {/* Tile 2: مالك العقار والترخيص */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <BadgeCheck className="w-4 h-4 text-[#7D8A78]" />
               <span>مالك العقار والترخيص</span>
-              <BadgeCheck className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115] flex items-center gap-1.5">
+            <div className="text-base sm:text-lg font-black text-[#172115] flex items-center justify-start gap-1.5">
               <span>محمد بن صالح العتيبي</span>
-              <CheckCircle className="w-4 h-4 text-[#4A5D44]" />
+              <CheckCircle className="w-4 h-4 text-[#2E7D32]" />
             </div>
           </div>
 
           {/* Tile 3: الموقع الجغرافي والحي */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <MapPin className="w-4 h-4 text-[#7D8A78]" />
               <span>الموقع الجغرافي والحي</span>
-              <MapPin className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115]">
+            <div className="text-base sm:text-lg font-black text-[#172115]">
               الرياض، حي العليا
             </div>
             <div className="text-xs text-[#7D8A78] font-medium">
@@ -146,10 +146,10 @@ export function AddPropertySuccessView({
           {/* Tile 4: جاهزية الوحدات */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <DoorOpen className="w-4 h-4 text-[#7D8A78]" />
               <span>جاهزية الوحدات</span>
-              <DoorOpen className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115]">
+            <div className="text-base sm:text-lg font-black text-[#172115]">
               جاهز لربط الوحدات
             </div>
             <div className="text-xs text-[#7D8A78] font-medium">
@@ -160,24 +160,24 @@ export function AddPropertySuccessView({
           {/* Tile 5: نمط التعاقد وإدارة الأصول */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <Home className="w-4 h-4 text-[#7D8A78]" />
               <span>نمط التعاقد وإدارة الأصول</span>
-              <Home className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115]">
+            <div className="text-base sm:text-lg font-black text-[#172115]">
               إدارة مباشرة كاملة
             </div>
             <div className="text-xs text-[#7D8A78] font-medium">
-              إشراف كلي ، تشغيل ومتابعة عقود وصيانة
+              إشراف كلي • تشغيل ومتابعة عقود وصيانة
             </div>
           </div>
 
           {/* Tile 6: سجل التنفيذ الإداري */}
           <div className="bg-[#F5F8F2] rounded-2xl p-4 sm:p-5 space-y-2 text-right">
             <div className="flex items-center justify-between text-xs text-[#7D8A78] font-medium">
+              <FileSignature className="w-4 h-4 text-[#7D8A78]" />
               <span>سجل التنفيذ الإداري</span>
-              <FileSignature className="w-4 h-4 text-[#4A5D44]" />
             </div>
-            <div className="text-lg font-black text-[#172115]">
+            <div className="text-base sm:text-lg font-black text-[#172115]">
               محمد أحمد (مدير المنصة)
             </div>
             <div className="text-xs text-[#7D8A78] font-medium">
@@ -187,35 +187,35 @@ export function AddPropertySuccessView({
         </div>
 
         {/* Card Actions Footer matching design exactly */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#EEF2E6]">
-          {/* Right Action Buttons in RTL */}
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Link
-              href="/dashboard/properties/prop-1"
-              className="bg-[#2D3928] hover:bg-[#232D1F] text-white px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer w-full sm:w-auto"
-            >
-              <Eye className="w-4 h-4" />
-              <span>عرض تفاصيل العقار</span>
-            </Link>
-
-            <button
-              type="button"
-              onClick={onReset}
-              className="bg-[#DEE7D7] hover:bg-[#D2DDD5] text-[#2C3825] px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer w-full sm:w-auto"
-            >
-              <PlusCircle className="w-4 h-4" />
-              <span>إضافة عقار</span>
-            </button>
-          </div>
-
-          {/* Left Return Link in RTL */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          {/* Right Link in RTL: العودة لقائمة العقارات */}
           <div>
             <Link
               href="/dashboard/properties"
-              className="text-xs sm:text-sm text-[#2C3825] hover:text-[#172115] font-bold flex items-center gap-2 transition-colors"
+              className="text-xs sm:text-sm text-[#172115] hover:text-[#2E3C29] font-bold flex items-center gap-2 transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-4 h-4 text-[#172115]" />
               <span>العودة لقائمة العقارات</span>
+            </Link>
+          </div>
+
+          {/* Left Action Buttons in RTL */}
+          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button
+              type="button"
+              onClick={onReset}
+              className="bg-[#DEE7D7] hover:bg-[#D5E0CD] text-[#283820] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer w-full sm:w-auto"
+            >
+              <PlusCircle className="w-4 h-4 text-[#283820]" />
+              <span>إضافة عقار</span>
+            </button>
+
+            <Link
+              href="/dashboard/properties/prop-1"
+              className="bg-[#34432E] hover:bg-[#232F1F] text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer w-full sm:w-auto"
+            >
+              <Eye className="w-4 h-4" />
+              <span>عرض تفاصيل العقار</span>
             </Link>
           </div>
         </div>
