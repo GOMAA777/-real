@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Building, ArrowLeft, HelpCircle } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, HelpCircle } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -7,8 +8,15 @@ export default function NotFound() {
       {/* Top Header */}
       <header className="w-full flex items-center justify-between max-w-5xl mx-auto">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#344230] border border-[#273323] flex items-center justify-center">
-            <Building className="w-5 h-5 text-white/90" />
+          <div className="w-10 h-10 rounded-xl bg-[#344230] border border-[#273323] flex items-center justify-center p-2">
+            <Image
+              src="/logo.png"
+              alt="ابراج"
+              width={24}
+              height={24}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
           <div>
             <span className="text-lg font-bold text-[#172115]">ابراج</span>

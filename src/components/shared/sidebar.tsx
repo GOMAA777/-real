@@ -6,8 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { motion } from "motion/react";
 import { clearAuthSession, getAuthUser, type AuthUser } from "@/lib/auth-session";
+import Image from "next/image";
 import {
-  Building,
   LayoutGrid,
   Users,
   Building2,
@@ -138,8 +138,15 @@ export function Sidebar() {
       >
         {/* Top Header: Brand Squircle Icon */}
         <div className="relative flex flex-col items-center">
-          <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center text-white/90 shadow-2xs">
-            <Building className="w-5 h-5 text-white/90" />
+          <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center p-2 shadow-2xs">
+            <Image
+              src="/logo.png"
+              alt="ابراج"
+              width={24}
+              height={24}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
 
           {/* Divider */}
@@ -291,8 +298,15 @@ export function Sidebar() {
           {/* Header Brand */}
           <div className="flex items-center justify-between pt-2 px-2">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center shrink-0">
-                <Building className="w-5 h-5 text-white/90" />
+              <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center shrink-0 p-2">
+                <Image
+                  src="/logo.png"
+                  alt="ابراج"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                  priority
+                />
               </div>
               <div className="space-y-0.5">
                 <h1 className="text-base font-bold tracking-tight text-white leading-tight">
