@@ -12,7 +12,6 @@ export function generateStaticParams() {
   const numericIds = Array.from({ length: 100 }, (_, i) => ({ id: String(i + 1) }));
   const propIds = Array.from({ length: 100 }, (_, i) => ({ id: `prop-${i + 1}` }));
   const specialIds = [
-    { id: "[id]" },
     { id: "014" },
     { id: "prop-014" },
     { id: "nakheel" },

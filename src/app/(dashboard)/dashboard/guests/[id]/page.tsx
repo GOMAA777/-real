@@ -15,7 +15,6 @@ export function generateStaticParams() {
     { id: "GUST-89324" },
     { id: "89324" },
     { id: "khaled" },
-    { id: "[id]" },
   ];
   return [...numericIds, ...guestIds];
 }

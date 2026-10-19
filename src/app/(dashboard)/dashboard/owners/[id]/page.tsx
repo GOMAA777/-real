@@ -11,7 +11,7 @@ export const metadata = {
 export function generateStaticParams() {
   const numericIds = Array.from({ length: 100 }, (_, i) => ({ id: String(i + 1) }));
   const ownerIds = Array.from({ length: 100 }, (_, i) => ({ id: `owner-${i + 1}` }));
-  return [...numericIds, ...ownerIds, { id: "[id]" }];
+  return [...numericIds, ...ownerIds];
 }
 
 interface PageProps {
