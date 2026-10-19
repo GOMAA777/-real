@@ -34,11 +34,8 @@ interface PageProps {
 
 export default function PropertyDetailPage({ params }: PageProps) {
   return (
-    <div className="space-y-6 pb-12">
-      {/* 1. Header with Breadcrumb / Title & Back Button */}
-      <PropertyDetailHeader title="تفاصيل العقار" fallbackHref="/dashboard/properties" />
-
-      {/* 2. Main Content wrapped in Suspense for instant navigation */}
+    <div className="space-y-8 lg:space-y-10 pb-12" dir="rtl">
+      {/* Main Content wrapped in Suspense for instant navigation */}
       <Suspense fallback={<PropertyDetailSkeleton />}>
         <PropertyDetailContent params={params} />
       </Suspense>
@@ -56,20 +53,20 @@ async function PropertyDetailContent({ params }: PageProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 lg:space-y-10">
       {/* 1. Hero Overview Card with Photo & Quick Metrics */}
       <PropertyHeroCard property={property} />
 
       {/* 2. Two-Column Layout for Specs, Location, Units, and Admin Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         {/* Right Column in RTL: Architectural Specs & Geographic Location (7 cols) */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-8 lg:space-y-10">
           <PropertyArchitecturalSpecs specs={property.specs} />
           <PropertyLocationCard locationInfo={property.locationInfo} />
         </div>
 
         {/* Left Column in RTL: Associated Units & Admin Actions (5 cols) */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-5 space-y-8 lg:space-y-10">
           <PropertyUnitsCard
             units={property.units}
             totalUnitsCount={property.totalUnits}
@@ -77,13 +74,6 @@ async function PropertyDetailContent({ params }: PageProps) {
           <PropertyAdminActions ownerId="1" ownerName="محمد العتيبي" />
         </div>
       </div>
-
-      {/* 3. Bottom Full-Width Table: Recent Bookings */}
-      <PropertyRecentBookings
-        bookings={property.recentBookings}
-        propertyName={property.name}
-        totalBookingsCount={10}
-      />
     </div>
   );
 }
