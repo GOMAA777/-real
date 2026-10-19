@@ -17,6 +17,7 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import { toast } from "sonner";
+import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
 
 interface AddBookingSuccessViewProps {
   bookingCode?: string;
@@ -255,8 +256,12 @@ export function AddBookingSuccessView({
         </div>
       </div>
 
-      {/* 4. Bottom Action Buttons Bar */}
-      <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+      {/* 4. Docking Bottom Action Buttons Bar (Floating when scrolling, Docks at bottom) */}
+      <DockingBottomBar
+        dockedClassName="flex flex-wrap items-center justify-center gap-3 pt-4"
+        floatingClassName="bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-3.5 px-6 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center"
+        innerClassName="flex flex-wrap items-center justify-center gap-3 max-w-[1536px] mx-auto"
+      >
         {/* Button 1: عرض الحجز */}
         <Link
           href="/dashboard/bookings"
@@ -284,7 +289,7 @@ export function AddBookingSuccessView({
           <span>العودة إلى الحجوزات</span>
           <ArrowLeft className="w-3.5 h-3.5" />
         </Link>
-      </div>
+      </DockingBottomBar>
     </div>
   );
 }
