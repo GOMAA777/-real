@@ -1,17 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { MessageSquare, CheckCircle2, Clock, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
 import { BookingDetail } from "../types";
 
 interface BookingWhatsAppAutomationCardProps {
   automation: BookingDetail["automation"];
   isCancelled?: boolean;
+  bookingCode?: string;
 }
 
 export function BookingWhatsAppAutomationCard({
   automation,
   isCancelled = false,
+  bookingCode = "BK-10482",
 }: BookingWhatsAppAutomationCardProps) {
   const cancelledSteps = [
     {
@@ -123,16 +125,13 @@ export function BookingWhatsAppAutomationCard({
 
       {/* Footer Link */}
       <div className="pt-2 flex justify-end">
-        <button
-          type="button"
-          onClick={() =>
-            toast.info("عرض سجل الإرسال ومحفزات رسائل الواتساب وقوالب الرد الآلي")
-          }
+        <Link
+          href={`/dashboard/bookings/${bookingCode || "BK-10482"}/whatsapp`}
           className="text-xs font-bold text-[#34432E] hover:text-[#172115] inline-flex items-center gap-1.5 transition-colors cursor-pointer select-none"
         >
           <span>عرض سجل الرسائل الكامل وقوالب الأتمتة</span>
           <ArrowLeft className="w-3.5 h-3.5" />
-        </button>
+        </Link>
       </div>
     </div>
   );

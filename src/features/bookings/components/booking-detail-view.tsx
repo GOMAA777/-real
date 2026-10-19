@@ -62,6 +62,7 @@ export function BookingDetailView({ booking }: BookingDetailViewProps) {
           <BookingWhatsAppAutomationCard
             automation={booking.automation}
             isCancelled={isCancelled}
+            bookingCode={booking.bookingCode || "BK-10482"}
           />
         </div>
 

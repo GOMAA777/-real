@@ -21,6 +21,7 @@ import {
   UserCircle2,
   Plus,
   Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -55,6 +56,7 @@ const SEGMENT_TITLES: Record<
   settings: { label: "الإعدادات العامة", icon: SlidersHorizontal },
   profile: { label: "الملف الشخصي", icon: UserCircle2 },
   guests: { label: "بيانات العميل", icon: Users },
+  whatsapp: { label: "سجل رسائل WhatsApp", icon: MessageSquare },
 };
 
 function formatTodayArabic(): string {
