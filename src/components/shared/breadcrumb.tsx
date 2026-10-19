@@ -92,18 +92,12 @@ export function Breadcrumb({
     if (!pathname) return [];
 
     const segments = pathname.split("/").filter(Boolean);
+    const subSegments = segments.filter((s) => s !== "dashboard");
 
-    // If root or /dashboard alone
-    if (segments.length === 0 || (segments.length === 1 && segments[0] === "dashboard")) {
-      return [
-        {
-          label: "لوحة التحكم الرئيسية",
-          href: "/dashboard",
-          icon: LayoutGrid,
-          isCurrent: true,
-          badge: "نظرة عامة",
-        },
-      ];
+    // Do NOT show breadcrumb on root/primary tabs (e.g. /dashboard, /dashboard/properties, /dashboard/owners, /dashboard/bookings)
+    // ONLY show breadcrumbs when navigating inside a tab (depth > 1: details / forms / sub-routes)
+    if (subSegments.length <= 1) {
+      return [];
     }
 
     const result: BreadcrumbItem[] = [
@@ -181,6 +175,11 @@ export function Breadcrumb({
   }, [pathname, customItems]);
 
   const canGoBack = breadcrumbs.length > 1;
+
+  // Do not render anything if on a primary/root tab
+  if (breadcrumbs.length === 0) {
+    return null;
+  }
 
   // Generate Schema.org BreadcrumbList for rich results
   const schemaData = useMemo(() => {
