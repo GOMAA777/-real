@@ -762,28 +762,28 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
         </div>
       </div>
 
-      {/* 3. Fixed Sticky Bottom Bar */}
-      <div className="fixed bottom-0 start-0 end-0 bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-4 px-6 sm:px-8 z-40 shadow-[0_-8px_24px_rgba(0,0,0,0.06)]">
-        <div className="max-w-[1536px] mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Status Indicator (Right in RTL) */}
-          <div className="flex items-center gap-2.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#2E7D32] animate-pulse shrink-0" />
-            <div>
-              <div className="font-bold text-xs text-[#172115]">
+      {/* 3. Fixed Sticky Bottom Bar (Matching exact user design) */}
+      <div className="fixed bottom-0 start-0 end-0 bg-white border-t border-[#E2E6DC] py-3.5 sm:py-4 px-6 sm:px-10 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+        <div className="w-full flex items-center justify-between gap-4">
+          {/* Status Indicator (Right side in RTL) */}
+          <div className="text-right">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0" />
+              <span className="font-bold text-sm text-[#172115]">
                 جاهز للتأكيد والمزامنة الفورية
-              </div>
-              <div className="text-[11px] text-[#7D8A78] mt-0.5">
-                سيتم قفل التواريخ ومزامنة الأقفال الذكية وقنوات التوزيع فور الاعتماد
-              </div>
+              </span>
+            </div>
+            <div className="text-xs text-[#7D8A78] mt-0.5 font-normal">
+              سيتم قفل التواريخ ومزامنة الأقفال الذكية وقنوات التوزيع فور الاعتماد
             </div>
           </div>
 
-          {/* Action Buttons (Left in RTL) */}
-          <div className="flex items-center gap-3 self-end sm:self-auto">
+          {/* Action Buttons (Left side in RTL) */}
+          <div className="flex items-center gap-3 shrink-0">
             {/* Cancel Button */}
             <Link
               href="/dashboard/bookings"
-              className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#7D8A78] hover:text-[#172115] transition-colors"
+              className="px-3.5 py-2 text-sm font-bold text-[#7D8A78] hover:text-[#172115] transition-colors cursor-pointer select-none"
             >
               إلغاء
             </Link>
@@ -792,7 +792,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             <button
               type="button"
               onClick={() => toast.info("تم حفظ مسودة الحجز بنجاح")}
-              className="bg-[#DCE6D5] hover:bg-[#cdddc4] text-[#2E3C29] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-2xs transition-colors cursor-pointer"
+              className="bg-[#DCE6D5] hover:bg-[#CFDEC8] text-[#2E3C29] px-6 py-2.5 rounded-2xl text-sm font-bold transition-all cursor-pointer shadow-2xs select-none"
             >
               حفظ كمسودة
             </button>
@@ -801,7 +801,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             <button
               type="button"
               onClick={handleSubmit}
-              className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
+              className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-6 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-2xs select-none"
             >
               <CheckCircle2 className="w-4 h-4 text-white" />
               <span>حفظ واعتماد الحجز</span>
