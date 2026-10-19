@@ -65,6 +65,22 @@ export function Sidebar() {
   const { sidebarOpen, setSidebarOpen } = useUIStore();
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
 
+  // Normalize pathname to strip basePath (/Edaret_Amlak) and any trailing slash
+  const cleanPathname = (pathname || "")
+    .replace(/^\/Edaret_Amlak/, "")
+    .replace(/\/+$/, "") || "/";
+
+  const isItemActive = (href: string) => {
+    const cleanHref = href.replace(/^\/Edaret_Amlak/, "").replace(/\/+$/, "");
+    if (cleanHref === "/dashboard") {
+      return cleanPathname === "/dashboard" || cleanPathname === "/";
+    }
+    return (
+      cleanPathname === cleanHref ||
+      cleanPathname.startsWith(cleanHref + "/")
+    );
+  };
+
   useEffect(() => {
     setCurrentUser(getAuthUser());
   }, []);
@@ -123,9 +139,7 @@ export function Sidebar() {
         <div className="flex-1 flex flex-col items-center gap-2 overflow-y-auto no-scrollbar py-1">
           {/* Main Navigation Items */}
           {mainNavItems.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href === "/dashboard" && pathname === "/");
+            const isActive = isItemActive(item.href);
             const Icon = item.icon;
 
             return (
@@ -138,8 +152,8 @@ export function Sidebar() {
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
-                    <Icon className="w-5 h-5 text-[#2C3825]" />
+                  <div className="w-11 h-11 rounded-[14px] bg-[#45583E] text-white flex items-center justify-center shadow-xs border border-white/10">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
                 ) : (
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
@@ -152,7 +166,7 @@ export function Sidebar() {
                     className={cn(
                       "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center",
                       isActive
-                        ? "bg-[#2C3825] text-[#DCE7D3] ring-2 ring-[#DCE7D3]"
+                        ? "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#45583E]"
                         : "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#34432E]"
                     )}
                   >
@@ -168,7 +182,7 @@ export function Sidebar() {
 
           {/* System Items */}
           {systemNavItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = isItemActive(item.href);
             const Icon = item.icon;
 
             return (
@@ -181,8 +195,8 @@ export function Sidebar() {
                 className="group relative flex items-center justify-center"
               >
                 {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
-                    <Icon className="w-5 h-5 text-[#2C3825]" />
+                  <div className="w-11 h-11 rounded-[14px] bg-[#45583E] text-white flex items-center justify-center shadow-xs border border-white/10">
+                    <Icon className="w-5 h-5 text-white" />
                   </div>
                 ) : (
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
@@ -271,9 +285,7 @@ export function Sidebar() {
 
             <nav className="space-y-1">
               {mainNavItems.map((item) => {
-                const isActive =
-                  pathname === item.href ||
-                  (item.href === "/dashboard" && pathname === "/");
+                const isActive = isItemActive(item.href);
                 const Icon = item.icon;
 
                 return (
@@ -282,17 +294,17 @@ export function Sidebar() {
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
+                      "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all",
                       isActive
-                        ? "bg-[#DCE7D3] text-[#2C3825] font-bold shadow-xs"
-                        : "text-white/75 hover:text-white hover:bg-white/5"
+                        ? "bg-[#45583E] text-white font-bold shadow-xs border border-white/10"
+                        : "text-white/75 hover:text-white hover:bg-white/5 font-medium"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
                       <Icon
                         className={cn(
                           "w-4 h-4 transition-colors",
-                          isActive ? "text-[#2C3825]" : "text-white/60 group-hover:text-white"
+                          isActive ? "text-white" : "text-white/60 group-hover:text-white"
                         )}
                       />
                       <span>{item.title}</span>
@@ -303,7 +315,7 @@ export function Sidebar() {
                         className={cn(
                           "text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center",
                           isActive
-                            ? "bg-[#2C3825] text-[#DCE7D3]"
+                            ? "bg-[#DCE7D3] text-[#2C3825]"
                             : "bg-[#DCE7D3] text-[#2C3825]"
                         )}
                       >
@@ -327,7 +339,7 @@ export function Sidebar() {
 
             <nav className="space-y-1">
               {systemNavItems.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = isItemActive(item.href);
                 const Icon = item.icon;
 
                 return (
@@ -336,16 +348,16 @@ export function Sidebar() {
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
+                      "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs transition-all",
                       isActive
-                        ? "bg-[#DCE7D3] text-[#2C3825] font-bold shadow-xs"
-                        : "text-white/75 hover:text-white hover:bg-white/5"
+                        ? "bg-[#45583E] text-white font-bold shadow-xs border border-white/10"
+                        : "text-white/75 hover:text-white hover:bg-white/5 font-medium"
                     )}
                   >
                     <Icon
                       className={cn(
                         "w-4 h-4 transition-colors",
-                        isActive ? "text-[#2C3825]" : "text-white/60 group-hover:text-white"
+                        isActive ? "text-white" : "text-white/60 group-hover:text-white"
                       )}
                     />
                     <span>{item.title}</span>
