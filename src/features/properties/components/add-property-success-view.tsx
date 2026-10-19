@@ -11,6 +11,7 @@ import {
   MapPin,
   DoorOpen,
   Home,
+  HousePlus,
   Eye,
   PlusCircle,
   ArrowLeft,
@@ -224,57 +225,75 @@ export function AddPropertySuccessView({
       {/* 3. Bottom Section: الإجراءات الإدارية المقترحة التالية */}
       <div className="space-y-4">
         {/* Header with Flag matching image */}
-        <div className="flex items-center gap-2 text-[#172115] font-black text-base sm:text-lg">
-          <Flag className="w-5 h-5 text-[#2C3825]" />
-          <h3>الإجراءات الإدارية المقترحة التالية</h3>
+        <div className="flex items-center gap-2 text-[#172115]">
+          <Flag className="w-5 h-5 text-[#172115]" />
+          <h3 className="text-base sm:text-lg font-black text-[#172115]">
+            الإجراءات الإدارية المقترحة التالية
+          </h3>
         </div>
 
         {/* 2 Action Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Action Card 1: إضافة وحدات العقار */}
-          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4 flex flex-col justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h4 className="text-base font-bold text-[#172115]">
-                  إضافة وحدات العقار
-                </h4>
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs flex flex-col justify-between">
+            <div>
+              {/* Top squircle icon on the right */}
+              <div className="flex justify-start">
                 <div className="w-11 h-11 rounded-2xl bg-[#E2EAD9] text-[#2C3825] flex items-center justify-center shrink-0">
-                  <Home className="w-5 h-5" />
+                  <HousePlus className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-[#7D8A78] leading-relaxed">
-                تحديد أرقام الشقق، المساحات الدقيقة، ملحقات كل وحدة، وبرمجة الأقفال الذكية المرتبطة.
-              </p>
+
+              {/* Title and Description */}
+              <div className="mt-4 space-y-1.5 text-right">
+                <h4 className="text-base sm:text-lg font-bold text-[#172115]">
+                  إضافة وحدات العقار
+                </h4>
+                <p className="text-xs sm:text-sm text-[#7D8A78] leading-relaxed">
+                  تحديد أرقام الشقق، المساحات الدقيقة، ملحقات كل وحدة، وبرمجة الأقفال الذكية المرتبطة.
+                </p>
+              </div>
             </div>
-            <div className="pt-2">
+
+            {/* Bottom link aligned to the left */}
+            <div className="pt-6 flex justify-end">
               <Link
                 href="/dashboard/properties/prop-1"
-                className="text-xs font-bold text-[#2C3825] hover:text-[#172115] flex items-center gap-1 transition-colors"
+                className="text-xs sm:text-sm font-bold text-[#2C3825] hover:text-[#172115] flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <span>الانتقال لإضافة الوحدات</span>
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4 text-[#2C3825]" />
               </Link>
             </div>
           </div>
 
           {/* Action Card 2: إشعار المالك بالاعتماد */}
-          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4 flex flex-col justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h4 className="text-base font-bold text-[#172115]">
-                  إشعار المالك بالاعتماد
-                </h4>
+          <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs flex flex-col justify-between">
+            <div>
+              {/* Top squircle icon on the right */}
+              <div className="flex justify-start">
                 <div className="w-11 h-11 rounded-2xl bg-[#E2EAD9] text-[#2C3825] flex items-center justify-center shrink-0">
                   <Send className="w-5 h-5" />
                 </div>
               </div>
-              <p className="text-xs text-[#7D8A78] leading-relaxed">
-                تم إرسال إشعار فوري آلي للمالك عبر WhatsApp والبريد المعتمد يؤكد استكمال تسجيل العقار.
-              </p>
+
+              {/* Title and Description */}
+              <div className="mt-4 space-y-1.5 text-right">
+                <h4 className="text-base sm:text-lg font-bold text-[#172115]">
+                  إشعار المالك بالاعتماد
+                </h4>
+                <p className="text-xs sm:text-sm text-[#7D8A78] leading-relaxed">
+                  تم إرسال إشعار فوري آلي للمالك عبر WhatsApp والبريد المعتمد يؤكد استكمال تسجيل العقار.
+                </p>
+              </div>
             </div>
-            <div className="pt-2 text-xs font-bold text-[#7D8A78] flex items-center gap-1.5">
-              <CheckCheck className="w-4 h-4 text-[#7D8A78]" />
-              <span>تم الإرسال تلقائياً</span>
+
+            {/* Bottom status aligned to the left */}
+            <div className="pt-6 flex justify-end">
+              <div className="text-xs sm:text-sm font-bold text-[#7D8A78] flex items-center gap-1.5">
+                <span>تم الإرسال تلقائياً</span>
+                <CheckCheck className="w-4 h-4 text-[#7D8A78]" />
+              </div>
             </div>
           </div>
         </div>
