@@ -787,7 +787,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           {/* Cancel Button */}
           <Link
             href="/dashboard/bookings"
-            className="px-3.5 py-2 text-sm font-bold text-[#7D8A78] hover:text-[#172115] transition-colors cursor-pointer select-none"
+            className="px-6 py-2.5 text-sm font-bold text-[#2C3825] bg-[#EFF3EB] hover:bg-[#E5ECE0] rounded-2xl transition-all cursor-pointer select-none shadow-3xs active:scale-95"
           >
             إلغاء
           </Link>
@@ -796,7 +796,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           <button
             type="button"
             onClick={() => toast.info("تم حفظ مسودة الحجز بنجاح")}
-            className="bg-[#DCE6D5] hover:bg-[#CFDEC8] text-[#2E3C29] px-6 py-2.5 rounded-2xl text-sm font-bold transition-all cursor-pointer shadow-2xs select-none"
+            className="bg-[#D6E2CE] hover:bg-[#CAD9C1] text-[#2E3C29] px-6 py-2.5 rounded-2xl text-sm font-bold transition-all cursor-pointer shadow-3xs select-none active:scale-95"
           >
             حفظ كمسودة
           </button>
@@ -805,7 +805,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
           <button
             type="button"
             onClick={handleSubmit}
-            className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-6 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-2xs select-none"
+            className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-6 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-2xs select-none active:scale-95"
           >
             <CheckCircle2 className="w-4 h-4 text-white" />
             <span>حفظ واعتماد الحجز</span>

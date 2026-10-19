@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Plus,
@@ -26,6 +27,7 @@ interface OwnerBookingsTabViewProps {
 export function OwnerBookingsTabView({
   bookings = defaultOwnerBookings,
 }: OwnerBookingsTabViewProps) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<
     "all" | "upcoming" | "active" | "completed" | "cancelled"
@@ -191,8 +193,13 @@ export function OwnerBookingsTabView({
                     className="hover:bg-[#F6F8F4]/70 transition-colors"
                   >
                     {/* 1. رقم الحجز */}
-                    <td className="px-5 py-4 whitespace-nowrap font-medium text-xs sm:text-sm text-[#172115]">
-                      {booking.bookingCode}
+                    <td className="px-5 py-4 whitespace-nowrap font-medium text-xs sm:text-sm">
+                      <Link
+                        href={`/dashboard/bookings/${booking.id || "1"}`}
+                        className="font-bold text-[#172115] hover:text-[#34432E] hover:underline"
+                      >
+                        {booking.bookingCode}
+                      </Link>
                     </td>
 
                     {/* 2. العميل */}
@@ -304,9 +311,7 @@ export function OwnerBookingsTabView({
                             label: "تفاصيل الحجز",
                             icon: Eye,
                             onClick: () =>
-                              toast.info(
-                                `عرض تفاصيل الحجز: ${booking.bookingCode} - ${booking.guestName}`
-                              ),
+                              router.push(`/dashboard/bookings/${booking.id || "1"}`),
                           },
                           {
                             label: "تعديل الحجز",
