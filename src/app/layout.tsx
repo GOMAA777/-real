@@ -15,18 +15,23 @@ const inter = Inter({
   display: "swap",
 });
 
+const basePath = "/Edaret_Amlak";
+
 export const metadata: Metadata = {
   title: "إدارة أملاك - ابراج",
   description: "المنظومة المتكاملة لإدارة الأصول والوحدات الفندقية والسكنية بالمملكة",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/logo-app-icon.png", type: "image/png", sizes: "512x512" },
+      { url: `${basePath}/favicon.ico`, sizes: "any" },
+      { url: `${basePath}/favicon-32x32.png`, type: "image/png", sizes: "32x32" },
+      { url: `${basePath}/favicon-16x16.png`, type: "image/png", sizes: "16x16" },
+      { url: `${basePath}/icon.png`, type: "image/png", sizes: "512x512" },
+      { url: `${basePath}/logo-app-icon.png`, type: "image/png", sizes: "512x512" },
     ],
     apple: [
-      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+      { url: `${basePath}/apple-icon.png`, sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: `${basePath}/favicon.ico`,
   },
 };
 

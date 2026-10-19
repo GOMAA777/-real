@@ -32,6 +32,12 @@ const nextConfig: NextConfig = {
               basePath: false,
               permanent: false,
             },
+            {
+              source: "/favicon.ico",
+              destination: "/Edaret_Amlak/favicon.ico",
+              basePath: false,
+              permanent: false,
+            },
           ];
         },
       }
