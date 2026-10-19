@@ -184,28 +184,24 @@ export function Breadcrumb({
     return result;
   }, [pathname, customItems]);
 
-  // Generate Schema.org BreadcrumbList for rich results (unconditional hook)
-  const schemaData = useMemo(() => {
-    return {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: breadcrumbs.map((crumb, idx) => ({
-        "@type": "ListItem",
-        position: idx + 1,
-        name: crumb.label,
-        item: crumb.href
-          ? `https://abraj.sa${crumb.href}`
-          : undefined,
-      })),
-    };
-  }, [breadcrumbs]);
-
   const canGoBack = breadcrumbs.length > 1;
 
   // Do not render anything if on a primary/root tab
   if (breadcrumbs.length === 0) {
     return null;
   }
+
+  // Schema.org BreadcrumbList for rich results
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: crumb.label,
+      item: crumb.href ? `https://abraj.sa${crumb.href}` : undefined,
+    })),
+  };
 
   return (
     <>
