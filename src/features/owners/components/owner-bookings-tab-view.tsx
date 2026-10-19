@@ -13,6 +13,7 @@ import {
   CalendarCheck,
   CalendarSync,
   Trash2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,10 @@ import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { ExtendStayModal } from "@/features/bookings/components/extend-stay-modal";
 import { CancelBookingModal } from "@/features/bookings/components/cancel-booking-modal";
 import { BookingsEmptyStateView } from "@/features/bookings/components/bookings-empty-state-view";
+import {
+  OwnerBookingsFilterDrawer,
+  BookingFilterState,
+} from "./owner-bookings-filter-drawer";
 import { OwnerBookingItem } from "../types";
 import { defaultOwnerBookings } from "../data/mock-owner-bookings";
 
@@ -39,6 +44,39 @@ export function OwnerBookingsTabView({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showRowsDropdown, setShowRowsDropdown] = useState(false);
 
+  // Filter drawer state
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [bookingFilters, setBookingFilters] = useState<BookingFilterState>({
+    source: "all",
+    accessStatus: "all",
+    propertyName: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (bookingFilters.source !== "all") count++;
+    if (bookingFilters.accessStatus !== "all") count++;
+    if (bookingFilters.propertyName !== "all") count++;
+    if (bookingFilters.sortBy !== "default") count++;
+    return count;
+  }, [bookingFilters]);
+
+  const handleApplyFilters = (newFilters: BookingFilterState) => {
+    setBookingFilters(newFilters);
+    setCurrentPage(1);
+  };
+
+  const handleResetFilters = () => {
+    setBookingFilters({
+      source: "all",
+      accessStatus: "all",
+      propertyName: "all",
+      sortBy: "default",
+    });
+    setCurrentPage(1);
+  };
+
   // Modals state for action dropdown
   const [selectedBookingForExtend, setSelectedBookingForExtend] =
     useState<OwnerBookingItem | null>(null);
@@ -56,14 +94,31 @@ export function OwnerBookingsTabView({
     };
   }, [bookings]);
 
-  // Filter Bookings based on search and status tabs
+  // Filter Bookings based on search, status tabs, and drawer filters
   const filteredBookings = useMemo(() => {
-    return bookings.filter((item) => {
+    let list = bookings.filter((item) => {
       // Status filter tab
       if (filterStatus === "upcoming" && item.status !== "upcoming") return false;
       if (filterStatus === "active" && item.status !== "active") return false;
       if (filterStatus === "completed" && item.status !== "completed") return false;
       if (filterStatus === "cancelled" && item.status !== "cancelled") return false;
+
+      // Platform / Source filter from drawer
+      if (bookingFilters.source !== "all") {
+        if (bookingFilters.source === "Booking.com" && !item.source.toLowerCase().includes("booking")) return false;
+        if (bookingFilters.source === "Airbnb" && !item.source.toLowerCase().includes("airbnb")) return false;
+        if (bookingFilters.source === "مباشر" && !item.source.includes("مباشر")) return false;
+      }
+
+      // Access status filter from drawer
+      if (bookingFilters.accessStatus !== "all") {
+        if (item.accessStatus !== bookingFilters.accessStatus) return false;
+      }
+
+      // Property name filter from drawer
+      if (bookingFilters.propertyName !== "all") {
+        if (!item.propertyName.includes(bookingFilters.propertyName)) return false;
+      }
 
       // Search query filter
       if (searchQuery.trim()) {
@@ -89,7 +144,18 @@ export function OwnerBookingsTabView({
 
       return true;
     });
-  }, [bookings, filterStatus, searchQuery]);
+
+    // Sort order from drawer
+    if (bookingFilters.sortBy === "checkin_desc") {
+      list = [...list].sort((a, b) => b.checkInDate.localeCompare(a.checkInDate));
+    } else if (bookingFilters.sortBy === "checkout_asc") {
+      list = [...list].sort((a, b) => a.checkOutDate.localeCompare(b.checkOutDate));
+    } else if (bookingFilters.sortBy === "code_asc") {
+      list = [...list].sort((a, b) => a.bookingCode.localeCompare(b.bookingCode));
+    }
+
+    return list;
+  }, [bookings, filterStatus, searchQuery, bookingFilters]);
 
   const searchParams = useSearchParams();
   const forceEmpty =
@@ -154,35 +220,64 @@ export function OwnerBookingsTabView({
           </div>
         </div>
 
-        {/* Left side in RTL: Status Filter Tabs Container */}
-        <div className="flex items-center gap-1.5 p-1 bg-[#F0F4EC] rounded-2xl overflow-x-auto no-scrollbar w-full md:w-auto">
-          {[
-            { id: "all", label: `الكل (${statusCounts.all})` },
-            { id: "upcoming", label: `القادمة (${statusCounts.upcoming})` },
-            { id: "active", label: `الحالية (${statusCounts.active})` },
-            { id: "completed", label: `المنتهية (${statusCounts.completed})` },
-            { id: "cancelled", label: `الملغاة (${statusCounts.cancelled})` },
-          ].map((tab) => {
-            const isActive = filterStatus === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => {
-                  setFilterStatus(tab.id as any);
-                  setCurrentPage(1);
-                }}
-                className={cn(
-                  "px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
-                  isActive
-                    ? "bg-white text-[#172115] font-bold shadow-2xs"
-                    : "text-[#717E6E] hover:text-[#172115] font-medium"
-                )}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+        {/* Left side in RTL: Filter Button & Status Filter Tabs Container */}
+        <div className="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+          {/* Advanced Filter Button (Matching screenshot position) */}
+          <button
+            type="button"
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className={cn(
+              "h-10 px-4 rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+              activeFiltersCount > 0
+                ? "bg-[#34432E] text-white shadow-xs"
+                : "bg-[#F0F4EC] hover:bg-[#E5EBDD] text-[#172115]"
+            )}
+            title="تصفية الحجوزات"
+          >
+            <span>فلتر</span>
+            <SlidersHorizontal
+              className={cn(
+                "w-3.5 h-3.5",
+                activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
+              )}
+            />
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+
+          {/* Status Filter Tabs Container */}
+          <div className="flex items-center gap-1.5 p-1 bg-[#F0F4EC] rounded-2xl overflow-x-auto no-scrollbar w-full md:w-auto">
+            {[
+              { id: "all", label: `الكل (${statusCounts.all})` },
+              { id: "upcoming", label: `القادمة (${statusCounts.upcoming})` },
+              { id: "active", label: `الحالية (${statusCounts.active})` },
+              { id: "completed", label: `المنتهية (${statusCounts.completed})` },
+              { id: "cancelled", label: `الملغاة (${statusCounts.cancelled})` },
+            ].map((tab) => {
+              const isActive = filterStatus === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setFilterStatus(tab.id as any);
+                    setCurrentPage(1);
+                  }}
+                  className={cn(
+                    "px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                    isActive
+                      ? "bg-white text-[#172115] font-bold shadow-2xs"
+                      : "text-[#717E6E] hover:text-[#172115] font-medium"
+                  )}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -484,6 +579,16 @@ export function OwnerBookingsTabView({
         onConfirm={() => {
           setSelectedBookingForCancel(null);
         }}
+      />
+
+      {/* 6. Filter Drawer */}
+      <OwnerBookingsFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={bookingFilters}
+        onApplyFilters={handleApplyFilters}
+        onResetFilters={handleResetFilters}
+        totalResultsCount={filteredBookings.length}
       />
     </div>
   );
