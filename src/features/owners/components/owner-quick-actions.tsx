@@ -1,6 +1,14 @@
 "use client";
 
-import { ShieldCheck, Edit3, ToggleLeft, Mail, Download, AlertCircle, ChevronLeft } from "lucide-react";
+import {
+  ShieldCheck,
+  FileEdit,
+  ToggleRight,
+  Mail,
+  Download,
+  CirclePause,
+  ChevronLeft,
+} from "lucide-react";
 import { showUnderConstructionToast } from "@/lib/toast";
 
 export function OwnerQuickActions() {
@@ -8,12 +16,12 @@ export function OwnerQuickActions() {
     {
       id: "edit",
       label: "تعديل بيانات المالك",
-      icon: Edit3,
+      icon: FileEdit,
     },
     {
       id: "toggle_status",
       label: "تغيير حالة الحساب (نشط / معلق)",
-      icon: ToggleLeft,
+      icon: ToggleRight,
     },
     {
       id: "message",
@@ -32,15 +40,15 @@ export function OwnerQuickActions() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-bold text-[#172115]">
+          <h2 className="text-base font-bold text-[#172115]">
             إجراءات إدارية سريعة
           </h2>
-          <p className="text-[11px] text-[#7D8A78] mt-0.5">
+          <p className="text-xs text-[#7D8A78] mt-0.5">
             التحكم في حساب المالك
           </p>
         </div>
-        <div className="w-9 h-9 rounded-xl bg-[#E2F0D9] text-[#2E7D32] flex items-center justify-center shrink-0">
-          <ShieldCheck className="w-5 h-5" />
+        <div className="w-10 h-10 rounded-2xl bg-[#D4E2C7] text-[#2B3925] flex items-center justify-center shrink-0">
+          <ShieldCheck className="w-5 h-5 text-[#2B3925]" />
         </div>
       </div>
 
@@ -53,12 +61,14 @@ export function OwnerQuickActions() {
               key={act.id}
               type="button"
               onClick={() => showUnderConstructionToast(`إجراء "${act.label}"`)}
-              className="w-full bg-[#F4F6F0] hover:bg-[#EAEFE5] text-[#172115] rounded-xl p-3 sm:px-4 flex items-center justify-between text-xs font-semibold transition-all cursor-pointer group"
+              className="w-full bg-[#F1F5EB] hover:bg-[#E7ECE0] text-[#172115] rounded-xl p-3.5 px-4 flex items-center justify-between text-xs font-bold transition-all cursor-pointer group"
             >
+              {/* Right in RTL: Icon + Label */}
               <div className="flex items-center gap-2.5">
-                <Icon className="w-4 h-4 text-[#556350] group-hover:text-[#172115] transition-colors" />
+                <Icon className="w-4 h-4 text-[#34432E] group-hover:text-[#172115] transition-colors" />
                 <span>{act.label}</span>
               </div>
+              {/* Left in RTL: Chevron < */}
               <ChevronLeft className="w-4 h-4 text-[#7D8A78] group-hover:text-[#172115] transition-colors" />
             </button>
           );
@@ -70,10 +80,10 @@ export function OwnerQuickActions() {
         <button
           type="button"
           onClick={() => showUnderConstructionToast("إجراء تعليق الحساب")}
-          className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+          className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] inline-flex items-center gap-2 cursor-pointer transition-colors"
         >
-          <AlertCircle className="w-4 h-4" />
           <span>تعليق حساب المالك مؤقتاً</span>
+          <CirclePause className="w-4 h-4 text-[#DC2626]" />
         </button>
       </div>
     </div>

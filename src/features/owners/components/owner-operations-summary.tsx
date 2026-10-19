@@ -1,4 +1,4 @@
-import { BarChart2, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { OwnerPropertiesList } from "./owner-properties-list";
 
 interface OwnerOperationsSummaryProps {
@@ -18,7 +18,7 @@ export function OwnerOperationsSummary({
   rating = 4.8,
   reviewsCount = 112,
   lastLoginTime = "اليوم، 09:24 ص",
-  lastLoginPlatform = "الرياض - Web Console",
+  lastLoginPlatform = "الرياض • Web Console",
   lastLoginSecurity = "عبر IP آمن ومعتمد",
   onNavigateToProperties,
 }: OwnerOperationsSummaryProps) {
@@ -28,8 +28,20 @@ export function OwnerOperationsSummary({
       <div className="flex items-center justify-between">
         {/* Right side in RTL: Icon Squircle + Title & Subtitle */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#DDE7D3] text-[#283820] flex items-center justify-center shrink-0">
-            <BarChart2 className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-2xl bg-[#D4E2C7] text-[#283820] flex items-center justify-center shrink-0">
+            <svg
+              className="w-5 h-5 text-[#2B3925]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect width="18" height="12" x="3" y="4" rx="2" />
+              <path d="M7 11l2.5-3 2.5 3 4-4" />
+              <path d="M9 19h6" />
+            </svg>
           </div>
           <div>
             <h2 className="text-base sm:text-lg font-bold text-[#172115]">
@@ -42,7 +54,7 @@ export function OwnerOperationsSummary({
         </div>
 
         {/* Left side in RTL: "تحديث فوري" Pill Badge */}
-        <span className="bg-[#EEF2E6] text-[#4A5D44] text-[11px] font-semibold px-3 py-1 rounded-full">
+        <span className="bg-[#EBF0E6] text-[#4A5D44] text-[11px] font-semibold px-3 py-1 rounded-full">
           تحديث فوري
         </span>
       </div>
@@ -50,11 +62,11 @@ export function OwnerOperationsSummary({
       {/* 2. 3 Metric Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         {/* 1. معدل الإشغال الكلي (Far right in RTL) */}
-        <div className="bg-[#F6F8F4] rounded-2xl p-4 border border-[#EEF2E6] space-y-2">
+        <div className="bg-[#F1F5EB] rounded-2xl p-4 sm:p-4.5 border border-[#E0E5D9]/60 space-y-2">
           <div className="text-xs text-[#7D8A78] font-medium">معدل الإشغال الكلي</div>
           <div className="flex items-baseline justify-between">
             <span className="text-2xl sm:text-3xl font-black text-[#172115]">{occupancyRate}%</span>
-            <span className="text-xs text-[#2E7D32] font-bold" dir="ltr">{occupancyChange}</span>
+            <span className="text-xs text-[#556350] font-bold" dir="ltr">{occupancyChange}</span>
           </div>
           {/* Progress Bar */}
           <div className="h-2 w-full bg-[#E5EAE0] rounded-full overflow-hidden">
@@ -66,7 +78,7 @@ export function OwnerOperationsSummary({
         </div>
 
         {/* 2. متوسط تقييم الضيوف (Middle in RTL) */}
-        <div className="bg-[#F6F8F4] rounded-2xl p-4 border border-[#EEF2E6] space-y-2">
+        <div className="bg-[#F1F5EB] rounded-2xl p-4 sm:p-4.5 border border-[#E0E5D9]/60 space-y-2">
           <div className="text-xs text-[#7D8A78] font-medium">متوسط تقييم الضيوف</div>
           <div className="flex items-center justify-between">
             <span className="text-2xl sm:text-3xl font-black text-[#172115]">{rating}</span>
@@ -78,9 +90,9 @@ export function OwnerOperationsSummary({
         </div>
 
         {/* 3. آخر تسجيل دخول للمنصة (Far left in RTL) */}
-        <div className="bg-[#F6F8F4] rounded-2xl p-4 border border-[#EEF2E6] space-y-1">
+        <div className="bg-[#F1F5EB] rounded-2xl p-4 sm:p-4.5 border border-[#E0E5D9]/60 space-y-1">
           <div className="text-xs text-[#7D8A78] font-medium">آخر تسجيل دخول للمنصة</div>
-          <div className="text-base sm:text-lg font-bold text-[#172115] pt-0.5">
+          <div className="text-base sm:text-lg font-black text-[#172115] pt-0.5">
             {lastLoginTime}
           </div>
           <div className="text-xs text-[#7D8A78] leading-tight">
@@ -97,4 +109,5 @@ export function OwnerOperationsSummary({
     </div>
   );
 }
+
 

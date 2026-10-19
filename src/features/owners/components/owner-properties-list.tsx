@@ -57,7 +57,7 @@ export function OwnerPropertiesList({
     <div className="space-y-3.5 pt-1">
       {/* Subheader Row */}
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-bold text-[#172115]">
+        <h3 className="text-base sm:text-lg font-bold text-[#172115]">
           العقارات التابعة للمالك ({totalCount})
         </h3>
         <Link
@@ -68,10 +68,11 @@ export function OwnerPropertiesList({
               onNavigateToProperties();
             }
           }}
-          className="text-xs font-semibold text-[#5C6B56] hover:text-[#172115] hover:underline flex items-center gap-1 transition-colors"
+          className="text-xs font-semibold text-[#5C6B56] hover:text-[#172115] hover:underline flex items-center gap-1.5 transition-colors cursor-pointer"
+          dir="ltr"
         >
-          <span>إدارة العقارات والوحدات</span>
           <ArrowLeft className="w-3.5 h-3.5" />
+          <span>إدارة العقارات والوحدات</span>
         </Link>
       </div>
 
@@ -81,7 +82,7 @@ export function OwnerPropertiesList({
           <Link
             key={item.id}
             href={`/dashboard/properties/${item.id}`}
-            className="bg-[#F6F8F4] hover:bg-[#EEF2E6]/60 rounded-2xl p-3.5 sm:p-4 border border-[#EEF2E6] flex items-center justify-between gap-3 transition-colors group cursor-pointer block"
+            className="bg-[#F1F5EB] hover:bg-[#EAEFE3] rounded-2xl p-4 sm:p-4.5 border border-[#E0E5D9]/50 flex items-center justify-between gap-3 transition-colors group cursor-pointer block"
           >
             {/* Right in RTL: Image + Name + Details */}
             <div className="flex items-center gap-3.5 min-w-0">
@@ -94,36 +95,36 @@ export function OwnerPropertiesList({
                 />
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-xs sm:text-sm text-[#172115] truncate group-hover:text-[#2E3C29] transition-colors">
+                <div className="font-bold text-sm sm:text-base text-[#172115] truncate group-hover:text-[#2E3C29] transition-colors">
                   {item.name}
                 </div>
-                <div className="text-[11px] sm:text-xs text-[#7D8A78] truncate mt-0.5">
+                <div className="text-xs text-[#7D8A78] truncate mt-0.5">
                   {item.location} • {item.unitsText}
                 </div>
               </div>
             </div>
 
             {/* Middle & Left in RTL: Occupancy, Units, Chevron */}
-            <div className="flex items-center gap-4 sm:gap-7 shrink-0">
+            <div className="flex items-center gap-6 sm:gap-10 shrink-0">
               {/* Occupancy Rate */}
               <div className="text-center">
-                <div className="text-[10px] text-[#7D8A78] font-medium">نسبة الإشغال</div>
-                <div className="text-xs sm:text-sm font-bold text-[#172115]">
+                <div className="text-xs text-[#7D8A78] font-medium">نسبة الإشغال</div>
+                <div className="text-sm sm:text-base font-bold text-[#172115]">
                   {item.occupancy}
                 </div>
               </div>
 
               {/* Active Units */}
               <div className="text-center">
-                <div className="text-[10px] text-[#7D8A78] font-medium">الوحدات النشطة</div>
-                <div className="text-xs sm:text-sm font-bold text-[#172115]" dir="ltr">
+                <div className="text-xs text-[#7D8A78] font-medium">الوحدات النشطة</div>
+                <div className="text-sm sm:text-base font-bold text-[#172115]" dir="ltr">
                   {item.activeUnits}
                 </div>
               </div>
 
               {/* Chevron */}
-              <div className="w-6 h-6 flex items-center justify-center text-[#7D8A78] group-hover:text-[#172115] transition-colors">
-                <ChevronLeft className="w-4 h-4" />
+              <div className="w-6 h-6 flex items-center justify-center text-[#2C3827] group-hover:translate-x-[-2px] transition-transform">
+                <ChevronLeft className="w-5 h-5 text-[#2C3827]" />
               </div>
             </div>
           </Link>
