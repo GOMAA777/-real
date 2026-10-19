@@ -654,10 +654,10 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             </div>
           </div>
 
-          {/* Card 2: معاينة الوحدة (Matching exact user crop) */}
-          <div className="bg-white rounded-[28px] p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
-            {/* Image Preview with Overlay */}
-            <div className="relative h-56 sm:h-60 rounded-2xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6]">
+          {/* Card 2: معاينة الوحدة (Image bleeds to edges of card up to half, text padded below) */}
+          <div className="bg-white rounded-[28px] border border-[#E2E6DC] shadow-2xs overflow-hidden">
+            {/* Top Half: Image Preview flush to card edges */}
+            <div className="relative h-60 sm:h-64 w-full bg-[#EEF2E6]">
               <Image
                 src="/properties/suite_204_interior.jpg"
                 alt="جناح تنفيذي 204"
@@ -667,8 +667,8 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
-              {/* Floating Mini Booking Modal Preview at top-right (start-3 in RTL) */}
-              <div className="absolute top-3 start-3 w-32 sm:w-36 bg-white/95 backdrop-blur-xs rounded-xl p-2 border border-white/60 shadow-lg select-none pointer-events-none">
+              {/* Floating Mini Booking Modal Preview at top-right (start-3.5 in RTL) */}
+              <div className="absolute top-3.5 start-3.5 w-32 sm:w-36 bg-white/95 backdrop-blur-xs rounded-xl p-2 border border-white/60 shadow-lg select-none pointer-events-none">
                 <div className="text-[7.5px] font-bold text-[#172115] text-center border-b border-[#E2E6DC] pb-1 mb-1.5 leading-tight">
                   إضافة حجز - لوحة تحكم المنصة
                 </div>
@@ -697,15 +697,15 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
                 </div>
               </div>
 
-              {/* Furnished Pill Badge at bottom-left (end-3 in RTL) */}
-              <div className="absolute bottom-3 end-3">
+              {/* Furnished Pill Badge at bottom-left (end-3.5 in RTL) */}
+              <div className="absolute bottom-3.5 end-3.5">
                 <span className="bg-[#56604E]/80 backdrop-blur-xs border border-white/20 text-white text-xs font-semibold px-3 py-1 rounded-xl shadow-xs">
                   مفروشة بالكامل
                 </span>
               </div>
 
-              {/* Title & Location at bottom-right (start-3 in RTL) */}
-              <div className="absolute bottom-3 start-3 text-white text-right">
+              {/* Title & Location at bottom-right (start-3.5 in RTL) */}
+              <div className="absolute bottom-3.5 start-3.5 text-white text-right">
                 <div className="font-bold text-base sm:text-lg tracking-tight">
                   جناح تنفيذي 204
                 </div>
@@ -715,19 +715,19 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
               </div>
             </div>
 
-            {/* Unit Details Grid (Clean spacing without horizontal divider lines) */}
-            <div className="space-y-3.5 text-xs sm:text-sm pt-1">
+            {/* Bottom Half: Unit Details Grid with clean padding below the image */}
+            <div className="p-5 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-[#7D8A78] font-normal">مساحة الوحدة:</span>
-                <span className="font-bold text-[#172115]">94 م²</span>
+                <span className="text-[#7D8A78] text-sm font-normal">مساحة الوحدة:</span>
+                <span className="font-bold text-[#172115] text-sm">94 م²</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#7D8A78] font-normal">نوع التأجير:</span>
-                <span className="font-bold text-[#172115]">يومي / قصير المدى</span>
+                <span className="text-[#7D8A78] text-sm font-normal">نوع التأجير:</span>
+                <span className="font-bold text-[#172115] text-sm">يومي / قصير المدى</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#7D8A78] font-normal">كود القفل الرقمي:</span>
-                <span className="font-bold font-mono text-[#172115]">#9284-A</span>
+                <span className="text-[#7D8A78] text-sm font-normal">كود القفل الرقمي:</span>
+                <span className="font-bold font-mono text-[#172115] text-sm">#9284-A</span>
               </div>
             </div>
           </div>
