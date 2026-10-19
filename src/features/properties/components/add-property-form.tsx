@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
+import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
 interface AddPropertyFormProps {
   onSuccess?: () => void;
@@ -624,47 +624,35 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
         </div>
       </div>
 
-      {/* 3. Docking Bottom Confirmation & Save Bar (Floating when scrolling, Docks at bottom) */}
-      <DockingBottomBar
-        dockedClassName="bg-white border border-[#E2E6DC] rounded-3xl py-4 px-6 sm:px-10 shadow-2xs"
-        floatingClassName="bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-4 px-6 sm:px-10 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]"
-        innerClassName="max-w-[1536px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
-      >
-        {/* Status message on the right in RTL */}
-        <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#172115]">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse shrink-0" />
-          <span>جميع الحقول الأساسية مكتملة وجاهزة للاعتماد في النظام المركزي.</span>
-        </div>
-
-        {/* Action buttons on the left in RTL */}
-        <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
-          <Link
-            href="/dashboard/properties"
-            className="bg-[#F1F5EB] hover:bg-[#E5EAE0] text-[#172115] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-colors cursor-pointer text-center"
-          >
-            إلغاء
-          </Link>
-
-          <button
-            type="button"
-            disabled={isSubmitting}
-            onClick={() => handleSubmit()}
-            className="bg-[#DEE7D7] hover:bg-[#D5E0CD] text-[#283820] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
-          >
-            <span>حفظ ومتابعة لإضافة الوحدات</span>
-            <ArrowLeft className="w-4 h-4" />
-          </button>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-[#2D3928] hover:bg-[#232D1F] text-white px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
-          >
-            <CheckCircle2 className="w-4 h-4" />
-            <span>{isSubmitting ? "جاري الحفظ..." : "حفظ العقار"}</span>
-          </button>
-        </div>
-      </DockingBottomBar>
+      {/* 3. Floating Confirmation & Save Bar */}
+      <FloatingConfirmationBar
+        noteText="جميع الحقول الأساسية مكتملة وجاهزة للاعتماد في النظام المركزي."
+        noteIcon={ShieldCheck}
+        actions={[
+          {
+            label: "إلغاء",
+            href: "/dashboard/properties",
+            variant: "secondary",
+          },
+          {
+            label: "حفظ ومتابعة لإضافة الوحدات",
+            onClick: () => handleSubmit(),
+            variant: "draft",
+            icon: ArrowLeft,
+            iconPosition: "end",
+            disabled: isSubmitting,
+          },
+          {
+            label: "حفظ العقار",
+            type: "submit",
+            variant: "primary",
+            icon: CheckCircle2,
+            disabled: isSubmitting,
+            loading: isSubmitting,
+            loadingText: "جاري الحفظ...",
+          },
+        ]}
+      />
     </form>
   );
 }

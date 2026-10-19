@@ -30,7 +30,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
-import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
+import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
 interface AddBookingFormProps {
   onSuccess: () => void;
@@ -59,8 +59,8 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
     toast.success("تم نسخ رقم المعاملة: BK-10483");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     onSuccess();
   };
 
@@ -763,55 +763,40 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
         </div>
       </div>
 
-      {/* 3. Docking Bottom Confirmation & Save Bar (Floating when scrolling, Docks at bottom) */}
-      <DockingBottomBar
-        dockedClassName="bg-white border border-[#E2E6DC] rounded-3xl py-3.5 sm:py-4 px-6 sm:px-10 shadow-2xs"
-        floatingClassName="bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-3.5 sm:py-4 px-6 sm:px-10 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]"
-        innerClassName="w-full flex items-center justify-between gap-4"
-      >
-        {/* Status Indicator (Right side in RTL) */}
-        <div className="text-right">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0" />
-            <span className="font-bold text-sm text-[#172115]">
-              جاهز للتأكيد والمزامنة الفورية
-            </span>
+      {/* 3. Floating Confirmation & Save Bar */}
+      <FloatingConfirmationBar
+        rightContent={
+          <div className="text-right">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#16A34A] shrink-0 animate-pulse" />
+              <span className="font-bold text-sm text-[#172115]">
+                جاهز للتأكيد والمزامنة الفورية
+              </span>
+            </div>
+            <div className="text-xs text-[#7D8A78] mt-0.5 font-normal">
+              سيتم قفل التواريخ ومزامنة الأقفال الذكية وقنوات التوزيع فور الاعتماد
+            </div>
           </div>
-          <div className="text-xs text-[#7D8A78] mt-0.5 font-normal">
-            سيتم قفل التواريخ ومزامنة الأقفال الذكية وقنوات التوزيع فور الاعتماد
-          </div>
-        </div>
-
-        {/* Action Buttons (Left side in RTL) */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Cancel Button */}
-          <Link
-            href="/dashboard/bookings"
-            className="px-6 py-2.5 text-sm font-bold text-[#2C3825] bg-[#EFF3EB] hover:bg-[#E5ECE0] rounded-2xl transition-all cursor-pointer select-none shadow-3xs active:scale-95"
-          >
-            إلغاء
-          </Link>
-
-          {/* Save as Draft Button */}
-          <button
-            type="button"
-            onClick={() => toast.info("تم حفظ مسودة الحجز بنجاح")}
-            className="bg-[#D6E2CE] hover:bg-[#CAD9C1] text-[#2E3C29] px-6 py-2.5 rounded-2xl text-sm font-bold transition-all cursor-pointer shadow-3xs select-none active:scale-95"
-          >
-            حفظ كمسودة
-          </button>
-
-          {/* Save & Confirm Booking Button */}
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-6 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-2xs select-none active:scale-95"
-          >
-            <CheckCircle2 className="w-4 h-4 text-white" />
-            <span>حفظ واعتماد الحجز</span>
-          </button>
-        </div>
-      </DockingBottomBar>
+        }
+        actions={[
+          {
+            label: "إلغاء",
+            href: "/dashboard/bookings",
+            variant: "secondary",
+          },
+          {
+            label: "حفظ كمسودة",
+            onClick: () => toast.info("تم حفظ مسودة الحجز بنجاح"),
+            variant: "draft",
+          },
+          {
+            label: "حفظ واعتماد الحجز",
+            onClick: () => handleSubmit(),
+            variant: "primary",
+            icon: CheckCircle2,
+          },
+        ]}
+      />
     </div>
   );
 }

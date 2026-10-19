@@ -37,7 +37,7 @@ import {
   Layers,
 } from "lucide-react";
 import { toast } from "sonner";
-import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
+import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 import { ChangeUnitModal } from "./change-unit-modal";
 import { CancelBookingModal } from "./cancel-booking-modal";
 
@@ -717,45 +717,25 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
         </div>
       </div>
 
-      {/* Floating / Sticky Bottom Bar (DockingBottomBar) */}
-      <DockingBottomBar
-        dockedClassName="mt-8"
-        floatingClassName="p-4"
-        innerClassName="max-w-[1536px] mx-auto"
-      >
-        <div className="bg-white/95 backdrop-blur-md border border-[#E2E6DC] rounded-3xl px-6 py-4 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Right side in RTL: Audit Note */}
-          <div className="flex items-center gap-2.5 text-[#556650] text-xs sm:text-sm font-medium">
-            <ShieldCheck className="w-5 h-5 text-[#3E6F3A] shrink-0" />
-            <span>
-              جميع التعديلات تخضع لتوثيق فوري في سجل التدقيق ومزامنة الأقفال الرقمية.
-            </span>
-          </div>
-
-          {/* Left side in RTL: Action Buttons */}
-          <div className="flex items-center gap-3 self-end sm:self-auto shrink-0">
-            {/* Cancel Button */}
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="px-6 py-2.5 rounded-2xl bg-[#EFF3EB] hover:bg-[#E2E8DD] text-[#2C3825] font-bold text-xs sm:text-sm transition-all active:scale-95 cursor-pointer shadow-3xs"
-            >
-              إلغاء
-            </button>
-
-            {/* Save Button */}
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={isSaving}
-              className="px-6 py-2.5 rounded-2xl bg-[#2E3C29] hover:bg-[#232F1F] text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm active:scale-95 cursor-pointer disabled:opacity-70"
-            >
-              <BookmarkCheck className="w-4 h-4 text-white" />
-              <span>{isSaving ? "جارٍ الحفظ..." : "حفظ التعديلات"}</span>
-            </button>
-          </div>
-        </div>
-      </DockingBottomBar>
+      {/* Floating Confirmation Bar */}
+      <FloatingConfirmationBar
+        noteText="جميع التعديلات تخضع لتوثيق فوري في سجل التدقيق ومزامنة الأقفال الرقمية."
+        actions={[
+          {
+            label: "إلغاء",
+            onClick: handleCancel,
+            variant: "secondary",
+          },
+          {
+            label: "حفظ التعديلات",
+            onClick: handleSave,
+            variant: "primary",
+            icon: BookmarkCheck,
+            loading: isSaving,
+            loadingText: "جارٍ الحفظ...",
+          },
+        ]}
+      />
 
       {/* Modals */}
       <ChangeUnitModal

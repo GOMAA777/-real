@@ -17,7 +17,7 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import { toast } from "sonner";
-import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
+import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
 interface AddBookingSuccessViewProps {
   bookingCode?: string;
@@ -256,40 +256,32 @@ export function AddBookingSuccessView({
         </div>
       </div>
 
-      {/* 4. Docking Bottom Action Buttons Bar (Floating when scrolling, Docks at bottom) */}
-      <DockingBottomBar
-        dockedClassName="flex flex-wrap items-center justify-center gap-3 pt-4"
-        floatingClassName="bg-white/95 backdrop-blur-md border-t border-[#E2E6DC] py-3.5 px-6 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] flex items-center justify-center"
-        innerClassName="flex flex-wrap items-center justify-center gap-3 max-w-[1536px] mx-auto"
-      >
-        {/* Button 1: عرض الحجز */}
-        <Link
-          href="/dashboard/bookings"
-          className="bg-[#2E3C29] hover:bg-[#232F1F] text-white px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
-        >
-          <Eye className="w-4 h-4" />
-          <span>عرض الحجز</span>
-        </Link>
-
-        {/* Button 2: إضافة حجز آخر */}
-        <button
-          type="button"
-          onClick={onReset}
-          className="bg-white hover:bg-[#F9FAF7] border border-[#E2E6DC] text-[#172115] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
-        >
-          <PlusCircle className="w-4 h-4 text-[#7D8A78]" />
-          <span>إضافة حجز آخر</span>
-        </button>
-
-        {/* Button 3: العودة إلى الحجوزات */}
-        <Link
-          href="/dashboard/bookings"
-          className="text-xs font-bold text-[#7D8A78] hover:text-[#172115] px-4 py-2 flex items-center gap-1.5 transition-colors cursor-pointer"
-        >
-          <span>العودة إلى الحجوزات</span>
-          <ArrowLeft className="w-3.5 h-3.5" />
-        </Link>
-      </DockingBottomBar>
+      {/* 4. Floating Confirmation & Actions Bar */}
+      <FloatingConfirmationBar
+        noteText="تم تسجيل واعتماد الحجز بنجاح ومزامنة بيانات النزيل والأقفال الرقمية."
+        noteIcon={ShieldCheck}
+        actions={[
+          {
+            label: "العودة إلى الحجوزات",
+            href: "/dashboard/bookings",
+            variant: "secondary",
+            icon: ArrowLeft,
+            iconPosition: "end",
+          },
+          {
+            label: "إضافة حجز آخر",
+            onClick: onReset,
+            variant: "draft",
+            icon: PlusCircle,
+          },
+          {
+            label: "عرض الحجز",
+            href: `/dashboard/bookings/${bookingCode || "BK-10482"}`,
+            variant: "primary",
+            icon: Eye,
+          },
+        ]}
+      />
     </div>
   );
 }
