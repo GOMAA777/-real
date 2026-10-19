@@ -21,16 +21,16 @@ export function PropertiesHeader() {
         {/* Export List Button */}
         <button
           type="button"
-          className="bg-white hover:bg-[#F9FAF7] border border-[#E2E6DC] text-[#2C3825] px-4 py-2.5 rounded-2xl text-xs font-medium flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
+          className="bg-white hover:bg-[#F9FAF7] border border-[#D5DDD0] text-[#172115] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
         >
-          <Download className="w-4 h-4 text-[#7D8A78]" />
+          <Download className="w-4 h-4 text-[#172115]" />
           <span>تصدير القائمة (CSV / Excel)</span>
         </button>
 
         {/* Add Property Button */}
         <Link
           href="/dashboard/properties/new"
-          className="bg-[#34432E] hover:bg-[#253121] text-white px-5 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
+          className="bg-[#4A5840] hover:bg-[#3D4C35] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>إضافة عقار</span>
