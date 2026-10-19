@@ -654,69 +654,108 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
             </div>
           </div>
 
-          {/* Card 2: معاينة الوحدة */}
-          <div className="bg-white rounded-[28px] p-5 border border-[#E2E6DC] shadow-2xs space-y-4">
+          {/* Card 2: معاينة الوحدة (Matching exact user crop) */}
+          <div className="bg-white rounded-[28px] p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
             {/* Image Preview with Overlay */}
-            <div className="relative h-44 rounded-2xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6]">
+            <div className="relative h-56 sm:h-60 rounded-2xl overflow-hidden border border-[#E2E6DC] bg-[#EEF2E6]">
               <Image
-                src="/properties/nakheel_hd.jpg"
+                src="/properties/suite_204_interior.jpg"
                 alt="جناح تنفيذي 204"
                 fill
                 className="object-cover"
+                priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
-              {/* Furnished Badge at top-left */}
-              <div className="absolute top-3 start-3">
-                <span className="bg-black/60 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">
+              {/* Floating Mini Booking Modal Preview at top-right (start-3 in RTL) */}
+              <div className="absolute top-3 start-3 w-32 sm:w-36 bg-white/95 backdrop-blur-xs rounded-xl p-2 border border-white/60 shadow-lg select-none pointer-events-none">
+                <div className="text-[7.5px] font-bold text-[#172115] text-center border-b border-[#E2E6DC] pb-1 mb-1.5 leading-tight">
+                  إضافة حجز - لوحة تحكم المنصة
+                </div>
+                <div className="space-y-1">
+                  <div className="h-3.5 rounded bg-[#F0F4EC] border border-[#E0E5D8]/60 px-1 flex items-center justify-between text-[6.5px] text-[#7D8A78]">
+                    <span>اسم العميل</span>
+                  </div>
+                  <div className="h-3.5 rounded bg-[#F0F4EC] border border-[#E0E5D8]/60 px-1 flex items-center justify-between text-[6.5px] text-[#7D8A78]">
+                    <span>تاريخ الوصول</span>
+                  </div>
+                  <div className="h-3.5 rounded bg-[#F0F4EC] border border-[#E0E5D8]/60 px-1 flex items-center justify-between text-[6.5px] text-[#7D8A78]">
+                    <span>تاريخ المغادرة</span>
+                  </div>
+                  <div className="h-3.5 rounded bg-[#F0F4EC] border border-[#E0E5D8]/60 px-1 flex items-center justify-between text-[6.5px] text-[#7D8A78]">
+                    <span>نوع الوحدة</span>
+                  </div>
+                  <div className="h-3.5 rounded bg-[#F0F4EC] border border-[#E0E5D8]/60 px-1 flex items-center justify-between text-[6.5px] text-[#7D8A78]">
+                    <span>السعر الإجمالي</span>
+                  </div>
+                </div>
+                <div className="mt-1.5 bg-[#384633] text-white text-[7px] font-bold py-0.5 rounded text-center">
+                  حفظ الحجز
+                </div>
+                <div className="text-[6px] text-[#7D8A78] text-center mt-0.5">
+                  إلغاء
+                </div>
+              </div>
+
+              {/* Furnished Pill Badge at bottom-left (end-3 in RTL) */}
+              <div className="absolute bottom-3 end-3">
+                <span className="bg-[#56604E]/80 backdrop-blur-xs border border-white/20 text-white text-xs font-semibold px-3 py-1 rounded-xl shadow-xs">
                   مفروشة بالكامل
                 </span>
               </div>
 
-              {/* Title at bottom */}
-              <div className="absolute bottom-3 start-3 end-3 text-white">
-                <div className="font-bold text-sm">جناح تنفيذي 204</div>
-                <div className="text-[11px] text-white/80 mt-0.5">
+              {/* Title & Location at bottom-right (start-3 in RTL) */}
+              <div className="absolute bottom-3 start-3 text-white text-right">
+                <div className="font-bold text-base sm:text-lg tracking-tight">
+                  جناح تنفيذي 204
+                </div>
+                <div className="text-xs text-white/90 mt-0.5 font-normal">
                   عمارة النخيل • العليا
                 </div>
               </div>
             </div>
 
-            {/* Unit Details Grid */}
-            <div className="space-y-2 text-xs divide-y divide-[#EEF2E6]">
-              <div className="flex items-center justify-between pt-1">
-                <span className="text-[#7D8A78]">مساحة الوحدة:</span>
+            {/* Unit Details Grid (Clean spacing without horizontal divider lines) */}
+            <div className="space-y-3.5 text-xs sm:text-sm pt-1">
+              <div className="flex items-center justify-between">
+                <span className="text-[#7D8A78] font-normal">مساحة الوحدة:</span>
                 <span className="font-bold text-[#172115]">94 م²</span>
               </div>
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-[#7D8A78]">نوع التأجير:</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[#7D8A78] font-normal">نوع التأجير:</span>
                 <span className="font-bold text-[#172115]">يومي / قصير المدى</span>
               </div>
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-[#7D8A78]">كود القفل الرقمي:</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[#7D8A78] font-normal">كود القفل الرقمي:</span>
                 <span className="font-bold font-mono text-[#172115]">#9284-A</span>
               </div>
             </div>
           </div>
 
           {/* Card 3: إجراءات النظام الفورية بعد الحفظ */}
-          <div className="bg-white rounded-[28px] p-5 border border-[#E2E6DC] shadow-2xs space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#172115]">
-              <CheckCircle2 className="w-4 h-4 text-[#2E3C29]" />
+          <div className="bg-white rounded-[28px] p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-4">
+            <div className="flex items-center gap-2.5 text-sm font-bold text-[#172115]">
+              <CheckCircle2 className="w-5 h-5 text-[#172115] shrink-0" />
               <span>إجراءات النظام الفورية بعد الحفظ</span>
             </div>
-            <ul className="space-y-2 text-xs text-[#7D8A78]">
-              <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] mt-1.5 shrink-0" />
-                <span>تحديث حالة التقويم في Whatsapp API</span>
+            <ul className="space-y-3.5 text-xs sm:text-[13px] text-[#556350]">
+              <li className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0" />
+                <span className="font-medium leading-relaxed">
+                  تحديث حالة التقويم في Whatsapp API
+                </span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] mt-1.5 shrink-0" />
-                <span>إصدار سند قبض إلكتروني بمبلغ 1,700 ر.س</span>
+              <li className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0" />
+                <span className="font-medium leading-relaxed">
+                  إصدار سند قبض إلكتروني بمبلغ 1,700 ر.س
+                </span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] mt-1.5 shrink-0" />
-                <span>إشعار مالك العقار عبر لوحة تحكم الشركاء</span>
+              <li className="flex items-center gap-2.5">
+                <span className="w-2 h-2 rounded-full bg-[#16A34A] shrink-0" />
+                <span className="font-medium leading-relaxed">
+                  إشعار مالك العقار عبر لوحة تحكم الشركاء
+                </span>
               </li>
             </ul>
           </div>
