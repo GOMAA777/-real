@@ -195,15 +195,6 @@ export function OwnerPropertiesTabView({
     <div className="space-y-4">
       {/* 1. Top Action Buttons Bar (Left in RTL: justify-end) */}
       <div className="flex items-center justify-end gap-3">
-        {/* Primary Action: إضافة عقار للمالك */}
-        <Link
-          href="/dashboard/properties/new"
-          className="bg-[#2E3C29] hover:bg-[#232F1F] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
-        >
-          <Building2 className="w-4 h-4" />
-          <span>+ إضافة عقار للمالك</span>
-        </Link>
-
         {/* Secondary Action: عرض جميع العقارات في المنصة */}
         <Link
           href="/dashboard/properties"
@@ -211,6 +202,15 @@ export function OwnerPropertiesTabView({
         >
           <Globe className="w-4 h-4 text-[#7D8A78]" />
           <span>عرض جميع العقارات في المنصة</span>
+        </Link>
+
+        {/* Primary Action: إضافة عقار للمالك */}
+        <Link
+          href="/dashboard/properties/new"
+          className="bg-[#2E3C29] hover:bg-[#232F1F] text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-2xs transition-colors cursor-pointer"
+        >
+          <Building2 className="w-4 h-4" />
+          <span>+ إضافة عقار للمالك</span>
         </Link>
       </div>
 
