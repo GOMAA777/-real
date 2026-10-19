@@ -17,9 +17,10 @@ import { BookingDetail } from "../types";
 
 interface BookingGuestCardProps {
   guest: BookingDetail["guest"];
+  bookingCode?: string;
 }
 
-export function BookingGuestCard({ guest }: BookingGuestCardProps) {
+export function BookingGuestCard({ guest, bookingCode }: BookingGuestCardProps) {
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -140,14 +141,13 @@ export function BookingGuestCard({ guest }: BookingGuestCardProps) {
         </Link>
 
         {/* Chat History */}
-        <button
-          type="button"
-          onClick={() => toast.info(`فتح سجل محادثة WhatsApp مع: ${guest.name}`)}
+        <Link
+          href={`/dashboard/bookings/${bookingCode || "BK-10482"}/whatsapp`}
           className="bg-[#EFF3EA] hover:bg-[#E5ECE0] text-[#2E3C29] py-2.5 px-3 rounded-xl text-xs font-bold border border-[#D8E1D2] flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-3xs active:scale-95"
         >
           <MessageSquare className="w-4 h-4" />
           <span>سجل المحادثة</span>
-        </button>
+        </Link>
       </div>
     </div>
   );

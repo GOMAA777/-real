@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   BadgeCheck,
   IdCard,
@@ -72,14 +73,13 @@ export function GuestInfoMetricsCard({ guest }: GuestInfoMetricsCardProps) {
         </div>
 
         {/* Left: Quick WhatsApp Button */}
-        <button
-          type="button"
-          onClick={handleWhatsApp}
+        <Link
+          href={`/dashboard/bookings/${guest.bookings?.[0]?.bookingCode || "BK-10482"}/whatsapp`}
           className="bg-[#EFF4EA] hover:bg-[#E5ECE0] text-[#34432E] border border-[#DEE7D7] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-3xs transition-all cursor-pointer select-none active:scale-95 self-start sm:self-auto"
         >
           <MessageSquare className="w-4 h-4 text-[#34432E]" />
           <span>تواصل سريع واتساب</span>
-        </button>
+        </Link>
       </div>
 
       {/* 2. Four Info / Contact Cards */}

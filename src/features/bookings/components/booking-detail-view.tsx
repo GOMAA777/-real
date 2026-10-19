@@ -69,7 +69,10 @@ export function BookingDetailView({ booking }: BookingDetailViewProps) {
         {/* Left Column in RTL: 35% width (col-span-4 on desktop) */}
         <div className="lg:col-span-4 space-y-6 order-2">
           {/* L1: Guest Profile */}
-          <BookingGuestCard guest={booking.guest} />
+          <BookingGuestCard
+            guest={booking.guest}
+            bookingCode={booking.bookingCode || "BK-10482"}
+          />
 
           {/* L2: Smart Lock Access Code */}
           <BookingSmartLockCard
