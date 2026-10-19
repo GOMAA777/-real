@@ -65,94 +65,94 @@ export function CancelBookingModal({
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-white rounded-[28px] max-w-lg w-full shadow-2xl border border-[#E2E6DC] text-right z-10 max-h-[95vh] flex flex-col overflow-hidden">
+      <div className="relative bg-white rounded-[24px] sm:rounded-[28px] max-w-lg w-full shadow-2xl border border-[#E2E6DC] text-right z-10 max-h-[96vh] flex flex-col overflow-hidden">
         {/* Close Button (Top Left in RTL) */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 start-4 w-8 h-8 rounded-full bg-[#F2F5EF] hover:bg-[#E5ECE0] text-[#556650] hover:text-[#172115] flex items-center justify-center transition-colors cursor-pointer z-20"
+          className="absolute top-3.5 start-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F2F5EF] hover:bg-[#E5ECE0] text-[#556650] hover:text-[#172115] flex items-center justify-center transition-colors cursor-pointer z-20"
           aria-label="إغلاق النافذة"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Scrollable Body (Only scrolls if strictly necessary on small screens, styled sleekly) */}
-        <div className="p-4 sm:p-6 space-y-3 sm:space-y-3.5 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#D5DDD0_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-[#D5DDD0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+        <div className="p-3.5 sm:p-5 space-y-2 sm:space-y-2.5 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#D5DDD0_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#D5DDD0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
           {/* Modal Header */}
-          <div className="flex items-center gap-3 pe-8">
-            <div className="w-11 h-11 rounded-2xl bg-[#FDF2F2] text-[#D9383A] flex items-center justify-center shrink-0 shadow-3xs border border-[#FADCDD]">
-              <CalendarX2 className="w-5 h-5 stroke-[2.2]" />
+          <div className="flex items-center gap-2.5 pe-8">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#FDF2F2] text-[#D9383A] flex items-center justify-center shrink-0 shadow-3xs border border-[#FADCDD]">
+              <CalendarX2 className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
             </div>
             <div className="space-y-0.5">
-              <h2 className="text-xl sm:text-2xl font-black text-[#172115] tracking-tight">
+              <h2 className="text-lg sm:text-xl font-black text-[#172115] tracking-tight">
                 إلغاء الحجز؟
               </h2>
-              <p className="text-xs text-[#7A8875] font-medium">
+              <p className="text-[11px] sm:text-xs text-[#7A8875] font-medium">
                 إجراء إداري لإلغاء حجز مسجل على المنصة وتحديث قنوات التوافر.
               </p>
             </div>
           </div>
 
           {/* Booking Reference Summary Box */}
-          <div className="bg-[#F8FAF6] rounded-2xl p-3.5 space-y-2.5 border border-[#DEE7D7]">
+          <div className="bg-[#F8FAF6] rounded-xl sm:rounded-2xl p-2.5 sm:p-3 space-y-2 border border-[#DEE7D7]">
             <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 font-bold text-[#172115]">
+              <div className="flex items-center gap-1.5 font-bold text-[#172115] text-[11px] sm:text-xs">
                 <Receipt className="w-3.5 h-3.5 text-[#3D4C35]" />
                 <span>مرجع الحجز: {bookingCode}</span>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#EFF3EB] border border-[#DEE7D7] text-[#3D4C35] text-[11px] font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-[#EFF3EB] border border-[#DEE7D7] text-[#3D4C35] text-[10px] sm:text-[11px] font-bold">
                 مدفوع مسبقاً (2,450 ر.س)
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               {/* Box 1: Guest (Right in RTL) */}
-              <div className="bg-white rounded-xl p-2.5 border border-[#E2E6DC] space-y-0.5 text-right">
-                <div className="text-[11px] text-[#7A8875]">العميل / الضيف</div>
+              <div className="bg-white rounded-xl p-2 border border-[#E2E6DC] space-y-0.5 text-right">
+                <div className="text-[10px] sm:text-[11px] text-[#7A8875]">العميل / الضيف</div>
                 <div className="text-xs sm:text-sm font-bold text-[#172115]">خالد العتيبي</div>
-                <div className="text-[11px] text-[#7A8875] font-mono dir-ltr text-right">
+                <div className="text-[10px] sm:text-[11px] text-[#7A8875] font-mono dir-ltr text-right">
                   +966 50 123 4567
                 </div>
               </div>
 
               {/* Box 2: Unit (Left in RTL) */}
-              <div className="bg-white rounded-xl p-2.5 border border-[#E2E6DC] space-y-0.5 text-right">
-                <div className="text-[11px] text-[#7A8875]">العقار والوحدة</div>
+              <div className="bg-white rounded-xl p-2 border border-[#E2E6DC] space-y-0.5 text-right">
+                <div className="text-[10px] sm:text-[11px] text-[#7A8875]">العقار والوحدة</div>
                 <div className="text-xs sm:text-sm font-bold text-[#172115]">عمارة النخيل</div>
-                <div className="text-[11px] text-[#7A8875]">شقة 204 (تنفيذية)</div>
+                <div className="text-[10px] sm:text-[11px] text-[#7A8875]">شقة 204 (تنفيذية)</div>
               </div>
             </div>
 
             {/* Dates Row */}
-            <div className="bg-white rounded-xl py-2 px-3 flex items-center justify-between border border-[#E2E6DC] text-xs font-semibold text-[#172115]">
-              <div className="flex items-center gap-2">
+            <div className="bg-white rounded-xl py-1.5 px-2.5 flex items-center justify-between border border-[#E2E6DC] text-[11px] sm:text-xs font-semibold text-[#172115]">
+              <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#7A8875]" />
                 <span>18 سبتمبر 2026 ← 21 سبتمبر 2026</span>
               </div>
-              <span className="text-[#7A8875] text-[11px]">3 ليال</span>
+              <span className="text-[#7A8875] text-[10px] sm:text-[11px]">3 ليال</span>
             </div>
           </div>
 
           {/* Cancellation Reason Section */}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <label className="font-bold text-[#172115]">
+              <label className="font-bold text-[#172115] text-[11px] sm:text-xs">
                 سبب الإلغاء <span className="text-red-500">*</span>
               </label>
-              <span className="text-[#7A8875] text-[11px]">مطلوب للتقارير والتدقيق</span>
+              <span className="text-[#7A8875] text-[10px] sm:text-[11px]">مطلوب للتقارير والتدقيق</span>
             </div>
 
             {/* 2x2 Grid Matching Screenshot 2 Order */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               {/* Right Column: طلب العميل then مشكلة في الوحدة */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {reasonsColRight.map((r) => {
                   const isSelected = selectedReason === r.label;
                   return (
                     <div
                       key={r.id}
                       onClick={() => setSelectedReason(r.label)}
-                      className={`rounded-xl p-2.5 flex items-center justify-between border transition-all cursor-pointer font-medium ${
+                      className={`rounded-xl py-1.5 px-2.5 flex items-center justify-between border transition-all cursor-pointer font-medium text-xs ${
                         isSelected
                           ? "border-[#3D4C35] bg-[#EEF4EB] text-[#172115] shadow-3xs"
                           : "border-[#DEE7D7] bg-[#F8FAF6] text-[#2C3825] hover:bg-[#EFF3EA]"
@@ -160,9 +160,9 @@ export function CancelBookingModal({
                     >
                       <span>{r.label}</span>
                       <div
-                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${
+                        className={`w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 ${
                           isSelected
-                            ? "border-4 border-[#2E3C29] bg-white"
+                            ? "border-[3px] border-[#2E3C29] bg-white"
                             : "border-2 border-[#CBD5C7] bg-white"
                         }`}
                       />
@@ -172,14 +172,14 @@ export function CancelBookingModal({
               </div>
 
               {/* Left Column: إلغاء من المالك then أخرى */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {reasonsColLeft.map((r) => {
                   const isSelected = selectedReason === r.label;
                   return (
                     <div
                       key={r.id}
                       onClick={() => setSelectedReason(r.label)}
-                      className={`rounded-xl p-2.5 flex items-center justify-between border transition-all cursor-pointer font-medium ${
+                      className={`rounded-xl py-1.5 px-2.5 flex items-center justify-between border transition-all cursor-pointer font-medium text-xs ${
                         isSelected
                           ? "border-[#3D4C35] bg-[#EEF4EB] text-[#172115] shadow-3xs"
                           : "border-[#DEE7D7] bg-[#F8FAF6] text-[#2C3825] hover:bg-[#EFF3EA]"
@@ -187,9 +187,9 @@ export function CancelBookingModal({
                     >
                       <span>{r.label}</span>
                       <div
-                        className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${
+                        className={`w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 ${
                           isSelected
-                            ? "border-4 border-[#2E3C29] bg-white"
+                            ? "border-[3px] border-[#2E3C29] bg-white"
                             : "border-2 border-[#CBD5C7] bg-white"
                         }`}
                       />
@@ -203,11 +203,11 @@ export function CancelBookingModal({
           {/* Additional Notes */}
           <div className="space-y-1">
             <div className="flex items-center justify-between text-xs">
-              <label className="font-bold text-[#172115]">ملاحظات إضافية</label>
-              <span className="text-[#7A8875] text-[11px]">اختياري</span>
+              <label className="font-bold text-[#172115] text-[11px] sm:text-xs">ملاحظات إضافية</label>
+              <span className="text-[#7A8875] text-[10px] sm:text-[11px]">اختياري</span>
             </div>
 
-            <div className="bg-[#F8FAF6] rounded-2xl p-2.5 border border-[#DEE7D7] focus-within:border-[#D9383A] transition-colors">
+            <div className="bg-[#F8FAF6] rounded-xl p-2 border border-[#DEE7D7] focus-within:border-[#D9383A] transition-colors">
               <textarea
                 rows={2}
                 value={notes}
@@ -219,25 +219,25 @@ export function CancelBookingModal({
           </div>
 
           {/* Operational Impact Warning Box */}
-          <div className="bg-[#FFF9F9] rounded-2xl p-3 sm:p-3.5 space-y-2 border border-[#FADCDD]">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#D9383A]">
-              <AlertTriangle className="w-4 h-4" />
+          <div className="bg-[#FFF9F9] rounded-xl sm:rounded-2xl py-2 px-3 space-y-1.5 border border-[#FADCDD]">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#D9383A]">
+              <AlertTriangle className="w-3.5 h-3.5" />
               <span>الأثر التشغيلي للإلغاء المباشر</span>
             </div>
 
-            <div className="space-y-1.5 text-[11px] sm:text-xs text-[#556650] leading-relaxed">
-              <div className="flex items-start gap-2">
-                <MinusCircle className="w-3.5 h-3.5 text-[#D9383A] shrink-0 mt-0.5" />
+            <div className="space-y-1 text-[10px] sm:text-[11px] text-[#556650] leading-snug">
+              <div className="flex items-start gap-1.5">
+                <MinusCircle className="w-3 h-3 text-[#D9383A] shrink-0 mt-0.5" />
                 <span>بعد إلغاء الحجز لن يتم احتسابه ضمن الحجوزات الحالية أو القادمة بالمنصة.</span>
               </div>
 
-              <div className="flex items-start gap-2">
-                <ArrowRightLeft className="w-3.5 h-3.5 text-[#D9383A] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-1.5">
+                <ArrowRightLeft className="w-3 h-3 text-[#D9383A] shrink-0 mt-0.5" />
                 <span>سيتم تحديث حالة الوحدة فورياً لتصبح متاحة في التقويم المركزي وتلقائياً على قنوات الحجز المرتبطة (OTAs).</span>
               </div>
 
-              <div className="flex items-start gap-2">
-                <RotateCcw className="w-3.5 h-3.5 text-[#D9383A] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-1.5">
+                <RotateCcw className="w-3 h-3 text-[#D9383A] shrink-0 mt-0.5" />
                 <span>إلغاء كود القفل الذكي تلقائياً وإخطار النزيل والمالك بتفاصيل الإلغاء عبر WhatsApp.</span>
               </div>
             </div>
@@ -245,13 +245,13 @@ export function CancelBookingModal({
         </div>
 
         {/* Footer Actions Docked at Bottom */}
-        <div className="p-3.5 sm:p-4 bg-[#F8FAF6] border-t border-[#DEE7D7] flex items-center justify-between gap-3 shrink-0 rounded-b-[28px]">
+        <div className="p-3 sm:p-3.5 bg-[#F8FAF6] border-t border-[#DEE7D7] flex items-center justify-between gap-3 shrink-0 rounded-b-[24px] sm:rounded-b-[28px]">
           {/* Confirm Button (Right in RTL) */}
           <button
             type="button"
             onClick={handleConfirm}
             disabled={isSubmitting}
-            className="flex-1 py-2.5 sm:py-3 px-6 rounded-xl bg-[#BD2426] hover:bg-[#A81F21] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-98 cursor-pointer disabled:opacity-70"
+            className="flex-1 py-2 sm:py-2.5 px-5 rounded-xl bg-[#BD2426] hover:bg-[#A81F21] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-98 cursor-pointer disabled:opacity-70"
           >
             <Trash2 className="w-4 h-4" />
             <span>{isSubmitting ? "جارٍ الإلغاء..." : "تأكيد إلغاء الحجز"}</span>
@@ -261,7 +261,7 @@ export function CancelBookingModal({
           <button
             type="button"
             onClick={onClose}
-            className="py-2.5 sm:py-3 px-6 rounded-xl bg-white hover:bg-[#F2F5EF] text-[#2C3825] font-bold text-xs sm:text-sm border border-[#E2E6DC] transition-all cursor-pointer shadow-3xs"
+            className="py-2 sm:py-2.5 px-5 rounded-xl bg-white hover:bg-[#F2F5EF] text-[#2C3825] font-bold text-xs sm:text-sm border border-[#E2E6DC] transition-all cursor-pointer shadow-3xs"
           >
             إلغاء
           </button>
