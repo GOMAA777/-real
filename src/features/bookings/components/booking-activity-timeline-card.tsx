@@ -72,11 +72,13 @@ export function BookingActivityTimelineCard({
       </div>
 
       {/* Timeline Events */}
-      <div className="relative ps-6 space-y-5 before:absolute before:top-2 before:bottom-2 before:start-2 before:w-0.5 before:bg-[#E2E6DC]">
+      <div className="relative ps-[52px] space-y-5 before:absolute before:top-2 before:bottom-2 before:start-[19px] before:w-0.5 before:bg-[#E2E6DC]">
         {eventsToRender.map((event, index) => (
           <div key={event.id || index} className="relative">
-            {/* Color Dot */}
-            <div className={`absolute -start-[25px] top-1.5 w-3 h-3 rounded-full ${event.dotColor}`} />
+            {/* Color Dot centered directly under History icon */}
+            <div
+              className={`absolute -start-[38px] top-1.5 w-3 h-3 rounded-full ${event.dotColor}`}
+            />
 
             <div className="space-y-0.5">
               <div className={`text-xs sm:text-sm font-bold ${event.titleColor}`}>
