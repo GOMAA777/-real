@@ -1,7 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { clearAuthSession, getAuthUser, type AuthUser } from "@/lib/auth-session";
 import {
   Building,
   LayoutGrid,
@@ -58,7 +61,20 @@ const systemNavItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+
+  useEffect(() => {
+    setCurrentUser(getAuthUser());
+  }, []);
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    clearAuthSession();
+    toast.success("تم تسجيل الخروج بنجاح");
+    router.push("/login");
+  };
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -196,14 +212,15 @@ export function Sidebar() {
           </Link>
 
           {/* Logout Button */}
-          <Link
-            href="/login"
-            className="mt-2 p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-2 p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
             title="تسجيل الخروج"
             aria-label="تسجيل الخروج"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </aside>
 
@@ -342,24 +359,28 @@ export function Sidebar() {
           <div className="p-2.5 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center">
-                م
+                {currentUser?.fullName ? currentUser.fullName.charAt(0) : "م"}
               </div>
               <div>
-                <div className="text-xs font-bold text-white">محمد أحمد</div>
+                <div className="text-xs font-bold text-white">
+                  {currentUser?.fullName || "محمد أحمد"}
+                </div>
                 <div className="flex items-center gap-1 text-[10px] text-white/60">
                   <ShieldCheck className="w-3 h-3 text-[#86EFAC]" />
-                  <span>مدير النظام</span>
+                  <span>{currentUser?.role || "مدير النظام"}</span>
                 </div>
               </div>
             </div>
 
-            <Link
-              href="/login"
-              className="p-1.5 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="p-1.5 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               title="تسجيل الخروج"
+              aria-label="تسجيل الخروج"
             >
               <LogOut className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

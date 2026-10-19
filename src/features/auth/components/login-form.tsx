@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -16,12 +16,22 @@ import {
 } from "lucide-react";
 import { loginSchema, type LoginInput } from "../schemas/login.schema";
 import { loginAction } from "../actions/login.action";
+import { isUserAuthenticated, setAuthSession } from "@/lib/auth-session";
 
 export function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    if (isUserAuthenticated()) {
+      router.replace("/dashboard");
+    } else {
+      setIsCheckingAuth(false);
+    }
+  }, [router]);
 
   const {
     register,
@@ -42,6 +52,7 @@ export function LoginForm() {
     try {
       const res = await loginAction(data);
       if (res?.data?.success) {
+        setAuthSession({ identifier: data.identifier }, data.rememberMe);
         setFeedback(res.data.message || "تم تسجيل الدخول بنجاح");
         router.push("/dashboard");
       }
@@ -51,6 +62,15 @@ export function LoginForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="w-full max-w-md mx-auto py-16 flex flex-col items-center justify-center gap-3">
+        <div className="w-8 h-8 rounded-full border-2 border-[#344230]/20 border-t-[#344230] animate-spin" />
+        <span className="text-xs text-[#616E5D]">جاري التحقق من الجلسة...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto space-y-7">
