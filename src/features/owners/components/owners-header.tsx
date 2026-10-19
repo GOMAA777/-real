@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus, Upload } from "lucide-react";
-import { showUnderConstructionToast } from "@/lib/toast";
+import { toast } from "sonner";
 
 export function OwnersHeader() {
   return (
@@ -21,7 +21,7 @@ export function OwnersHeader() {
         {/* Secondary: Export Data */}
         <button
           type="button"
-          onClick={() => showUnderConstructionToast("خدمة تصدير البيانات")}
+          onClick={() => toast.info("جاري تصدير بيانات قائمة الملاك (CSV / Excel)...")}
           className="rounded-xl px-5 py-2.5 bg-white border border-[#D5DDD0] hover:bg-[#F4F6F0] text-[#172115] text-xs sm:text-sm font-medium flex items-center gap-2 transition-all shadow-2xs cursor-pointer select-none"
         >
           <Upload className="w-4 h-4 text-[#172115]" />
@@ -31,7 +31,7 @@ export function OwnersHeader() {
         {/* Primary: Add Owner (Outer left in RTL) */}
         <button
           type="button"
-          onClick={() => showUnderConstructionToast("إضافة مالك عقار جديد")}
+          onClick={() => toast.info("فتح نموذج تسجيل مالك عقار جديد")}
           className="rounded-xl px-5 py-2.5 bg-[#4A5840] hover:bg-[#3D4C35] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer select-none"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />

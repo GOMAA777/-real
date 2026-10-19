@@ -17,6 +17,8 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { ExtendStayModal } from "@/features/bookings/components/extend-stay-modal";
+import { CancelBookingModal } from "@/features/bookings/components/cancel-booking-modal";
 import { OwnerBookingItem } from "../types";
 import { defaultOwnerBookings } from "../data/mock-owner-bookings";
 
@@ -35,6 +37,23 @@ export function OwnerBookingsTabView({
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showRowsDropdown, setShowRowsDropdown] = useState(false);
+
+  // Modals state for action dropdown
+  const [selectedBookingForExtend, setSelectedBookingForExtend] =
+    useState<OwnerBookingItem | null>(null);
+  const [selectedBookingForCancel, setSelectedBookingForCancel] =
+    useState<OwnerBookingItem | null>(null);
+
+  // Dynamic counts for status filter tabs
+  const statusCounts = useMemo(() => {
+    return {
+      all: bookings.length,
+      upcoming: bookings.filter((b) => b.status === "upcoming").length,
+      active: bookings.filter((b) => b.status === "active").length,
+      completed: bookings.filter((b) => b.status === "completed").length,
+      cancelled: bookings.filter((b) => b.status === "cancelled").length,
+    };
+  }, [bookings]);
 
   // Filter Bookings based on search and status tabs
   const filteredBookings = useMemo(() => {
@@ -127,18 +146,21 @@ export function OwnerBookingsTabView({
         {/* Left side in RTL: Status Filter Tabs Container */}
         <div className="flex items-center gap-1.5 p-1 bg-[#F0F4EC] rounded-2xl overflow-x-auto no-scrollbar w-full md:w-auto">
           {[
-            { id: "all", label: "الكل (2)" },
-            { id: "upcoming", label: "القادمة (1)" },
-            { id: "active", label: "الحالية (2)" },
-            { id: "completed", label: "المنتهية (2)" },
-            { id: "cancelled", label: "الملغاة (1)" },
+            { id: "all", label: `الكل (${statusCounts.all})` },
+            { id: "upcoming", label: `القادمة (${statusCounts.upcoming})` },
+            { id: "active", label: `الحالية (${statusCounts.active})` },
+            { id: "completed", label: `المنتهية (${statusCounts.completed})` },
+            { id: "cancelled", label: `الملغاة (${statusCounts.cancelled})` },
           ].map((tab) => {
             const isActive = filterStatus === tab.id;
             return (
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setFilterStatus(tab.id as any)}
+                onClick={() => {
+                  setFilterStatus(tab.id as any);
+                  setCurrentPage(1);
+                }}
                 className={cn(
                   "px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
                   isActive
@@ -311,30 +333,28 @@ export function OwnerBookingsTabView({
                             label: "تفاصيل الحجز",
                             icon: Eye,
                             onClick: () =>
-                              router.push(`/dashboard/bookings/${booking.id || "1"}`),
+                              router.push(
+                                `/dashboard/bookings/${booking.bookingCode || booking.id || "BK-10482"}`
+                              ),
                           },
                           {
                             label: "تعديل الحجز",
                             icon: CalendarCheck,
                             onClick: () =>
-                              toast.info(`تعديل الحجز: ${booking.bookingCode}`),
+                              router.push(
+                                `/dashboard/bookings/${booking.bookingCode || booking.id || "BK-10482"}/edit`
+                              ),
                           },
                           {
                             label: "تمديد الإقامة",
                             icon: CalendarSync,
-                            onClick: () =>
-                              toast.info(
-                                `طلب تمديد إقامة النزيل: ${booking.guestName}`
-                              ),
+                            onClick: () => setSelectedBookingForExtend(booking),
                           },
                           {
                             label: "إلغاء الحجز",
                             icon: Trash2,
                             variant: "destructive",
-                            onClick: () =>
-                              toast.error(
-                                `تم إلغاء الحجز رقم: ${booking.bookingCode}`
-                              ),
+                            onClick: () => setSelectedBookingForCancel(booking),
                           },
                         ]}
                       />
@@ -435,6 +455,25 @@ export function OwnerBookingsTabView({
           </div>
         </div>
       </div>
+
+      {/* 5. Modals for Booking Actions */}
+      <ExtendStayModal
+        isOpen={!!selectedBookingForExtend}
+        onClose={() => setSelectedBookingForExtend(null)}
+        bookingCode={selectedBookingForExtend?.bookingCode || "BK-10482"}
+        onConfirm={() => {
+          setSelectedBookingForExtend(null);
+        }}
+      />
+
+      <CancelBookingModal
+        isOpen={!!selectedBookingForCancel}
+        onClose={() => setSelectedBookingForCancel(null)}
+        bookingCode={selectedBookingForCancel?.bookingCode || "BK-10482"}
+        onConfirm={() => {
+          setSelectedBookingForCancel(null);
+        }}
+      />
     </div>
   );
 }

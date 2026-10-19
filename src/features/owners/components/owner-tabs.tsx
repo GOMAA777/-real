@@ -24,16 +24,7 @@ export function OwnerTabs({
   const [internalTab, setInternalTab] = useState("overview");
   const currentTab = controlledTab ?? internalTab;
 
-  const handleSelect = (id: string, label: string) => {
-    if (
-      id !== "overview" &&
-      id !== "properties" &&
-      id !== "activity" &&
-      id !== "bookings"
-    ) {
-      showUnderConstructionToast(`تبويب ${label}`);
-      return;
-    }
+  const handleSelect = (id: string) => {
     if (controlledTab === undefined) {
       setInternalTab(id);
     }
@@ -77,7 +68,7 @@ export function OwnerTabs({
           <button
             key={tab.id}
             type="button"
-            onClick={() => handleSelect(tab.id, tab.label)}
+            onClick={() => handleSelect(tab.id)}
             className={cn(
               "relative px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap cursor-pointer select-none transition-colors duration-200",
               isActive

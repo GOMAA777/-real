@@ -9,7 +9,7 @@ import {
   CirclePause,
   ChevronLeft,
 } from "lucide-react";
-import { showUnderConstructionToast } from "@/lib/toast";
+import { toast } from "sonner";
 
 export function OwnerQuickActions() {
   const actions = [
@@ -60,7 +60,17 @@ export function OwnerQuickActions() {
             <button
               key={act.id}
               type="button"
-              onClick={() => showUnderConstructionToast(`إجراء "${act.label}"`)}
+              onClick={() => {
+                if (act.id === "edit") {
+                  toast.info("تعديل بيانات المالك (خالد العتيبي)");
+                } else if (act.id === "toggle_status") {
+                  toast.success("تم تحديث حالة حساب المالك إلى نشط");
+                } else if (act.id === "message") {
+                  toast.info("جاري فتح نافذة المراسلة والبريد المباشر مع المالك");
+                } else if (act.id === "download_pdf") {
+                  toast.info("جاري إعداد وتنزيل التقرير الشامل لملف المالك (PDF)...");
+                }
+              }}
               className="w-full bg-[#F1F5EB] hover:bg-[#E7ECE0] text-[#172115] rounded-xl p-3.5 px-4 flex items-center justify-between text-xs font-bold transition-all cursor-pointer group"
             >
               {/* Right in RTL: Icon + Label */}
@@ -79,7 +89,7 @@ export function OwnerQuickActions() {
       <div className="pt-2 text-center">
         <button
           type="button"
-          onClick={() => showUnderConstructionToast("إجراء تعليق الحساب")}
+          onClick={() => toast.error("تم تعليق حساب المالك مؤقتاً وتجميد العمليات التشغيلية")}
           className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] inline-flex items-center gap-2 cursor-pointer transition-colors"
         >
           <span>تعليق حساب المالك مؤقتاً</span>

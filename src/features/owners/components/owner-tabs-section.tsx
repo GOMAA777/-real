@@ -9,6 +9,7 @@ import { OwnerQuickActions } from "./owner-quick-actions";
 import { OwnerTransferableBalance } from "./owner-transferable-balance";
 import { OwnerPropertiesTabView } from "./owner-properties-tab-view";
 import { OwnerBookingsTabView } from "./owner-bookings-tab-view";
+import { OwnerBillingTabView } from "./owner-billing-tab-view";
 import { OwnerActivityTabView } from "./owner-activity-tab-view";
 
 interface OwnerTabsSectionProps {
@@ -58,6 +59,9 @@ export function OwnerTabsSection({
           ) : tab === "bookings" ? (
             /* Tab 3: الحجوزات */
             <OwnerBookingsTabView />
+          ) : tab === "billing" ? (
+            /* Tab 4: الاشتراك والفوترة والحسابات المالية */
+            <OwnerBillingTabView />
           ) : tab === "activity" ? (
             /* Tab 5: سجل النشاط والتدقيق الأمني */
             <OwnerActivityTabView />
