@@ -180,14 +180,11 @@ export function ActionDropdown({
             {items.map((item, idx) => {
               const Icon = item.icon;
               const isDestructive = item.variant === "destructive";
-              const isActive = item.variant === "active";
 
               const itemClasses = cn(
-                "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer select-none text-right",
+                "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer select-none text-right bg-transparent",
                 isDestructive
-                  ? "text-[#C93B2B] hover:bg-red-50 hover:text-red-700"
-                  : isActive
-                  ? "bg-[#EEF2E6] text-[#172115] hover:bg-[#E5EAE0]"
+                  ? "text-[#C93B2B] hover:bg-[#FDF2F0] hover:text-[#B92A1A]"
                   : "text-[#172115] hover:bg-[#EEF2E6] hover:text-[#172115]"
               );
 

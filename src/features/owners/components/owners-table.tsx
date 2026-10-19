@@ -964,7 +964,6 @@ export function OwnersTable() {
                           {
                             label: "عرض ملف المالك",
                             icon: Eye,
-                            variant: "active",
                             href: `/dashboard/owners/${owner.id}`,
                           },
                           {

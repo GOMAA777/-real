@@ -396,7 +396,6 @@ export function OwnerPropertiesTabView({
                             {
                               label: "تفاصيل العقار",
                               icon: Eye,
-                              variant: "active",
                               href: `/dashboard/properties/${property.id}`,
                             },
                             {

@@ -144,7 +144,6 @@ export function PropertyRecentBookings({
                         {
                           label: "تفاصيل الحجز",
                           icon: Eye,
-                          variant: "active",
                           onClick: () =>
                             toast.info(
                               `عرض تفاصيل الحجز: ${booking.bookingCode} - ${booking.guestName}`
