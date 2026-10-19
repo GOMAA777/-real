@@ -38,6 +38,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { DockingBottomBar } from "@/components/shared/docking-bottom-bar";
+import { ChangeUnitModal } from "./change-unit-modal";
+import { CancelBookingModal } from "./cancel-booking-modal";
 
 interface EditBookingFormProps {
   bookingId?: string;
@@ -48,6 +50,10 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
 
   // Toast / Notification banner state
   const [showToast, setShowToast] = useState(true);
+
+  // Modals state
+  const [isChangeUnitOpen, setIsChangeUnitOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
 
   // Form interactive states
   const [guestsCount, setGuestsCount] = useState(2);
@@ -184,7 +190,10 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
                 <label className="text-xs text-[#7A8875] font-semibold block">
                   الوحدة المحجوزة
                 </label>
-                <div className="bg-[#F0F4EC] rounded-2xl px-4 py-3.5 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#172115] border border-transparent hover:border-[#D5E0CE] cursor-pointer transition-colors">
+                <div
+                  onClick={() => setIsChangeUnitOpen(true)}
+                  className="bg-[#F0F4EC] rounded-2xl px-4 py-3.5 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#172115] border border-transparent hover:border-[#D5E0CE] cursor-pointer transition-colors"
+                >
                   <div className="flex items-center gap-2.5 truncate">
                     <DoorClosed className="w-4 h-4 text-[#3D4C35] shrink-0" />
                     <span className="truncate">{selectedUnit}</span>
@@ -747,6 +756,20 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
           </div>
         </div>
       </DockingBottomBar>
+
+      {/* Modals */}
+      <ChangeUnitModal
+        isOpen={isChangeUnitOpen}
+        onClose={() => setIsChangeUnitOpen(false)}
+        bookingCode={bookingId}
+        onConfirm={(newUnit) => setSelectedUnit(newUnit)}
+      />
+
+      <CancelBookingModal
+        isOpen={isCancelOpen}
+        onClose={() => setIsCancelOpen(false)}
+        bookingCode={bookingId}
+      />
     </div>
   );
 }
