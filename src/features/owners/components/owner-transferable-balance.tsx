@@ -12,7 +12,7 @@ export function OwnerTransferableBalance({
   bankName = "مصرف الراجحي",
 }: OwnerTransferableBalanceProps) {
   return (
-    <div className="bg-[#F1F5EB] rounded-3xl p-6 border border-[#E0E5D9]/60 shadow-2xs space-y-3">
+    <div className="bg-[#F1F5EB] rounded-3xl p-6 border border-[#CFD9CA] shadow-md shadow-[#172115]/8 space-y-3">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-[#7D8A78] font-medium">الرصيد القابل للتحويل</span>
