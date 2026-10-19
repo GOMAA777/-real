@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LayoutGrid, Building2, Calendar, CreditCard, History } from "lucide-react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { showUnderConstructionToast } from "@/lib/toast";
 
@@ -78,14 +79,32 @@ export function OwnerTabs({
             type="button"
             onClick={() => handleSelect(tab.id, tab.label)}
             className={cn(
-              "px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all whitespace-nowrap cursor-pointer select-none",
+              "relative px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 whitespace-nowrap cursor-pointer select-none transition-colors duration-200",
               isActive
-                ? "bg-[#34432E] text-white shadow-2xs"
+                ? "text-white"
                 : "text-[#556350] hover:text-[#172115] hover:bg-[#F6F8F4]"
             )}
           >
-            <Icon className={cn("w-4 h-4", isActive ? "text-white" : "text-[#7D8A78]")} />
-            <span>{tab.label}</span>
+            {isActive && (
+              <motion.div
+                layoutId="ownerActiveTabIndicator"
+                className="absolute inset-0 bg-[#34432E] rounded-xl shadow-2xs z-0"
+                transition={{
+                  type: "spring",
+                  stiffness: 350,
+                  damping: 28,
+                }}
+              />
+            )}
+            <span className="relative z-10 flex items-center gap-2">
+              <Icon
+                className={cn(
+                  "w-4 h-4 transition-colors duration-200",
+                  isActive ? "text-white" : "text-[#7D8A78]"
+                )}
+              />
+              <span>{tab.label}</span>
+            </span>
           </button>
         );
       })}

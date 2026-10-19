@@ -22,6 +22,7 @@ import {
 } from "./owner-properties-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { TableDateCell } from "@/components/shared/table-date-cell";
+import { motion } from "motion/react";
 
 export interface OwnerPropertyItem {
   id: string;
@@ -271,13 +272,20 @@ export function OwnerPropertiesTabView({
                   type="button"
                   onClick={() => handleQuickStatusChange(tab.id as any)}
                   className={cn(
-                    "px-3.5 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                    "relative px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap cursor-pointer select-none transition-colors duration-200",
                     isActive
-                      ? "bg-white text-[#172115] font-bold shadow-xs"
+                      ? "text-[#172115] font-bold"
                       : "text-[#7A8574] hover:text-[#172115] font-medium"
                   )}
                 >
-                  {tab.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="ownerPropertiesFilterPill"
+                      className="absolute inset-0 bg-white rounded-xl shadow-xs z-0"
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab.label}</span>
                 </button>
               );
             })}

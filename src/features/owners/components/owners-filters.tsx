@@ -3,6 +3,8 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { motion } from "motion/react";
+
 interface OwnersFiltersProps {
   currentFilter: string;
   onFilterChange: (filter: string) => void;
@@ -14,7 +16,7 @@ interface OwnersFiltersProps {
     pending: number;
     inactive: number;
   };
-  onOpenAdvancedFilter?: () => void;
+  onOpenAdvancedFilter: () => void;
   activeFiltersCount?: number;
 }
 
@@ -88,13 +90,20 @@ export function OwnersFilters({
                 type="button"
                 onClick={() => onFilterChange(tab.id)}
                 className={cn(
-                  "px-3.5 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                  "relative px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap cursor-pointer select-none transition-colors duration-200",
                   isActive
-                    ? "bg-white text-[#172115] font-bold shadow-xs"
+                    ? "text-[#172115] font-bold"
                     : "text-[#7A8574] hover:text-[#172115] font-medium"
                 )}
               >
-                {tab.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="ownersFilterPill"
+                    className="absolute inset-0 bg-white rounded-xl shadow-xs z-0"
+                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                  />
+                )}
+                <span className="relative z-10">{tab.label}</span>
               </button>
             );
           })}
