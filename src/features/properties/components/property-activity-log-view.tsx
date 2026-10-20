@@ -206,130 +206,9 @@ export function PropertyActivityLogView({
         </div>
       </section>
 
-      {/* 3. Main Two-Column Layout */}
+      {/* 3. Main Two-Column Layout (Right in RTL: Timeline, Left in RTL: Event Details) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column (lg:col-span-4): Event Details Inspector */}
-        <div className="lg:col-span-4 space-y-6">
-          {isInspectorOpen ? (
-            <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
-              {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#172115]" />
-                  <h2 className="text-base sm:text-lg font-bold text-[#172115]">
-                    تفاصيل الحدث
-                  </h2>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsInspectorOpen(false)}
-                  className="text-[#7D8A78] hover:text-[#172115] p-1 rounded-lg hover:bg-[#F6F8F4] transition-colors cursor-pointer"
-                  title="إغلاق التفاصيل"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Table / Key-Values */}
-              <div className="rounded-2xl border border-[#E2E6DC]/80 overflow-hidden divide-y divide-[#E2E6DC]/70 text-xs">
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">نوع الإجراء</span>
-                  <span className="font-bold text-[#172115]">
-                    {activeEvent.detailsData?.actionType || "تعديل بيانات الأصل"}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
-                  <span className="text-[#7D8A78] font-medium">المنفذ</span>
-                  <span className="font-bold text-[#172115]">
-                    {activeEvent.detailsData?.performer || "محمد أحمد (مدير المنصة)"}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">التاريخ والتوقيت</span>
-                  <span className="font-bold text-[#172115]">
-                    {activeEvent.detailsData?.dateTime || "18/09/2026 11:42 AM"}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
-                  <span className="text-[#7D8A78] font-medium">الكيان</span>
-                  <span className="font-bold text-[#172115]">
-                    {activeEvent.detailsData?.entity || "عمارة النخيل (PR-1048)"}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">المصدر</span>
-                  <span className="font-bold text-[#172115]">
-                    {activeEvent.detailsData?.source || "لوحة الإدارة المركزية"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Diff Section */}
-              <div className="space-y-3 pt-1">
-                <h3 className="text-xs sm:text-sm font-bold text-[#172115]">
-                  مقارنة التغييرات
-                </h3>
-
-                {/* Old Value Box */}
-                <div className="bg-[#FDF2F2] border border-[#FECDCA] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] font-semibold text-[#D9383A]">
-                    القيمة السابقة
-                  </div>
-                  <div className="text-xs text-[#556350] line-through font-medium">
-                    {activeEvent.detailsData?.diff.oldValue ||
-                      "حي النخيل، شارع الملك فهد، مبنى 14"}
-                  </div>
-                </div>
-
-                {/* New Approved Value Box */}
-                <div className="bg-[#EFF4EA] border border-[#DEE7D7] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] font-semibold text-[#2E7D32]">
-                    القيمة الجديدة المعتمدة
-                  </div>
-                  <div className="text-xs sm:text-sm font-bold text-[#172115]">
-                    {activeEvent.detailsData?.diff.newValue ||
-                      "حي العليا، شارع الملك فهد، مبنى 42"}
-                  </div>
-                </div>
-
-                {/* Justification Box */}
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] text-[#7D8A78] font-medium">
-                    المبرر:
-                  </div>
-                  <div className="text-xs text-[#384633] font-medium leading-relaxed">
-                    {activeEvent.detailsData?.diff.justification ||
-                      "مطابقة ترخيص الهيئة العامة للعقار (REA-8819)."}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Button: Full Property Page */}
-              <div className="pt-2">
-                <Link
-                  href={`/dashboard/properties/${propertyId}`}
-                  className="bg-[#384633] hover:bg-[#2E3C29] text-white rounded-2xl py-3 px-4 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer select-none active:scale-[0.99] w-full"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>صفحة العقار الكاملة</span>
-                </Link>
-              </div>
-            </section>
-          ) : (
-            <div className="bg-white rounded-3xl p-5 border border-[#E2E6DC] shadow-2xs text-center space-y-3">
-              <p className="text-xs text-[#7D8A78]">تم إخفاء صندوق تفاصيل الحدث</p>
-              <button
-                type="button"
-                onClick={() => setIsInspectorOpen(true)}
-                className="bg-[#EFF4EA] hover:bg-[#E2EAD8] text-[#34432E] text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
-              >
-                إظهار تفاصيل الحدث
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column (lg:col-span-8): Timeline Events List */}
+        {/* Right Column in RTL (lg:col-span-8): Timeline Events List */}
         <div className="lg:col-span-8 space-y-5">
           <div className="space-y-4">
             {events.map((event) => {
@@ -509,6 +388,127 @@ export function PropertyActivityLogView({
               registeredLabel="مسجل"
             />
           </div>
+        </div>
+
+        {/* Left Column in RTL (lg:col-span-4): Event Details Inspector */}
+        <div className="lg:col-span-4 space-y-6">
+          {isInspectorOpen ? (
+            <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#172115]" />
+                  <h2 className="text-base sm:text-lg font-bold text-[#172115]">
+                    تفاصيل الحدث
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsInspectorOpen(false)}
+                  className="text-[#7D8A78] hover:text-[#172115] p-1 rounded-lg hover:bg-[#F6F8F4] transition-colors cursor-pointer"
+                  title="إغلاق التفاصيل"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Table / Key-Values */}
+              <div className="rounded-2xl border border-[#E2E6DC]/80 overflow-hidden divide-y divide-[#E2E6DC]/70 text-xs">
+                <div className="flex items-center justify-between p-3 bg-white">
+                  <span className="text-[#7D8A78] font-medium">نوع الإجراء</span>
+                  <span className="font-bold text-[#172115]">
+                    {activeEvent.detailsData?.actionType || "تعديل بيانات الأصل"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
+                  <span className="text-[#7D8A78] font-medium">المنفذ</span>
+                  <span className="font-bold text-[#172115]">
+                    {activeEvent.detailsData?.performer || "محمد أحمد (مدير المنصة)"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-white">
+                  <span className="text-[#7D8A78] font-medium">التاريخ والتوقيت</span>
+                  <span className="font-bold text-[#172115]">
+                    {activeEvent.detailsData?.dateTime || "18/09/2026 11:42 AM"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
+                  <span className="text-[#7D8A78] font-medium">الكيان</span>
+                  <span className="font-bold text-[#172115]">
+                    {activeEvent.detailsData?.entity || "عمارة النخيل (PR-1048)"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-white">
+                  <span className="text-[#7D8A78] font-medium">المصدر</span>
+                  <span className="font-bold text-[#172115]">
+                    {activeEvent.detailsData?.source || "لوحة الإدارة المركزية"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Diff Section */}
+              <div className="space-y-3 pt-1">
+                <h3 className="text-xs sm:text-sm font-bold text-[#172115]">
+                  مقارنة التغييرات
+                </h3>
+
+                {/* Old Value Box */}
+                <div className="bg-[#FDF2F2] border border-[#FECDCA] rounded-2xl p-3.5 space-y-1">
+                  <div className="text-[11px] font-semibold text-[#D9383A]">
+                    القيمة السابقة
+                  </div>
+                  <div className="text-xs text-[#556350] line-through font-medium">
+                    {activeEvent.detailsData?.diff.oldValue ||
+                      "حي النخيل، شارع الملك فهد، مبنى 14"}
+                  </div>
+                </div>
+
+                {/* New Approved Value Box */}
+                <div className="bg-[#EFF4EA] border border-[#DEE7D7] rounded-2xl p-3.5 space-y-1">
+                  <div className="text-[11px] font-semibold text-[#2E7D32]">
+                    القيمة الجديدة المعتمدة
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-[#172115]">
+                    {activeEvent.detailsData?.diff.newValue ||
+                      "حي العليا، شارع الملك فهد، مبنى 42"}
+                  </div>
+                </div>
+
+                {/* Justification Box */}
+                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3.5 space-y-1">
+                  <div className="text-[11px] text-[#7D8A78] font-medium">
+                    المبرر:
+                  </div>
+                  <div className="text-xs text-[#384633] font-medium leading-relaxed">
+                    {activeEvent.detailsData?.diff.justification ||
+                      "مطابقة ترخيص الهيئة العامة للعقار (REA-8819)."}
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button: Full Property Page */}
+              <div className="pt-2">
+                <Link
+                  href={`/dashboard/properties/${propertyId}`}
+                  className="bg-[#384633] hover:bg-[#2E3C29] text-white rounded-2xl py-3 px-4 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer select-none active:scale-[0.99] w-full"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>صفحة العقار الكاملة</span>
+                </Link>
+              </div>
+            </section>
+          ) : (
+            <div className="bg-white rounded-3xl p-5 border border-[#E2E6DC] shadow-2xs text-center space-y-3">
+              <p className="text-xs text-[#7D8A78]">تم إخفاء صندوق تفاصيل الحدث</p>
+              <button
+                type="button"
+                onClick={() => setIsInspectorOpen(true)}
+                className="bg-[#EFF4EA] hover:bg-[#E2EAD8] text-[#34432E] text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
+              >
+                إظهار تفاصيل الحدث
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
