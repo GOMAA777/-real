@@ -250,17 +250,17 @@ export function RegisterForm() {
             رقم الجوال
           </label>
           <div className="flex items-center rounded-2xl bg-white border border-[#E0E4D8] focus-within:ring-2 focus-within:ring-[#374732]/20 focus-within:border-[#374732] transition-all shadow-xs overflow-hidden">
+            <div className="h-12 px-3.5 bg-[#F4F6F0] border-e border-[#E0E4D8] text-xs font-semibold text-[#4A5745] flex items-center justify-center select-none shrink-0">
+              +966
+            </div>
             <input
               id="phone"
               type="tel"
               {...register("phone")}
               dir="ltr"
               placeholder="501234567"
-              className="flex-1 h-12 px-4 text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none text-end"
+              className="flex-1 h-12 px-4 text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none text-right"
             />
-            <div className="h-12 px-3.5 bg-[#F4F6F0] border-s border-[#E0E4D8] text-xs font-semibold text-[#4A5745] flex items-center justify-center select-none">
-              +966
-            </div>
           </div>
           {errors.phone && (
             <p className="text-[11px] text-red-600 font-medium">
