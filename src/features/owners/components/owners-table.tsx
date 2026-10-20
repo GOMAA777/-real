@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { MoreVertical, ChevronRight, ChevronLeft, Eye, SlidersHorizontal, Building2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -619,7 +617,6 @@ const initialOwners: Owner[] = [
 ];
 
 export function OwnersTable() {
-  const router = useRouter();
   const [pageSize, setPageSize] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
@@ -897,28 +894,23 @@ export function OwnersTable() {
                 paginatedOwners.map((owner) => (
                   <tr
                     key={owner.id}
-                    onClick={() => router.push(`/dashboard/owners/${owner.id}`)}
-                    className="hover:bg-[#F9FAF7] transition-colors group cursor-pointer"
+                    className="hover:bg-[#F9FAF7] transition-colors group"
                   >
                     {/* Owner Name & Avatar */}
                     <td className="py-4 px-4 sm:px-6 text-start">
-                      <Link
-                        href={`/dashboard/owners/${owner.id}`}
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-3 group/link"
-                      >
+                      <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-[#E2E6DC] text-[#34432E] font-bold text-xs flex items-center justify-center shrink-0">
                           {owner.initials}
                         </div>
                         <div>
-                          <div className="font-bold text-xs text-[#172115] group-hover/link:text-[#34432E] transition-colors">
+                          <div className="font-bold text-xs text-[#172115]">
                             {owner.name}
                           </div>
                           <div className="text-[11px] text-[#7D8A78]">
                             {owner.email}
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </td>
 
                     {/* Phone */}
