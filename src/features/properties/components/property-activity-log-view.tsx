@@ -24,6 +24,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { TablePagination } from "@/components/shared/table-pagination";
 import { toast } from "sonner";
 import {
   PropertyActivityEvent,
@@ -49,6 +50,7 @@ export function PropertyActivityLogView({
   const [selectedEventId, setSelectedEventId] = useState<string>("prop-evt-1");
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const summary = initialSummary;
   const events = initialEvents;
@@ -488,85 +490,25 @@ export function PropertyActivityLogView({
           </div>
 
           {/* 4. Bottom Pagination Bar */}
-          <section className="bg-white rounded-2xl p-3 sm:p-4 border border-[#E2E6DC] shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
-            {/* Total Count */}
-            <div className="text-[#7D8A78] font-medium">
-              عرض 1-8 من إجمالي 386 حدثاً
-            </div>
-
-            {/* Pagination Controls */}
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <button
-                type="button"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="px-2.5 py-1.5 rounded-lg text-[#7D8A78] hover:bg-[#EFF4EA] disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors cursor-pointer"
-              >
-                السابق
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setCurrentPage(1)}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-colors cursor-pointer ${
-                  currentPage === 1
-                    ? "bg-[#2E3C29] text-white shadow-2xs"
-                    : "text-[#7D8A78] hover:bg-[#EFF4EA]"
-                }`}
-              >
-                1
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setCurrentPage(2)}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-colors cursor-pointer ${
-                  currentPage === 2
-                    ? "bg-[#2E3C29] text-white shadow-2xs"
-                    : "text-[#7D8A78] hover:bg-[#EFF4EA]"
-                }`}
-              >
-                2
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setCurrentPage(3)}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-colors cursor-pointer ${
-                  currentPage === 3
-                    ? "bg-[#2E3C29] text-white shadow-2xs"
-                    : "text-[#7D8A78] hover:bg-[#EFF4EA]"
-                }`}
-              >
-                3
-              </button>
-
-              <span className="w-8 h-8 flex items-center justify-center text-[#7D8A78] select-none">
-                ...
-              </span>
-
-              <button
-                type="button"
-                onClick={() => setCurrentPage(20)}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-colors cursor-pointer ${
-                  currentPage === 20
-                    ? "bg-[#2E3C29] text-white shadow-2xs"
-                    : "text-[#7D8A78] hover:bg-[#EFF4EA]"
-                }`}
-              >
-                20
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setCurrentPage((p) => Math.min(20, p + 1))}
-                disabled={currentPage === 20}
-                className="px-2.5 py-1.5 rounded-lg text-[#7D8A78] hover:bg-[#EFF4EA] disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors cursor-pointer"
-              >
-                التالي
-              </button>
-            </div>
-          </section>
+          <div className="bg-white rounded-3xl border border-[#E2E6DC] overflow-hidden shadow-2xs">
+            <TablePagination
+              currentPage={currentPage}
+              totalPages={20}
+              totalCount={386}
+              fromIndex={(currentPage - 1) * pageSize + 1}
+              toIndex={Math.min(currentPage * pageSize, 386)}
+              pageSize={pageSize}
+              pageSizeOptions={[5, 10, 20, 50]}
+              onPageChange={(page) => setCurrentPage(page)}
+              onPageSizeChange={(size) => {
+                setPageSize(size);
+                setCurrentPage(1);
+              }}
+              entityName="حدث"
+              pluralEntityName="أحداث"
+              registeredLabel="مسجل"
+            />
+          </div>
         </div>
       </div>
     </div>

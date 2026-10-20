@@ -10,6 +10,7 @@ import { PropertiesFilters } from "./properties-filters";
 import { OwnerPropertiesFilterDrawer, PropertyFilterState } from "@/features/owners/components/owner-properties-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { TableDateCell } from "@/components/shared/table-date-cell";
+import { TablePagination } from "@/components/shared/table-pagination";
 
 const initialProperties: Property[] = [
   {
@@ -429,93 +430,20 @@ export function PropertiesTable() {
         </div>
 
         {/* Table Footer / Pagination */}
-        <div className="p-4 sm:px-6 border-t border-[#EEF2E6] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7D8A78]">
-          {/* Right Side in RTL: Item Count & Rows Per Page Dropdown */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 font-medium">
-            <span>
-              عرض {fromIndex} إلى {toIndex} من أصل {totalHeadlineCount} عقار مسجل
-            </span>
-
-            <span className="hidden sm:inline-block w-px h-4 bg-[#CCD5C5]/70" />
-
-            {/* Rows Per Page Selector */}
-            <div className="flex items-center gap-2">
-              <span className="text-[#7D8A78]">الصفوف لكل صفحة:</span>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setShowPageSizeMenu(!showPageSizeMenu)}
-                  className="bg-white border border-[#E2E6DC] px-3 py-1.5 rounded-xl text-xs font-semibold text-[#172115] flex items-center gap-1.5 shadow-2xs hover:bg-[#F9FAF7] transition-all cursor-pointer"
-                >
-                  <span>{pageSize} عقارات</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-                </button>
-
-                {/* Dropdown Menu */}
-                {showPageSizeMenu && (
-                  <div className="absolute start-0 bottom-full mb-1.5 w-28 bg-white border border-[#E2E6DC] rounded-xl shadow-lg py-1 z-20">
-                    {[5, 10, 20, 50].map((size) => (
-                      <button
-                        key={size}
-                        type="button"
-                        onClick={() => handlePageSizeChange(size)}
-                        className={cn(
-                          "w-full text-start px-3 py-1.5 text-xs transition-colors hover:bg-[#EEF2E6]",
-                          pageSize === size ? "font-bold text-[#34432E] bg-[#EEF2E6]/50" : "text-[#2C3825]"
-                        )}
-                      >
-                        {size} عقارات
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Left Side in RTL: Pagination Controls [السابق >]  [1]  [< التالي] */}
-          <div className="flex items-center gap-1.5">
-            {/* Previous Button (Right in RTL) */}
-            <button
-              type="button"
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={activePage === 1}
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
-                activePage === 1
-                  ? "opacity-40 cursor-not-allowed bg-white text-[#7D8A78]"
-                  : "hover:bg-[#F4F6F0] cursor-pointer bg-white"
-              )}
-            >
-              <span>السابق</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-
-            {/* Dynamic Page 1 */}
-            <button
-              type="button"
-              className="w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all select-none border border-[#CCD5C5] bg-[#EEF2E6] text-[#172115] shadow-2xs cursor-pointer"
-            >
-              1
-            </button>
-
-            {/* Next Button (Left in RTL) */}
-            <button
-              type="button"
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={activePage === totalPages}
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
-                activePage === totalPages
-                  ? "opacity-40 cursor-not-allowed bg-white text-[#7D8A78]"
-                  : "hover:bg-[#F4F6F0] cursor-pointer bg-white"
-              )}
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>التالي</span>
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          currentPage={activePage}
+          totalPages={totalPages}
+          totalCount={totalHeadlineCount}
+          fromIndex={fromIndex}
+          toIndex={toIndex}
+          pageSize={pageSize}
+          pageSizeOptions={[5, 10, 20, 50]}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => handlePageSizeChange(size)}
+          entityName="عقار"
+          pluralEntityName="عقارات"
+          registeredLabel="مسجل"
+        />
       </div>
 
       {/* Advanced Filter Drawer */}

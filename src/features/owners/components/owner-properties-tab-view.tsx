@@ -22,6 +22,7 @@ import {
 } from "./owner-properties-filter-drawer";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { TableDateCell } from "@/components/shared/table-date-cell";
+import { TablePagination } from "@/components/shared/table-pagination";
 import { motion } from "motion/react";
 
 export interface OwnerPropertyItem {
@@ -97,6 +98,8 @@ export function OwnerPropertiesTabView({
 }: OwnerPropertiesTabViewProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "available" | "reserved">("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [propertyFilters, setPropertyFilters] = useState<PropertyFilterState>({
     city: "all",
@@ -190,6 +193,14 @@ export function OwnerPropertiesTabView({
 
     return list;
   }, [properties, statusFilter, propertyFilters, searchQuery]);
+
+  const totalFiltered = filteredProperties.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+  const activePage = Math.min(currentPage, totalPages);
+  const startIndex = (activePage - 1) * pageSize;
+  const paginatedProperties = filteredProperties.slice(startIndex, startIndex + pageSize);
+  const fromIndex = totalFiltered === 0 ? 0 : startIndex + 1;
+  const toIndex = Math.min(startIndex + pageSize, totalFiltered);
 
   return (
     <div className="space-y-4">
@@ -316,7 +327,7 @@ export function OwnerPropertiesTabView({
                   </td>
                 </tr>
               ) : (
-                filteredProperties.map((property) => (
+                paginatedProperties.map((property) => (
                   <tr
                     key={property.id}
                     className="hover:bg-[#F6F8F4]/70 transition-colors group"
@@ -443,36 +454,23 @@ export function OwnerPropertiesTabView({
         </div>
 
         {/* 4. Table Pagination Footer */}
-        <div className="px-6 py-4 border-t border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="text-[#7D8A78] font-medium order-2 sm:order-1">
-            عرض {filteredProperties.length} من إجمالي {properties.length} عقارات
-          </div>
-
-          <div className="flex items-center gap-1.5 order-1 sm:order-2">
-            <button
-              type="button"
-              disabled
-              className="px-3 py-1.5 rounded-lg border border-[#E2E6DC] text-[#A2ADA0] cursor-not-allowed flex items-center gap-1 font-medium select-none"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-              <span>السابق</span>
-            </button>
-            <button
-              type="button"
-              className="px-3 py-1.5 rounded-lg bg-[#EEF2E6] text-[#2E3C29] font-bold border border-[#E2E6DC] select-none"
-            >
-              1
-            </button>
-            <button
-              type="button"
-              disabled
-              className="px-3 py-1.5 rounded-lg border border-[#E2E6DC] text-[#A2ADA0] cursor-not-allowed flex items-center gap-1 font-medium select-none"
-            >
-              <span>التالي</span>
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          currentPage={activePage}
+          totalPages={totalPages}
+          totalCount={properties.length}
+          fromIndex={fromIndex}
+          toIndex={toIndex}
+          pageSize={pageSize}
+          pageSizeOptions={[5, 10, 20, 50]}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          entityName="عقار"
+          pluralEntityName="عقارات"
+          registeredLabel="مسجل"
+        />
       </div>
 
       {/* 5. Advanced Filter Drawer for Properties */}

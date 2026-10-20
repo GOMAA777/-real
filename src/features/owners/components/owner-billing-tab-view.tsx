@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TablePagination } from "@/components/shared/table-pagination";
 
 interface InvoiceItem {
   id: string;
@@ -107,7 +108,7 @@ export function OwnerBillingTabView() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "paid" | "processing">("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const [pageSize, setPageSize] = useState(10);
 
   const filteredInvoices = useMemo(() => {
     return defaultInvoices.filter((inv) => {
@@ -124,6 +125,14 @@ export function OwnerBillingTabView() {
       return true;
     });
   }, [filterStatus, searchQuery]);
+
+  const totalFiltered = filteredInvoices.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+  const activePage = Math.min(currentPage, totalPages);
+  const startIndex = (activePage - 1) * pageSize;
+  const paginatedInvoices = filteredInvoices.slice(startIndex, startIndex + pageSize);
+  const fromIndex = totalFiltered === 0 ? 0 : startIndex + 1;
+  const toIndex = Math.min(startIndex + pageSize, totalFiltered);
 
   const counts = useMemo(() => {
     return {
@@ -391,7 +400,7 @@ export function OwnerBillingTabView() {
                     </td>
                   </tr>
                 ) : (
-                  filteredInvoices.map((inv) => (
+                  paginatedInvoices.map((inv) => (
                     <tr
                       key={inv.id}
                       className="hover:bg-[#F6F8F4]/70 transition-colors"
@@ -494,40 +503,23 @@ export function OwnerBillingTabView() {
           </div>
 
           {/* Pagination Footer */}
-          <div className="px-6 py-4 border-t border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-            <div className="flex items-center gap-4 text-[#7D8A78] font-medium">
-              <span>عرض </span>
-              <span className="font-bold text-[#172115]">1 إلى {filteredInvoices.length}</span>
-              <span> من أصل </span>
-              <span className="font-bold text-[#172115]">{defaultInvoices.length}</span>
-              <span> فاتورة مسجلة</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                disabled
-                className="px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] bg-white text-[#7D8A78] opacity-60 cursor-not-allowed flex items-center gap-1.5 font-medium text-xs shadow-2xs select-none"
-              >
-                <ChevronRight className="w-3.5 h-3.5 text-[#7D8A78]" />
-                <span>السابق</span>
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all select-none border border-[#D8E0D2] bg-[#EEF2E6] text-[#2E3C29] shadow-2xs cursor-pointer"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                disabled
-                className="px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] bg-white text-[#7D8A78] opacity-60 cursor-not-allowed flex items-center gap-1.5 font-medium text-xs shadow-2xs select-none"
-              >
-                <span>التالي</span>
-                <ChevronLeft className="w-3.5 h-3.5 text-[#7D8A78]" />
-              </button>
-            </div>
-          </div>
+          <TablePagination
+            currentPage={activePage}
+            totalPages={totalPages}
+            totalCount={defaultInvoices.length}
+            fromIndex={fromIndex}
+            toIndex={toIndex}
+            pageSize={pageSize}
+            pageSizeOptions={[5, 10, 20, 50]}
+            onPageChange={(page) => setCurrentPage(page)}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setCurrentPage(1);
+            }}
+            entityName="فاتورة"
+            pluralEntityName="فواتير"
+            registeredLabel="مسجلة"
+          />
         </div>
       </div>
     </div>

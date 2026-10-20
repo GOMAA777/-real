@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TablePagination } from "@/components/shared/table-pagination";
 import { ExtendStayModal } from "@/features/bookings/components/extend-stay-modal";
 import { CancelBookingModal } from "@/features/bookings/components/cancel-booking-modal";
 import { BookingsEmptyStateView } from "@/features/bookings/components/bookings-empty-state-view";
@@ -42,7 +43,6 @@ export function OwnerBookingsTabView({
   >("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [showRowsDropdown, setShowRowsDropdown] = useState(false);
 
   // Filter drawer state
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -156,6 +156,15 @@ export function OwnerBookingsTabView({
 
     return list;
   }, [bookings, filterStatus, searchQuery, bookingFilters]);
+
+  const totalHeadlineCount = 842;
+  const totalFiltered = filteredBookings.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / rowsPerPage));
+  const activePage = Math.min(currentPage, totalPages);
+  const startIndex = (activePage - 1) * rowsPerPage;
+  const paginatedBookings = filteredBookings.slice(startIndex, startIndex + rowsPerPage);
+  const fromIndex = totalFiltered === 0 ? 0 : startIndex + 1;
+  const toIndex = Math.min(startIndex + rowsPerPage, totalFiltered);
 
   const searchParams = useSearchParams();
   const forceEmpty =
@@ -315,7 +324,7 @@ export function OwnerBookingsTabView({
                   </td>
                 </tr>
               ) : (
-                filteredBookings.map((booking) => (
+                paginatedBookings.map((booking) => (
                   <tr
                     key={booking.id}
                     className="hover:bg-[#F6F8F4]/70 transition-colors"
@@ -472,94 +481,24 @@ export function OwnerBookingsTabView({
           </table>
         </div>
 
-        {/* 4. Table Pagination Footer (Matching exact user design) */}
-        <div className="px-6 py-4 border-t border-[#E2E6DC] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          {/* Item Count & Rows (Right in RTL) */}
-          <div className="flex items-center gap-4 text-[#7D8A78] font-medium order-2 sm:order-1">
-            <div>
-              <span>عرض </span>
-              <span className="font-bold text-[#172115]">
-                1 إلى {filteredBookings.length}
-              </span>
-              <span> من أصل </span>
-              <span className="font-bold text-[#172115]">842</span>
-              <span> حجز مسجل</span>
-            </div>
-            <div className="h-4 w-px bg-[#E2E6DC] hidden sm:block" />
-          </div>
-
-          {/* Rows Per Page Selector (Center) */}
-          <div className="relative order-3 sm:order-2">
-            <button
-              type="button"
-              onClick={() => setShowRowsDropdown((prev) => !prev)}
-              className="bg-white border border-[#E2E6DC] rounded-xl px-4 py-1.5 text-xs flex items-center gap-2 hover:bg-[#F9FAF7] transition-all cursor-pointer shadow-2xs select-none"
-            >
-              <span className="text-[#7D8A78] font-medium">الصفوف لكل صفحة:</span>
-              <span className="font-bold text-[#172115]">{rowsPerPage} حجوزات</span>
-            </button>
-
-            {showRowsDropdown && (
-              <div className="absolute start-0 bottom-full mb-1.5 w-36 bg-white border border-[#E2E6DC] rounded-xl shadow-lg py-1 z-30">
-                {[6, 10, 20, 50].map((size) => (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => {
-                      setRowsPerPage(size);
-                      setShowRowsDropdown(false);
-                    }}
-                    className={cn(
-                      "w-full text-start px-3.5 py-1.5 text-xs transition-colors hover:bg-[#EEF2E6] cursor-pointer",
-                      rowsPerPage === size
-                        ? "font-bold text-[#2E3C29] bg-[#EEF2E6]/50"
-                        : "text-[#172115]"
-                    )}
-                  >
-                    {size} حجوزات
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Pagination Controls (Left in RTL) */}
-          <div className="flex items-center gap-2 order-1 sm:order-3">
-            {/* Previous */}
-            <button
-              type="button"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
-                currentPage === 1
-                  ? "bg-white text-[#7D8A78] cursor-not-allowed opacity-60"
-                  : "bg-white text-[#172115] hover:bg-[#F4F6F0] cursor-pointer"
-              )}
-            >
-              <ChevronRight className="w-3.5 h-3.5 text-[#7D8A78]" />
-              <span>السابق</span>
-            </button>
-
-            {/* Page 1 */}
-            <button
-              type="button"
-              className="w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all select-none border border-[#D8E0D2] bg-[#EEF2E6] text-[#2E3C29] shadow-2xs cursor-pointer"
-            >
-              1
-            </button>
-
-            {/* Next */}
-            <button
-              type="button"
-              disabled
-              className="px-3.5 py-1.5 rounded-xl border border-[#E2E6DC] text-[#7D8A78] flex items-center gap-1.5 font-medium text-xs opacity-60 cursor-not-allowed bg-white shadow-2xs select-none"
-            >
-              <span>التالي</span>
-              <ChevronLeft className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
-          </div>
-        </div>
+        {/* 4. Table Pagination Footer */}
+        <TablePagination
+          currentPage={activePage}
+          totalPages={totalPages}
+          totalCount={totalHeadlineCount}
+          fromIndex={fromIndex}
+          toIndex={toIndex}
+          pageSize={rowsPerPage}
+          pageSizeOptions={[5, 10, 20, 50]}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setRowsPerPage(size);
+            setCurrentPage(1);
+          }}
+          entityName="حجز"
+          pluralEntityName="حجوزات"
+          registeredLabel="مسجل"
+        />
       </div>
 
       {/* 5. Modals for Booking Actions */}
