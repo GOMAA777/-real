@@ -70,7 +70,7 @@ export function CancelBookingModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3.5 start-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F2F5EF] hover:bg-[#E5ECE0] text-[#556650] hover:text-[#172115] flex items-center justify-center transition-colors cursor-pointer z-20"
+          className="absolute top-3.5 end-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F2F5EF] hover:bg-[#E5ECE0] text-[#556650] hover:text-[#172115] flex items-center justify-center transition-colors cursor-pointer z-20"
           aria-label="إغلاق النافذة"
         >
           <X className="w-4 h-4" />
@@ -79,7 +79,7 @@ export function CancelBookingModal({
         {/* Scrollable Body (Only scrolls if strictly necessary on small screens, styled sleekly) */}
         <div className="p-3.5 sm:p-5 space-y-2 sm:space-y-2.5 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#D5DDD0_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#D5DDD0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
           {/* Modal Header */}
-          <div className="flex items-center gap-2.5 pe-8">
+          <div className="flex items-center gap-2.5 pe-10 sm:pe-12">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#FDF2F2] text-[#D9383A] flex items-center justify-center shrink-0 shadow-3xs border border-[#FADCDD]">
               <CalendarX2 className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
             </div>
