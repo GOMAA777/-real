@@ -187,21 +187,10 @@ export function AddPropertySuccessView({
           </div>
         </div>
 
-        {/* Card Actions Footer matching design exactly */}
+        {/* Card Actions Footer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          {/* Right Link in RTL: العودة لقائمة العقارات */}
-          <div>
-            <Link
-              href="/dashboard/properties"
-              className="text-xs sm:text-sm text-[#172115] hover:text-[#2E3C29] font-bold flex items-center gap-2 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 text-[#172115]" />
-              <span>العودة لقائمة العقارات</span>
-            </Link>
-          </div>
-
-          {/* Left Action Buttons in RTL */}
-          <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+          {/* Right Action Buttons in RTL */}
+          <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               type="button"
               onClick={onReset}
@@ -217,6 +206,17 @@ export function AddPropertySuccessView({
             >
               <Eye className="w-4 h-4" />
               <span>عرض تفاصيل العقار</span>
+            </Link>
+          </div>
+
+          {/* Left Link in RTL: العودة لقائمة العقارات */}
+          <div>
+            <Link
+              href="/dashboard/properties"
+              className="text-xs sm:text-sm text-[#172115] hover:text-[#2E3C29] font-bold flex items-center gap-2 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4 text-[#172115]" />
+              <span>العودة لقائمة العقارات</span>
             </Link>
           </div>
         </div>
