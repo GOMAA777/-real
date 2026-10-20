@@ -1,13 +1,11 @@
 "use client";
 
-import { useMemo, useEffect, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Home,
   ChevronLeft,
-  ArrowRight,
-  Calendar,
   LayoutGrid,
   Users2,
   Building2,
@@ -61,33 +59,11 @@ const SEGMENT_TITLES: Record<
   activity: { label: "سجل نشاط الحجز", icon: History },
 };
 
-function formatTodayArabic(): string {
-  try {
-    const now = new Date();
-    return new Intl.DateTimeFormat("ar-SA-u-ca-gregory", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }).format(now);
-  } catch {
-    return "اليوم";
-  }
-}
-
 export function Breadcrumb({
   items: customItems,
   className,
-  showBack = true,
-  showMetadata = true,
 }: BreadcrumbProps) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const breadcrumbs = useMemo(() => {
     if (customItems && customItems.length > 0) {
@@ -201,8 +177,6 @@ export function Breadcrumb({
     return result;
   }, [pathname, customItems]);
 
-  const canGoBack = breadcrumbs.length > 1;
-
   // Do not render anything if on a primary/root tab
   if (breadcrumbs.length === 0) {
     return null;
@@ -235,7 +209,7 @@ export function Breadcrumb({
           className
         )}
       >
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center">
           {/* Right Side in RTL: Navigation Trail */}
           <nav aria-label="مسار التنقل" className="flex items-center flex-wrap gap-1.5 sm:gap-2">
             <ol className="flex items-center flex-wrap gap-1.5 sm:gap-2 text-xs">
@@ -307,42 +281,6 @@ export function Breadcrumb({
               })}
             </ol>
           </nav>
-
-          {/* Left Side in RTL: Quick Back Action + Live Date/Status Badge */}
-          <div className="flex items-center gap-2 sm:gap-3 ms-auto">
-            {/* Quick Back Button on Detail/Sub Pages */}
-            {showBack && canGoBack && (
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F0F4EC] hover:bg-[#E5ECE0] text-[#34432E] hover:text-[#172115] border border-[#D5E0CE] text-xs font-bold transition-all shadow-3xs active:scale-95 cursor-pointer"
-                title="الرجوع للصفحة السابقة"
-              >
-                <ArrowRight className="w-3.5 h-3.5 rtl:rotate-0" />
-                <span className="hidden xs:inline">رجوع</span>
-              </button>
-            )}
-
-            {/* Live Synchronized Status Badge */}
-            {showMetadata && (
-              <div className="hidden sm:inline-flex items-center gap-2">
-                {/* Date Display */}
-                <div className="hidden lg:inline-flex items-center gap-1.5 text-[11px] font-medium text-[#657361] px-2.5 py-1 rounded-lg bg-[#F7F9F5] border border-[#E2E8DC]">
-                  <Calendar className="w-3.5 h-3.5 text-[#7D8A78]" />
-                  <span>{mounted ? formatTodayArabic() : "اليوم"}</span>
-                </div>
-
-                {/* Live Sync Dot */}
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#2E7D32] px-2.5 py-1 rounded-full bg-[#E8F5E9] border border-[#C8E6C9]">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22C55E] opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#16A34A]" />
-                  </span>
-                  <span>متزامن لحظياً</span>
-                </div>
-              </div>
-            )}
-          </div>
         </div>
       </section>
     </>
