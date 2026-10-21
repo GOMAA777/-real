@@ -1,0 +1,11 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SVG Connected Automation Graph Nodes">
+<path id="Vector" d="M5 20C5 21.4291 5.7624 22.7496 7 23.4641C8.2376 24.1786 9.7624 24.1786 11 23.4641C12.2376 22.7496 13 21.4291 13 20C13 17.7923 11.2077 16 9 16C6.79234 16 5 17.7923 5 20H5" fill="#34422A" fill-opacity="0.15" stroke-width="2" stroke="#34422A"/>
+<path id="Vector_2" d="M27 11C27 13.2077 28.7923 15 31 15C33.2077 15 35 13.2077 35 11C35 8.79234 33.2077 7 31 7C28.7923 7 27 8.79234 27 11V11" fill="#34422A" fill-opacity="0.15" stroke-width="2" stroke="#34422A"/>
+<path id="Vector_3" d="M27 29C27 31.2077 28.7923 33 31 33C33.2077 33 35 31.2077 35 29C35 26.7923 33.2077 25 31 25C28.7923 25 27 26.7923 27 29V29" fill="#34422A" fill-opacity="0.15" stroke-width="2" stroke="#34422A"/>
+<path id="Vector_4" d="M13 19L13.875 18.5625M27 12L26.125 12.4375M15.625 17.6875L17.375 16.8125M19.125 15.9375L20.875 15.0625M22.625 14.1875L24.375 13.3125" stroke-width="2" stroke-linecap="round" stroke="#34422A"/>
+<path id="Vector_5" d="M13 21L27 28" stroke-width="2" stroke-linecap="round" stroke="#34422A"/>
+<path id="Vector_6" d="M18 15.5C18 16.6038 18.8962 17.5 20 17.5C21.1038 17.5 22 16.6038 22 15.5C22 14.3962 21.1038 13.5 20 13.5C18.8962 13.5 18 14.3962 18 15.5V15.5" fill="#34422A"/>
+<path id="Vector_7" d="M19 25L21 23" stroke-width="2" stroke-linecap="round" stroke="#34422A"/>
+</g>
+</svg>

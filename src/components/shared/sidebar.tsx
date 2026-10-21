@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   LogOut,
   MessageSquare,
+  Zap,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,7 @@ const isRouteAvailable = (href: string) => {
     "/dashboard/bookings",
     "/dashboard/operations",
     "/dashboard/whatsapp",
+    "/dashboard/automation",
   ].includes(href);
 };
 
@@ -54,6 +56,7 @@ const mainNavItems: NavItem[] = [
   { title: "الوحدات", href: "/dashboard/units", icon: Home },
   { title: "الحجوزات", href: "/dashboard/bookings", icon: CalendarDays, badge: "2" },
   { title: "العمليات", href: "/dashboard/operations", icon: Wrench, badge: "2" },
+  { title: "الأتمتة والرسائل", href: "/dashboard/automation", icon: Zap, badge: "12" },
   { title: "الواتساب", href: "/dashboard/whatsapp", icon: MessageSquare, badge: "1" },
   { title: "فريق العمل", href: "/dashboard/team", icon: Users },
   { title: "الاشتراكات والفوترة", href: "/dashboard/billing", icon: Receipt },

@@ -21,6 +21,7 @@ import {
   Sparkles,
   MessageSquare,
   History,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +52,10 @@ const SEGMENT_TITLES: Record<
   cleaning: { label: "مهام التنظيف", icon: Sparkles },
   maintenance: { label: "بلاغات الصيانة", icon: Wrench },
   log: { label: "سجل التشغيل الكامل", icon: History },
+  automation: { label: "الأتمتة والرسائل", icon: Zap },
+  rules: { label: "قواعد الأتمتة", icon: SlidersHorizontal },
+  templates: { label: "قوالب واتساب", icon: MessageSquare },
+  logs: { label: "سجل التنفيذ التشغيلي", icon: History },
   team: { label: "فريق العمل", icon: Users },
   billing: { label: "الاشتراكات والفوترة", icon: Receipt },
   reports: { label: "التقارير والإحصائيات", icon: BarChart3 },
@@ -117,7 +122,8 @@ export function Breadcrumb({
         });
       } else if (seg === "edit") {
         let label = "تعديل";
-        if (prevSeg.length > 0) label = "تعديل الحجز";
+        if (prevSeg === "rules") label = "تعديل قاعدة الأتمتة";
+        else if (prevSeg.length > 0) label = "تعديل الحجز";
 
         result.push({
           label,
@@ -133,6 +139,8 @@ export function Breadcrumb({
         else if (prevSeg === "units") label = "إضافة وحدة جديدة";
         else if (prevSeg === "maintenance") label = "إنشاء بلاغ صيانة جديد";
         else if (prevSeg === "cleaning") label = "إنشاء مهمة تنظيف جديدة";
+        else if (prevSeg === "rules") label = "إنشاء قاعدة أتمتة جديدة";
+        else if (prevSeg === "templates") label = "إنشاء قالب واتساب جديد";
 
         result.push({
           label,
@@ -172,6 +180,18 @@ export function Breadcrumb({
           label = "خالد العتيبي";
           icon = UserCircle2;
           badge = `#${seg === "1" ? "GUST-89324" : seg}`;
+        } else if (prevSeg === "rules") {
+          label = "تفاصيل قاعدة الأتمتة";
+          icon = Zap;
+          badge = `#${seg}`;
+        } else if (prevSeg === "logs") {
+          label = "تفاصيل سجل التنفيذ";
+          icon = History;
+          badge = `#${seg}`;
+        } else if (prevSeg === "templates") {
+          label = "تفاصيل قالب واتساب";
+          icon = MessageSquare;
+          badge = `#${seg}`;
         }
 
         result.push({
