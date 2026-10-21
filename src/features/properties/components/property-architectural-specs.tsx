@@ -26,40 +26,41 @@ export function PropertyArchitecturalSpecs({
       {/* 1. 2x2 Specs Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Card 1: نوع العقار (Right in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between">
+        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center gap-3">
+          <Building className="w-4.5 h-4.5 text-[#181D17] shrink-0" />
           <div className="space-y-1 text-right">
             <div className="text-xs text-[#7D8A78] font-medium">نوع العقار</div>
             <div className="font-bold text-sm sm:text-base text-[#181D17]">
               {specs.propertyType}
             </div>
           </div>
-          <Building className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
 
         {/* Card 2: المدينة والمنطقة (Left in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between">
+        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center gap-3">
+          <Building className="w-4.5 h-4.5 text-[#181D17] shrink-0" />
           <div className="space-y-1 text-right">
             <div className="text-xs text-[#7D8A78] font-medium">المدينة والمنطقة</div>
             <div className="font-bold text-sm sm:text-base text-[#181D17]">
               {specs.cityAndRegion}
             </div>
           </div>
-          <Building className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
 
         {/* Card 3: الحي السكني (Right in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between">
+        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center gap-3">
+          <Home className="w-4.5 h-4.5 text-[#181D17] shrink-0" />
           <div className="space-y-1 text-right">
             <div className="text-xs text-[#7D8A78] font-medium">الحي السكني</div>
             <div className="font-bold text-sm sm:text-base text-[#181D17]">
               {specs.district}
             </div>
           </div>
-          <Home className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
 
         {/* Card 4: سنة البناء وبدء التشغيل (Left in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between">
+        <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center gap-3">
+          <Calendar className="w-4.5 h-4.5 text-[#181D17] shrink-0" />
           <div className="space-y-1 text-right">
             <div className="text-xs text-[#7D8A78] font-medium">
               سنة البناء وبدء التشغيل
@@ -68,12 +69,12 @@ export function PropertyArchitecturalSpecs({
               {specs.constructionYear}
             </div>
           </div>
-          <Calendar className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
       </div>
 
       {/* 2. Detailed Address Box (Full Width) */}
-      <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between">
+      <div className="bg-[#F2F5ED] rounded-2xl p-4 sm:p-4.5 flex items-center gap-3">
+        <LayoutGrid className="w-4.5 h-4.5 text-[#181D17] shrink-0" />
         <div className="space-y-1 text-right">
           <div className="text-xs text-[#7D8A78] font-medium">
             العنوان التفصيلي ومخطط القطعة
@@ -82,7 +83,6 @@ export function PropertyArchitecturalSpecs({
             {specs.detailedAddress}
           </div>
         </div>
-        <LayoutGrid className="w-4 h-4 text-[#181D17] shrink-0" />
       </div>
 
       {/* 3. License Box (Full Width) */}
@@ -119,39 +119,39 @@ export function PropertyArchitecturalSpecs({
       {/* 5. Feature Amenities (4 Pills) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
         {/* Amenity 1: EV Chargers (Rightmost in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-2">
+        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5">
+          <Zap className="w-4 h-4 text-[#181D17] shrink-0" />
           <div className="text-right space-y-0.5">
             <div className="text-xs font-bold text-[#181D17]">شواحن EV</div>
             <div className="text-[11px] text-[#7D8A78] font-medium">مخصصة</div>
           </div>
-          <Zap className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
 
         {/* Amenity 2: Smart Elevators */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-2">
+        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5">
+          <ArrowUpDown className="w-4 h-4 text-[#181D17] shrink-0" />
           <div className="text-right space-y-0.5">
             <div className="text-xs font-bold text-[#181D17]">مصاعد أوتيس</div>
             <div className="text-[11px] text-[#7D8A78] font-medium">الذكية</div>
           </div>
-          <ArrowUpDown className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
 
         {/* Amenity 3: Shaded Parking */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-2">
+        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5">
+          <span className="font-bold text-sm text-[#181D17] shrink-0">P</span>
           <div className="text-right space-y-0.5">
             <div className="text-xs font-bold text-[#181D17]">مواقف</div>
             <div className="text-[11px] text-[#7D8A78] font-medium">سفلية مظللة</div>
           </div>
-          <span className="font-bold text-sm text-[#181D17] shrink-0">P</span>
         </div>
 
         {/* Amenity 4: 24/7 CCTV (Leftmost in RTL) */}
-        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center justify-between gap-2">
+        <div className="bg-[#F2F5ED] rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5">
+          <Video className="w-4 h-4 text-[#181D17] shrink-0" />
           <div className="text-right space-y-0.5">
             <div className="text-xs font-bold text-[#181D17]">مراقبة CCTV</div>
             <div className="text-[11px] text-[#7D8A78] font-medium">24/7</div>
           </div>
-          <Video className="w-4 h-4 text-[#181D17] shrink-0" />
         </div>
       </div>
     </div>
