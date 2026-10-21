@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { OwnerBookingsTabView } from "@/features/owners/components/owner-bookings-tab-view";
+import { MainBookingsPageView } from "@/features/bookings/components/main-bookings-page-view";
 
 export const metadata = {
   title: "الحجوزات | منصة أبراج",
@@ -14,7 +14,7 @@ export default function BookingsPage() {
           <div className="h-96 animate-pulse bg-white rounded-3xl border border-[#E2E6DC]" />
         }
       >
-        <OwnerBookingsTabView />
+        <MainBookingsPageView />
       </Suspense>
     </div>
   );

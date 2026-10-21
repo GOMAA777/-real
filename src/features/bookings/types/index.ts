@@ -91,3 +91,36 @@ export interface BookingDetail {
     type?: string;
   }>;
 }
+
+export type BookingStatus = "upcoming" | "active" | "completed" | "cancelled";
+
+export interface MainBookingItem {
+  id: string;
+  bookingCode: string;
+  guest: {
+    name: string;
+    phone: string;
+    avatarLetter: string;
+  };
+  propertyName: string;
+  unit: {
+    unitNumber: string;
+    unitType: string;
+  };
+  checkIn: {
+    date: string;
+    time: string;
+  };
+  checkOut: {
+    date: string;
+    nights: string;
+  };
+  source: string;
+  amount: {
+    total: string;
+    paymentStatus: string;
+  };
+  status: BookingStatus;
+  statusLabel: string;
+}
+
