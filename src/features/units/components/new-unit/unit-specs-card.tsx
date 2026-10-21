@@ -120,8 +120,8 @@ export function UnitSpecsCard() {
                     : "bg-[#F1F5EB] font-semibold text-[#2C3527] hover:bg-[#ECF1E2]"
                 )}
               >
-                <span className="truncate">{type.label}</span>
                 <RadioDot small selected={isSelected} />
+                <span className="truncate text-center flex-1">{type.label}</span>
                 <Icon
                   className="w-[15px] h-[15px] shrink-0 text-[#3F4A36]"
                   strokeWidth={1.7}
