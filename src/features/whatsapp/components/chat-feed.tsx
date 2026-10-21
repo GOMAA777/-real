@@ -2,13 +2,15 @@
 
 import Image from "next/image";
 import { CleaningTaskCard } from "./cleaning-task-card";
-import { WhatsAppChatMessage } from "../types";
+import { WhatsAppChatMessage, TaskDetails } from "../types";
 
 interface ChatFeedProps {
   messages: WhatsAppChatMessage[];
+  taskStatus?: TaskDetails["status"];
+  onAcceptTask?: () => void;
 }
 
-export function ChatFeed({ messages }: ChatFeedProps) {
+export function ChatFeed({ messages, taskStatus, onAcceptTask }: ChatFeedProps) {
   return (
     <div
       className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[#F6FBF1]/40 scrollbar-thin"
@@ -101,7 +103,11 @@ export function ChatFeed({ messages }: ChatFeedProps) {
         if (msg.type === "task_card" && msg.taskDetails) {
           return (
             <div key={msg.id} className="max-w-[550px] w-full">
-              <CleaningTaskCard task={msg.taskDetails} />
+              <CleaningTaskCard
+                task={msg.taskDetails}
+                taskStatus={taskStatus}
+                onAcceptTask={onAcceptTask}
+              />
             </div>
           );
         }

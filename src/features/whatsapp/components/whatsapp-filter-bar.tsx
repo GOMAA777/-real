@@ -26,54 +26,8 @@ export function WhatsAppFilterBar({
       className="bg-white rounded-[16px] p-2 sm:p-2.5 border border-[#E2E6DC]/80 shadow-[0px_1px_1px_rgba(0,0,0,0.05)] flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3"
       dir="rtl"
     >
-      {/* Right side (RTL start): Search and Property dropdown */}
-      <div className="flex flex-wrap items-center gap-2">
-        {/* Search Input */}
-        <div className="relative w-full sm:w-64">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="بحث باسم المستأجر، رقم الوحدة..."
-            className="w-full h-[34px] ps-3 pe-9 rounded-[12px] bg-[#EBEFE6] border border-transparent text-xs text-[#181D17] placeholder:text-[#75786F] focus:bg-white focus:border-[#CCD5C5] focus:outline-none focus:ring-1 focus:ring-[#34422A]/20 transition-all font-cairo"
-          />
-          <div className="absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none w-[13.5px] h-[13.5px]">
-            <Image
-              src="/assets/whatsapp/c79bda9dae8b5f320db5df33e7833dc3589f90ca.svg"
-              alt="Search"
-              width={14}
-              height={14}
-              className="object-contain"
-            />
-          </div>
-        </div>
-
-        {/* Property Selector Dropdown */}
-        <div className="relative min-w-[180px]">
-          <select
-            value={selectedProperty}
-            onChange={(e) => onPropertyChange(e.target.value)}
-            className="w-full h-[34px] ps-3 pe-8 rounded-[12px] bg-[#EBEFE6] border border-transparent text-xs font-semibold text-[#75786F] focus:bg-white focus:border-[#CCD5C5] focus:outline-none focus:ring-1 focus:ring-[#34422A]/20 transition-all appearance-none cursor-pointer font-cairo"
-          >
-            <option value="all">جميع العقارات</option>
-            <option value="nakheel">عمارة النخيل السكنية</option>
-            <option value="malqa">برج الملقا الفاخر</option>
-            <option value="sahafa">مجمع الصحافة السكني</option>
-          </select>
-          <div className="absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none w-[9px] h-[5.5px]">
-            <Image
-              src="/assets/whatsapp/ac382fb58d6980b5da7741fc2bc8304a79153882.svg"
-              alt="Arrow down"
-              width={9}
-              height={6}
-              className="object-contain"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Left side (RTL end): Filter Chips */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+      {/* Right side (RTL start): Filter Chips Row */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none order-1 lg:order-1">
         {/* All Filter */}
         <button
           type="button"
@@ -159,6 +113,52 @@ export function WhatsAppFilterBar({
             4
           </span>
         </button>
+      </div>
+
+      {/* Left side (RTL end): Property dropdown + Search Input */}
+      <div className="flex flex-wrap items-center gap-2 order-2 lg:order-2">
+        {/* Property Selector Dropdown */}
+        <div className="relative min-w-[180px]">
+          <select
+            value={selectedProperty}
+            onChange={(e) => onPropertyChange(e.target.value)}
+            className="w-full h-[34px] ps-3 pe-8 rounded-[12px] bg-[#EBEFE6] border border-transparent text-xs font-semibold text-[#75786F] focus:bg-white focus:border-[#CCD5C5] focus:outline-none focus:ring-1 focus:ring-[#34422A]/20 transition-all appearance-none cursor-pointer font-cairo"
+          >
+            <option value="all">جميع العقارات</option>
+            <option value="nakheel">عمارة النخيل السكنية</option>
+            <option value="malqa">برج الملقا الفاخر</option>
+            <option value="sahafa">مجمع الصحافة السكني</option>
+          </select>
+          <div className="absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none w-[9px] h-[5.5px]">
+            <Image
+              src="/assets/whatsapp/ac382fb58d6980b5da7741fc2bc8304a79153882.svg"
+              alt="Arrow down"
+              width={9}
+              height={6}
+              className="object-contain"
+            />
+          </div>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full sm:w-64">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="بحث باسم المستأجر، رقم الوحدة..."
+            className="w-full h-[34px] ps-3 pe-9 rounded-[12px] bg-[#EBEFE6] border border-transparent text-xs text-[#181D17] placeholder:text-[#75786F] focus:bg-white focus:border-[#CCD5C5] focus:outline-none focus:ring-1 focus:ring-[#34422A]/20 transition-all font-cairo"
+          />
+          <div className="absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none w-[13.5px] h-[13.5px]">
+            <Image
+              src="/assets/whatsapp/c79bda9dae8b5f320db5df33e7833dc3589f90ca.svg"
+              alt="Search"
+              width={14}
+              height={14}
+              className="object-contain"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

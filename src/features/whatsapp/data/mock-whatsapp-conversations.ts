@@ -17,6 +17,8 @@ export const defaultConversations: WhatsAppConversationItem[] = [
     avatarBg: "#4B5940",
     isOnline: true,
     category: "active_tasks",
+    activeHeaderName: "خالد العتيبي",
+    activeHeaderInitial: "خ",
   },
   {
     id: "conv-2",

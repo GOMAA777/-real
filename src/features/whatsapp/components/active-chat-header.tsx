@@ -32,14 +32,14 @@ export function ActiveChatHeader({
       <div className="flex items-center gap-3">
         {/* Avatar */}
         <div className="w-11 h-11 rounded-[12px] bg-[#4B5940] text-white flex items-center justify-center font-bold font-cairo text-lg shadow-3xs shrink-0">
-          {conversation.avatarText?.[0] || "خ"}
+          {conversation.activeHeaderInitial || conversation.avatarText?.[0] || "خ"}
         </div>
 
         {/* Worker Info */}
         <div className="space-y-0.5">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-lg font-bold font-cairo text-[#181D17] leading-tight">
-              {conversation.name.split("—")[0].trim()}
+              {conversation.activeHeaderName || conversation.name.split("—")[0].trim()}
             </h3>
             {conversation.unitCode && (
               <span className="bg-[#D8E8C7] text-[#131F0B] px-2.5 py-0.5 rounded-[6px] text-[11px] font-semibold font-cairo shadow-3xs">

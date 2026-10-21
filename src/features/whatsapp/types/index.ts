@@ -46,6 +46,8 @@ export interface WhatsAppConversationItem {
   isOnline?: boolean;
   isIconAvatar?: boolean;
   category: "all" | "active_tasks" | "supervisors";
+  activeHeaderName?: string;
+  activeHeaderInitial?: string;
 }
 
 export type WhatsAppTopFilter = "all" | "unread" | "maintenance" | "extension";

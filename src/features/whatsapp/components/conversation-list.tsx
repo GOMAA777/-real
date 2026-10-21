@@ -302,11 +302,11 @@ export function ConversationList({
 
       {/* 3. Footer: Webhook Status */}
       <div className="p-3 bg-[#F1F5EB] border-t border-[#E5EADF] flex items-center justify-between shrink-0 text-[11px] font-medium font-cairo">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#059669] shrink-0" />
-          <span className="text-[#454840]">خادم الويب هوك (Cloud API) متصل</span>
-        </div>
         <span className="text-[#75786F]">مُحدّث قبل دقيقة</span>
+        <div className="flex items-center gap-2">
+          <span className="text-[#454840]">خادم الويب هوك (Cloud API) متصل</span>
+          <span className="w-2 h-2 rounded-full bg-[#059669] shrink-0" />
+        </div>
       </div>
     </aside>
   );
