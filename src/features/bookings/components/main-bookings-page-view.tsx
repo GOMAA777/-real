@@ -23,11 +23,8 @@ import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { ExtendStayModal } from "@/features/bookings/components/extend-stay-modal";
 import { CancelBookingModal } from "@/features/bookings/components/cancel-booking-modal";
 import { ChangeUnitModal } from "@/features/bookings/components/change-unit-modal";
-import {
-  OwnerBookingsFilterDrawer,
-  BookingFilterState,
-} from "@/features/owners/components/owner-bookings-filter-drawer";
-import { MainBookingItem, BookingStatus } from "../types";
+import { BookingsAdvancedFilterDrawer } from "./bookings-advanced-filter-drawer";
+import { MainBookingItem, BookingStatus, MainBookingFilterState, initialBookingFilterState } from "../types";
 import { defaultMainBookings } from "../data/mock-main-bookings";
 
 interface MainBookingsPageViewProps {
@@ -47,18 +44,17 @@ export function MainBookingsPageView({
 
   // Advanced Filter Drawer State
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
-  const [bookingFilters, setBookingFilters] = useState<BookingFilterState>({
-    source: "all",
-    accessStatus: "all",
-    propertyName: "all",
-    sortBy: "default",
-  });
+  const [bookingFilters, setBookingFilters] = useState<MainBookingFilterState>(initialBookingFilterState);
 
   const activeFiltersCount = useMemo(() => {
     let count = 0;
+    if (bookingFilters.status !== "all") count++;
     if (bookingFilters.source !== "all") count++;
-    if (bookingFilters.accessStatus !== "all") count++;
     if (bookingFilters.propertyName !== "all") count++;
+    if (bookingFilters.unitType !== "all") count++;
+    if (bookingFilters.paymentStatus !== "all") count++;
+    if (bookingFilters.amountRange !== "all") count++;
+    if (bookingFilters.stayDuration !== "all") count++;
     if (bookingFilters.sortBy !== "default") count++;
     return count;
   }, [bookingFilters]);
@@ -84,7 +80,7 @@ export function MainBookingsPageView({
   const filteredBookings = useMemo(() => {
     let list = bookings;
 
-    // Status filter
+    // Status tab filter
     if (filterStatus !== "all") {
       list = list.filter((b) => b.status === filterStatus);
     }
@@ -105,20 +101,80 @@ export function MainBookingsPageView({
     }
 
     // Advanced Drawer filters
+    // 1. Status inside drawer
+    if (bookingFilters.status !== "all") {
+      list = list.filter((b) => b.status === bookingFilters.status);
+    }
+
+    // 2. Source
     if (bookingFilters.source !== "all") {
       list = list.filter((b) =>
         b.source.toLowerCase().includes(bookingFilters.source.toLowerCase())
       );
     }
+
+    // 3. Property
     if (bookingFilters.propertyName !== "all") {
       list = list.filter((b) =>
         b.propertyName.includes(bookingFilters.propertyName)
       );
     }
 
+    // 4. Unit Type
+    if (bookingFilters.unitType !== "all") {
+      list = list.filter((b) =>
+        b.unit.unitType.includes(bookingFilters.unitType)
+      );
+    }
+
+    // 5. Payment Status
+    if (bookingFilters.paymentStatus !== "all") {
+      list = list.filter((b) =>
+        b.amount.paymentStatus.includes(bookingFilters.paymentStatus)
+      );
+    }
+
+    // 6. Amount Range
+    if (bookingFilters.amountRange !== "all") {
+      list = list.filter((b) => {
+        const num = parseFloat(b.amount.total.replace(/[^0-9.]/g, "")) || 0;
+        if (bookingFilters.amountRange === "less1000") return num < 1000;
+        if (bookingFilters.amountRange === "1000-3000") return num >= 1000 && num <= 3000;
+        if (bookingFilters.amountRange === "more3000") return num > 3000;
+        return true;
+      });
+    }
+
+    // 7. Stay Duration
+    if (bookingFilters.stayDuration !== "all") {
+      list = list.filter((b) => {
+        const nights = parseInt(b.checkOut.nights.replace(/[^0-9]/g, "")) || 1;
+        if (bookingFilters.stayDuration === "1-2") return nights <= 2;
+        if (bookingFilters.stayDuration === "3-7") return nights >= 3 && nights <= 7;
+        if (bookingFilters.stayDuration === "more7") return nights > 7;
+        return true;
+      });
+    }
+
     // Sort
     if (bookingFilters.sortBy === "code_asc") {
       list = [...list].sort((a, b) => a.bookingCode.localeCompare(b.bookingCode));
+    } else if (bookingFilters.sortBy === "amount_desc") {
+      list = [...list].sort((a, b) => {
+        const aNum = parseFloat(a.amount.total.replace(/[^0-9.]/g, "")) || 0;
+        const bNum = parseFloat(b.amount.total.replace(/[^0-9.]/g, "")) || 0;
+        return bNum - aNum;
+      });
+    } else if (bookingFilters.sortBy === "amount_asc") {
+      list = [...list].sort((a, b) => {
+        const aNum = parseFloat(a.amount.total.replace(/[^0-9.]/g, "")) || 0;
+        const bNum = parseFloat(b.amount.total.replace(/[^0-9.]/g, "")) || 0;
+        return aNum - bNum;
+      });
+    } else if (bookingFilters.sortBy === "date_asc") {
+      list = [...list].sort((a, b) => a.id.localeCompare(b.id));
+    } else if (bookingFilters.sortBy === "date_desc") {
+      list = [...list].sort((a, b) => b.id.localeCompare(a.id));
     }
 
     return list;
@@ -653,7 +709,7 @@ export function MainBookingsPageView({
       />
 
       {/* Filter Drawer */}
-      <OwnerBookingsFilterDrawer
+      <BookingsAdvancedFilterDrawer
         isOpen={isFilterDrawerOpen}
         onClose={() => setIsFilterDrawerOpen(false)}
         filters={bookingFilters}
@@ -663,12 +719,7 @@ export function MainBookingsPageView({
           setCurrentPage(1);
         }}
         onResetFilters={() => {
-          setBookingFilters({
-            source: "all",
-            accessStatus: "all",
-            propertyName: "all",
-            sortBy: "default",
-          });
+          setBookingFilters(initialBookingFilterState);
           setIsFilterDrawerOpen(false);
           setCurrentPage(1);
         }}

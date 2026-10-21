@@ -89,3 +89,27 @@ export interface PropertyDetail {
   units: PropertyUnitItem[];
   recentBookings: PropertyBookingItem[];
 }
+
+export interface MainPropertyFilterState {
+  propertyType: string;
+  city: string;
+  district: string;
+  status: string;
+  unitsRange: string;
+  occupancyState: string;
+  activeBookings: string;
+  owner: string;
+  sortBy: string;
+}
+
+export const initialPropertyFilterState: MainPropertyFilterState = {
+  propertyType: "all",
+  city: "all",
+  district: "all",
+  status: "all",
+  unitsRange: "all",
+  occupancyState: "all",
+  activeBookings: "all",
+  owner: "all",
+  sortBy: "default",
+};

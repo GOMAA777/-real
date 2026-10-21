@@ -42,6 +42,8 @@ export interface OperationFilterState {
   city: string;
   property: string;
   assigneeStatus: "all" | "assigned" | "unassigned";
+  assigneeName: string;
+  timePeriod: string;
   sortBy: "default" | "date_desc" | "date_asc" | "priority_desc" | "task_asc";
 }
 
@@ -52,5 +54,7 @@ export const initialOperationFilterState: OperationFilterState = {
   city: "all",
   property: "all",
   assigneeStatus: "all",
+  assigneeName: "all",
+  timePeriod: "all",
   sortBy: "default",
 };

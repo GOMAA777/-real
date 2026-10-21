@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 interface GuestProfileHeaderProps {
@@ -40,10 +40,10 @@ export function GuestProfileHeader({ guestName = "خالد العتيبي" }: Gu
         {/* Back to Bookings Button */}
         <Link
           href="/dashboard/bookings"
-          className="bg-[#3D4C35] hover:bg-[#34422E] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-all cursor-pointer select-none active:scale-95"
+          className="bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#181D17] px-6 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer select-none active:scale-95"
         >
           <span>العودة إلى الحجوزات</span>
-          <ArrowRight className="w-4 h-4 text-white" />
+          <ArrowLeft className="w-4 h-4 text-[#181D17]" />
         </Link>
       </div>
     </div>

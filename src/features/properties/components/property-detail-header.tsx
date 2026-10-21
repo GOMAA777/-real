@@ -29,10 +29,10 @@ export function PropertyDetailHeader({
       <div className="flex items-center gap-3 self-start md:self-auto shrink-0 flex-wrap">
         <Link
           href={fallbackHref}
-          className="h-11 px-5 sm:px-6 bg-[#4B5940] hover:bg-[#3D4C35] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer select-none"
+          className="h-11 px-6 bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#181D17] rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2.5 transition-colors cursor-pointer select-none"
         >
           <span>العودة إلى العقارات</span>
-          <ArrowLeft className="w-4 h-4 text-white" />
+          <ArrowLeft className="w-4 h-4 text-[#181D17]" />
         </Link>
       </div>
     </div>

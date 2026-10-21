@@ -36,6 +36,8 @@ export function OperationsBoardView() {
     if (advancedFilters.city !== "all") count++;
     if (advancedFilters.property !== "all") count++;
     if (advancedFilters.assigneeStatus !== "all") count++;
+    if (advancedFilters.assigneeName !== "all") count++;
+    if (advancedFilters.timePeriod !== "all") count++;
     if (advancedFilters.sortBy !== "default") count++;
     return count;
   }, [advancedFilters]);
@@ -109,6 +111,15 @@ export function OperationsBoardView() {
       if (advancedFilters.assigneeStatus === "unassigned") {
         if (task.assigneeName && !task.assigneeName.includes("غير مسند"))
           return false;
+      }
+      if (
+        advancedFilters.assigneeName !== "all" &&
+        !task.assigneeName?.includes(advancedFilters.assigneeName)
+      ) {
+        return false;
+      }
+      if (advancedFilters.timePeriod === "today" && !task.createdAt.includes("اليوم")) {
+        return false;
       }
 
       // 4. Search query

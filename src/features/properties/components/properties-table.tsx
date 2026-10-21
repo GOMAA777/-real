@@ -7,7 +7,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Property, PropertyStatus } from "../types";
 import { PropertiesFilters } from "./properties-filters";
-import { OwnerPropertiesFilterDrawer, PropertyFilterState } from "@/features/owners/components/owner-properties-filter-drawer";
+import { PropertiesAdvancedFilterDrawer } from "./properties-advanced-filter-drawer";
+import { MainPropertyFilterState, initialPropertyFilterState } from "../types";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { TableDateCell } from "@/components/shared/table-date-cell";
 import { TablePagination } from "@/components/shared/table-pagination";
@@ -144,18 +145,18 @@ export function PropertiesTable() {
   const [search, setSearch] = useState("");
   const [showPageSizeMenu, setShowPageSizeMenu] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
-  const [propertyFilters, setPropertyFilters] = useState<PropertyFilterState>({
-    city: "all",
-    status: "all",
-    unitsRange: "all",
-    sortBy: "default",
-  });
+  const [propertyFilters, setPropertyFilters] = useState<MainPropertyFilterState>(initialPropertyFilterState);
 
   const activeFiltersCount = useMemo(() => {
     let count = 0;
+    if (propertyFilters.propertyType !== "all") count++;
     if (propertyFilters.city !== "all") count++;
+    if (propertyFilters.district !== "all") count++;
     if (propertyFilters.status !== "all") count++;
     if (propertyFilters.unitsRange !== "all") count++;
+    if (propertyFilters.occupancyState !== "all") count++;
+    if (propertyFilters.activeBookings !== "all") count++;
+    if (propertyFilters.owner !== "all") count++;
     if (propertyFilters.sortBy !== "default") count++;
     return count;
   }, [propertyFilters]);
@@ -184,22 +185,61 @@ export function PropertiesTable() {
       if (filter === "archived" && property.status !== "archived") return false;
 
       // Advanced drawer filters
+      // 1. Property Type
+      if (propertyFilters.propertyType !== "all" && property.type !== propertyFilters.propertyType) {
+        return false;
+      }
+
+      // 2. City
       if (propertyFilters.city !== "all" && !property.city.includes(propertyFilters.city)) {
         return false;
       }
-      if (propertyFilters.status === "available" && property.status !== "active") {
+
+      // 3. District
+      if (propertyFilters.district !== "all" && !property.district.includes(propertyFilters.district)) {
         return false;
       }
-      if (propertyFilters.status === "reserved" && property.status !== "inactive") {
+
+      // 4. Status
+      if (propertyFilters.status !== "all" && property.status !== propertyFilters.status) {
         return false;
       }
-      if (propertyFilters.unitsRange === "less10" && property.totalUnits >= 10) {
+
+      // 5. Units Range
+      if (propertyFilters.unitsRange === "less5" && property.totalUnits >= 5) {
         return false;
       }
-      if (propertyFilters.unitsRange === "10-20" && (property.totalUnits < 10 || property.totalUnits > 20)) {
+      if (propertyFilters.unitsRange === "5-10" && (property.totalUnits < 5 || property.totalUnits > 10)) {
+        return false;
+      }
+      if (propertyFilters.unitsRange === "11-20" && (property.totalUnits < 11 || property.totalUnits > 20)) {
         return false;
       }
       if (propertyFilters.unitsRange === "more20" && property.totalUnits <= 20) {
+        return false;
+      }
+
+      // 6. Occupancy State
+      if (propertyFilters.occupancyState === "full" && property.availableUnits > 0) {
+        return false;
+      }
+      if (propertyFilters.occupancyState === "partial" && (property.occupiedUnits === 0 || property.availableUnits === 0)) {
+        return false;
+      }
+      if (propertyFilters.occupancyState === "low" && property.occupiedUnits >= property.availableUnits) {
+        return false;
+      }
+
+      // 7. Active Bookings
+      if (propertyFilters.activeBookings === "has_bookings" && property.activeBookings === 0) {
+        return false;
+      }
+      if (propertyFilters.activeBookings === "no_bookings" && property.activeBookings > 0) {
+        return false;
+      }
+
+      // 8. Owner
+      if (propertyFilters.owner !== "all" && !property.ownerName.includes(propertyFilters.owner)) {
         return false;
       }
 
@@ -220,10 +260,16 @@ export function PropertiesTable() {
     // Sorting
     if (propertyFilters.sortBy === "units_desc") {
       result.sort((a, b) => b.totalUnits - a.totalUnits);
+    } else if (propertyFilters.sortBy === "units_asc") {
+      result.sort((a, b) => a.totalUnits - b.totalUnits);
     } else if (propertyFilters.sortBy === "bookings_desc") {
       result.sort((a, b) => b.activeBookings - a.activeBookings);
     } else if (propertyFilters.sortBy === "name_asc") {
       result.sort((a, b) => a.title.localeCompare(b.title, "ar"));
+    } else if (propertyFilters.sortBy === "date_asc") {
+      result.sort((a, b) => a.id.localeCompare(b.id));
+    } else if (propertyFilters.sortBy === "date_desc") {
+      result.sort((a, b) => b.id.localeCompare(a.id));
     }
 
     return result;
@@ -464,7 +510,7 @@ export function PropertiesTable() {
       </div>
 
       {/* Advanced Filter Drawer */}
-      <OwnerPropertiesFilterDrawer
+      <PropertiesAdvancedFilterDrawer
         isOpen={isFilterDrawerOpen}
         onClose={() => setIsFilterDrawerOpen(false)}
         filters={propertyFilters}
@@ -473,12 +519,7 @@ export function PropertiesTable() {
           setCurrentPage(1);
         }}
         onResetFilters={() => {
-          setPropertyFilters({
-            city: "all",
-            status: "all",
-            unitsRange: "all",
-            sortBy: "default",
-          });
+          setPropertyFilters(initialPropertyFilterState);
           setCurrentPage(1);
         }}
         totalResultsCount={filteredProperties.length}

@@ -12,6 +12,7 @@ import {
   ArrowUpDown,
   Sparkles,
   Wrench,
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { OperationFilterState, initialOperationFilterState } from "../types";
@@ -348,7 +349,84 @@ export function OperationsAdvancedFilterDrawer({
               </div>
             </div>
 
-            {/* 7. الترتيب حسب (Sort By) */}
+            {/* 7. الفني / الفريق المنفذ (Assignee Name) */}
+            <div className="space-y-2.5 pt-4 border-t border-[#EEF2E6]">
+              <label className="text-xs font-bold text-[#172115] flex items-center gap-2">
+                <UserCheck className="w-4 h-4 text-[#7D8A78]" />
+                <span>الفني أو الفريق المنفذ</span>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: "all", label: "كافة المنفذين" },
+                  { id: "فريق النظافة السريعة", label: "فريق النظافة السريعة" },
+                  { id: "أحمد الشمري", label: "أحمد الشمري (صيانة)" },
+                  { id: "فهد الحربي", label: "فهد الحربي" },
+                  { id: "خالد العتيبي", label: "خالد العتيبي" },
+                ].map((item) => {
+                  const isSelected = localFilters.assigneeName === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() =>
+                        setLocalFilters({
+                          ...localFilters,
+                          assigneeName: item.id,
+                        })
+                      }
+                      className={cn(
+                        "py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center transition-all cursor-pointer select-none truncate",
+                        isSelected
+                          ? "bg-[#34432E] text-white border-[#34432E] shadow-2xs font-bold"
+                          : "bg-white hover:bg-[#F9FAF7] text-[#2C3825] border-[#E2E6DC]"
+                      )}
+                    >
+                      <span className="truncate">{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 8. الفترة الزمنية (Time Period) */}
+            <div className="space-y-2.5 pt-4 border-t border-[#EEF2E6]">
+              <label className="text-xs font-bold text-[#172115] flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#7D8A78]" />
+                <span>الفترة الزمنية</span>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: "all", label: "جميع الفترات" },
+                  { id: "today", label: "مهام اليوم" },
+                  { id: "last7", label: "آخر 7 أيام" },
+                  { id: "this_month", label: "هذا الشهر" },
+                ].map((item) => {
+                  const isSelected = localFilters.timePeriod === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() =>
+                        setLocalFilters({
+                          ...localFilters,
+                          timePeriod: item.id,
+                        })
+                      }
+                      className={cn(
+                        "py-2 px-3 rounded-xl border text-xs font-medium flex items-center justify-center transition-all cursor-pointer select-none",
+                        isSelected
+                          ? "bg-[#34432E] text-white border-[#34432E] shadow-2xs font-bold"
+                          : "bg-white hover:bg-[#F9FAF7] text-[#2C3825] border-[#E2E6DC]"
+                      )}
+                    >
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 9. الترتيب حسب (Sort By) */}
             <div className="space-y-2.5 pt-4 border-t border-[#EEF2E6]">
               <label className="text-xs font-bold text-[#172115] flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4 text-[#7D8A78]" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -23,8 +23,12 @@ import {
   Lock,
   ChevronLeft,
   ChevronRight,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { OperationsAdvancedFilterDrawer } from "./operations-advanced-filter-drawer";
+import { OperationFilterState, initialOperationFilterState } from "../types";
 
 interface FullOperationsLogViewProps {
   unitId?: string;
@@ -33,6 +37,22 @@ interface FullOperationsLogViewProps {
 export function FullOperationsLogView({ unitId = "204" }: FullOperationsLogViewProps) {
   const [filterCategory, setFilterCategory] = useState<"all" | "cleaning" | "maintenance">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [advancedFilters, setAdvancedFilters] = useState<OperationFilterState>(initialOperationFilterState);
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (advancedFilters.type !== "all") count++;
+    if (advancedFilters.status !== "all") count++;
+    if (advancedFilters.priority !== "all") count++;
+    if (advancedFilters.city !== "all") count++;
+    if (advancedFilters.property !== "all") count++;
+    if (advancedFilters.assigneeStatus !== "all") count++;
+    if (advancedFilters.assigneeName !== "all") count++;
+    if (advancedFilters.timePeriod !== "all") count++;
+    if (advancedFilters.sortBy !== "default") count++;
+    return count;
+  }, [advancedFilters]);
 
   const handleExport = () => {
     toast.success("جاري تصدير سجل التشغيل الكامل للوحدة (PDF / Excel)...");
@@ -240,6 +260,32 @@ export function FullOperationsLogView({ unitId = "204" }: FullOperationsLogViewP
         </div>
 
         <div className="flex items-center gap-2 flex-wrap w-full md:w-auto">
+          {/* Advanced Filter Button */}
+          <button
+            type="button"
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className={cn(
+              "h-9 px-3.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+              activeFiltersCount > 0
+                ? "bg-[#4B5940] text-white shadow-xs"
+                : "bg-[#EFF2EB] hover:bg-[#E2E7DE] text-[#252A24]"
+            )}
+            title="التصفية المتقدمة"
+          >
+            <span>فلتر</span>
+            <SlidersHorizontal
+              className={cn(
+                "w-3.5 h-3.5",
+                activeFiltersCount > 0 ? "text-white" : "text-[#252A24]"
+              )}
+            />
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#4B5940] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+
           <div className="flex items-center gap-1.5 px-3 py-2 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl text-xs text-gray-700">
             <Calendar className="w-3.5 h-3.5 text-[#1F3D2B]" />
             <span>آخر 30 يوماً (سبتمبر 2026)</span>
@@ -588,6 +634,20 @@ export function FullOperationsLogView({ unitId = "204" }: FullOperationsLogViewP
           </button>
         </div>
       </div>
+
+      {/* Advanced Filter Drawer */}
+      <OperationsAdvancedFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={advancedFilters}
+        onApplyFilters={(newFilters) => {
+          setAdvancedFilters(newFilters);
+        }}
+        onResetFilters={() => {
+          setAdvancedFilters(initialOperationFilterState);
+        }}
+        totalResultsCount={12}
+      />
     </div>
   );
 }

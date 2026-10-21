@@ -124,3 +124,25 @@ export interface MainBookingItem {
   statusLabel: string;
 }
 
+export interface MainBookingFilterState {
+  status: string;
+  source: string;
+  propertyName: string;
+  unitType: string;
+  paymentStatus: string;
+  amountRange: string;
+  stayDuration: string;
+  sortBy: string;
+}
+
+export const initialBookingFilterState: MainBookingFilterState = {
+  status: "all",
+  source: "all",
+  propertyName: "all",
+  unitType: "all",
+  paymentStatus: "all",
+  amountRange: "all",
+  stayDuration: "all",
+  sortBy: "default",
+};
+
