@@ -731,6 +731,7 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
             onClick: handleSave,
             variant: "primary",
             icon: BookmarkCheck,
+            iconPosition: "end",
             loading: isSaving,
             loadingText: "جارٍ الحفظ...",
           },
