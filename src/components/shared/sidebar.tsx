@@ -21,6 +21,7 @@ import {
   UserCircle2,
   ShieldCheck,
   LogOut,
+  MessageSquare,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,7 +33,9 @@ const isRouteAvailable = (href: string) => {
     "/dashboard",
     "/dashboard/owners",
     "/dashboard/properties",
+    "/dashboard/units",
     "/dashboard/bookings",
+    "/dashboard/whatsapp",
   ].includes(href);
 };
 
@@ -50,6 +53,7 @@ const mainNavItems: NavItem[] = [
   { title: "الوحدات", href: "/dashboard/units", icon: Home },
   { title: "الحجوزات", href: "/dashboard/bookings", icon: CalendarDays, badge: "2" },
   { title: "العمليات", href: "/dashboard/operations", icon: Wrench, badge: "2" },
+  { title: "الواتساب", href: "/dashboard/whatsapp", icon: MessageSquare, badge: "1" },
   { title: "فريق العمل", href: "/dashboard/team", icon: Users },
   { title: "الاشتراكات والفوترة", href: "/dashboard/billing", icon: Receipt },
   { title: "التقارير", href: "/dashboard/reports", icon: BarChart3 },
