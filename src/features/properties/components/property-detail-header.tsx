@@ -3,28 +3,38 @@ import { ArrowLeft } from "lucide-react";
 
 interface PropertyDetailHeaderProps {
   title?: string;
+  subtitle?: string;
   fallbackHref?: string;
 }
 
 export function PropertyDetailHeader({
   title = "تفاصيل العقار",
+  subtitle = "إدارة ومتابعة بيانات العقار والمواصفات المعمارية والوحدات وسجل الحجوزات التشغيلية.",
   fallbackHref = "/dashboard/properties",
 }: PropertyDetailHeaderProps) {
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl px-6 py-6 sm:px-6 sm:py-6 border border-[#E2E6DC]/50 shadow-2xs flex items-center justify-between" dir="rtl">
-      {/* 1. Right side in RTL (start): Title */}
-      <h1 className="text-xl sm:text-2xl font-bold text-[#181D17]">
-        {title}
-      </h1>
+    <div
+      className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs"
+      dir="rtl"
+    >
+      <div className="text-start">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#181D17] tracking-tight">
+          {title}
+        </h1>
+        <p className="text-xs sm:text-sm text-[#454840] mt-1 font-medium">
+          {subtitle}
+        </p>
+      </div>
 
-      {/* 2. Left side in RTL (end): Back Button */}
-      <Link
-        href={fallbackHref}
-        className="bg-[#F1F5EB] hover:bg-[#E5ECE0] text-[#181D17] px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-colors cursor-pointer select-none"
-      >
-        <span>العودة إلى العقارات</span>
-        <ArrowLeft className="w-4 h-4 text-[#181D17]" />
-      </Link>
+      <div className="flex items-center gap-3 self-start md:self-auto shrink-0 flex-wrap">
+        <Link
+          href={fallbackHref}
+          className="h-11 px-5 sm:px-6 bg-[#4B5940] hover:bg-[#3D4C35] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer select-none"
+        >
+          <span>العودة إلى العقارات</span>
+          <ArrowLeft className="w-4 h-4 text-white" />
+        </Link>
+      </div>
     </div>
   );
 }
