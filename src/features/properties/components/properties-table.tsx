@@ -250,23 +250,23 @@ export function PropertiesTable() {
   const renderStatusBadge = (status: PropertyStatus) => {
     if (status === "active") {
       return (
-        <span className="bg-[#E2F0D9] text-[#2E7D32] text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
+        <span className="bg-[#DCE8D4] text-[#3D5F33] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto select-none">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#3D5F33]" />
           <span>نشط</span>
         </span>
       );
     }
     if (status === "inactive") {
       return (
-        <span className="bg-[#F3F4F6] text-[#6B7280] text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />
+        <span className="bg-[#E4E7E1] text-[#5B6656] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto select-none">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#5B6656]" />
           <span>غير نشط</span>
         </span>
       );
     }
     return (
-      <span className="bg-[#F0EDE8] text-[#8C7A6B] text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#8C7A6B]" />
+      <span className="bg-[#EDE9E3] text-[#766B5E] text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit mx-auto select-none">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#766B5E]" />
         <span>مؤرشف</span>
       </span>
     );
@@ -317,17 +317,17 @@ export function PropertiesTable() {
                     {/* 1. Property Name & Code */}
                     <td className="py-4 px-4 sm:px-6 text-start">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-[#EEF2E6] text-[#34432E] flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-2xl bg-[#EAF0E6] text-[#2F4426] flex items-center justify-center shrink-0">
                           <Building2 className="w-5 h-5" />
                         </div>
                         <div>
                           <Link
                             href={`/dashboard/properties/${property.id}`}
-                            className="font-bold text-xs text-[#172115] hover:text-[#2E3C29] hover:underline"
+                            className="font-bold text-xs text-[#1C2318] hover:text-[#2E3C29] hover:underline"
                           >
                             {property.title}
                           </Link>
-                          <div className="text-[11px] text-[#7D8A78]">
+                          <div className="text-[11px] text-[#74836E]">
                             {property.type} • {property.code}
                           </div>
                         </div>
@@ -337,14 +337,14 @@ export function PropertiesTable() {
                     {/* 2. Property Owner */}
                     <td className="py-4 px-4 sm:px-6 text-start">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-[#E2E6DC] text-[#34432E] font-bold text-xs flex items-center justify-center shrink-0">
+                        <div className="w-9 h-9 rounded-full bg-[#E2E8DE] text-[#2F4426] font-bold text-xs flex items-center justify-center shrink-0">
                           {property.ownerInitials}
                         </div>
                         <div>
-                          <div className="font-bold text-xs text-[#172115]">
+                          <div className="font-bold text-xs text-[#1C2318]">
                             {property.ownerName}
                           </div>
-                          <div className="text-[11px] text-[#7D8A78]">
+                          <div className="text-[11px] text-[#74836E]">
                             {property.ownerEmail}
                           </div>
                         </div>
@@ -353,44 +353,46 @@ export function PropertiesTable() {
 
                     {/* 3. Location */}
                     <td className="py-4 px-4 sm:px-6 text-start">
-                      <div className="font-bold text-xs text-[#172115]">
+                      <div className="font-bold text-xs text-[#1C2318]">
                         {property.city}
                       </div>
-                      <div className="flex items-center gap-1 text-[11px] text-[#7D8A78] mt-0.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#7D8A78]" />
-                        <span>{property.district}</span>
+                      <div className="flex items-start gap-1 text-[11px] text-[#74836E] mt-0.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#74836E] shrink-0 mt-0.5" />
+                        <span className="leading-tight max-w-[65px] inline-block">{property.district}</span>
                       </div>
                     </td>
 
                     {/* 4. Units */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <div className="font-bold text-sm text-[#172115]">
-                        {property.totalUnits}
-                      </div>
-                      <div className="text-[11px] font-medium text-[#172115]">
-                        وحدة
-                      </div>
-                      <div className="text-[10px] text-[#7D8A78] mt-0.5">
-                        {property.occupiedUnits} مشغولة
-                      </div>
-                      <div className="text-[10px] text-[#7D8A78]">
-                        • {property.availableUnits} متاحة
+                      <div className="flex flex-col items-center justify-center leading-tight">
+                        <span className="font-bold text-sm text-[#1C2318]">
+                          {property.totalUnits}
+                        </span>
+                        <span className="font-bold text-xs text-[#1C2318] mt-0.5">
+                          وحدة
+                        </span>
+                        <span className="text-[11px] text-[#74836E] mt-1 font-medium">
+                          {property.occupiedUnits}
+                        </span>
+                        <span className="text-[11px] text-[#74836E] font-medium">
+                          مشغولة
+                        </span>
+                        <span className="text-[11px] text-[#74836E] font-medium mt-0.5">
+                          • {property.availableUnits} متاحة
+                        </span>
                       </div>
                     </td>
 
                     {/* 5. Current Bookings */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <div className="inline-flex flex-col items-center justify-center bg-[#F2F5F0] rounded-[14px] px-3.5 py-1.5 select-none text-[#34422A] min-w-[76px] mx-auto">
-                        <span className="font-bold text-xs leading-tight">
-                          {property.activeBookings}
-                        </span>
-                        <div className="flex items-center gap-1.5 mt-0.5">
+                      <div className="inline-flex flex-col items-center justify-center bg-[#EDF1E8] rounded-2xl px-3.5 py-2 select-none text-[#1A2118] min-w-[84px] mx-auto">
+                        <div className="flex items-center gap-1.5 font-bold text-xs leading-tight">
                           <SmartPassIcon className="w-2.5 h-3.5 shrink-0 text-[#34422A]" />
-                          <div className="flex flex-col text-right leading-[13px] text-[11px] font-bold">
-                            <span>حجوزات</span>
-                            <span>نشطة</span>
-                          </div>
+                          <span>{property.activeBookings} حجوزات</span>
                         </div>
+                        <span className="font-bold text-xs text-[#1A2118] mt-0.5 leading-tight">
+                          نشطة
+                        </span>
                       </div>
                     </td>
 

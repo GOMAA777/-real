@@ -11,7 +11,7 @@ export function PropertyDetailHeader({
   fallbackHref = "/dashboard/properties",
 }: PropertyDetailHeaderProps) {
   return (
-    <div className="bg-white rounded-2xl sm:rounded-3xl px-6 py-4.5 sm:px-8 sm:py-5 border border-[#E2E6DC]/50 shadow-2xs flex items-center justify-between" dir="rtl">
+    <div className="bg-white rounded-2xl sm:rounded-3xl px-6 py-6 sm:px-6 sm:py-6 border border-[#E2E6DC]/50 shadow-2xs flex items-center justify-between" dir="rtl">
       {/* 1. Right side in RTL (start): Title */}
       <h1 className="text-xl sm:text-2xl font-bold text-[#181D17]">
         {title}
