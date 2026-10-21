@@ -58,6 +58,7 @@ const SEGMENT_TITLES: Record<
   logs: { label: "سجل التنفيذ التشغيلي", icon: History },
   team: { label: "فريق العمل", icon: Users },
   billing: { label: "الاشتراكات والفوترة", icon: Receipt },
+  pricing: { label: "إعدادات التسعير وسعة الشقق", icon: SlidersHorizontal },
   reports: { label: "التقارير والإحصائيات", icon: BarChart3 },
   settings: { label: "الإعدادات العامة", icon: SlidersHorizontal },
   profile: { label: "الملف الشخصي", icon: UserCircle2 },
@@ -192,6 +193,10 @@ export function Breadcrumb({
           label = "تفاصيل قالب واتساب";
           icon = MessageSquare;
           badge = `#${seg}`;
+        } else if (prevSeg === "billing") {
+          label = "تفاصيل الاشتراك والفوترة";
+          icon = Receipt;
+          badge = `#${seg.startsWith("SUB-") ? seg : `SUB-${seg}`}`;
         }
 
         result.push({
