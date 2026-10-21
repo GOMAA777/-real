@@ -35,8 +35,7 @@ export interface BreadcrumbItem {
 export interface BreadcrumbProps {
   items?: BreadcrumbItem[];
   className?: string;
-  showBack?: boolean;
-  showMetadata?: boolean;
+  variant?: "navbar" | "card";
 }
 
 const SEGMENT_TITLES: Record<
@@ -65,6 +64,7 @@ const SEGMENT_TITLES: Record<
 export function Breadcrumb({
   items: customItems,
   className,
+  variant = "navbar",
 }: BreadcrumbProps) {
   const pathname = usePathname();
 
@@ -75,21 +75,18 @@ export function Breadcrumb({
 
     if (!pathname) return [];
 
-    const segments = pathname.split("/").filter(Boolean);
-    const subSegments = segments.filter((s) => s !== "dashboard");
-
-    // Do NOT show breadcrumb on root/primary tabs (e.g. /dashboard, /dashboard/properties, /dashboard/owners, /dashboard/bookings)
-    // ONLY show breadcrumbs when navigating inside a tab (depth > 1: details / forms / sub-routes)
-    if (subSegments.length <= 1) {
-      return [];
-    }
+    // Strip basePath if present (e.g. /Edaret_Amlak)
+    const rawSegments = pathname.split("/").filter(Boolean);
+    const segments = rawSegments.filter(
+      (s) => s.toLowerCase() !== "edaret_amlak"
+    );
 
     const result: BreadcrumbItem[] = [
       {
         label: "الرئيسية",
         href: "/dashboard",
-        icon: LayoutGrid,
-        isCurrent: false,
+        icon: Home,
+        isCurrent: segments.length === 0 || (segments.length === 1 && segments[0] === "dashboard"),
       },
     ];
 
@@ -135,6 +132,7 @@ export function Breadcrumb({
         else if (prevSeg === "owners") label = "إضافة صاحب عقار";
         else if (prevSeg === "units") label = "إضافة وحدة جديدة";
         else if (prevSeg === "maintenance") label = "إنشاء بلاغ صيانة جديد";
+        else if (prevSeg === "cleaning") label = "إنشاء مهمة تنظيف جديدة";
 
         result.push({
           label,
@@ -189,7 +187,6 @@ export function Breadcrumb({
     return result;
   }, [pathname, customItems]);
 
-  // Do not render anything if on a primary/root tab
   if (breadcrumbs.length === 0) {
     return null;
   }
@@ -206,14 +203,90 @@ export function Breadcrumb({
     })),
   };
 
+  // 1. Sleek Navbar Variant (Placed inside Topbar as requested)
+  if (variant === "navbar") {
+    return (
+      <nav
+        aria-label="مسار التنقل"
+        className={cn(
+          "flex items-center min-w-0 select-none",
+          className
+        )}
+      >
+        <ol className="flex items-center gap-1 sm:gap-1.5 flex-nowrap overflow-x-auto no-scrollbar text-xs">
+          {breadcrumbs.map((crumb, index) => {
+            const isFirst = index === 0;
+            const isLast = index === breadcrumbs.length - 1;
+
+            return (
+              <li
+                key={`${crumb.label}-${index}`}
+                className="inline-flex items-center gap-1 sm:gap-1.5 shrink-0"
+              >
+                {/* Separator chevron between items */}
+                {!isFirst && (
+                  <ChevronLeft
+                    className="w-3.5 h-3.5 text-[#9BA896] shrink-0"
+                    strokeWidth={2.2}
+                    aria-hidden="true"
+                  />
+                )}
+
+                {/* Breadcrumb Item */}
+                {isLast ? (
+                  /* Active current leaf: distinct, visible, elegant with dot */
+                  <div
+                    className={cn(
+                      "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all shadow-3xs",
+                      isFirst
+                        ? "bg-[#EEF2E6] text-[#1E2B1A] border border-[#CCDBC4]"
+                        : "bg-[#EEF2E6] text-[#181D17] border border-[#CCDBC4]"
+                    )}
+                    aria-current="page"
+                  >
+                    {isFirst && <Home className="w-3.5 h-3.5 text-[#34432E]" />}
+                    <span className="truncate max-w-[140px] sm:max-w-[220px] md:max-w-[280px]">
+                      {crumb.label}
+                    </span>
+                    {!isFirst && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#34432E] shrink-0" />
+                    )}
+                    {crumb.badge && (
+                      <span className="px-1.5 py-0.2 rounded bg-white text-[10px] font-mono font-bold text-[#34432E] border border-[#CBD7C3]">
+                        {crumb.badge}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  /* Clickable ancestor link: hoverable, styled cleanly */
+                  <Link
+                    href={crumb.href || "/dashboard"}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium text-[#54624C] hover:text-[#181D17] hover:bg-[#F1F5EB] transition-colors outline-none focus-visible:ring-1 focus-visible:ring-[#34432E]/30 whitespace-nowrap",
+                      isFirst && "text-[#34432E] font-semibold"
+                    )}
+                  >
+                    {isFirst && <Home className="w-3.5 h-3.5 text-[#34432E]" />}
+                    <span className={cn(isFirst && "hidden sm:inline")}>
+                      {crumb.label}
+                    </span>
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    );
+  }
+
+  // 2. Standalone Card Variant (Preserved for backwards compatibility)
   return (
     <>
-      {/* Schema.org Microdata for SEO & Accessibility */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
-
       <section
         aria-label="مسار التصفح"
         className={cn(
@@ -222,7 +295,6 @@ export function Breadcrumb({
         )}
       >
         <div className="flex items-center">
-          {/* Right Side in RTL: Navigation Trail */}
           <nav aria-label="مسار التنقل" className="flex items-center flex-wrap gap-1.5 sm:gap-2">
             <ol className="flex items-center flex-wrap gap-1.5 sm:gap-2 text-xs">
               {breadcrumbs.map((crumb, index) => {
@@ -232,7 +304,6 @@ export function Breadcrumb({
 
                 return (
                   <li key={`${crumb.label}-${index}`} className="inline-flex items-center gap-1.5 sm:gap-2">
-                    {/* Separator before each non-first item */}
                     {!isFirst && (
                       <ChevronLeft
                         className="w-3.5 h-3.5 text-[#A5B3A1] shrink-0"
@@ -241,9 +312,7 @@ export function Breadcrumb({
                       />
                     )}
 
-                    {/* Breadcrumb Item Element */}
                     {isLast ? (
-                      /* Active Leaf Item */
                       <div
                         className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#E8EFE3] border border-[#CCDBC4] text-[#1E2B1A] font-bold shadow-3xs"
                         aria-current="page"
@@ -255,11 +324,9 @@ export function Breadcrumb({
                         ) : (
                           <span className="w-2 h-2 rounded-full bg-[#34432E] shrink-0 ring-4 ring-[#34432E]/15" />
                         )}
-
                         <span className="truncate max-w-[200px] sm:max-w-[320px]">
                           {crumb.label}
                         </span>
-
                         {crumb.badge && (
                           <span className="px-1.5 py-0.5 rounded-md bg-white/90 border border-[#CBD7C3] text-[10px] font-mono font-bold text-[#34432E] shadow-3xs">
                             {crumb.badge}
@@ -267,7 +334,6 @@ export function Breadcrumb({
                         )}
                       </div>
                     ) : (
-                      /* Clickable Intermediate or Home Link */
                       <Link
                         href={crumb.href || "#"}
                         className={cn(
@@ -282,7 +348,6 @@ export function Breadcrumb({
                         ) : Icon ? (
                           <Icon className="w-3.5 h-3.5 text-[#738270] group-hover:text-[#172115] transition-colors" />
                         ) : null}
-
                         <span className={cn(isFirst && "hidden sm:inline")}>
                           {crumb.label}
                         </span>
