@@ -93,10 +93,10 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
       <AutomationTabsNav activeTab="rules" onTabChange={onTabChange} />
 
       {/* 1. Header Card */}
-      <div className="bg-white rounded-3xl p-6 border border-[#EBEBEB] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white rounded-3xl p-6 border border-[#DCE2D7] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4 font-cairo">
         <div>
-          <h2 className="text-2xl font-bold text-[#1F2937]">قواعد الأتمتة</h2>
-          <p className="text-xs text-[#6B7280] mt-1">
+          <h2 className="text-2xl font-bold text-[#252A24]">قواعد الأتمتة</h2>
+          <p className="text-xs text-[#687163] mt-1">
             إدارة القواعد والإجراءات التلقائية المرتبطة بالحجوزات والتشغيل وواتساب.
           </p>
         </div>
@@ -104,7 +104,7 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
         <div className="flex items-center gap-2.5 flex-wrap">
           <Link
             href="/dashboard/automation/rules/new"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-[#1F3D2B] text-white hover:bg-[#183022] transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#4B5940] text-white hover:bg-[#3E4A35] transition-colors shadow-2xs"
           >
             <Plus className="w-4 h-4" />
             <span>إنشاء قاعدة</span>
@@ -113,9 +113,9 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
           <button
             type="button"
             onClick={handleExport}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border border-[#CCD4C6] text-[#252A24] bg-white hover:bg-[#EFF2EB] transition-colors cursor-pointer"
           >
-            <Download className="w-4 h-4 text-gray-500" />
+            <Download className="w-4 h-4 text-[#252A24]" />
             <span>تصدير السجل</span>
           </button>
 
@@ -123,7 +123,7 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
           <button
             type="button"
             onClick={() => setIsEmptyPreview(!isEmptyPreview)}
-            className="px-2.5 py-1 text-xs text-[#1F3D2B] bg-[#EEF5EE] rounded-lg border border-[#DCE8DC] hover:underline"
+            className="px-2.5 py-1 text-xs text-[#4B5940] bg-[#EBF0E6] rounded-lg border border-[#CCD4C6]/60 hover:underline cursor-pointer"
           >
             {isEmptyPreview ? "عرض البيانات" : "معاينة فارغة [1:26315]"}
           </button>
@@ -132,17 +132,17 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
 
       {/* Empty State View [1:26315] */}
       {isEmptyPreview || filteredRules.length === 0 ? (
-        <div className="bg-white rounded-3xl p-16 border border-[#EBEBEB] shadow-sm text-center flex flex-col items-center justify-center space-y-4">
-          <div className="w-16 h-16 rounded-3xl bg-[#F4F6F3] border border-[#EBEBEB] flex items-center justify-center text-[#1F3D2B] relative">
+        <div className="bg-white rounded-3xl p-16 border border-[#DCE2D7] shadow-xs text-center flex flex-col items-center justify-center space-y-4 font-cairo">
+          <div className="w-16 h-16 rounded-3xl bg-[#EFF2EB] border border-[#DCE2D7] flex items-center justify-center text-[#4B5940] relative">
             <Share2 className="w-8 h-8" />
-            <div className="absolute -top-1.5 -end-1.5 w-6 h-6 rounded-full bg-[#1F3D2B] text-white flex items-center justify-center text-xs font-bold">
+            <div className="absolute -top-1.5 -end-1.5 w-6 h-6 rounded-full bg-[#4B5940] text-white flex items-center justify-center text-xs font-bold">
               +
             </div>
           </div>
 
           <div className="max-w-md space-y-1.5">
-            <h3 className="text-xl font-bold text-[#1F2937]">لا توجد قواعد أتمتة</h3>
-            <p className="text-xs text-[#6B7280] leading-relaxed">
+            <h3 className="text-xl font-bold text-[#252A24]">لا توجد قواعد أتمتة</h3>
+            <p className="text-xs text-[#687163] leading-relaxed">
               لم يتم إنشاء أي قواعد أتمتة على المنصة حتى الآن. ابدأ بتهيئة سير العمل التلقائي لإرسال أكواد الدخول الذكية، تنبيهات المغادرة، وتعيين مهام التنظيف آلياً.
             </p>
           </div>
@@ -150,7 +150,7 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
           <div className="flex items-center gap-3 pt-2">
             <Link
               href="/dashboard/automation/rules/new"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#1F3D2B] text-white text-xs font-bold hover:bg-[#183022] transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B5940] text-white text-xs font-bold hover:bg-[#3E4A35] transition-colors shadow-2xs"
             >
               <Plus className="w-4 h-4" />
               <span>إنشاء قاعدة جديدة</span>
@@ -163,9 +163,9 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
                 setSearchQuery("");
                 setStatusFilter("all");
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#CCD4C6] text-xs font-semibold text-[#252A24] hover:bg-[#EFF2EB] transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-gray-500" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#252A24]" />
               <span>تحديث الصفحة</span>
             </button>
           </div>
@@ -173,26 +173,26 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
       ) : (
         <>
           {/* 2. Filter Bar */}
-          <div className="bg-white rounded-3xl p-3 border border-[#EBEBEB] shadow-sm flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
+          <div className="bg-white rounded-3xl p-3 border border-[#DCE2D7] shadow-xs flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-cairo">
             <div className="relative w-full md:w-96">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="ابحث باسم القاعدة، المحفّز، أو الإجراء..."
-                className="w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-2xl text-xs text-[#1F2937] placeholder-[#9CA3AF] focus:outline-none focus:border-[#1F3D2B]"
+                className="w-full pe-4 ps-11 h-10 bg-[#EAEFE6] border border-[#CCD4C6] rounded-xl text-xs text-[#252A24] placeholder:text-[#727A6E] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5940]/20 focus:border-[#4B5940] transition-all"
               />
-              <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
+              <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#727A6E]" />
             </div>
 
-            <div className="flex items-center gap-1.5 flex-wrap w-full md:w-auto">
+            <div className="flex items-center gap-1.5 flex-wrap w-full md:w-auto bg-[#EFF2EB] p-1 rounded-2xl">
               <button
                 type="button"
                 onClick={() => setStatusFilter("all")}
-                className={`px-3.5 py-1.5 rounded-xl font-medium transition-colors ${
+                className={`px-3.5 py-1.5 rounded-xl font-semibold transition-all cursor-pointer select-none ${
                   statusFilter === "all"
-                    ? "bg-[#F3F4F6] text-[#111827] font-semibold border border-[#E5E7EB]"
-                    : "text-[#6B7280] hover:text-[#111827]"
+                    ? "bg-white text-[#252A24] font-bold shadow-2xs border border-[#CCD4C6]"
+                    : "text-[#687163] hover:text-[#252A24]"
                 }`}
               >
                 الكل ({rules.length})
@@ -200,10 +200,10 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
               <button
                 type="button"
                 onClick={() => setStatusFilter("active")}
-                className={`px-3.5 py-1.5 rounded-xl font-medium transition-colors ${
+                className={`px-3.5 py-1.5 rounded-xl font-semibold transition-all cursor-pointer select-none ${
                   statusFilter === "active"
-                    ? "bg-[#F3F4F6] text-[#111827] font-semibold border border-[#E5E7EB]"
-                    : "text-[#6B7280] hover:text-[#111827]"
+                    ? "bg-white text-[#252A24] font-bold shadow-2xs border border-[#CCD4C6]"
+                    : "text-[#687163] hover:text-[#252A24]"
                 }`}
               >
                 مفعلة (12)
@@ -211,10 +211,10 @@ export function AutomationRulesView({ onSelectRule, onTabChange }: AutomationRul
               <button
                 type="button"
                 onClick={() => setStatusFilter("paused")}
-                className={`px-3.5 py-1.5 rounded-xl font-medium transition-colors ${
+                className={`px-3.5 py-1.5 rounded-xl font-semibold transition-all cursor-pointer select-none ${
                   statusFilter === "paused"
-                    ? "bg-[#F3F4F6] text-[#111827] font-semibold border border-[#E5E7EB]"
-                    : "text-[#6B7280] hover:text-[#111827]"
+                    ? "bg-white text-[#252A24] font-bold shadow-2xs border border-[#CCD4C6]"
+                    : "text-[#687163] hover:text-[#252A24]"
                 }`}
               >
                 متوقفة (2)

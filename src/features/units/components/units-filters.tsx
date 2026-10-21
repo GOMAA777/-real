@@ -37,7 +37,7 @@ export function UnitsFilters({
   ];
 
   return (
-    <div className="bg-white rounded-3xl p-2.5 sm:p-3 border border-[#E0E4D8]/60 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
+    <div className="bg-white rounded-3xl p-2.5 sm:p-3 border border-[#DCE2D7] flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs font-cairo">
       {/* Search Input Box (Right in RTL) */}
       <div className="relative w-full md:w-80 lg:w-[380px]">
         <input
@@ -45,9 +45,9 @@ export function UnitsFilters({
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="ابحث برقم الوحدة، اسم العقار أو المالك..."
-          className="w-full h-10 pe-4 ps-11 rounded-2xl bg-[#F1F5EB] border border-transparent text-xs text-[#172115] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none transition-all shadow-2xs"
+          className="w-full h-10 pe-4 ps-11 rounded-xl bg-[#EAEFE6] border border-[#CCD4C6] text-xs text-[#252A24] placeholder:text-[#727A6E] focus:bg-white focus:border-[#4B5940] focus:outline-none focus:ring-2 focus:ring-[#4B5940]/20 transition-all shadow-2xs"
         />
-        <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#7D8A78]">
+        <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#727A6E]">
           <Search className="w-4 h-4" />
         </div>
       </div>
@@ -61,8 +61,8 @@ export function UnitsFilters({
             className={cn(
               "h-9 px-3.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
               activeFiltersCount > 0
-                ? "bg-[#34432E] text-white shadow-xs"
-                : "bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#172115]"
+                ? "bg-[#4B5940] text-white shadow-xs"
+                : "bg-[#EFF2EB] hover:bg-[#E2E7DE] text-[#252A24]"
             )}
             title="تصفية الوحدات"
           >
@@ -70,11 +70,11 @@ export function UnitsFilters({
             <SlidersHorizontal
               className={cn(
                 "w-3.5 h-3.5",
-                activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
+                activeFiltersCount > 0 ? "text-white" : "text-[#252A24]"
               )}
             />
             {activeFiltersCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+              <span className="w-4 h-4 rounded-full bg-white text-[#4B5940] text-[10px] font-bold flex items-center justify-center">
                 {activeFiltersCount}
               </span>
             )}
@@ -82,7 +82,7 @@ export function UnitsFilters({
         )}
 
         {/* Filter Tabs Container */}
-        <div className="flex items-center gap-1 p-1 bg-[#F1F5EB] rounded-2xl overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-1 p-1 bg-[#EFF2EB] rounded-2xl overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const isActive = currentFilter === tab.id;
             return (
@@ -93,8 +93,8 @@ export function UnitsFilters({
                 className={cn(
                   "relative px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap cursor-pointer select-none transition-all duration-150",
                   isActive
-                    ? "bg-white text-[#172115] font-bold shadow-2xs"
-                    : "text-[#7A8574] hover:text-[#172115] font-medium"
+                    ? "bg-white text-[#252A24] font-bold shadow-2xs"
+                    : "text-[#687163] hover:text-[#252A24] font-medium"
                 )}
               >
                 {tab.label}

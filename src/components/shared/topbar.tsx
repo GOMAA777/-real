@@ -10,20 +10,20 @@ export function Topbar() {
   const { sidebarOpen, toggleSidebar } = useUIStore();
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-white border-b border-[#E5EADF] px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-30 w-full bg-white border-b border-[#DCE2D7] px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4 font-cairo">
       {/* Right in RTL: Circular Collapse/Expand Button + Vertical Divider + Breadcrumb */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
         {/* Exact Circular Sidebar Toggle Button */}
         <button
           type="button"
           onClick={toggleSidebar}
-          className="w-8 h-8 rounded-full bg-white border border-[#CCD5C5] text-[#172115] hover:bg-[#F4F6F0] hover:border-[#B4C1AC] shadow-2xs flex items-center justify-center transition-all cursor-pointer shrink-0 select-none"
+          className="w-8 h-8 rounded-full bg-white border border-[#CCD4C6] text-[#252A24] hover:bg-[#EFF2EB] hover:border-[#4B5940]/50 shadow-2xs flex items-center justify-center transition-all cursor-pointer shrink-0 select-none"
           title={sidebarOpen ? "طي القائمة الجانبية" : "توسيع القائمة الجانبية"}
           aria-label="تبديل القائمة الجانبية"
         >
           <ChevronLeft
             className={cn(
-              "w-4 h-4 text-[#172115] transition-transform duration-200",
+              "w-4 h-4 text-[#252A24] transition-transform duration-200",
               !sidebarOpen && "rotate-180"
             )}
             strokeWidth={1.75}
@@ -31,7 +31,7 @@ export function Topbar() {
         </button>
 
         {/* Vertical Divider Line */}
-        <div className="h-5 w-px bg-[#E2E6DC] shrink-0" />
+        <div className="h-5 w-px bg-[#DCE2D7] shrink-0" />
 
         {/* Breadcrumb Navigation Trail in Nav Bar */}
         <div className="min-w-0 overflow-hidden">
@@ -46,10 +46,10 @@ export function Topbar() {
           <input
             type="text"
             placeholder="ابحث عن مالك، عقار، وحدة أو حجز..."
-            className="w-full h-9 pe-3 ps-9 rounded-xl bg-[#EEF2E6] border border-transparent text-xs text-[#182016] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none focus:ring-2 focus:ring-[#374732]/10 transition-all shadow-2xs"
+            className="w-full h-9 pe-3 ps-9 rounded-xl bg-[#EAEFE6] border border-[#CCD4C6] text-xs text-[#252A24] placeholder:text-[#727A6E] focus:bg-white focus:border-[#4B5940] focus:outline-none focus:ring-2 focus:ring-[#4B5940]/20 transition-all shadow-2xs"
           />
-          {/* Magnifying glass icon on the LEFT */}
-          <div className="absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#7D8A78]">
+          {/* Magnifying glass icon on the start */}
+          <div className="absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#727A6E]">
             <Search className="w-3.5 h-3.5" />
           </div>
         </div>
@@ -57,7 +57,7 @@ export function Topbar() {
         {/* Notification Bell + Profile container */}
         <div className="flex items-center gap-2.5 sm:gap-3" dir="ltr">
           {/* 1. Circular Avatar Photo */}
-          <div className="relative w-9 h-9 rounded-full overflow-hidden ring-1 ring-black/5 shrink-0 shadow-2xs">
+          <div className="relative w-9 h-9 rounded-full overflow-hidden ring-1 ring-[#DCE2D7] shrink-0 shadow-2xs">
             <Image
               src="/avatar.jpg"
               alt="محمد أحمد"
@@ -69,25 +69,25 @@ export function Topbar() {
 
           {/* 2. User Name & Role */}
           <div className="select-none text-start hidden sm:block" dir="rtl">
-            <div className="text-xs sm:text-sm font-bold text-[#172115] leading-tight whitespace-nowrap">
+            <div className="text-xs sm:text-sm font-bold text-[#252A24] leading-tight whitespace-nowrap">
               محمد أحمد
             </div>
-            <div className="text-[11px] text-[#788574] leading-tight mt-0.5 whitespace-nowrap">
+            <div className="text-[11px] text-[#687163] leading-tight mt-0.5 whitespace-nowrap">
               مدير المنصة
             </div>
           </div>
 
           {/* 3. Vertical Divider Line */}
-          <div className="h-5 w-px bg-[#E2E6DC] shrink-0 mx-0.5" />
+          <div className="h-5 w-px bg-[#DCE2D7] shrink-0 mx-0.5" />
 
           {/* 4. Notification Bell with Red Dot */}
           <button
             type="button"
-            className="relative p-1.5 text-[#2C3825] hover:text-[#172115] transition-colors cursor-pointer shrink-0"
+            className="relative p-1.5 text-[#252A24] hover:text-[#4B5940] transition-colors cursor-pointer shrink-0"
             aria-label="التنبيهات"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1 start-1 w-2 h-2 rounded-full bg-[#E53E3E] ring-2 ring-white" />
+            <span className="absolute top-1 start-1 w-2 h-2 rounded-full bg-[#C02828] ring-2 ring-white" />
           </button>
         </div>
       </div>

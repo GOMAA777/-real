@@ -40,6 +40,7 @@ const isRouteAvailable = (href: string) => {
     "/dashboard/whatsapp",
     "/dashboard/automation",
     "/dashboard/billing",
+    "/dashboard/styleguide",
   ].includes(href);
 };
 
@@ -137,17 +138,17 @@ export function Sidebar() {
       )}
 
       {/* ========================================================= */}
-      {/* 1. COLLAPSED MINI SIDEBAR (In Website's Dark Olive Colors) */}
+      {/* 1. COLLAPSED MINI SIDEBAR (In Design System's Tertiary Forest Olive) */}
       {/* ========================================================= */}
       <aside
         className={cn(
-          "hidden fixed top-0 bottom-0 start-0 z-40 w-[72px] bg-[#34432E] border-e border-white/10 flex-col justify-between py-4 select-none shadow-xs transition-all duration-300",
+          "hidden fixed top-0 bottom-0 start-0 z-40 w-[72px] bg-[#303A2C] border-e border-white/10 flex-col justify-between py-4 select-none shadow-xs transition-all duration-300 font-cairo",
           !sidebarOpen && "lg:flex"
         )}
       >
         {/* Top Header: Brand Squircle Icon */}
         <div className="relative flex flex-col items-center">
-          <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center p-2 shadow-2xs">
+          <div className="w-10 h-10 rounded-xl bg-[#252A24] border border-white/15 flex items-center justify-center p-2 shadow-2xs">
             <Image
               src="/logo.png"
               alt="ابراج"
@@ -181,7 +182,7 @@ export function Sidebar() {
                 {isActive && (
                   <motion.div
                     layoutId="miniMainNavActivePill"
-                    className="absolute inset-0 rounded-[14px] bg-[#45583E] shadow-xs border border-white/10 z-0"
+                    className="absolute inset-0 rounded-[14px] bg-[#4B5940] shadow-xs border border-white/15 z-0"
                     transition={{
                       type: "spring",
                       stiffness: 380,
@@ -196,7 +197,7 @@ export function Sidebar() {
                     "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
                     isActive
                       ? "text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      : "text-white/75 hover:text-white hover:bg-white/10"
                   )}
                 >
                   <Icon className="w-5 h-5" />
@@ -207,8 +208,8 @@ export function Sidebar() {
                     className={cn(
                       "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center z-20",
                       isActive
-                        ? "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#45583E]"
-                        : "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#34432E]"
+                        ? "bg-[#C9B99A] text-[#252A24] ring-2 ring-[#4B5940]"
+                        : "bg-[#C9B99A] text-[#252A24] ring-2 ring-[#303A2C]"
                     )}
                   >
                     {item.badge}
@@ -238,7 +239,7 @@ export function Sidebar() {
                 {isActive && (
                   <motion.div
                     layoutId="miniSystemNavActivePill"
-                    className="absolute inset-0 rounded-[14px] bg-[#45583E] shadow-xs border border-white/10 z-0"
+                    className="absolute inset-0 rounded-[14px] bg-[#4B5940] shadow-xs border border-white/15 z-0"
                     transition={{
                       type: "spring",
                       stiffness: 380,
@@ -253,7 +254,7 @@ export function Sidebar() {
                     "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
                     isActive
                       ? "text-white"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      : "text-white/75 hover:text-white hover:bg-white/10"
                   )}
                 >
                   <Icon className="w-5 h-5" />
@@ -274,10 +275,10 @@ export function Sidebar() {
             title="الملف الشخصي - محمد أحمد"
             aria-label="الملف الشخصي"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center shadow-xs group-hover:opacity-90 transition-opacity">
+            <div className="w-10 h-10 rounded-xl bg-[#C9B99A] text-[#252A24] font-bold text-xs flex items-center justify-center shadow-xs group-hover:opacity-90 transition-opacity">
               م
             </div>
-            <span className="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#86EFAC] ring-2 ring-[#34432E]" />
+            <span className="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#4B5940] ring-2 ring-[#303A2C]" />
           </Link>
 
           {/* Logout Button */}
@@ -294,11 +295,11 @@ export function Sidebar() {
       </aside>
 
       {/* ========================================================= */}
-      {/* 2. EXPANDED SIDEBAR (Full width in Website Colors)       */}
+      {/* 2. EXPANDED SIDEBAR (Full width in Design System Colors)  */}
       {/* ========================================================= */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#34432E] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5",
+          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#303A2C] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5 font-cairo",
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:hidden"
         )}
       >
@@ -307,7 +308,7 @@ export function Sidebar() {
           {/* Header Brand */}
           <div className="flex items-center justify-between pt-2 px-2">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center shrink-0 p-2">
+              <div className="w-10 h-10 rounded-xl bg-[#252A24] border border-white/15 flex items-center justify-center shrink-0 p-2 shadow-2xs">
                 <Image
                   src="/logo.png"
                   alt="ابراج"
@@ -358,14 +359,14 @@ export function Sidebar() {
                       "group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
                         ? "text-white font-bold"
-                        : "text-white/75 hover:text-white hover:bg-white/[0.06] font-medium"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.08] font-medium"
                     )}
                   >
                     {/* Animated Sliding Active Indicator Pill */}
                     {isActive && (
                       <motion.div
                         layoutId="mainNavActivePill"
-                        className="absolute inset-0 bg-[#45583E] rounded-xl border border-white/10 shadow-xs z-0"
+                        className="absolute inset-0 bg-[#4B5940] rounded-xl border border-white/15 shadow-xs z-0"
                         transition={{
                           type: "spring",
                           stiffness: 380,
@@ -389,7 +390,7 @@ export function Sidebar() {
                       <span
                         className={cn(
                           "relative z-10 text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105",
-                          "bg-[#DCE7D3] text-[#2C3825]"
+                          "bg-[#C9B99A] text-[#252A24]"
                         )}
                       >
                         {item.badge}
@@ -424,14 +425,14 @@ export function Sidebar() {
                       "group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
                         ? "text-white font-bold"
-                        : "text-white/75 hover:text-white hover:bg-white/[0.06] font-medium"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.08] font-medium"
                     )}
                   >
                     {/* Animated Sliding Active Indicator Pill */}
                     {isActive && (
                       <motion.div
                         layoutId="systemNavActivePill"
-                        className="absolute inset-0 bg-[#45583E] rounded-xl border border-white/10 shadow-xs z-0"
+                        className="absolute inset-0 bg-[#4B5940] rounded-xl border border-white/15 shadow-xs z-0"
                         transition={{
                           type: "spring",
                           stiffness: 380,
@@ -459,7 +460,7 @@ export function Sidebar() {
           {/* User Profile Card */}
           <div className="p-2.5 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-[#C9B99A] text-[#252A24] font-bold text-xs flex items-center justify-center">
                 {currentUser?.fullName ? currentUser.fullName.charAt(0) : "م"}
               </div>
               <div>
@@ -467,7 +468,7 @@ export function Sidebar() {
                   {currentUser?.fullName || "محمد أحمد"}
                 </div>
                 <div className="flex items-center gap-1 text-[10px] text-white/60">
-                  <ShieldCheck className="w-3 h-3 text-[#86EFAC]" />
+                  <ShieldCheck className="w-3 h-3 text-[#C9B99A]" />
                   <span>{currentUser?.role || "مدير النظام"}</span>
                 </div>
               </div>

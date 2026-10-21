@@ -51,7 +51,7 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning
-        className="min-h-full flex flex-col font-sans bg-[#F4F6F0] text-[#182016]"
+        className="min-h-full flex flex-col font-sans bg-[#EFF2EB] text-[#252A24]"
       >
         <NuqsAdapter>{children}</NuqsAdapter>
         <Toaster />
