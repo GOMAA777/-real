@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
 import { TablePagination } from "@/components/shared/table-pagination";
+import { OwnerBillingFilterDrawer, BillingFilterState } from "./owner-billing-filter-drawer";
 
 interface InvoiceItem {
   id: string;
@@ -110,21 +111,73 @@ export function OwnerBillingTabView() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
+  // Advanced Filter Drawer State
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [billingFilters, setBillingFilters] = useState<BillingFilterState>({
+    status: "all",
+    period: "all",
+    payoutRange: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (billingFilters.status !== "all") count++;
+    if (billingFilters.period !== "all") count++;
+    if (billingFilters.payoutRange !== "all") count++;
+    if (billingFilters.sortBy !== "default") count++;
+    return count;
+  }, [billingFilters]);
+
   const filteredInvoices = useMemo(() => {
-    return defaultInvoices.filter((inv) => {
+    let list = defaultInvoices.filter((inv) => {
+      // 1. Tab status filter
       if (filterStatus === "paid" && inv.status !== "paid") return false;
       if (filterStatus === "processing" && inv.status !== "processing") return false;
 
+      // 2. Drawer status filter
+      if (billingFilters.status !== "all" && inv.status !== billingFilters.status) return false;
+
+      // 3. Drawer period filter
+      if (billingFilters.period === "september_2026" && !inv.period.includes("سبتمبر")) return false;
+      if (billingFilters.period === "august_2026" && !inv.period.includes("أغسطس")) return false;
+
+      // 4. Drawer payout range
+      const numericPayout = parseInt(inv.netPayout.replace(/[^\d]/g, ""), 10) || 0;
+      if (billingFilters.payoutRange === "less35k" && numericPayout >= 35000) return false;
+      if (billingFilters.payoutRange === "35k-40k" && (numericPayout < 35000 || numericPayout > 40000)) return false;
+      if (billingFilters.payoutRange === "more40k" && numericPayout <= 40000) return false;
+
+      // 5. Search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchesNumber = inv.invoiceNumber.toLowerCase().includes(q);
         const matchesPeriod = inv.period.toLowerCase().includes(q);
         const matchesStatus = inv.statusText.toLowerCase().includes(q);
-        return matchesNumber || matchesPeriod || matchesStatus;
+        if (!matchesNumber && !matchesPeriod && !matchesStatus) return false;
       }
       return true;
     });
-  }, [filterStatus, searchQuery]);
+
+    // 6. Sorting
+    if (billingFilters.sortBy === "net_desc") {
+      list = [...list].sort((a, b) => {
+        const numA = parseInt(a.netPayout.replace(/[^\d]/g, ""), 10) || 0;
+        const numB = parseInt(b.netPayout.replace(/[^\d]/g, ""), 10) || 0;
+        return numB - numA;
+      });
+    } else if (billingFilters.sortBy === "gross_desc") {
+      list = [...list].sort((a, b) => {
+        const numA = parseInt(a.grossAmount.replace(/[^\d]/g, ""), 10) || 0;
+        const numB = parseInt(b.grossAmount.replace(/[^\d]/g, ""), 10) || 0;
+        return numB - numA;
+      });
+    } else if (billingFilters.sortBy === "invoice_asc") {
+      list = [...list].sort((a, b) => a.invoiceNumber.localeCompare(b.invoiceNumber));
+    }
+
+    return list;
+  }, [filterStatus, billingFilters, searchQuery]);
 
   const totalFiltered = filteredInvoices.length;
   const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
@@ -346,30 +399,62 @@ export function OwnerBillingTabView() {
             </div>
           </div>
 
-          {/* Status Filter Tabs */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#F0F4EC] rounded-2xl overflow-x-auto no-scrollbar w-full md:w-auto">
-            {[
-              { id: "all", label: `الكل (${counts.all})` },
-              { id: "paid", label: `مسددة (${counts.paid})` },
-              { id: "processing", label: `قيد التحويل (${counts.processing})` },
-            ].map((tab) => {
-              const isActive = filterStatus === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setFilterStatus(tab.id as any)}
-                  className={cn(
-                    "px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
-                    isActive
-                      ? "bg-white text-[#172115] font-bold shadow-2xs"
-                      : "text-[#717E6E] hover:text-[#172115] font-medium"
-                  )}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
+          {/* Filter Button & Status Filter Tabs */}
+          <div className="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+            {/* Advanced Filter Button */}
+            <button
+              type="button"
+              onClick={() => setIsFilterDrawerOpen(true)}
+              className={cn(
+                "h-10 px-4 rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+                activeFiltersCount > 0
+                  ? "bg-[#34432E] text-white shadow-xs"
+                  : "bg-[#F0F4EC] hover:bg-[#E5EBDD] text-[#172115]"
+              )}
+              title="تصفية الفواتير والمستحقات"
+            >
+              <span>فلتر</span>
+              <SlidersHorizontal
+                className={cn(
+                  "w-3.5 h-3.5",
+                  activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
+                )}
+              />
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </button>
+
+            {/* Status Filter Tabs */}
+            <div className="flex items-center gap-1.5 p-1 bg-[#F0F4EC] rounded-2xl overflow-x-auto no-scrollbar">
+              {[
+                { id: "all", label: `الكل (${counts.all})` },
+                { id: "paid", label: `مسددة (${counts.paid})` },
+                { id: "processing", label: `قيد التحويل (${counts.processing})` },
+              ].map((tab) => {
+                const isActive = filterStatus === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => {
+                      setFilterStatus(tab.id as any);
+                      setCurrentPage(1);
+                    }}
+                    className={cn(
+                      "px-4 py-1.5 rounded-xl text-xs transition-all whitespace-nowrap cursor-pointer select-none",
+                      isActive
+                        ? "bg-white text-[#172115] font-bold shadow-2xs"
+                        : "text-[#717E6E] hover:text-[#172115] font-medium"
+                    )}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -522,6 +607,27 @@ export function OwnerBillingTabView() {
           />
         </div>
       </div>
+
+      {/* 5. Advanced Billing Filter Drawer */}
+      <OwnerBillingFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={billingFilters}
+        onApplyFilters={(filters) => {
+          setBillingFilters(filters);
+          setCurrentPage(1);
+        }}
+        onResetFilters={() => {
+          setBillingFilters({
+            status: "all",
+            period: "all",
+            payoutRange: "all",
+            sortBy: "default",
+          });
+          setCurrentPage(1);
+        }}
+        totalResultsCount={filteredInvoices.length}
+      />
     </div>
   );
 }

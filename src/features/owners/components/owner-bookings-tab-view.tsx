@@ -10,6 +10,7 @@ import {
   Trash2,
   KeyRound,
   Lock,
+  SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ActionDropdown } from "@/components/shared/action-dropdown";
@@ -19,6 +20,7 @@ import { BookingsEmptyStateView } from "@/features/bookings/components/bookings-
 import { OwnerBookingsKPIs } from "./owner-bookings-kpis";
 import { OwnerBookingItem, OwnerBookingsKPIData } from "../types";
 import { defaultOwnerBookings, defaultOwnerBookingsKPIs } from "../data/mock-owner-bookings";
+import { OwnerBookingsFilterDrawer, BookingFilterState } from "./owner-bookings-filter-drawer";
 
 interface OwnerBookingsTabViewProps {
   bookings?: OwnerBookingItem[];
@@ -37,6 +39,24 @@ export function OwnerBookingsTabView({
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 6;
 
+  // Filter Drawer State
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [bookingFilters, setBookingFilters] = useState<BookingFilterState>({
+    source: "all",
+    accessStatus: "all",
+    propertyName: "all",
+    sortBy: "default",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (bookingFilters.source !== "all") count++;
+    if (bookingFilters.accessStatus !== "all") count++;
+    if (bookingFilters.propertyName !== "all") count++;
+    if (bookingFilters.sortBy !== "default") count++;
+    return count;
+  }, [bookingFilters]);
+
   // Modals state for action dropdown
   const [selectedBookingForExtend, setSelectedBookingForExtend] =
     useState<OwnerBookingItem | null>(null);
@@ -54,10 +74,10 @@ export function OwnerBookingsTabView({
     };
   }, [bookings]);
 
-  // Filter bookings based on status tabs and search query
+  // Filter bookings based on status tabs, advanced drawer, and search query
   const filteredBookings = useMemo(() => {
-    return bookings.filter((item) => {
-      // Status filter tab
+    let list = bookings.filter((item) => {
+      // 1. Status filter tab
       if (filterStatus === "active" && item.status !== "active" && item.status !== "checkout_today") {
         return false;
       }
@@ -65,7 +85,22 @@ export function OwnerBookingsTabView({
       if (filterStatus === "completed" && item.status !== "completed") return false;
       if (filterStatus === "cancelled" && item.status !== "cancelled") return false;
 
-      // Search query
+      // 2. Booking Source Filter (from drawer)
+      if (bookingFilters.source !== "all" && item.source !== bookingFilters.source) {
+        return false;
+      }
+
+      // 3. Access Status Filter (from drawer)
+      if (bookingFilters.accessStatus !== "all" && item.accessStatus !== bookingFilters.accessStatus) {
+        return false;
+      }
+
+      // 4. Property Name Filter (from drawer)
+      if (bookingFilters.propertyName !== "all" && !item.propertyName.includes(bookingFilters.propertyName)) {
+        return false;
+      }
+
+      // 5. Search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchesName = item.guestName.toLowerCase().includes(q);
@@ -89,7 +124,18 @@ export function OwnerBookingsTabView({
 
       return true;
     });
-  }, [bookings, filterStatus, searchQuery]);
+
+    // 6. Sorting (from drawer)
+    if (bookingFilters.sortBy === "checkin_desc") {
+      list = [...list].sort((a, b) => b.checkInDate.localeCompare(a.checkInDate));
+    } else if (bookingFilters.sortBy === "checkout_asc") {
+      list = [...list].sort((a, b) => a.checkOutDate.localeCompare(b.checkOutDate));
+    } else if (bookingFilters.sortBy === "code_asc") {
+      list = [...list].sort((a, b) => a.bookingCode.localeCompare(b.bookingCode));
+    }
+
+    return list;
+  }, [bookings, filterStatus, bookingFilters, searchQuery]);
 
   const totalFiltered = filteredBookings.length;
   const totalPages = Math.max(1, Math.ceil(totalFiltered / rowsPerPage));
@@ -132,35 +178,64 @@ export function OwnerBookingsTabView({
           </div>
         </div>
 
-        {/* Left side in RTL: Status Filter Tabs Container */}
-        <div className="bg-[#f6f7f4] p-[4px] rounded-[12px] flex items-center gap-1 overflow-x-auto no-scrollbar w-full md:w-auto">
-          {[
-            { id: "all", label: `الكل (${statusCounts.all})` },
-            { id: "active", label: `الحالية (${statusCounts.active})` },
-            { id: "upcoming", label: `القادمة(${statusCounts.upcoming})` },
-            { id: "completed", label: `المنتهية (${statusCounts.completed})` },
-            { id: "cancelled", label: `الملغاة (${statusCounts.cancelled})` },
-          ].map((tab) => {
-            const isActive = filterStatus === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => {
-                  setFilterStatus(tab.id as any);
-                  setCurrentPage(1);
-                }}
-                className={cn(
-                  "px-4 py-1.5 rounded-[8px] text-[12px] font-semibold transition-all whitespace-nowrap cursor-pointer select-none",
-                  isActive
-                    ? "bg-white text-[#252a24] shadow-xs"
-                    : "text-[#73786f] hover:text-[#252a24]"
-                )}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+        {/* Left side in RTL: Filter Button & Status Filter Tabs Container */}
+        <div className="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+          {/* Advanced Filter Button */}
+          <button
+            type="button"
+            onClick={() => setIsFilterDrawerOpen(true)}
+            className={cn(
+              "h-[35px] px-4 rounded-[12px] text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+              activeFiltersCount > 0
+                ? "bg-[#34432E] text-white shadow-xs"
+                : "bg-[#f6f7f4] hover:bg-[#e5ebd8] text-[#252a24]"
+            )}
+            title="تصفية الحجوزات"
+          >
+            <span>فلتر</span>
+            <SlidersHorizontal
+              className={cn(
+                "w-3.5 h-3.5",
+                activeFiltersCount > 0 ? "text-white" : "text-[#252a24]"
+              )}
+            />
+            {activeFiltersCount > 0 && (
+              <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+
+          {/* Status Filter Tabs Container */}
+          <div className="bg-[#f6f7f4] p-[4px] rounded-[12px] flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {[
+              { id: "all", label: `الكل (${statusCounts.all})` },
+              { id: "active", label: `الحالية (${statusCounts.active})` },
+              { id: "upcoming", label: `القادمة(${statusCounts.upcoming})` },
+              { id: "completed", label: `المنتهية (${statusCounts.completed})` },
+              { id: "cancelled", label: `الملغاة (${statusCounts.cancelled})` },
+            ].map((tab) => {
+              const isActive = filterStatus === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setFilterStatus(tab.id as any);
+                    setCurrentPage(1);
+                  }}
+                  className={cn(
+                    "px-4 py-1.5 rounded-[8px] text-[12px] font-semibold transition-all whitespace-nowrap cursor-pointer select-none",
+                    isActive
+                      ? "bg-white text-[#252a24] shadow-xs"
+                      : "text-[#73786f] hover:text-[#252a24]"
+                  )}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -513,6 +588,27 @@ export function OwnerBookingsTabView({
         onConfirm={() => {
           setSelectedBookingForCancel(null);
         }}
+      />
+
+      {/* 6. Advanced Filter Drawer */}
+      <OwnerBookingsFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={bookingFilters}
+        onApplyFilters={(filters) => {
+          setBookingFilters(filters);
+          setCurrentPage(1);
+        }}
+        onResetFilters={() => {
+          setBookingFilters({
+            source: "all",
+            accessStatus: "all",
+            propertyName: "all",
+            sortBy: "default",
+          });
+          setCurrentPage(1);
+        }}
+        totalResultsCount={filteredBookings.length}
       />
     </div>
   );
