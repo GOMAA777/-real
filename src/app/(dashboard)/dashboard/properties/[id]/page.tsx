@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { PropertyDetailHeader } from "@/features/properties/components/property-detail-header";
 import { PropertyHeroCard } from "@/features/properties/components/property-hero-card";
 import { PropertyArchitecturalSpecs } from "@/features/properties/components/property-architectural-specs";
 import { PropertyLocationCard } from "@/features/properties/components/property-location-card";
@@ -32,7 +33,10 @@ interface PageProps {
 
 export default function PropertyDetailPage({ params }: PageProps) {
   return (
-    <div className="space-y-8 lg:space-y-10 pb-12" dir="rtl">
+    <div className="space-y-6 sm:space-y-8 pb-12" dir="rtl">
+      {/* 0. Top Header: تفاصيل العقار | العودة إلى العقارات */}
+      <PropertyDetailHeader />
+
       {/* Main Content wrapped in Suspense for instant navigation */}
       <Suspense fallback={<PropertyDetailSkeleton />}>
         <PropertyDetailContent params={params} />
