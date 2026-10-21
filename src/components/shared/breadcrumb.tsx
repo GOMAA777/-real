@@ -49,6 +49,9 @@ const SEGMENT_TITLES: Record<
   units: { label: "الوحدات السكنية", icon: Home },
   bookings: { label: "الحجوزات", icon: CalendarDays },
   operations: { label: "العمليات والتشغيل", icon: Wrench },
+  cleaning: { label: "مهام التنظيف", icon: Sparkles },
+  maintenance: { label: "بلاغات الصيانة", icon: Wrench },
+  log: { label: "سجل التشغيل الكامل", icon: History },
   team: { label: "فريق العمل", icon: Users },
   billing: { label: "الاشتراكات والفوترة", icon: Receipt },
   reports: { label: "التقارير والإحصائيات", icon: BarChart3 },
@@ -131,6 +134,7 @@ export function Breadcrumb({
         else if (prevSeg === "bookings") label = "إضافة حجز جديد";
         else if (prevSeg === "owners") label = "إضافة صاحب عقار";
         else if (prevSeg === "units") label = "إضافة وحدة جديدة";
+        else if (prevSeg === "maintenance") label = "إنشاء بلاغ صيانة جديد";
 
         result.push({
           label,
@@ -158,6 +162,14 @@ export function Breadcrumb({
         } else if (prevSeg === "units") {
           label = "تفاصيل الوحدة";
           icon = Home;
+        } else if (prevSeg === "cleaning") {
+          label = `مهمة تنظيف ${seg}`;
+          icon = Sparkles;
+          badge = `#${seg}`;
+        } else if (prevSeg === "maintenance") {
+          label = `بلاغ صيانة ${seg}`;
+          icon = Wrench;
+          badge = `#${seg}`;
         } else if (prevSeg === "guests") {
           label = "خالد العتيبي";
           icon = UserCircle2;
