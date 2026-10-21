@@ -24,7 +24,7 @@ export function OperationsStatusSummary({
   ];
 
   return (
-    <div className="flex justify-center my-1">
+    <div className="flex items-center justify-start my-1" dir="rtl">
       <div className="inline-flex items-center gap-1.5 bg-[#EDF2EC] p-1.5 rounded-full border border-[#E0E7DE]">
         {tabs.map((tab) => {
           const isSelected = currentCategory === tab.id;
