@@ -35,6 +35,7 @@ const isRouteAvailable = (href: string) => {
     "/dashboard/properties",
     "/dashboard/units",
     "/dashboard/bookings",
+    "/dashboard/operations",
     "/dashboard/whatsapp",
   ].includes(href);
 };
