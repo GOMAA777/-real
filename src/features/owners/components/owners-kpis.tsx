@@ -87,7 +87,7 @@ export function OwnersKPIs() {
             className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#D8E8CB] text-[#3D4B36] text-[11px] font-bold select-none"
           >
             <TrendArrowIcon className="w-2.5 h-2.5 shrink-0" />
-            <span>+5.2%</span>
+            <span>+   5.2%</span>
           </div>
         </div>
 

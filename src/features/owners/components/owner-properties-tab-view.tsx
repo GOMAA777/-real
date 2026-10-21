@@ -25,6 +25,50 @@ import { TableDateCell } from "@/components/shared/table-date-cell";
 import { TablePagination } from "@/components/shared/table-pagination";
 import { motion } from "motion/react";
 
+// Exact Figma SVG Vector: Smart Pass / Ticket Icon (viewBox 0 0 10 14.6667)
+function SmartPassIcon({ className = "w-2.5 h-3.5" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 10 14.6667"
+      fill="currentColor"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1.33333 14.6667C0.966667 14.6667 0.652778 14.5361 0.391667 14.275C0.130556 14.0139 0 13.7 0 13.3333V1.33333C0 0.966667 0.130556 0.652778 0.391667 0.391667C0.652778 0.130556 0.966667 0 1.33333 0H8C8.36667 0 8.68056 0.130556 8.94167 0.391667C9.20278 0.652778 9.33333 0.966667 9.33333 1.33333V3.4C9.53333 3.47778 9.69444 3.6 9.81667 3.76667C9.93889 3.93333 10 4.12222 10 4.33333V5.66667C10 5.87778 9.93889 6.06667 9.81667 6.23333C9.69444 6.4 9.53333 6.52222 9.33333 6.6V13.3333C9.33333 13.7 9.20278 14.0139 8.94167 14.275C8.68056 14.5361 8.36667 14.6667 8 14.6667H1.33333V14.6667M1.33333 13.3333H8V1.33333H1.33333V13.3333ZM2.66667 10H6.66667C6.85556 10 7.01389 9.93611 7.14167 9.80833C7.26944 9.68056 7.33333 9.52222 7.33333 9.33333V8C7.14444 8 6.98611 7.93611 6.85833 7.80833C6.73056 7.68056 6.66667 7.52222 6.66667 7.33333C6.66667 7.14444 6.73056 6.98611 6.85833 6.85833C6.98611 6.73056 7.14444 6.66667 7.33333 6.66667V5.33333C7.33333 5.14444 7.26944 4.98611 7.14167 4.85833C7.01389 4.73056 6.85556 4.66667 6.66667 4.66667H2.66667C2.47778 4.66667 2.31944 4.73056 2.19167 4.85833C2.06389 4.98611 2 5.14444 2 5.33333V6.66667C2.18889 6.66667 2.34722 6.73056 2.475 6.85833C2.60278 6.98611 2.66667 7.14444 2.66667 7.33333C2.66667 7.52222 2.60278 7.68056 2.475 7.80833C2.34722 7.93611 2.18889 8 2 8V9.33333C2 9.52222 2.06389 9.68056 2.19167 9.80833C2.31944 9.93611 2.47778 10 2.66667 10ZM4.66667 9C4.57778 9 4.5 8.96667 4.43333 8.9C4.36667 8.83333 4.33333 8.75556 4.33333 8.66667C4.33333 8.57778 4.36667 8.5 4.43333 8.43333C4.5 8.36667 4.57778 8.33333 4.66667 8.33333C4.75556 8.33333 4.83333 8.36667 4.9 8.43333C4.96667 8.5 5 8.57778 5 8.66667C5 8.75556 4.96667 8.83333 4.9 8.9C4.83333 8.96667 4.75556 9 4.66667 9ZM4.66667 7.66667C4.57778 7.66667 4.5 7.63333 4.43333 7.56667C4.36667 7.5 4.33333 7.42222 4.33333 7.33333C4.33333 7.24444 4.36667 7.16667 4.43333 7.1C4.5 7.03333 4.57778 7 4.66667 7C4.75556 7 4.83333 7.03333 4.9 7.1C4.96667 7.16667 5 7.24444 5 7.33333C5 7.42222 4.96667 7.5 4.9 7.56667C4.83333 7.63333 4.75556 7.66667 4.66667 7.66667ZM4.66667 6.33333C4.57778 6.33333 4.5 6.3 4.43333 6.23333C4.36667 6.16667 4.33333 6.08889 4.33333 6C4.33333 5.91111 4.36667 5.83333 4.43333 5.76667C4.5 5.7 4.57778 5.66667 4.66667 5.66667C4.75556 5.66667 4.83333 5.7 4.9 5.76667C4.96667 5.83333 5 5.91111 5 6C5 6.08889 4.96667 6.16667 4.9 6.23333C4.83333 6.3 4.75556 6.33333 4.66667 6.33333Z" />
+    </svg>
+  );
+}
+
+// Exact Figma SVG Vector: Clock Icon (viewBox 0 0 11.6667 11.6667)
+function ClockIcon({ className = "w-3.5 h-3.5 text-[#768071]" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 11.6667 11.6667"
+      fill="currentColor"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M7.75833 8.575L8.575 7.75833L6.41667 5.6V2.91667H5.25V6.06667L7.75833 8.575M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667M5.83333 10.5C7.12639 10.5 8.22743 10.0455 9.13646 9.13646C10.0455 8.22743 10.5 7.12639 10.5 5.83333C10.5 4.54028 10.0455 3.43924 9.13646 2.53021C8.22743 1.62118 7.12639 1.16667 5.83333 1.16667C4.54028 1.16667 3.43924 1.62118 2.53021 2.53021C1.62118 3.43924 1.16667 4.54028 1.16667 5.83333C1.16667 7.12639 1.62118 8.22743 2.53021 9.13646C3.43924 10.0455 4.54028 10.5 5.83333 10.5Z" />
+    </svg>
+  );
+}
+
+// Exact Figma SVG Vector: Horizontal 3 Dots Icon (viewBox 0 0 12 3)
+function ThreeDotsHorizontalIcon({ className = "w-3 h-1 text-[#768071]" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 12 3"
+      fill="currentColor"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="1.5" cy="1.5" r="1.5" />
+      <circle cx="6" cy="1.5" r="1.5" />
+      <circle cx="10.5" cy="1.5" r="1.5" />
+    </svg>
+  );
+}
+
 export interface OwnerPropertyItem {
   id: string;
   name: string;
@@ -48,7 +92,7 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     activeBookingsCount: 10,
     status: "reserved",
     lastUpdated: "16 سبتمبر 2026",
-    relativeTime: "(اليوم)",
+    relativeTime: "منذ ساعتين",
     image: "/properties/nakheel.png",
   },
   {
@@ -60,7 +104,7 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     activeBookingsCount: 10,
     status: "reserved",
     lastUpdated: "16 سبتمبر 2026",
-    relativeTime: "(اليوم)",
+    relativeTime: "منذ ساعتين",
     image: "/properties/oasis.png",
   },
   {
@@ -72,7 +116,7 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     activeBookingsCount: 10,
     status: "available",
     lastUpdated: "16 سبتمبر 2026",
-    relativeTime: "(اليوم)",
+    relativeTime: "منذ ساعتين",
     image: "/properties/aqeeq.png",
   },
   {
@@ -84,7 +128,7 @@ const defaultOwnerProperties: OwnerPropertyItem[] = [
     activeBookingsCount: 10,
     status: "reserved",
     lastUpdated: "16 سبتمبر 2026",
-    relativeTime: "(اليوم)",
+    relativeTime: "منذ ساعتين",
     image: "/properties/nakheel.png",
   },
 ];
@@ -356,68 +400,73 @@ export function OwnerPropertiesTabView({
 
                     {/* 2. المدينة */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-xs sm:text-sm font-medium text-[#172115]">
+                      <span className="text-xs sm:text-[13px] font-medium text-[#252A24]">
                         {property.city}
                       </span>
                     </td>
 
                     {/* 3. عدد الوحدات */}
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-xs sm:text-sm font-medium text-[#172115]">
+                      <span className="text-xs sm:text-[13px] font-medium text-[#555C50]">
                         {property.unitsCount} وحدة
                       </span>
                     </td>
 
-                    {/* 4. الحجوزات الحالية */}
+                    {/* 4. الحجوزات الحالية (Figma node 1:2361 & Screenshot) */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <div className="inline-flex items-center gap-2 bg-[#EBEFE6] rounded-xl px-3 py-1.5 select-none">
-                        {/* Dot indicator (right side in RTL) */}
-                        <span className="w-1.5 h-2.5 rounded-full bg-[#4B5940] shrink-0" />
-                        <div className="flex flex-col text-right leading-tight">
-                          <span className="font-bold text-xs text-[#181D17]">
-                            {property.activeBookingsCount} حجوزات
-                          </span>
-                          <span className="font-bold text-[11px] text-[#181D17]">
-                            نشطة
-                          </span>
+                      <div className="inline-flex flex-col items-center justify-center bg-[#F2F5F0] rounded-[14px] px-3.5 py-1.5 select-none text-[#34422A] min-w-[76px]">
+                        <span className="font-bold text-xs leading-tight">
+                          {property.activeBookingsCount}
+                        </span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <SmartPassIcon className="w-2.5 h-3.5 shrink-0 text-[#34422A]" />
+                          <div className="flex flex-col text-right leading-[13px] text-[11px] font-bold">
+                            <span>حجوزات</span>
+                            <span>نشطة</span>
+                          </div>
                         </div>
                       </div>
                     </td>
 
-                    {/* 5. الحالة */}
+                    {/* 5. الحالة (Figma node 1:2372 & Screenshot) */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
                       {property.status === "reserved" ? (
-                        <span className="inline-flex items-center gap-1.5 bg-[#EBF5FB] border border-[#D4E6F1] text-[#2980B9] text-xs font-semibold px-3 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#3498DB]" />
+                        <span className="inline-flex items-center gap-1.5 bg-[#E3F2FD] border border-[#BBDEFB]/60 text-[#1976D2] text-xs font-semibold px-3 py-1 rounded-full select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#1976D2] shrink-0" />
                           <span>محجوزة</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 bg-[#EAF5EA] border border-[#C8E6C9] text-[#2E7D32] text-xs font-semibold px-3 py-1 rounded-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
+                        <span className="inline-flex items-center gap-1.5 bg-[#E8F5E9] border border-[#C8E6C9]/60 text-[#2E7D32] text-xs font-semibold px-3 py-1 rounded-full select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32] shrink-0" />
                           <span>متاحة</span>
                         </span>
                       )}
                     </td>
 
-                    {/* 6. اخر تحديث */}
+                    {/* 6. اخر تحديث (Figma node 1:2366 & Screenshot) */}
                     <td className="px-4 py-4 whitespace-nowrap text-center">
-                      <TableDateCell
-                        date={property.lastUpdated}
-                        relativeTime={property.relativeTime}
-                      />
+                      <div className="inline-flex items-center gap-1.5 text-[#768071] select-none">
+                        <ClockIcon className="w-3.5 h-3.5 shrink-0 text-[#768071]" />
+                        <div className="flex flex-col text-right leading-tight text-xs font-normal">
+                          <span>منذ</span>
+                          <span>ساعتين</span>
+                        </div>
+                      </div>
                     </td>
 
-                    {/* 7. الاجراءات */}
+                    {/* 7. الاجراءات (Figma node 1:2375 & Screenshot) */}
                     <td className="px-5 py-4 whitespace-nowrap text-center">
                       <div className="flex items-center justify-center gap-2">
                         <Link
                           href={`/dashboard/properties/${property.id}`}
-                          className="bg-[#F6F8F4] hover:bg-[#EEF2E6] text-[#172115] border border-[#E2E6DC] rounded-xl px-3.5 py-1.5 text-xs font-bold transition-colors cursor-pointer inline-block"
+                          className="bg-[#F2F5F0] hover:bg-[#EAEFE6] text-[#1E251B] rounded-xl px-3 py-1.5 text-center font-bold text-xs leading-tight transition-colors cursor-pointer inline-flex flex-col items-center justify-center select-none"
                         >
-                          عرض العقار
+                          <span>عرض</span>
+                          <span>العقار</span>
                         </Link>
                         <ActionDropdown
-                          triggerIcon="horizontal"
+                          triggerIcon={<ThreeDotsHorizontalIcon className="w-3 h-1 text-[#768071]" />}
+                          triggerClassName="w-7 h-7 rounded-lg hover:bg-[#F2F5F0] text-[#768071] inline-flex items-center justify-center transition-all cursor-pointer select-none"
                           items={[
                             {
                               label: "تفاصيل العقار",
