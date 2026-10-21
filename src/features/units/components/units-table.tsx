@@ -229,30 +229,30 @@ export function UnitsTable() {
     switch (status) {
       case "available":
         return (
-          <span className="bg-[#D8E8CB] text-[#172115] text-[12px] font-semibold leading-[16.5px] px-[14px] py-[4.5px] rounded-full inline-flex items-center justify-center gap-1.5 select-none">
-            <span className="w-[7px] h-[7px] rounded-full bg-[#172115] shrink-0" />
+          <span className="bg-[#EBF3E5] text-[#35432E] text-[11px] font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 select-none w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#35432E] shrink-0" />
             <span>متاحة</span>
           </span>
         );
       case "occupied":
         return (
-          <span className="bg-[#E5EAE0] text-[#34422A] text-[12px] font-semibold leading-[16.5px] px-[14px] py-[4.5px] rounded-full inline-flex items-center justify-center gap-1.5 select-none">
-            <span className="w-[7px] h-[7px] rounded-full bg-[#34422A] shrink-0" />
+          <span className="bg-[#EBECEA] text-[#34422A] text-[11px] font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 select-none w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#34422A] shrink-0" />
             <span>مشغولة</span>
           </span>
         );
       case "cleaning":
         return (
-          <span className="bg-[#D8E8CB] text-[#34422A] text-[12px] font-semibold leading-[16.5px] px-[13px] py-[5px] rounded-full max-w-[87px] inline-flex items-center justify-center gap-1.5 select-none">
-            <span className="w-[7px] h-[7px] rounded-full bg-[#34422A] shrink-0" />
-            <span className="w-[47px] text-center">تحت التنظيف</span>
+          <span className="bg-[#D8E8CB] text-[#34422A] text-[11px] font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 select-none w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#34422A] shrink-0" />
+            <span>تحت التنظيف</span>
           </span>
         );
       case "maintenance":
         return (
-          <span className="bg-[#FFDAD6] text-[#93000A] text-[12px] font-semibold leading-[16.5px] px-[13px] py-[5px] rounded-full max-w-[87px] inline-flex items-center justify-center gap-1.5 select-none">
-            <span className="w-[7px] h-[7px] rounded-full bg-[#BA1A1A] shrink-0" />
-            <span className="w-[47px] text-center">تحت الصيانة</span>
+          <span className="bg-[#FFDAD6] text-[#93000A] text-[11px] font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1.5 select-none w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#BA1A1A] shrink-0" />
+            <span>تحت الصيانة</span>
           </span>
         );
     }
@@ -262,41 +262,34 @@ export function UnitsTable() {
   const renderUnitIcon = (unit: Unit) => {
     if (unit.iconType === "maintenance") {
       return (
-        <div className="w-[34px] h-10 rounded-[14px] bg-[#FFE9E6] text-[#BA1A1A] flex items-center justify-center shrink-0">
-          <UnitMaintenanceIcon className="w-[19px] h-[19px]" />
+        <div className="w-8 h-8 rounded-xl bg-[#FFE9E6] text-[#BA1A1A] flex items-center justify-center shrink-0">
+          <UnitMaintenanceIcon className="w-4 h-4" />
         </div>
       );
     }
     if (unit.iconType === "cleaning") {
       return (
-        <div className="w-[34px] h-10 rounded-[14px] bg-[#E0EDD5] text-[#5A6952] flex items-center justify-center shrink-0">
-          <BrushCleaning className="w-[21px] h-[21px]" strokeWidth={1.9} />
+        <div className="w-8 h-8 rounded-xl bg-[#E0EDD5] text-[#5A6952] flex items-center justify-center shrink-0">
+          <BrushCleaning className="w-4 h-4" strokeWidth={1.9} />
         </div>
       );
     }
     if (unit.iconType === "suite") {
       return (
-        <div className="w-[34px] h-10 rounded-[14px] bg-[#EBECEA] text-[#34422A] flex items-center justify-center shrink-0">
-          <Star className="w-5 h-5" strokeWidth={1.8} />
-        </div>
-      );
-    }
-    if (unit.status === "available") {
-      return (
-        <div className="w-[34px] h-10 rounded-[14px] bg-[#EBF3E5] text-[#54624C] flex items-center justify-center shrink-0">
-          <UnitDoorIcon className="relative translate-x-px w-5 h-5" />
+        <div className="w-8 h-8 rounded-xl bg-[#EBECEA] text-[#34422A] flex items-center justify-center shrink-0">
+          <Star className="w-4 h-4" strokeWidth={1.8} />
         </div>
       );
     }
     return (
-      <div className="w-[34px] h-10 rounded-[14px] bg-[#EBECEA] text-[#34422A] flex items-center justify-center shrink-0">
-        <UnitDoorIcon className="relative translate-x-px w-5 h-5" />
+      <div className="w-8 h-8 rounded-xl bg-[#EBF3E5] text-[#54624C] flex items-center justify-center shrink-0">
+        <UnitDoorIcon className="w-4 h-4" />
       </div>
     );
   };
 
   return (
-    <div className="space-y-[19px]">
+    <div className="space-y-4">
       {/* 1. Search & Filter Bar */}
       <UnitsFilters
         currentFilter={tabFilter}
@@ -309,60 +302,24 @@ export function UnitsTable() {
       />
 
       {/* 2. Units Table Card */}
-      <div className="bg-white rounded-[16px] overflow-hidden shadow-[0_1px_2px_rgba(24,29,23,0.04)]">
+      <div className="bg-white rounded-3xl border border-[#E2E6DC] overflow-hidden shadow-2xs">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] table-fixed text-start border-collapse">
-            <colgroup>
-              <col style={{ width: "13.163%" }} />
-              <col style={{ width: "12.689%" }} />
-              <col style={{ width: "13.163%" }} />
-              <col style={{ width: "8.049%" }} />
-              <col style={{ width: "5.871%" }} />
-              <col style={{ width: "8.996%" }} />
-              <col style={{ width: "11.648%" }} />
-              <col style={{ width: "11.269%" }} />
-              <col style={{ width: "8.333%" }} />
-              <col style={{ width: "6.818%" }} />
-            </colgroup>
+          <table className="w-full text-start text-xs border-collapse">
             <thead>
-              <tr className="bg-[#F9FAF8] border-b border-[#EBEFE6]">
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  الوحدة
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  العقار
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  المالك
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  النوع
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  الدور
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  السعر /
-                  <br />
-                  ليلة
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  الحالة
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  الحجز الحالي
-                </th>
-                <th className="h-[75px] px-3 text-start align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  آخر
-                  <br />
-                  تحديث
-                </th>
-                <th className="h-[75px] px-2 text-center align-middle text-[15px] font-medium leading-[20px] text-[#75786F] whitespace-nowrap">
-                  الإجراءات
-                </th>
+              <tr className="border-b border-[#EEF2E6] text-[#7D8A78] text-[11px] font-semibold bg-[#FAFCF8]/60">
+                <th className="py-3.5 px-4 text-start">الوحدة</th>
+                <th className="py-3.5 px-4 text-start">العقار</th>
+                <th className="py-3.5 px-4 text-start">المالك</th>
+                <th className="py-3.5 px-4 text-start">النوع</th>
+                <th className="py-3.5 px-4 text-center">الدور</th>
+                <th className="py-3.5 px-4 text-start">السعر / ليلة</th>
+                <th className="py-3.5 px-4 text-start">الحالة</th>
+                <th className="py-3.5 px-4 text-start">الحجز الحالي</th>
+                <th className="py-3.5 px-4 text-center">آخر تحديث</th>
+                <th className="py-3.5 px-4 text-center">الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#EBEFE6]">
+            <tbody className="divide-y divide-[#EEF2E6]">
               {paginatedUnits.length === 0 ? (
                 <tr>
                   <td colSpan={10} className="p-4 sm:p-8">
@@ -386,20 +343,20 @@ export function UnitsTable() {
                 paginatedUnits.map((unit) => (
                   <tr
                     key={unit.id}
-                    className="h-[120px] hover:bg-[#FBFCF9] transition-colors group"
+                    className="hover:bg-[#F9FAF7] transition-colors group"
                   >
                     {/* 1. الوحدة */}
-                    <td className="h-[120px] pe-3.5 ps-[13px] align-middle">
+                    <td className="py-3 px-4 text-start">
                       <Link
                         href={`/dashboard/units/${unit.id}`}
-                        className="flex items-center gap-3 group/link hover:opacity-90 transition-opacity"
+                        className="flex items-center gap-2.5 group/link hover:opacity-90 transition-opacity"
                       >
                         {renderUnitIcon(unit)}
                         <div className="min-w-0 flex-1 text-start">
-                          <div className="text-[20px] font-bold leading-[22px] text-[#181D17] group-hover/link:text-[#34422A] group-hover/link:underline">
+                          <div className="text-[14px] font-bold text-[#181D17] group-hover/link:text-[#34422A] group-hover/link:underline">
                             {unit.unitNumber}
                           </div>
-                          <div className="text-[12px] leading-[18px] text-[#75786F] mt-0.5 max-w-[46px]">
+                          <div className="text-[11px] text-[#75786F]">
                             {unit.floor}
                           </div>
                         </div>
@@ -407,104 +364,83 @@ export function UnitsTable() {
                     </td>
 
                     {/* 2. العقار */}
-                    <td className="h-[120px] pe-3.5 ps-[15px] align-middle">
+                    <td className="py-3 px-4 text-start">
                       <div className="flex items-center gap-1.5">
-                        <UnitPropertyIcon className="w-[21px] h-[18px] shrink-0 text-[#75786F]" />
-                        <span className="block text-[14px] font-bold leading-[24px] text-[#181D17] w-[62px]">
+                        <UnitPropertyIcon className="w-4 h-4 shrink-0 text-[#75786F]" />
+                        <span className="text-xs font-bold text-[#181D17]">
                           {unit.propertyName}
                         </span>
                       </div>
                     </td>
 
                     {/* 3. المالك */}
-                    <td className="h-[120px] pe-3.5 ps-3 align-middle">
-                      <div className="flex items-center gap-0">
-                        <div className="w-[33px] h-[33px] rounded-full bg-[#D8E8CB] text-[#5A6952] text-[12px] font-bold flex items-center justify-center shrink-0">
+                    <td className="py-3 px-4 text-start">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-[#D8E8CB] text-[#34422A] text-[11px] font-bold flex items-center justify-center shrink-0">
                           {unit.ownerInitials}
                         </div>
-                        <span className="block text-[14px] font-bold leading-[25px] text-[#181D17] w-[58px]">
+                        <span className="text-xs font-bold text-[#181D17]">
                           {unit.ownerName}
                         </span>
                       </div>
                     </td>
 
                     {/* 4. النوع */}
-                    <td className="h-[120px] pe-3.5 ps-3 align-middle text-[15px] font-medium leading-[20px] text-[#454840]">
+                    <td className="py-3 px-4 text-start text-xs font-medium text-[#454840]">
                       {unit.type}
                     </td>
 
                     {/* 5. الدور */}
-                    <td className="h-[120px] pe-3.5 ps-[13px] align-middle">
-                      <div className="w-[30px] h-[31px] rounded-[8px] bg-[#EBEFE6] text-[#181D17] font-bold text-[13px] flex items-center justify-center">
+                    <td className="py-3 px-4 text-center">
+                      <div className="w-6 h-6 rounded-[6px] bg-[#EBEFE6] text-[#181D17] font-bold text-[11px] inline-flex items-center justify-center">
                         {unit.floorNumber}
                       </div>
                     </td>
 
                     {/* 6. السعر / ليلة */}
-                    <td className="h-[120px] pe-3.5 ps-3 align-middle">
-                      <div className="relative top-px whitespace-nowrap leading-[20px]">
-                        <span className="font-bold text-[20px] text-[#181D17]">
-                          {unit.pricePerNight}
-                        </span>{" "}
-                        <span className="text-[13px] font-medium text-[#75786F]">
-                          ر.س
-                        </span>
-                      </div>
+                    <td className="py-3 px-4 text-start">
+                      <span className="font-bold text-[14px] text-[#181D17]">
+                        {unit.pricePerNight}
+                      </span>{" "}
+                      <span className="text-[10.5px] font-medium text-[#75786F]">
+                        ر.س
+                      </span>
                     </td>
 
                     {/* 7. الحالة */}
-                    <td className="h-[120px] pe-3.5 ps-3 align-middle">
+                    <td className="py-3 px-4 text-start">
                       {renderStatusBadge(unit.status)}
                     </td>
 
                     {/* 8. الحجز الحالي */}
-                    <td className="h-[120px] pe-3.5 ps-3 align-middle">
+                    <td className="py-3 px-4 text-start">
                       {unit.currentBookingCode ? (
                         <div
-                          onClick={() =>
-                            toast.info(`الحجز رقم: ${unit.currentBookingCode}`)
-                          }
-                          className="w-[80px] h-12 rounded-[12px] bg-[#EBEFE6] text-[#34422A] flex items-center justify-start ps-[10px] gap-1.5 cursor-pointer select-none"
+                          onClick={() => toast.info(`الحجز رقم: ${unit.currentBookingCode}`)}
+                          className="h-7 px-2.5 rounded-[8px] bg-[#EBEFE6] text-[#34422A] flex items-center gap-1.5 cursor-pointer select-none w-fit"
                         >
-                          <BookingLinkIcon className="w-[13px] h-[13px] text-[#55694D] shrink-0" />
-                          <span className="w-[40px] text-[13px] font-bold leading-[20px] break-words">
-                            {unit.currentBookingCode
-                              .split("-")
-                              .map((part, index) => (
-                                <span key={`${part}-${index}`}>
-                                  {index > 0 && <br />}
-                                  {part}
-                                  {index === 0 ? "-" : ""}
-                                </span>
-                              ))}
+                          <BookingLinkIcon className="w-3 h-3 text-[#55694D] shrink-0" />
+                          <span className="text-[11px] font-bold">
+                            {unit.currentBookingCode}
                           </span>
                         </div>
                       ) : (
-                        <div className="w-10 text-center text-[14px] font-bold text-[#75786F]">
-                          —
-                        </div>
+                        <span className="text-xs font-bold text-[#75786F] ps-2">—</span>
                       )}
                     </td>
 
                     {/* 9. آخر تحديث */}
-                    <td className="h-[120px] pe-3.5 ps-[13px] align-middle">
-                      <div className="w-[39px] text-center">
-                        {unit.lastUpdateDate.split(" ").map((part) => (
-                          <div
-                            key={part}
-                            className="text-[13px] font-bold leading-[22px] text-[#181D17]"
-                          >
-                            {part}
-                          </div>
-                        ))}
-                        <div className="text-[12px] leading-[16px] text-[#75786F] whitespace-nowrap">
-                          {unit.lastUpdateTime}
-                        </div>
+                    <td className="py-3 px-4 text-center">
+                      <div className="text-[11px] font-bold text-[#181D17]">
+                        {unit.lastUpdateDate}
+                      </div>
+                      <div className="text-[10px] text-[#75786F]">
+                        {unit.lastUpdateTime}
                       </div>
                     </td>
 
                     {/* 10. الإجراءات */}
-                    <td className="h-[120px] px-2 text-center align-middle">
+                    <td className="py-3 px-4 text-center">
                       <UnitActionDropdown unit={unit} />
                     </td>
                   </tr>

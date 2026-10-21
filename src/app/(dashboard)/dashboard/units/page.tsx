@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function UnitsPage() {
   return (
-    <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] p-4 sm:p-6 lg:px-6 lg:pt-2 lg:pb-6 space-y-[15px]">
+    <div className="space-y-6">
       {/* 1. Header Card */}
       <UnitsHeader />
 

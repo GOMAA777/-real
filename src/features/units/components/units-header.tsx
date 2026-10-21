@@ -16,27 +16,26 @@ export function UnitsHeader() {
   };
 
   return (
-    <div className="bg-white rounded-[16px] px-5 py-5 md:h-[112px] md:py-0 flex flex-col md:flex-row md:items-start justify-between gap-4 shadow-[0_1px_2px_rgba(24,29,23,0.04)]">
+    <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
       {/* Title & Description (Right side in RTL) */}
-      <div className="md:pt-4 md:ms-2">
-        <h1 className="relative -top-1 text-[27px] leading-[42px] font-bold text-[#181D17]">
+      <div className="text-start">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#181D17] tracking-tight">
           الوحدات
         </h1>
-        <p className="text-[15.5px] leading-[22px] text-[#454840] mt-1">
-          إدارة ومتابعة جميع الوحدات المسجلة على المنصة وحالات الإشغال والتشغيل
-          في الوقت الفعلي.
+        <p className="text-xs sm:text-sm text-[#454840] mt-1 font-medium">
+          إدارة ومتابعة جميع الوحدات المسجلة على المنصة وحالات الإشغال والتشغيل في الوقت الفعلي.
         </p>
       </div>
 
       {/* Action Buttons (Left side in RTL) */}
-      <div className="flex items-center gap-2 flex-wrap md:pt-[30px]">
+      <div className="flex items-center gap-3 self-start md:self-auto shrink-0 flex-wrap">
         {/* Export List Button */}
         <button
           type="button"
           onClick={handleExport}
-          className="h-12 w-[229px] bg-white hover:bg-[#FBFCFA] text-[#181D17] ps-[15px] pe-0 rounded-[12px] text-[15px] tracking-[0.01em] font-semibold flex items-center justify-start gap-2 shadow-[0_1px_3px_rgba(24,29,23,0.08)] transition-colors cursor-pointer"
+          className="h-11 px-4 sm:px-5 bg-white hover:bg-[#F9FAF7] border border-[#D5DDD0] text-[#181D17] rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2 shadow-2xs transition-colors cursor-pointer select-none"
         >
-          <Download className="w-[18px] h-[18px]" strokeWidth={1.8} />
+          <Download className="w-4 h-4 text-[#181D17]" />
           <span>تصدير القائمة (CSV / Excel)</span>
         </button>
 
@@ -44,9 +43,9 @@ export function UnitsHeader() {
         <button
           type="button"
           onClick={handleAddUnit}
-          className="h-12 bg-[#4B5940] hover:bg-[#414E37] text-white px-[28px] rounded-[12px] text-sm font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+          className="h-11 px-5 sm:px-6 bg-[#4B5940] hover:bg-[#3D4C35] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer select-none"
         >
-          <Plus className="w-[18px] h-[18px]" strokeWidth={2} />
+          <Plus className="w-4 h-4" />
           <span>إضافة وحدة</span>
         </button>
       </div>
