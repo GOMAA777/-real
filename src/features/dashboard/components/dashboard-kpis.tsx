@@ -1,39 +1,10 @@
-import {
-  Building2,
-  KeyRound,
-  CalendarCheck,
-  ArrowUp,
-} from "lucide-react";
-
-function HandHouseIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      {/* House */}
-      <path d="M12 2.5 5 8v6h14V8l-7-5.5z" />
-      <path d="M10 14v-4h4v4" />
-      {/* Hand beneath house */}
-      <path d="M2 16h4.5a2 2 0 0 1 1.6.8l1.3 1.7a2 2 0 0 0 1.6.8H19a2 2 0 0 0 2-2v-.5" />
-      <path d="M2 19h12a2 2 0 0 0 1.6-.8l1-1.4" />
-    </svg>
-  );
-}
-
 interface KPICardItem {
   id: string;
   title: string;
   value: string;
   trend: string;
   subtitle: string;
-  icon: React.ComponentType<{ className?: string }>;
-  iconBg: string;
+  iconSrc: string;
 }
 
 const cardsData: KPICardItem[] = [
@@ -43,8 +14,7 @@ const cardsData: KPICardItem[] = [
     value: "248",
     trend: "+5.2%",
     subtitle: "12 تسجيل جديد هذا الشهر",
-    icon: HandHouseIcon,
-    iconBg: "bg-[#4B5940]", // Primary Olive Green
+    iconSrc: "/assets/dashboard/337e2e34b2b1394d375cb029602e65aaa6a160b4.svg",
   },
   {
     id: "properties",
@@ -52,8 +22,7 @@ const cardsData: KPICardItem[] = [
     value: "386",
     trend: "+3.8%",
     subtitle: "العقارات النشطة على المنصة",
-    icon: Building2,
-    iconBg: "bg-[#7C694E]", // Secondary Warm Brown
+    iconSrc: "/assets/dashboard/fa2a7fc1dc510af5ec4dcc5250fafd3abcb48561.svg",
   },
   {
     id: "units",
@@ -61,8 +30,7 @@ const cardsData: KPICardItem[] = [
     value: "4,820",
     trend: "+8.1%",
     subtitle: "وحدة سكنية وتجارية مسجلة",
-    icon: KeyRound,
-    iconBg: "bg-[#303A2C]", // Tertiary Forest Olive
+    iconSrc: "/assets/dashboard/693abee83aab9bd9f7d233671b9be175f76c08f9.svg",
   },
   {
     id: "bookings",
@@ -70,8 +38,7 @@ const cardsData: KPICardItem[] = [
     value: "12,640",
     trend: "+12.4%",
     subtitle: "إجمالي الحجوزات هذا الشهر",
-    icon: CalendarCheck,
-    iconBg: "bg-[#4B5940]", // Primary Olive Green
+    iconSrc: "/assets/dashboard/d67c673b68fa4633b1c6504de5d4cd8f204f7ddd.svg",
   },
 ];
 
@@ -79,39 +46,48 @@ export function DashboardKPIs() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 font-cairo">
       {cardsData.map((card) => {
-        const Icon = card.icon;
         return (
           <div
             key={card.id}
-            className="p-5 sm:p-6 rounded-3xl bg-white border border-[#DCE2D7] shadow-xs flex flex-col justify-between hover:border-[#4B5940]/40 transition-all min-h-[165px]"
+            className="p-5 sm:p-6 rounded-3xl bg-white border border-[#DCE2D7] shadow-xs flex flex-col justify-between hover:border-[#4B5940]/40 transition-all min-h-[170px]"
           >
-            {/* Top Row: Title on Right (in RTL) & Solid Icon Badge on Left */}
+            {/* Top Row: Title on Right (in RTL) & Light Olive Icon Badge on Left */}
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs sm:text-[13px] font-medium text-[#687163] select-none">
+              <span className="text-xs sm:text-[13px] font-semibold text-[#75786F] select-none">
                 {card.title}
               </span>
 
-              {/* Solid Icon Badge with White Icon (Signature Style from Design System) */}
-              <div
-                className={`w-11 h-11 rounded-2xl ${card.iconBg} text-white flex items-center justify-center shrink-0 shadow-xs`}
-              >
-                <Icon className="w-5 h-5 text-white" />
+              {/* Light Olive Icon Container with Dark Olive Vector Icon */}
+              <div className="w-12 h-12 rounded-2xl bg-[#EBF0E6] flex items-center justify-center shrink-0 border border-[#DCE2D7]/40 shadow-2xs">
+                <img
+                  src={card.iconSrc}
+                  alt={card.title}
+                  className="w-5 h-5 object-contain"
+                />
               </div>
             </div>
 
             {/* Middle Row: Large Value & Percentage Growth Badge */}
             <div className="my-2.5 flex items-center gap-2.5">
-              <span className="text-3xl sm:text-4xl font-extrabold text-[#252A24] tracking-tight font-inter">
+              <span className="text-3xl sm:text-[34px] font-bold text-[#181D17] tracking-tight font-cairo">
                 {card.value}
               </span>
-              <div className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#EBF0E6] text-[#4B5940] text-xs font-semibold font-inter select-none">
-                <ArrowUp className="w-3 h-3 stroke-[2.5]" />
+              {/* Trend Badge rendered in LTR so arrow is on the left: ↑ +12.4% */}
+              <div
+                dir="ltr"
+                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#D8E8CB] text-[#3D4B36] text-[11px] font-bold select-none"
+              >
+                <img
+                  src="/assets/dashboard/7d3af3c85e660cdbe9356013154a7b7e83b7a454.svg"
+                  alt=""
+                  className="w-2.5 h-2.5 shrink-0"
+                />
                 <span>{card.trend}</span>
               </div>
             </div>
 
             {/* Bottom Row: Micro Context / Subtitle */}
-            <div className="text-xs text-[#687163] leading-relaxed select-none max-w-[210px]">
+            <div className="text-xs sm:text-[13px] text-[#75786F] leading-relaxed select-none">
               {card.subtitle}
             </div>
           </div>
