@@ -41,6 +41,8 @@ export interface OwnerBookingItem {
   id: string;
   guestName: string;
   guestInitials: string;
+  avatarBg?: string;
+  avatarColor?: string;
   bookingCode: string;
   phone: string;
   propertyName: string;
@@ -49,23 +51,28 @@ export interface OwnerBookingItem {
   unitType?: string;
   unitDescription?: string;
   unitHighlightColor?: string;
+  isUnitNoteWarning?: boolean;
   source: string;
   sourceId?: string;
   checkInDate: string;
   checkInTime?: string;
   checkInBadge?: string;
   checkInIsToday?: boolean;
+  checkInNote?: string;
   checkInSubtext?: string;
   checkOutDate: string;
   checkOutTime?: string;
   checkOutBadge?: string;
   checkOutIsToday?: boolean;
+  checkOutNote?: string;
   checkOutSubtext?: string;
   amount?: string;
   paymentStatus?: string;
   status: BookingStatus;
+  statusLabel?: string;
   statusText?: string;
   accessCode?: string;
+  accessCodeDevice?: string;
   accessDevice?: string;
   accessStatus?: "connected" | "pending" | "expiring" | "disabled";
 }
