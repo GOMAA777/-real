@@ -3,16 +3,17 @@
 import { useState } from "react";
 import {
   X,
-  CalendarPlus,
+  CalendarDays,
   Calendar,
   Clock,
   User,
-  Key,
-  CheckCircle2,
-  Building,
+  KeyRound,
+  Check,
+  Building2,
+  Percent,
   CreditCard,
-  ShieldCheck,
-  RotateCcw,
+  Lock,
+  CalendarCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -53,238 +54,284 @@ export function ExtendStayModal({
       {/* Backdrop */}
       <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Modal Dialog Card */}
-      <div className="relative bg-white rounded-[24px] sm:rounded-[28px] max-w-xl w-full shadow-2xl border border-[#E2E6DC] text-right z-10 max-h-[96vh] flex flex-col overflow-hidden">
-        {/* Close Button (Top Left in RTL) */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-3.5 end-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F2F5EF] hover:bg-[#E5ECE0] text-[#556650] hover:text-[#172115] flex items-center justify-center transition-colors cursor-pointer z-20"
-          aria-label="إغلاق النافذة"
-        >
-          <X className="w-4 h-4" />
-        </button>
+      {/* Modal Dialog Card (Matching Figma node 1:9743 exactly) */}
+      <div className="relative bg-white rounded-[16px] max-w-[620px] w-full shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] text-right z-10 max-h-[94vh] flex flex-col overflow-hidden">
+        
+        {/* Top Accent Ribbon (Figma node 1:9744) */}
+        <div className="h-[6px] w-full bg-[#34422A] shrink-0" />
 
-        {/* Scrollable Body (Only scrolls if strictly necessary on small screens, styled sleekly) */}
-        <div className="p-3.5 sm:p-5 space-y-2 sm:space-y-2.5 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#D5DDD0_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#D5DDD0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
-          {/* Modal Header */}
-          <div className="flex items-center gap-2.5 pe-10 sm:pe-12">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#EFF4EA] text-[#34432E] flex items-center justify-center shrink-0 shadow-3xs border border-[#DEE7D7]">
-              <CalendarPlus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+        {/* 1. MODAL HEADER (Figma node 1:9745) */}
+        <div className="bg-white flex items-start justify-between px-6 pt-5 pb-3.5 shrink-0">
+          {/* Right in RTL: Icon + Title & Subtitle */}
+          <div className="flex items-start gap-3.5">
+            {/* Header Icon Chip (node 1:9760) */}
+            <div className="w-11 h-11 rounded-[12px] bg-[#F1F5EB] flex items-center justify-center shrink-0 text-[#34422A]">
+              <CalendarDays className="w-5 h-5 stroke-[2.2]" />
             </div>
+
             <div className="space-y-0.5">
-              <h2 className="text-lg sm:text-xl font-black text-[#172115] tracking-tight">
+              <h2 className="text-[20px] font-bold font-cairo text-[#181D17] leading-[30px] tracking-tight">
                 تمديد الإقامة
               </h2>
-              <p className="text-[11px] sm:text-xs text-[#7A8875] font-medium">
-                حجز {bookingCode} ▪ الوحدة 204 — عمارة النخيل (الرياض)
-              </p>
+              <div className="flex items-center gap-1.5 text-[13px] leading-[22px]">
+                <span className="text-[#34422A] font-semibold">
+                  حجز {bookingCode}
+                </span>
+                <span className="text-[#454840]">•</span>
+                <span className="text-[#454840]">
+                  الوحدة 204 — عمارة النخيل (الرياض)
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Guest & Key Code Banner */}
-          <div className="bg-[#F4F7F1] rounded-xl py-1.5 px-3 flex items-center justify-between border border-[#E5EDE0]">
+          {/* Left in RTL: Close Button (node 1:9746) */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-[#75786F] hover:text-[#181D17] transition-colors cursor-pointer shrink-0 p-1 mt-1"
+            aria-label="إغلاق النافذة"
+          >
+            <X className="w-5 h-5 stroke-[2]" />
+          </button>
+        </div>
+
+        {/* 2. SCROLLABLE MODAL BODY CONTENT (Figma node 1:9763) */}
+        <div className="px-6 py-2 space-y-3.5 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:#D5DDD0_transparent] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#D5DDD0] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+          
+          {/* Section A: Guest & Unit Snapshot Strip (node 1:9764) */}
+          <div className="bg-[#F1F5EB] rounded-[12px] p-3.5 px-4 flex items-center justify-between">
+            {/* Right: Guest Name & Badge */}
             <div className="flex items-center gap-2">
-              <User className="w-3.5 h-3.5 text-[#3D4C35]" />
-              <span className="font-bold text-xs sm:text-sm text-[#172115]">
+              <User className="w-3.5 h-3.5 text-[#34422A]" />
+              <span className="text-[14px] font-semibold font-cairo text-[#181D17]">
                 خالد بن صالح العتيبي
               </span>
-              <span className="px-1.5 py-0.5 rounded-md bg-[#E5EDE0] text-[#556550] text-[10px] sm:text-[11px] font-bold">
+              <span className="bg-[#EBEFE6] text-[#454840] text-[12px] px-2 py-0.5 rounded-full font-normal">
                 نزيل أساسي
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 font-mono text-[11px] sm:text-xs font-bold text-[#3D4C35]">
-              <Key className="w-3.5 h-3.5" />
-              <span>كود الدخول: #8429</span>
+            {/* Left: Key Code */}
+            <div className="flex items-center gap-1.5 text-[14px]">
+              <KeyRound className="w-3.5 h-3.5 text-[#34422A]" />
+              <span className="text-[#454840]">كود الدخول:</span>
+              <span className="text-[#181D17] font-bold font-mono">#8429</span>
             </div>
           </div>
 
-          {/* Current Approved Checkout Box */}
-          <div className="bg-[#F8FAF6] rounded-xl sm:rounded-2xl p-2.5 sm:p-3 space-y-1 border border-[#DEE7D7]">
+          {/* Section B: Current Stay Context Card (node 1:9778) */}
+          <div className="bg-[#F1F5EB] rounded-[12px] p-4 flex flex-col gap-2">
             <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 text-[#7A8875] font-semibold text-[11px]">
-                <Clock className="w-3.5 h-3.5 text-[#3D4C35]" />
+              <div className="flex items-center gap-1.5 text-[13px] text-[#454840]">
+                <Clock className="w-3.5 h-3.5 text-[#34422A]" />
                 <span>المغادرة الحالية المعتمدة</span>
               </div>
-              <span className="text-[10px] sm:text-[11px] text-[#556650] font-medium">
+              <span className="text-[#54624C] text-[11px] font-medium">
                 ساري المفعول
               </span>
             </div>
 
-            <div className="flex items-center justify-between pt-0.5">
-              <div>
-                <div className="text-sm sm:text-base font-black text-[#172115]">
+            <div className="flex items-end justify-between pt-0.5">
+              <div className="space-y-0.5">
+                <div className="text-[18px] font-bold font-cairo text-[#181D17] leading-[26px]">
                   21 سبتمبر 2026
                 </div>
-                <div className="text-[11px] text-[#6F7E6B]">
+                <div className="text-[13px] text-[#454840]">
                   الساعة 12:00 ظهراً (توقيت الرياض)
                 </div>
               </div>
 
-              <div className="text-left">
-                <div className="text-[10px] text-[#7A8875]">المدة والمدفوع حتى الآن</div>
-                <div className="text-xs sm:text-sm font-black text-[#172115]">
-                  3 ليال ▪ 2,450 ر.س
+              <div className="text-left space-y-0.5">
+                <div className="text-[12px] font-semibold text-[#454840]">
+                  المدة والمدفوع حتى الآن
+                </div>
+                <div className="text-[14px] font-bold text-[#34422A]">
+                  3 ليالٍ • 2,450 ر.س
                 </div>
               </div>
             </div>
           </div>
 
-          {/* New Checkout Date & Time */}
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <label className="font-bold text-[#172115] text-[11px] sm:text-xs">
-                تاريخ ووقت المغادرة الجديد <span className="text-red-500">*</span>
-              </label>
-              <span className="text-[#3E6F3A] font-semibold flex items-center gap-1 text-[11px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3E6F3A]" />
+          {/* Section C: New Departure Date & Time Selection (node 1:9795) */}
+          <div className="space-y-1.5 pt-0.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1 text-[14px] font-semibold font-cairo text-[#181D17]">
+                <span>تاريخ ووقت المغادرة الجديد</span>
+                <span className="text-[#BA1A1A] font-bold">*</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#34422A]">
+                <span className="w-2 h-2 rounded-full bg-[#4B5940]" />
                 <span>تمديد لمدة 1 ليلة إضافية</span>
-              </span>
+              </div>
             </div>
 
-            <div className="bg-[#F8FAF6] rounded-xl sm:rounded-2xl p-2 sm:p-2.5 flex items-center justify-between border border-[#DEE7D7]">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-3.5 h-3.5 text-[#3D4C35]" />
-                <span className="font-bold text-xs sm:text-sm text-[#172115]">
-                  22 سبتمبر 2026
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#D8E6D3] text-[#33462E] text-[11px] font-bold">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {/* Date Box (Spans 2 cols) */}
+              <div className="sm:col-span-2 bg-white rounded-[12px] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] border border-[#E2E6DC] h-[44px] px-3.5 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#34422A]" />
+                  <span className="text-[14px] font-semibold text-[#181D17]">
+                    22 سبتمبر 2026
+                  </span>
+                </div>
+                <span className="bg-[#D8E8CB]/80 text-[#5A6952] text-[12px] font-semibold px-2 py-0.5 rounded-[8px]">
                   +1 ليلة
                 </span>
               </div>
 
-              <div className="bg-white rounded-xl px-2.5 py-1 flex items-center gap-1.5 border border-[#E2E6DC] text-[11px] sm:text-xs font-semibold text-[#172115] shadow-3xs">
-                <Clock className="w-3 h-3 text-[#7A8875]" />
+              {/* Time Box (Spans 1 col) */}
+              <div className="bg-[#F1F5EB] rounded-[12px] h-[44px] px-3 flex items-center justify-center gap-2 text-[12px] font-semibold text-[#181D17]">
+                <Clock className="w-3.5 h-3.5 text-[#34422A]" />
                 <span>12:00 ظهراً</span>
               </div>
             </div>
           </div>
 
-          {/* Unit Availability Notice */}
-          <div className="bg-[#EEF5EB] rounded-xl sm:rounded-2xl py-2 px-3 flex items-start gap-2 border border-[#DEEAD9]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#3E6F3A] shrink-0 mt-0.5" />
-            <div className="space-y-0.5">
-              <div className="text-xs sm:text-sm font-bold text-[#273822]">
+          {/* Section D: Unit Availability Live Check Box (node 1:9820) */}
+          <div className="bg-[#D8E8CB]/30 border border-[#D8E8CB] rounded-[12px] p-4 flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full bg-[#34422A] flex items-center justify-center text-white shrink-0">
+                <Check className="w-3 h-3 stroke-[3]" />
+              </div>
+              <span className="text-[14px] font-bold font-cairo text-[#181D17]">
                 الوحدة 204 متاحة حتى تاريخ 22 سبتمبر 2026
-              </div>
-              <div className="text-[10px] sm:text-[11px] text-[#556650] leading-snug">
-                تم التحقق آلياً من التقويم المركزي لقنوات الحجز (Channel Manager) وتأكيد عدم وجود حجوزات مجدولة متداخلة أو طلبات صيانة حتى وقت المغادرة الجديد.
-              </div>
+              </span>
             </div>
+            <p className="text-[13px] text-[#454840] leading-[21px] pr-7">
+              تم التحقق آلياً من التقويم المركزي لقنوات الحجز (Channel Manager) وتأكيد عدم وجود حجوزات مجدولة متداخلة أو طلبات صيانة حتى وقت المغادرة الجديد.
+            </p>
           </div>
 
-          {/* Financial Calculation Details */}
-          <div className="space-y-1.5 pt-0.5">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs sm:text-sm font-bold text-[#172115]">
+          {/* Section E: Financial Calculation Breakdown (node 1:9829) */}
+          <div className="bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] border border-[#EAEFE6] rounded-[12px] p-4 flex flex-col gap-2.5">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-1">
+              <span className="text-[12px] font-semibold text-[#75786F] tracking-[0.6px]">
                 تفاصيل الحسبة المالية
-              </h4>
-              <span className="px-2 py-0.5 rounded-full bg-[#D8E6D3] text-[#33462E] text-[10px] sm:text-[11px] font-bold">
+              </span>
+              <span className="bg-[#D8E8C7] text-[#34422A] text-[11px] font-bold px-2.5 py-0.5 rounded-full">
                 تسعير الموسم القياسي
               </span>
             </div>
 
-            <div className="space-y-1 text-xs">
-              <div className="flex items-center justify-between text-[#172115]">
-                <div className="flex items-center gap-1.5 text-[#6F7E6B] text-[11px] sm:text-xs">
-                  <Building className="w-3.5 h-3.5 text-[#3D4C35]" />
+            {/* Line items */}
+            <div className="space-y-2 text-[13px]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-[#181D17]">
+                  <Building2 className="w-3.5 h-3.5 text-[#34422A]" />
                   <span>سعر الليلة الإضافية (21 - 22 سبتمبر)</span>
                 </div>
-                <span className="font-bold text-xs sm:text-sm">650.00 ر.س</span>
+                <span className="font-bold text-[#181D17]">650.00 ر.س</span>
               </div>
 
-              <div className="flex items-center justify-between text-[#172115]">
-                <div className="flex items-center gap-1.5 text-[#6F7E6B] text-[11px] sm:text-xs">
-                  <span className="w-3.5 h-3.5 flex items-center justify-center font-bold text-[#3D4C35] text-[11px]">%</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-[#454840]">
+                  <Percent className="w-3.5 h-3.5 text-[#454840]" />
                   <span>ضريبة القيمة المضافة (15%) ورسوم الخدمة</span>
                 </div>
-                <span className="font-bold text-xs sm:text-sm">100.00 ر.س</span>
+                <span className="font-bold text-[#454840]">100.00 ر.س</span>
               </div>
-            </div>
 
-            {/* Subtotal & Total Box */}
-            <div className="space-y-1 pt-1 border-t border-[#F0F4EC]">
-              <div className="flex items-center justify-between text-xs sm:text-sm">
-                <span className="font-bold text-[#172115]">
+              <div className="h-px bg-[#EBEFE6] my-1" />
+
+              <div className="flex items-center justify-between pt-0.5">
+                <span className="text-[12px] font-bold text-[#34422A]">
                   المبلغ الإضافي المستحق للتمديد:
                 </span>
-                <span className="text-sm sm:text-base font-black text-[#172115]">
+                <span className="text-[18px] font-bold text-[#34422A]">
                   +750.00 ر.س
                 </span>
               </div>
 
-              <div className="bg-[#F8FAF6] rounded-xl sm:rounded-2xl p-2 sm:p-2.5 flex items-center justify-between border border-[#DEE7D7]">
-                <div>
-                  <div className="text-xs sm:text-sm font-black text-[#172115]">
+              {/* Total Box (node 1:9858) */}
+              <div className="bg-[#F1F5EB] rounded-[8px] p-2.5 px-3.5 flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <div className="text-[12px] font-bold text-[#181D17]">
                     إجمالي قيمة الحجز الجديد بعد التمديد
                   </div>
-                  <div className="text-[10px] sm:text-[11px] text-[#7A8875]">
-                    4 ليال شاملة كافة الضرائب والرسوم
+                  <div className="text-[11px] font-medium text-[#454840]">
+                    4 ليالٍ شاملة كافة الضرائب والرسوم
                   </div>
                 </div>
-
-                <div className="text-sm sm:text-base font-black text-[#172115]">
+                <div className="text-[20px] font-bold text-[#181D17]">
                   3,200 ر.س
                 </div>
               </div>
             </div>
 
-            {/* Payment Method Row */}
-            <div className="flex items-center justify-between text-[11px] text-[#6F7E6B] pt-0.5">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <CreditCard className="w-3 h-3 text-[#3D4C35]" />
-                <span>طريقة السداد المعتمدة:</span>
-                <span className="font-bold text-[#172115]">
-                  خصم فوري عبر بطاقة النزيل المسجلة (Visa •••• 9104)
-                </span>
+            {/* Payment Option Row (node 1:9866) */}
+            <div className="bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] border border-[#EAEFE6] rounded-[8px] p-2.5 px-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-[#34422A] shrink-0" />
+                <div className="space-y-0.5 text-right">
+                  <div className="text-[11px] font-semibold text-[#181D17]">
+                    طريقة السداد المعتمدة
+                  </div>
+                  <div className="text-[11px] font-medium text-[#454840]">
+                    خصم فوري عبر بطاقة النزيل المسجلة (Visa •••• 9104)
+                  </div>
+                </div>
               </div>
+
               <button
                 type="button"
                 onClick={() => toast.info("تغيير وسيلة الدفع")}
-                className="text-[#3D4C35] hover:text-[#172115] font-bold underline cursor-pointer text-[11px]"
+                className="text-[#34422A] font-bold text-[11px] hover:underline cursor-pointer"
               >
                 تغيير
               </button>
             </div>
           </div>
 
-          {/* Smart Lock Automation Box */}
-          <div className="bg-[#EEF5EB] rounded-xl sm:rounded-2xl py-2 px-3 flex items-start gap-2 border border-[#DEEAD9]">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#3E6F3A] shrink-0 mt-0.5" />
-            <div className="space-y-0.5">
-              <div className="text-xs sm:text-sm font-bold text-[#273822]">
+          {/* Section F: Smart Lock & Guest Notification Notice (node 1:9877) */}
+          <div className="bg-[#E5EAE0]/60 border border-[#D5DDD0] rounded-[12px] p-4 flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-[#34422A]" />
+              <span className="text-[12px] font-bold font-cairo text-[#181D17]">
                 أتمتة القفل الذكي وإشعار النزيل
-              </div>
-              <div className="text-[10px] sm:text-[11px] text-[#556650] leading-snug">
-                سيتم تحديث صلاحية كود الدخول الذكي (<strong className="text-[#172115]">#8429</strong>) تلقائياً ليمتد حتى <strong className="text-[#172115]">22 سبتمبر الساعة 12:30 ظهراً</strong> ، مع إرسال عقد ملحق الإقامة وإشعار التأكيد فورياً إلى رقم النزيل عبر <strong className="text-[#172115]">WhatsApp Business</strong>.
-              </div>
+              </span>
             </div>
+
+            <p className="text-[13px] text-[#454840] leading-[21px]">
+              سيتم تحديث صلاحية كود الدخول الذكي{" "}
+              <strong className="text-[#181D17] font-bold">(#8429)</strong>{" "}
+              تلقائياً ليمتد حتى{" "}
+              <strong className="text-[#181D17] font-bold">
+                22 سبتمبر الساعة 12:30 ظهراً
+              </strong>
+              ، مع إرسال عقد ملحق الإقامة وإشعار التأكيد فورياً إلى رقم النزيل عبر{" "}
+              <strong className="text-[#34422A] font-bold">WhatsApp Business</strong>.
+            </p>
           </div>
         </div>
 
-        {/* Footer Actions Docked at Bottom */}
-        <div className="p-3 sm:p-3.5 bg-[#F8FAF6] border-t border-[#DEE7D7] flex items-center justify-between gap-3 shrink-0 rounded-b-[24px] sm:rounded-b-[28px]">
-          {/* Confirm Button (Right in RTL) */}
+        {/* 3. MODAL FOOTER (Figma node 1:9893 - buttons placed on left) */}
+        <div className="bg-[#F1F5EB] px-6 py-4 rounded-b-[16px] flex items-center justify-start gap-2.5 shrink-0" dir="ltr">
+          {/* Primary Confirm Button (node 1:9894) */}
           <button
             type="button"
             onClick={handleConfirm}
             disabled={isSubmitting}
-            className="flex-1 py-2 sm:py-2.5 px-5 rounded-xl bg-[#2E3C29] hover:bg-[#232F1F] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-98 cursor-pointer disabled:opacity-70"
+            className="h-11 px-8 rounded-[12px] bg-[#34422A] hover:bg-[#283420] text-white font-bold text-sm flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-all cursor-pointer disabled:opacity-70 active:scale-98"
+            dir="rtl"
           >
-            <RotateCcw className="w-4 h-4" />
+            <CalendarCheck className="w-4 h-4" />
             <span>{isSubmitting ? "جارٍ الحفظ..." : "تأكيد التمديد"}</span>
           </button>
 
-          {/* Cancel Button (Left in RTL) */}
+          {/* Secondary Cancel Button (node 1:9899) */}
           <button
             type="button"
             onClick={onClose}
-            className="py-2 sm:py-2.5 px-5 rounded-xl bg-white hover:bg-[#F2F5EF] text-[#2C3825] font-bold text-xs sm:text-sm border border-[#E2E6DC] transition-all cursor-pointer shadow-3xs"
+            className="h-11 px-6 rounded-[12px] bg-white hover:bg-[#EAEFE6] text-[#181D17] font-semibold text-sm flex items-center justify-center transition-colors cursor-pointer shadow-3xs"
+            dir="rtl"
           >
             إلغاء
           </button>
         </div>
+
       </div>
     </div>
   );
