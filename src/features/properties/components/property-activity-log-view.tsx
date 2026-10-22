@@ -9,12 +9,11 @@ import {
   Building2,
   MapPin,
   User,
-  LayoutGrid,
+  DoorClosed,
   ExternalLink,
   X,
   Clock,
   Pencil,
-  DoorClosed,
   Smartphone,
   RefreshCw,
   MessageSquare,
@@ -22,9 +21,7 @@ import {
   Wrench,
   CheckCheck,
   ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
-import { TablePagination } from "@/components/shared/table-pagination";
 import { toast } from "sonner";
 import {
   PropertyActivityEvent,
@@ -50,7 +47,6 @@ export function PropertyActivityLogView({
   const [selectedEventId, setSelectedEventId] = useState<string>("prop-evt-1");
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
   const summary = initialSummary;
   const events = initialEvents;
@@ -60,17 +56,17 @@ export function PropertyActivityLogView({
     events.find((e) => e.id === selectedEventId) || events[0];
 
   const handleExportPDF = () => {
-    toast.info("جاري تجهيز وتصدير سجل الأحداث الشامل للعقار (PDF)...");
+    toast.info("جاري تجهيز وتصدير سجل النشاط (PDF)...");
     setTimeout(() => {
-      toast.success("تم تصدير سجل أحداث العقار (PDF) بنجاح!");
+      toast.success("تم تصدير سجل نشاط العقار (PDF) بنجاح!");
     }, 1200);
   };
 
   const renderBadgeIcon = (iconType: PropertyActivityEvent["iconType"], isActive: boolean) => {
     if (isActive) {
       return (
-        <div className="w-12 h-12 rounded-2xl bg-[#2E3C29] text-white flex items-center justify-center shrink-0 shadow-2xs">
-          <Pencil className="w-5 h-5" />
+        <div className="size-[48px] rounded-[16px] bg-[#34422a] text-white flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+          <Pencil className="size-[15px]" />
         </div>
       );
     }
@@ -78,432 +74,575 @@ export function PropertyActivityLogView({
     switch (iconType) {
       case "door":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <DoorClosed className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#d8e8cb] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <DoorClosed className="size-[15px]" />
           </div>
         );
       case "mobile":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <Smartphone className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <Smartphone className="size-[15px]" />
           </div>
         );
       case "refresh":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <RefreshCw className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <RefreshCw className="size-[15px]" />
           </div>
         );
       case "whatsapp":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <MessageSquare className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <MessageSquare className="size-[15px]" />
           </div>
         );
       case "cleaning":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <Sparkles className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <Sparkles className="size-[15px]" />
           </div>
         );
       case "maintenance":
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <Wrench className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <Wrench className="size-[15px]" />
           </div>
         );
       default:
         return (
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] text-[#34432E] flex items-center justify-center shrink-0 shadow-2xs">
-            <Clock className="w-5 h-5" />
+          <div className="size-[48px] rounded-[16px] bg-[#e2edd8] text-[#34422a] flex items-center justify-center shrink-0 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)]">
+            <Clock className="size-[15px]" />
           </div>
         );
     }
   };
 
   return (
-    <div className="space-y-6 max-w-[1536px] w-full mx-auto" dir="rtl">
-      {/* 1. Header Card */}
-      <section className="bg-white rounded-3xl p-5 sm:p-7 border border-[#E2E6DC] shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="space-y-[16px] max-w-[1536px] w-full mx-auto" dir="rtl">
+      {/* 1. Header Card (Section - TOP HERO GREETING BAR) */}
+      <section className="bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[16px] px-[20px] py-[16px] sm:px-[24px] sm:py-[20px] flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Title and Subtitle */}
-        <div className="space-y-1.5">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#172115] tracking-tight">
+        <div className="flex flex-col gap-[4px]">
+          <h1 className="text-[24px] font-bold text-[#181d17] leading-[34px]">
             سجل الأحداث الكامل للعقار
           </h1>
-          <p className="text-xs sm:text-sm text-[#7D8A78] font-medium leading-relaxed max-w-2xl">
+          <p className="text-[13px] font-normal text-[#454840] leading-[20px]">
             تتبع غير قابل للتلاعب لكافة التغييرات والعمليات المنفذة على الأصل العقاري
           </p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-[12px] shrink-0">
           {/* Back Button */}
           <button
             type="button"
             onClick={() => router.back()}
-            className="bg-white hover:bg-[#F6F8F4] border border-[#E2E6DC] text-[#172115] text-xs sm:text-sm font-semibold rounded-xl px-4 py-2.5 flex items-center gap-2 transition-all cursor-pointer shadow-2xs select-none active:scale-[0.98]"
+            className="bg-white hover:bg-[#f6f8f4] border border-[#e5e8e2] rounded-[12px] px-[17px] py-[11px] flex items-center gap-[8px] transition-colors cursor-pointer select-none active:scale-[0.98]"
           >
-            <span>العودة</span>
-            <ArrowLeft className="w-4 h-4" />
+            <span className="text-[#252a24] text-[14px] font-medium leading-[20px]">
+              العودة
+            </span>
+            <ArrowLeft className="size-[14px] text-[#252a24]" />
           </button>
 
           {/* Export PDF Button */}
           <button
             type="button"
             onClick={handleExportPDF}
-            className="bg-[#384633] hover:bg-[#2E3C29] text-white text-xs sm:text-sm font-semibold rounded-xl px-4 py-2.5 flex items-center gap-2 transition-all cursor-pointer shadow-xs select-none active:scale-[0.98]"
+            className="bg-[#4b5940] hover:bg-[#3d4934] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[12px] px-[20px] py-[10px] flex items-center gap-[8px] transition-colors cursor-pointer select-none active:scale-[0.98]"
           >
-            <FileDown className="w-4 h-4" />
-            <span>تصدير سجل النشاط (PDF)</span>
+            <FileDown className="size-[15px] text-white" />
+            <span className="text-white text-[14px] font-medium leading-[20px]">
+              تصدير سجل النشاط (PDF)
+            </span>
           </button>
         </div>
       </section>
 
-      {/* 2. Property Overview Strip Card */}
-      <section className="bg-white rounded-3xl p-4 sm:p-5 border border-[#E2E6DC] shadow-2xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      {/* 2. Property Context Banner */}
+      <section className="bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[12px] px-[20px] py-[16px] sm:px-[24px] sm:py-[18px] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         {/* Right Section: Property Title, Category, Address */}
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#EFF4EA] border border-[#DEE7D7] flex items-center justify-center text-[#34432E] shrink-0">
-            <Building2 className="w-6 h-6" />
+        <div className="flex items-center gap-[16px]">
+          <div className="size-[48px] rounded-[8px] bg-[#d8e8cb] flex items-center justify-center text-[#34422a] shrink-0">
+            <Building2 className="size-[20px]" />
           </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-base sm:text-lg font-extrabold text-[#172115]">
+          <div className="flex flex-col gap-[2px]">
+            <div className="flex items-center gap-[8px] flex-wrap">
+              <span className="text-[18px] font-semibold text-[#181d17] leading-[28px]">
                 {summary.propertyName}
               </span>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#F0F2EC] text-[#556350] border border-[#DEE7D7] select-none">
+              <span className="bg-[#ebefe6] text-[#75786f] text-[11px] font-medium px-[10px] py-[2px] rounded-full select-none">
                 {summary.propertyType}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-[#7D8A78] font-medium">
-              <MapPin className="w-3.5 h-3.5 text-[#A5B3A1]" />
-              <span>
-                {summary.address} • كود المنشأة {summary.facilityCode}
-              </span>
+            <div className="flex items-center gap-[4px] text-[13px] text-[#75786f] font-normal leading-[20px]">
+              <MapPin className="size-[12px] text-[#75786f] shrink-0" />
+              <span>{summary.address}</span>
             </div>
           </div>
         </div>
 
         {/* Left Section: Owner & Units Info */}
-        <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs border-t lg:border-t-0 pt-3 lg:pt-0 border-[#F0F2EC]">
-          {/* Owner Info */}
-          <div className="flex items-center gap-2">
-            <User className="w-4 h-4 text-[#7D8A78]" />
-            <span className="text-[#7D8A78] font-medium">المالك:</span>
-            <span className="font-bold text-[#172115]">{summary.ownerName}</span>
-            <span className="text-[#7D8A78] font-normal">({summary.ownerCode})</span>
+        <div className="flex flex-wrap items-center gap-[24px] border-t lg:border-t-0 pt-3 lg:pt-0 border-[#ebefe6]">
+          {/* Units Info */}
+          <div className="flex items-center gap-[8px]">
+            <DoorClosed className="size-[15px] text-[#75786f]" />
+            <span className="text-[13px] text-[#75786f] font-normal leading-[20px]">الوحدات:</span>
+            <span className="text-[13px] text-[#181d17] font-semibold leading-[20px]">{summary.totalUnits} وحدة</span>
+            <span className="text-[11px] text-[#3e8a5a] font-semibold leading-[16px]">({summary.documentedPercentage})</span>
           </div>
 
-          <div className="h-4 w-px bg-[#E2E6DC] hidden sm:block" />
+          <div className="w-px h-[20px] bg-[#ebefe6] hidden sm:block" />
 
-          {/* Units Info */}
-          <div className="flex items-center gap-2">
-            <LayoutGrid className="w-4 h-4 text-[#7D8A78]" />
-            <span className="text-[#7D8A78] font-medium">الوحدات:</span>
-            <span className="font-bold text-[#172115]">{summary.totalUnits} وحدة</span>
-            <span className="font-bold text-[#2E7D32]">({summary.documentedPercentage})</span>
+          {/* Owner Info */}
+          <div className="flex items-center gap-[8px]">
+            <User className="size-[12px] text-[#75786f]" />
+            <span className="text-[13px] text-[#75786f] font-normal leading-[20px]">المالك:</span>
+            <span className="text-[13px] text-[#181d17] font-semibold leading-[20px]">{summary.ownerName}</span>
+            <span className="text-[11px] text-[#c5c8bd] font-normal leading-[16px]">({summary.ownerCode})</span>
           </div>
         </div>
       </section>
 
-      {/* 3. Main Two-Column Layout (Right in RTL: Timeline, Left in RTL: Event Details) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      {/* 3. Main Two-Column Layout (Right in RTL: Timeline, Left in RTL: Event Details Inspector) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-[24px] items-start pt-[4px]">
         {/* Right Column in RTL (lg:col-span-8): Timeline Events List */}
-        <div className="lg:col-span-8 space-y-5">
-          <div className="space-y-4">
-            {events.map((event) => {
-              const isActive = selectedEventId === event.id;
+        <div className="lg:col-span-8 space-y-[24px]">
+          {/* Chronological Audit Timeline Container */}
+          <div className="relative pl-[8px] pr-[16px] py-[8px]">
+            {/* Structural Spine Line */}
+            <div className="absolute bg-[#e5eae0] top-[24px] bottom-[24px] right-[40px] -translate-x-1/2 w-[2px] pointer-events-none" />
 
-              return (
-                <div
-                  key={event.id}
-                  className="flex items-start gap-3.5 sm:gap-4 transition-all"
-                >
-                  {/* Circular Badge on the Right */}
-                  <div className="pt-2">{renderBadgeIcon(event.iconType, isActive)}</div>
+            {/* Events List */}
+            <div className="space-y-[24px]">
+              {events.map((event) => {
+                const isActive = selectedEventId === event.id;
 
-                  {/* Event Card on the Left */}
+                return (
                   <div
-                    onClick={() => {
-                      setSelectedEventId(event.id);
-                      setIsInspectorOpen(true);
-                    }}
-                    className={`flex-1 bg-white rounded-3xl p-4 sm:p-5 border transition-all cursor-pointer shadow-2xs space-y-3 ${
-                      isActive
-                        ? "border-[#384633] ring-1 ring-[#384633]/20"
-                        : "border-[#E2E6DC] hover:border-[#CCD5C5]"
-                    }`}
+                    key={event.id}
+                    className="flex gap-[20px] items-start w-full relative z-10"
                   >
-                    {/* Event 1: Special Detailed Diff Card */}
-                    {event.diffInline ? (
-                      <div className="space-y-3">
-                        {/* Top Row: Title + Timestamp */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
-                          <h3 className="text-base sm:text-lg font-bold text-[#172115]">
-                            {event.title}
-                          </h3>
-                          <div className="text-xs text-[#7D8A78] font-medium flex items-center gap-1.5 shrink-0">
-                            <Clock className="w-3.5 h-3.5" />
-                            <span>{event.timestamp}</span>
-                          </div>
-                        </div>
+                    {/* Node Dot Indicator on the Right in RTL */}
+                    <div
+                      onClick={() => {
+                        setSelectedEventId(event.id);
+                        setIsInspectorOpen(true);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      {renderBadgeIcon(event.iconType, isActive)}
+                    </div>
 
-                        {/* Actor Pill */}
-                        {event.actor && (
-                          <div className="flex items-center">
-                            <div className="bg-[#EFF4EA] border border-[#DEE7D7]/70 rounded-full py-1 px-3 inline-flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full bg-[#2E3C29] text-white text-xs font-bold flex items-center justify-center shrink-0">
-                                {event.actor.initials}
-                              </div>
-                              <span className="text-xs font-semibold text-[#172115]">
-                                {event.actor.name}
-                              </span>
-                              <span className="text-xs text-[#7D8A78] font-normal">
-                                • {event.actor.role}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Description */}
-                        {event.description && (
-                          <p className="text-xs sm:text-sm text-[#384633] leading-relaxed font-normal">
-                            {event.description}
-                          </p>
-                        )}
-
-                        {/* Inline Diff Preview Strip */}
-                        <div className="bg-[#EFF4EA]/80 border border-[#DEE7D7] rounded-2xl p-2.5 sm:p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            <span className="text-[#7D8A78] font-medium">
-                              {event.diffInline.label}
-                            </span>
-                            <span className="line-through text-[#7D8A78]">
-                              {event.diffInline.oldValue}
-                            </span>
-                            <span className="text-[#7D8A78]">◀</span>
-                            <span className="font-bold text-[#172115]">
-                              {event.diffInline.newValue}
-                            </span>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedEventId(event.id);
-                              setIsInspectorOpen(true);
-                            }}
-                            className="text-xs font-bold text-[#34432E] hover:text-[#172115] inline-flex items-center gap-1 cursor-pointer"
-                          >
-                            <span>{event.actionButtonText || "عرض التفاصيل"}</span>
-                            <ArrowLeft className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      /* Standard Timeline Event Card */
-                      <div className="space-y-2">
-                        {/* Top Row: Title, Role Badge, Time, and Action Button */}
-                        <div className="flex items-center justify-between gap-2 flex-wrap">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-sm sm:text-base font-bold text-[#172115]">
+                    {/* Event Card on the Left in RTL */}
+                    <div
+                      onClick={() => {
+                        setSelectedEventId(event.id);
+                        setIsInspectorOpen(true);
+                      }}
+                      className={`flex-1 min-w-0 bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[16px] transition-all cursor-pointer ${
+                        event.diffInline && event.actor
+                          ? "p-[24px] flex flex-col gap-[12px]"
+                          : "p-[16px] flex items-center justify-between"
+                      } ${
+                        isActive
+                          ? "ring-1 ring-[#34422a] border border-[#34422a]"
+                          : "border border-transparent hover:border-[#e5eae0]"
+                      }`}
+                    >
+                      {/* Event 1: Special Detailed Diff Card */}
+                      {event.diffInline && event.actor ? (
+                        <>
+                          {/* Top Row: Title + Timestamp */}
+                          <div className="flex items-center justify-between w-full">
+                            <h3 className="text-[18px] font-bold text-[#181d17] leading-[28px]">
                               {event.title}
                             </h3>
-                            <span className="bg-[#EFF4EA] text-[#4E5D49] border border-[#DEE7D7] rounded-full px-2.5 py-0.5 text-xs font-semibold select-none">
-                              {event.badge}
+                            <div className="flex items-center gap-[8px] text-[11px] font-medium text-[#75786f] leading-[16px] shrink-0">
+                              <Clock className="size-[13px] text-[#75786f]" />
+                              <span>{event.timestamp}</span>
+                            </div>
+                          </div>
+
+                          {/* Actor Stamp Pill */}
+                          <div className="bg-[#f1f5eb] rounded-[12px] px-[12px] py-[6px] inline-flex items-center gap-[8px] self-start">
+                            <div className="size-[24px] rounded-full bg-[#34422a] text-white text-[11px] font-bold flex items-center justify-center shrink-0">
+                              {event.actor.initials}
+                            </div>
+                            <span className="text-[11px] font-semibold text-[#181d17] leading-[16px]">
+                              {event.actor.name}
                             </span>
-                            <span className="text-xs text-[#7D8A78] font-medium">
-                              {event.timeOnly || event.timestamp}
+                            <span className="text-[12px] text-[#75786f]">•</span>
+                            <span className="text-[11px] font-medium text-[#454840] leading-[16px]">
+                              {event.actor.role}
                             </span>
                           </div>
 
-                          {/* Action Button */}
+                          {/* Detail & Operational Impact */}
+                          {event.description && (
+                            <p className="text-[14px] leading-[22.75px] text-right text-[#454840]">
+                              <span>سبب الإلغاء: </span>
+                              <span className="font-semibold text-[#181d17]">"طلب العميل المباشر"</span>
+                              <span>
+                                . تم تحرير الوحدة 204 وإعادة إدراجها شاغرة في التقويم الموحّد، إلغاء صلاحية كود الدخول الذكي للباب رقم #4820، وبدء إجراءات التسوية المالية واسترداد المبلغ عبر بوابة الدفع.
+                              </span>
+                            </p>
+                          )}
+
+                          {/* Compact Diff Strip */}
+                          <div className="bg-[#f1f5eb] rounded-[12px] p-[10px] flex items-center justify-between w-full gap-2">
+                            {/* Right: Values */}
+                            <div className="flex items-center gap-[8px] flex-wrap">
+                              <span className="text-[11px] font-medium text-[#75786f] leading-[16px]">
+                                {event.diffInline.label}
+                              </span>
+                              <span className="text-[11px] font-medium text-[#75786f] line-through leading-[16px]">
+                                {event.diffInline.oldValue}
+                              </span>
+                              <ChevronLeft className="size-[12px] text-[#75786f]" />
+                              <span className="bg-[#eaf1e8] rounded-[4px] px-[8px] py-[2px] text-[11px] font-bold text-[#1e281a] leading-[16px]">
+                                {event.diffInline.newValue}
+                              </span>
+                            </div>
+
+                            {/* Left: Button */}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedEventId(event.id);
+                                setIsInspectorOpen(true);
+                              }}
+                              className="flex items-center gap-[4px] text-[#34422a] text-[11px] font-bold hover:underline cursor-pointer shrink-0"
+                            >
+                              <span>{event.actionButtonText || "عرض التفاصيل"}</span>
+                              <ChevronLeft className="size-[12px]" />
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        /* Standard Timeline Event Card */
+                        <>
+                          {/* Right Content */}
+                          <div className="flex flex-col gap-[2px]">
+                            {/* Top Line: Title + Badge + Time */}
+                            <div className="flex items-center gap-[8px] flex-wrap">
+                              <h3 className="text-[18px] font-bold text-[#181d17] leading-[28px]">
+                                {event.title}
+                              </h3>
+
+                              {/* Badge */}
+                              <span
+                                className={`rounded-[6px] px-[8px] py-[2px] text-[11px] font-semibold leading-[22px] select-none ${
+                                  event.badgeType === "owner"
+                                    ? "bg-[#f5f1e8] text-[#4b5940]"
+                                    : event.iconType === "whatsapp"
+                                    ? "bg-[#eaf1e8] text-[#3e8a5a]"
+                                    : "bg-[#ebefe6] text-[#454840]"
+                                }`}
+                              >
+                                {event.badge}
+                              </span>
+
+                              {/* Time */}
+                              <span className="text-[11px] font-normal text-[#75786f] leading-[16px]">
+                                {event.timeOnly || event.timestamp}
+                              </span>
+                            </div>
+
+                            {/* Bottom Line: Details */}
+                            <div className="flex items-center gap-[8px] flex-wrap text-[13px] leading-[20px]">
+                              {event.unitCode && (
+                                <span className="font-semibold text-[#181d17]">
+                                  {event.unitCode}
+                                </span>
+                              )}
+
+                              {event.bookingCode && (
+                                <span className="font-bold text-[#34422a]">
+                                  {event.bookingCode}
+                                </span>
+                              )}
+
+                              {event.bookingCode && <span className="text-[#454840]">•</span>}
+
+                              {event.subtitleText && (
+                                <span className="text-[#454840] font-normal">
+                                  {event.subtitleText}
+                                </span>
+                              )}
+
+                              {event.diffInline && (
+                                <div className="flex items-center gap-[6px]">
+                                  <span className="text-[#75786f] line-through font-normal">
+                                    {event.diffInline.oldValue}
+                                  </span>
+                                  <ChevronLeft className="size-[10px] text-[#75786f]" />
+                                  <span className="text-[#3e8a5a] font-bold">
+                                    {event.diffInline.newValue}
+                                  </span>
+                                </div>
+                              )}
+
+                              {event.highlightedText && !event.diffInline && (
+                                <>
+                                  <span className="text-[#454840]">•</span>
+                                  <span
+                                    className={`font-semibold inline-flex items-center gap-1 ${
+                                      event.highlightedColor || "text-[#3e8a5a]"
+                                    }`}
+                                  >
+                                    {event.iconType === "whatsapp" && (
+                                      <CheckCheck className="size-[14px] text-[#3e8a5a]" />
+                                    )}
+                                    <span>{event.highlightedText}</span>
+                                  </span>
+                                </>
+                              )}
+
+                              {event.taskStatus && (
+                                <>
+                                  <span className="text-[#454840]">•</span>
+                                  <span
+                                    className={`rounded-[4px] px-[8px] text-[11px] font-semibold leading-[20px] select-none ${
+                                      event.statusBadgeColor || "bg-[#fff4e5] text-[#e99a38]"
+                                    }`}
+                                  >
+                                    {event.taskStatus}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Left Action Button */}
                           {event.actionButtonText && (
                             <button
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                toast.info(`فتح تفاصيل: ${event.title}`);
+                                setSelectedEventId(event.id);
+                                setIsInspectorOpen(true);
                               }}
-                              className="bg-[#EFF4EA] hover:bg-[#E2EAD8] text-[#34432E] text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors cursor-pointer select-none"
+                              className="bg-[#f1f5eb] hover:bg-[#e6ebdf] rounded-[12px] px-[12px] py-[6px] text-[#181d17] text-[12px] font-medium leading-[18px] transition-colors cursor-pointer select-none shrink-0"
                             >
                               {event.actionButtonText}
                             </button>
                           )}
-                        </div>
-
-                        {/* Bottom Row: Subtitle & Highlights */}
-                        <div className="flex items-center gap-2 flex-wrap text-xs text-[#556350]">
-                          {event.subtitleText && <span>{event.subtitleText}</span>}
-
-                          {event.highlightedText && (
-                            <span
-                              className={`font-bold inline-flex items-center gap-1 ${
-                                event.highlightedColor || "text-[#2E7D32]"
-                              }`}
-                            >
-                              {event.iconType === "whatsapp" && (
-                                <CheckCheck className="w-3.5 h-3.5 text-[#2E7D32]" />
-                              )}
-                              <span>{event.highlightedText}</span>
-                            </span>
-                          )}
-
-                          {event.taskStatus && (
-                            <span
-                              className={`text-xs font-semibold px-2 py-0.5 rounded-md ${
-                                event.statusBadgeColor || "bg-[#FEF6EE] text-[#B54708]"
-                              }`}
-                            >
-                              {event.taskStatus}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* 4. Bottom Pagination Bar */}
-          <div className="bg-white rounded-3xl border border-[#E2E6DC] overflow-hidden shadow-2xs">
-            <TablePagination
-              currentPage={currentPage}
-              totalPages={20}
-              totalCount={386}
-              fromIndex={(currentPage - 1) * pageSize + 1}
-              toIndex={Math.min(currentPage * pageSize, 386)}
-              pageSize={pageSize}
-              pageSizeOptions={[5, 10, 20, 50]}
-              onPageChange={(page) => setCurrentPage(page)}
-              onPageSizeChange={(size) => {
-                setPageSize(size);
-                setCurrentPage(1);
-              }}
-              entityName="حدث"
-              pluralEntityName="أحداث"
-              registeredLabel="مسجل"
-            />
+          {/* 4. Minimalist Pagination Bar */}
+          <div className="bg-white border border-[#ebefe6] rounded-[16px] p-[9px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-2xs">
+            {/* Right: Record count */}
+            <div className="text-[13px] font-normal text-[#454840] leading-[20px] pr-2">
+              عرض 1–8 من إجمالي 386 حدثاً
+            </div>
+
+            {/* Left: Pagination Buttons */}
+            <div className="flex items-center gap-[4px] self-center sm:self-auto">
+              {/* Next / التالي */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.min(20, p + 1))}
+                className="bg-[#f1f5eb] hover:bg-[#e4ebd9] rounded-[8px] px-[12px] py-[4px] text-[11px] font-medium text-[#181d17] leading-[16px] transition-colors cursor-pointer"
+              >
+                التالي
+              </button>
+
+              {/* Page 20 */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(20)}
+                className={`size-[28px] rounded-[8px] flex items-center justify-center text-[11px] font-medium leading-[16px] transition-colors cursor-pointer ${
+                  currentPage === 20
+                    ? "bg-[#34422a] text-white font-bold"
+                    : "text-[#181d17] hover:bg-[#f1f5eb]"
+                }`}
+              >
+                20
+              </button>
+
+              {/* Ellipsis */}
+              <span className="text-[#75786f] text-[14px] px-[4px] select-none">
+                ...
+              </span>
+
+              {/* Page 3 */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(3)}
+                className={`size-[28px] rounded-[8px] flex items-center justify-center text-[11px] font-medium leading-[16px] transition-colors cursor-pointer ${
+                  currentPage === 3
+                    ? "bg-[#34422a] text-white font-bold"
+                    : "text-[#181d17] hover:bg-[#f1f5eb]"
+                }`}
+              >
+                3
+              </button>
+
+              {/* Page 2 */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(2)}
+                className={`size-[28px] rounded-[8px] flex items-center justify-center text-[11px] font-medium leading-[16px] transition-colors cursor-pointer ${
+                  currentPage === 2
+                    ? "bg-[#34422a] text-white font-bold"
+                    : "text-[#181d17] hover:bg-[#f1f5eb]"
+                }`}
+              >
+                2
+              </button>
+
+              {/* Page 1 */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage(1)}
+                className={`size-[28px] rounded-[8px] flex items-center justify-center text-[11px] font-medium leading-[16px] transition-colors cursor-pointer ${
+                  currentPage === 1
+                    ? "bg-[#34422a] text-white font-bold"
+                    : "text-[#181d17] hover:bg-[#f1f5eb]"
+                }`}
+              >
+                1
+              </button>
+
+              {/* Previous / السابق */}
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                className="bg-[#f1f5eb] hover:bg-[#e4ebd9] opacity-60 rounded-[8px] px-[12px] py-[4px] text-[11px] font-medium text-[#181d17] leading-[16px] transition-colors cursor-pointer"
+              >
+                السابق
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Left Column in RTL (lg:col-span-4): Event Details Inspector */}
+        {/* Left Column in RTL (lg:col-span-4): Streamlined Event Details Inspector Drawer */}
         <div className="lg:col-span-4 space-y-6">
           {isInspectorOpen ? (
-            <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
+            <section className="bg-white border border-[#ebefe6] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[16px] p-[17px] flex flex-col gap-[16px] w-full">
               {/* Header */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#172115]" />
-                  <h2 className="text-base sm:text-lg font-bold text-[#172115]">
+              <div className="border-b border-[#ebefe6] pb-[10px] flex items-center justify-between">
+                <div className="flex items-center gap-[6px]">
+                  <div className="bg-[#34422a] size-[8px] rounded-full shrink-0" />
+                  <h2 className="text-[18px] font-bold text-[#181d17] leading-[28px]">
                     تفاصيل الحدث
                   </h2>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsInspectorOpen(false)}
-                  className="text-[#7D8A78] hover:text-[#172115] p-1 rounded-lg hover:bg-[#F6F8F4] transition-colors cursor-pointer"
+                  className="p-1 rounded-[8px] text-[#75786f] hover:text-[#181d17] hover:bg-[#f1f5eb] transition-colors cursor-pointer"
                   title="إغلاق التفاصيل"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="size-[14px]" />
                 </button>
               </div>
 
-              {/* Table / Key-Values */}
-              <div className="rounded-2xl border border-[#E2E6DC]/80 overflow-hidden divide-y divide-[#E2E6DC]/70 text-xs">
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">نوع الإجراء</span>
-                  <span className="font-bold text-[#172115]">
+              {/* Structured Clean Metadata Pairs */}
+              <div className="bg-[#f1f5eb] rounded-[12px] p-[8px] flex flex-col gap-[8px]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#75786f]">نوع الإجراء</span>
+                  <span className="text-[11px] font-semibold text-[#181d17]">
                     {activeEvent.detailsData?.actionType || "تعديل بيانات الأصل"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
-                  <span className="text-[#7D8A78] font-medium">المنفذ</span>
-                  <span className="font-bold text-[#172115]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#75786f]">المنفذ</span>
+                  <span className="text-[11px] font-semibold text-[#34422a]">
                     {activeEvent.detailsData?.performer || "محمد أحمد (مدير المنصة)"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">التاريخ والتوقيت</span>
-                  <span className="font-bold text-[#172115]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#75786f]">التاريخ والتوقيت</span>
+                  <span className="text-[11px] font-normal text-[#181d17]">
                     {activeEvent.detailsData?.dateTime || "18/09/2026 11:42 AM"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-[#FBFDF9]/60">
-                  <span className="text-[#7D8A78] font-medium">الكيان</span>
-                  <span className="font-bold text-[#172115]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#75786f]">الكيان</span>
+                  <span className="text-[11px] font-semibold text-[#181d17]">
                     {activeEvent.detailsData?.entity || "عمارة النخيل (PR-1048)"}
                   </span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white">
-                  <span className="text-[#7D8A78] font-medium">المصدر</span>
-                  <span className="font-bold text-[#172115]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium text-[#75786f]">المصدر</span>
+                  <span className="text-[11px] font-medium text-[#181d17]">
                     {activeEvent.detailsData?.source || "لوحة الإدارة المركزية"}
                   </span>
                 </div>
               </div>
 
-              {/* Diff Section */}
-              <div className="space-y-3 pt-1">
-                <h3 className="text-xs sm:text-sm font-bold text-[#172115]">
+              {/* Comparative Diff Box */}
+              <div className="flex flex-col gap-[6px] w-full">
+                <div className="text-[11px] font-bold text-[#181d17] leading-[16px]">
                   مقارنة التغييرات
-                </h3>
-
-                {/* Old Value Box */}
-                <div className="bg-[#FDF2F2] border border-[#FECDCA] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] font-semibold text-[#D9383A]">
-                    القيمة السابقة
-                  </div>
-                  <div className="text-xs text-[#556350] line-through font-medium">
-                    {activeEvent.detailsData?.diff.oldValue ||
-                      "حي النخيل، شارع الملك فهد، مبنى 14"}
-                  </div>
                 </div>
 
-                {/* New Approved Value Box */}
-                <div className="bg-[#EFF4EA] border border-[#DEE7D7] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] font-semibold text-[#2E7D32]">
-                    القيمة الجديدة المعتمدة
+                <div className="flex flex-col gap-[6px]">
+                  {/* Previous Value */}
+                  <div className="bg-[#f1f5eb] border border-[#ebefe6] rounded-[8px] p-[9px] flex flex-col gap-[2px]">
+                    <span className="text-[11px] font-semibold text-[#d85c5c] leading-[22px]">
+                      القيمة السابقة
+                    </span>
+                    <span className="text-[13px] font-normal text-[#75786f] line-through leading-[20px]">
+                      {activeEvent.detailsData?.diff.oldValue ||
+                        "حي النخيل، شارع الملك فهد، مبنى 14"}
+                    </span>
                   </div>
-                  <div className="text-xs sm:text-sm font-bold text-[#172115]">
-                    {activeEvent.detailsData?.diff.newValue ||
-                      "حي العليا، شارع الملك فهد، مبنى 42"}
+
+                  {/* New Approved Value */}
+                  <div className="bg-[#eaf1e8] border border-[#d8e8c7] rounded-[8px] p-[9px] flex flex-col gap-[2px]">
+                    <span className="text-[11px] font-semibold text-[#3e8a5a] leading-[22px]">
+                      القيمة الجديدة المعتمدة
+                    </span>
+                    <span className="text-[13px] font-bold text-[#1e281a] leading-[20px]">
+                      {activeEvent.detailsData?.diff.newValue ||
+                        "حي العليا، شارع الملك فهد، مبنى 42"}
+                    </span>
                   </div>
                 </div>
 
                 {/* Justification Box */}
-                <div className="bg-[#F6F8F4] border border-[#E2E6DC] rounded-2xl p-3.5 space-y-1">
-                  <div className="text-[11px] text-[#7D8A78] font-medium">
+                <div className="bg-[#f1f5eb] rounded-[8px] p-[8px] flex flex-col gap-[2px]">
+                  <span className="text-[11px] font-semibold text-[#75786f] leading-[20px]">
                     المبرر:
-                  </div>
-                  <div className="text-xs text-[#384633] font-medium leading-relaxed">
+                  </span>
+                  <p className="text-[13px] font-normal text-[#454840] leading-[20px]">
                     {activeEvent.detailsData?.diff.justification ||
                       "مطابقة ترخيص الهيئة العامة للعقار (REA-8819)."}
-                  </div>
+                  </p>
                 </div>
               </div>
 
-              {/* Action Button: Full Property Page */}
-              <div className="pt-2">
+              {/* Drawer Action CTA */}
+              <div className="pt-1">
                 <Link
                   href={`/dashboard/properties/${propertyId}`}
-                  className="bg-[#384633] hover:bg-[#2E3C29] text-white rounded-2xl py-3 px-4 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer select-none active:scale-[0.99] w-full"
+                  className="bg-[#34422a] hover:bg-[#283320] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] rounded-[12px] px-[12px] py-[8px] flex items-center justify-center gap-[6px] w-full text-white cursor-pointer transition-colors active:scale-[0.99]"
                 >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>صفحة العقار الكاملة</span>
+                  <ExternalLink className="size-[12px] text-white" />
+                  <span className="text-[12px] font-semibold leading-[18px]">
+                    صفحة العقار الكاملة
+                  </span>
                 </Link>
               </div>
             </section>
           ) : (
-            <div className="bg-white rounded-3xl p-5 border border-[#E2E6DC] shadow-2xs text-center space-y-3">
-              <p className="text-xs text-[#7D8A78]">تم إخفاء صندوق تفاصيل الحدث</p>
+            <div className="bg-white border border-[#ebefe6] rounded-[16px] p-5 shadow-2xs text-center space-y-3">
+              <p className="text-[13px] text-[#75786f]">تم إخفاء صندوق تفاصيل الحدث</p>
               <button
                 type="button"
                 onClick={() => setIsInspectorOpen(true)}
-                className="bg-[#EFF4EA] hover:bg-[#E2EAD8] text-[#34432E] text-xs font-bold px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                className="bg-[#f1f5eb] hover:bg-[#e4ebd9] text-[#34422a] text-[12px] font-bold px-4 py-2 rounded-[12px] transition-colors cursor-pointer"
               >
                 إظهار تفاصيل الحدث
               </button>
