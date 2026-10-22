@@ -1,38 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, Download } from "lucide-react";
+import { toast } from "sonner";
 
 export function PropertiesHeader() {
+  const handleExport = () => {
+    toast.success("جاري تصدير قائمة العقارات بصيغة Excel / CSV...");
+  };
+
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#DCE2D7] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs font-cairo">
+    <div className="bg-white rounded-[16px] p-5 sm:p-6 border border-[#E5E8E2] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] flex flex-col md:flex-row md:items-center justify-between gap-4 font-cairo">
       {/* Title & Description (Right side in RTL) */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#252A24] tracking-tight">
+      <div className="text-right">
+        <h1 className="text-[24px] leading-[34px] font-bold text-[#181D17]">
           العقارات
         </h1>
-        <p className="text-xs sm:text-sm text-[#687163] mt-1 font-medium">
+        <p className="text-[14px] leading-[22px] text-[#454840] mt-1 font-normal">
           إدارة ومتابعة جميع العقارات المسجلة على المنصة وحالة الوحدات التابعة لها.
         </p>
       </div>
 
-      {/* Action Buttons (Left side in RTL) */}
-      <div className="flex items-center gap-3">
+      {/* Action Group (Left side in RTL: "تصدير القائمة" on right, "إضافة عقار" on left) */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
         {/* Export List Button */}
         <button
           type="button"
-          className="bg-white hover:bg-[#EFF2EB] border border-[#CCD4C6] text-[#252A24] px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
+          onClick={handleExport}
+          className="bg-white hover:bg-[#F9FAF8] border border-[#E5E8E2] text-[#181D17] h-[44px] px-4 rounded-[12px] text-[14px] font-medium flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-colors cursor-pointer select-none"
         >
-          <Download className="w-4 h-4 text-[#252A24]" />
+          <img
+            src="/icons/properties/download.svg"
+            alt=""
+            className="w-[14px] h-[14px]"
+          />
           <span>تصدير القائمة (CSV / Excel)</span>
         </button>
 
         {/* Add Property Button */}
         <Link
           href="/dashboard/properties/new"
-          className="bg-[#4B5940] hover:bg-[#3E4A35] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-all cursor-pointer"
+          className="bg-[#4B5940] hover:bg-[#3E4A35] text-white h-[44px] px-6 rounded-[12px] text-[14px] font-semibold flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-colors cursor-pointer select-none"
         >
-          <Plus className="w-4 h-4" />
+          <img
+            src="/icons/properties/plus.svg"
+            alt=""
+            className="w-[12px] h-[12px]"
+          />
           <span>إضافة عقار</span>
         </Link>
       </div>
