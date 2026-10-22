@@ -48,12 +48,18 @@ export function UnitSidebarCards({
         <div className="bg-[#F1F5EB] rounded-[12px] p-4 space-y-3 text-right">
           {/* Header with Icon */}
           <div className="flex items-center gap-3">
-            <div className="bg-[#4B5940] rounded-[12px] size-10 flex items-center justify-center shrink-0">
-              <img
-                src="/icons/units/property-building.svg"
-                alt=""
-                className="size-[16.5px] shrink-0"
-              />
+            <div className="bg-[#4B5940] rounded-[12px] size-10 flex items-center justify-center shrink-0 shadow-2xs">
+              <svg
+                viewBox="0 0 16.5 16.5"
+                fill="none"
+                className="w-5 h-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 16.5V3.66667H3.66667V0H12.8333V7.33333H16.5V16.5H9.16667V12.8333H7.33333V16.5H0V16.5M1.83333 14.6667H3.66667V12.8333H1.83333V14.6667V14.6667M1.83333 11H3.66667V9.16667H1.83333V11V11M1.83333 7.33333H3.66667V5.5H1.83333V7.33333V7.33333M5.5 11H7.33333V9.16667H5.5V11V11M5.5 7.33333H7.33333V5.5H5.5V7.33333V7.33333M5.5 3.66667H7.33333V1.83333H5.5V3.66667V3.66667M9.16667 11H11V9.16667H9.16667V11V11M9.16667 7.33333H11V5.5H9.16667V7.33333V7.33333M9.16667 3.66667H11V1.83333H9.16667V3.66667V3.66667M12.8333 14.6667H14.6667V12.8333H12.8333V14.6667V14.6667M12.8333 11H14.6667V9.16667H12.8333V11V11"
+                  fill="white"
+                />
+              </svg>
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-[#181D17] text-[14px] leading-[20px]">
