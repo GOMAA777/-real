@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  History,
+  RotateCcw,
   Search,
   Building2,
   Home,
   Eye,
-  ShieldCheck,
+  CheckCircle2,
 } from "lucide-react";
 import { GuestBooking } from "../types";
 
@@ -43,54 +43,59 @@ export function GuestBookingsTableCard({
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-6 lg:p-7 border border-[#E2E6DC] space-y-6 shadow-2xs">
-      {/* 1. Header Row: Title & Badge on Right, Search Input on Left */}
+    <div className="bg-white rounded-[16px] p-6 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] space-y-6">
+      {/* 1. Ledger Header & Filter Controls (Figma node 1:11152) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        {/* Right: History Icon + Title + Count Badge */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#EFF4EA] border border-[#DEE7D7] flex items-center justify-center text-[#34432E] shrink-0">
-            <History className="w-5 h-5" />
+        {/* Right in RTL: Icon + Heading + Count Badge */}
+        <div className="flex items-center gap-2">
+          {/* Square chip (Figma node 1:11166) */}
+          <div className="size-[40px] rounded-[12px] bg-[#D8E8CB] flex items-center justify-center text-[#34422A] shrink-0">
+            <RotateCcw className="w-4 h-4 stroke-[2.2]" />
           </div>
-          <h2 className="text-lg sm:text-xl font-bold text-[#172115]">
+
+          <h2 className="text-[20px] font-semibold font-cairo text-[#181D17] leading-[30px]">
             سجل الحجوزات على المنصة
           </h2>
-          <span className="bg-[#EFF3EA] border border-[#DFE5D8] text-[#34432E] text-xs font-bold px-3 py-1 rounded-full select-none">
+
+          <span className="bg-[#E5EAE0] text-[#181D17] text-[12px] font-bold px-3 py-0.5 rounded-full select-none">
             {bookings.length} حجوزات
           </span>
         </div>
 
-        {/* Left: Search Bar */}
-        <div className="relative w-full sm:w-72">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث برقم الحجز أو اسم العقار..."
-            className="w-full bg-[#F8FAF6] border border-[#DEE7D7] rounded-xl py-2 ps-9 pe-3.5 text-xs sm:text-sm text-[#172115] placeholder:text-[#7A8875] focus:outline-none focus:ring-1 focus:ring-[#3D4C35] transition-all"
-          />
-          <Search className="w-4 h-4 text-[#7A8875] absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+        {/* Left in RTL: Table Search Filter (Figma node 1:11153) */}
+        <div className="relative w-full sm:w-[320px]">
+          <div className="bg-[#F1F5EB] rounded-[12px] h-[44px] px-4 flex items-center gap-2.5">
+            <Search className="w-3.5 h-3.5 text-[#75786F] shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="ابحث برقم الحجز أو اسم العقار..."
+              className="bg-transparent text-[13px] text-[#181D17] placeholder:text-[#75786F] outline-none w-full text-right font-normal"
+            />
+          </div>
         </div>
       </div>
 
-      {/* 2. Responsive Table Container */}
-      <div className="overflow-x-auto rounded-2xl border border-[#E2E6DC]">
-        <table className="w-full text-right border-collapse text-xs sm:text-sm">
-          {/* Table Header */}
+      {/* 2. Data Ledger Table (Figma node 1:11169) */}
+      <div className="bg-[rgba(241,245,235,0.2)] rounded-[12px] overflow-x-auto border border-[#EBEFE6]">
+        <table className="w-full text-right border-collapse">
+          {/* Table Header (Figma node 1:11171) */}
           <thead>
-            <tr className="bg-[#F8FAF6] border-b border-[#E2E6DC] text-[#7A8875] font-bold text-xs select-none">
-              <th className="py-3.5 px-4 font-bold">رقم الحجز والمصدر</th>
-              <th className="py-3.5 px-4 font-bold">العقار</th>
-              <th className="py-3.5 px-4 font-bold">الوحدة المحجوزة</th>
-              <th className="py-3.5 px-4 font-bold">تاريخ الوصول</th>
-              <th className="py-3.5 px-4 font-bold">تاريخ المغادرة</th>
-              <th className="py-3.5 px-4 font-bold">القيمة الإجمالية</th>
-              <th className="py-3.5 px-4 font-bold text-center">الحالة</th>
-              <th className="py-3.5 px-4 font-bold text-center">الإجراءات</th>
+            <tr className="bg-[#F1F5EB] text-[#75786F] text-[12px] font-semibold select-none h-[68px]">
+              <th className="py-4 px-4 font-semibold text-right">رقم الحجز والمصدر</th>
+              <th className="py-4 px-4 font-semibold text-right">العقار</th>
+              <th className="py-4 px-4 font-semibold text-right">الوحدة المحجوزة</th>
+              <th className="py-4 px-4 font-semibold text-right">تاريخ الوصول</th>
+              <th className="py-4 px-4 font-semibold text-right">تاريخ المغادرة</th>
+              <th className="py-4 px-4 font-semibold text-right">القيمة الإجمالية</th>
+              <th className="py-4 px-4 font-semibold text-right">الحالة</th>
+              <th className="py-4 px-4 font-semibold text-center">الإجراءات</th>
             </tr>
           </thead>
 
-          {/* Table Body */}
-          <tbody className="divide-y divide-[#F0F4EC]">
+          {/* Table Body (Figma node 1:11188) */}
+          <tbody className="divide-y divide-[#EBEFE6]">
             {filteredBookings.map((b) => {
               const isCancelled = b.status === "cancelled";
               const isUpcoming = b.status === "upcoming";
@@ -98,64 +103,70 @@ export function GuestBookingsTableCard({
               return (
                 <tr
                   key={b.id}
-                  className="hover:bg-[#FAFBF9] transition-colors text-[#172115]"
+                  className="hover:bg-white/80 transition-colors h-[76px]"
                 >
                   {/* Col 1: Booking Code & Source */}
                   <td className="py-4 px-4 whitespace-nowrap">
                     <div className="space-y-1">
-                      <div className="font-extrabold text-[#172115]">
+                      <div className="font-bold text-[#181D17] text-[14px] font-mono">
                         {b.bookingCode}
                       </div>
-                      <span className="bg-[#EFF3EA] border border-[#DEE7D7] text-[#34432E] text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 select-none">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#34432E]" />
+                      <div className="bg-[#D8E8CB] text-[#121F0D] text-[11px] font-medium px-2 py-0.5 rounded-full inline-flex items-center gap-1.5 select-none">
                         <span>{b.source}</span>
-                      </span>
+                        <span className="size-1.5 rounded-full bg-[#34422A]" />
+                      </div>
                     </div>
                   </td>
 
                   {/* Col 2: Property */}
                   <td className="py-4 px-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2 font-bold text-[#172115]">
-                      {b.propertyType === "villa" ? (
-                        <Home className="w-4 h-4 text-[#7A8875] shrink-0" />
-                      ) : (
-                        <Building2 className="w-4 h-4 text-[#7A8875] shrink-0" />
-                      )}
+                    <div className="flex items-center gap-2 font-bold text-[#181D17] text-[13px]">
                       <span>{b.propertyName}</span>
+                      {b.propertyType === "villa" ? (
+                        <Home className="w-4 h-4 text-[#75786F] shrink-0" />
+                      ) : (
+                        <Building2 className="w-4 h-4 text-[#75786F] shrink-0" />
+                      )}
                     </div>
                   </td>
 
                   {/* Col 3: Unit */}
-                  <td className="py-4 px-4 whitespace-nowrap font-medium text-[#616E5D]">
+                  <td className="py-4 px-4 whitespace-nowrap text-[13px] text-[#454840]">
                     {b.unitName}
                   </td>
 
                   {/* Col 4: Check-In Date */}
-                  <td className="py-4 px-4 whitespace-nowrap font-medium text-[#172115]">
+                  <td className="py-4 px-4 whitespace-nowrap text-[13px] font-medium text-[#181D17]">
                     {b.checkInDate}
                   </td>
 
                   {/* Col 5: Check-Out Date */}
-                  <td className="py-4 px-4 whitespace-nowrap font-medium text-[#172115]">
+                  <td className="py-4 px-4 whitespace-nowrap text-[13px] font-medium text-[#181D17]">
                     {b.checkOutDate}
                   </td>
 
                   {/* Col 6: Total Amount */}
-                  <td className="py-4 px-4 whitespace-nowrap font-black text-[#172115]">
-                    {formatMoney(b.totalAmount)}
+                  <td className="py-4 px-4 whitespace-nowrap text-[14px] font-bold text-[#181D17]">
+                    <span>{new Intl.NumberFormat("en-US").format(b.totalAmount)}</span>
+                    <span className="text-[12px] text-[#75786F] font-normal mr-1">ر.س</span>
                   </td>
 
                   {/* Col 7: Status Pill */}
-                  <td className="py-4 px-4 whitespace-nowrap text-center">
+                  <td className="py-4 px-4 whitespace-nowrap">
                     {isCancelled ? (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FEF5F5] border border-[#FADCDD] text-[#D9383A] text-xs font-bold select-none">
-                        <span className="w-2 h-2 rounded-full bg-[#D9383A]" />
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFDAD6] text-[#BA1A1A] text-[12px] font-medium select-none">
                         <span>{b.statusText}</span>
+                        <span className="size-1.5 rounded-full bg-[#BA1A1A]" />
+                      </span>
+                    ) : isUpcoming ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D8E8C7] text-[#181D17] text-[12px] font-medium select-none">
+                        <span>{b.statusText}</span>
+                        <span className="size-1.5 rounded-full bg-[#34422A]" />
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E3EFE1] border border-[#C6DEC2] text-[#2E7D32] text-xs font-bold select-none">
-                        <span className="w-2 h-2 rounded-full bg-[#2E7D32]" />
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5EAE0] text-[#181D17] text-[12px] font-medium select-none">
                         <span>{b.statusText}</span>
+                        <span className="size-1.5 rounded-full bg-[#54624C]" />
                       </span>
                     )}
                   </td>
@@ -164,9 +175,9 @@ export function GuestBookingsTableCard({
                   <td className="py-4 px-4 whitespace-nowrap text-center">
                     <Link
                       href={`/dashboard/bookings/${b.bookingCode}`}
-                      className="bg-[#EFF3EA] hover:bg-[#E5ECE0] border border-[#DEE7D7] text-[#34432E] px-3.5 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 transition-all shadow-3xs cursor-pointer select-none active:scale-95"
+                      className="bg-[#E5EAE0] hover:bg-[#D8DDD3] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] text-[#181D17] text-[12px] font-semibold h-[36px] px-3 rounded-[8px] inline-flex items-center gap-1.5 transition-all select-none active:scale-98"
                     >
-                      <Eye className="w-3.5 h-3.5" />
+                      <Eye className="w-3.5 h-3.5 text-[#181D17]" />
                       <span>عرض الحجز</span>
                     </Link>
                   </td>
@@ -177,20 +188,20 @@ export function GuestBookingsTableCard({
         </table>
       </div>
 
-      {/* 3. Table Footer Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 text-xs">
-        {/* Right: Security & Billing Audit Note */}
-        <div className="flex items-center gap-1.5 text-[#7A8875] font-medium">
-          <ShieldCheck className="w-4 h-4 text-[#2E7D32] shrink-0" />
+      {/* 3. Footer Summary of Ledger (Figma node 1:11321) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+        {/* Right in RTL: Audit Note */}
+        <div className="flex items-center gap-2 text-[#75786F] text-[11px] font-medium">
+          <CheckCircle2 className="w-4 h-4 text-[#34422A] shrink-0" />
           <span>
             جميع السجلات المالية للحجوزات مراجعة وموثقة بسجلات الفوترة المركزية.
           </span>
         </div>
 
-        {/* Left: Total Revenue */}
-        <div className="font-bold text-[#172115] text-xs sm:text-sm">
+        {/* Left in RTL: Total Revenue */}
+        <div className="text-[11px] text-[#75786F] font-medium flex items-center gap-1">
           <span>إجمالي العوائد المحصلة من النزيل: </span>
-          <span className="font-black text-[#172115]">{formatMoney(totalRevenue)}</span>
+          <span className="text-[14px] font-bold font-cairo text-[#181D17]">{formatMoney(totalRevenue)}</span>
         </div>
       </div>
     </div>

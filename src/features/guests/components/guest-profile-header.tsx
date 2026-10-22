@@ -14,36 +14,36 @@ export function GuestProfileHeader({ guestName = "خالد العتيبي" }: Gu
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-6 lg:p-7 border border-[#E2E6DC] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+    <div className="bg-white rounded-[16px] p-6 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       {/* Title & Subtitle (Right in RTL) */}
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#172115] tracking-tight">
+        <h1 className="text-[24px] font-bold font-cairo text-[#181D17] leading-[34px] tracking-tight">
           بيانات العميل
         </h1>
-        <p className="text-xs sm:text-sm text-[#7D8A78] font-medium">
+        <p className="text-[14px] font-normal text-[#454840] leading-[22px]">
           الملف التعريفي للنزيل وسجل العمليات والحجوزات المسجلة عبر المنصة
         </p>
       </div>
 
       {/* Action Buttons (Left in RTL) */}
-      <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+      <div className="flex flex-wrap items-center gap-2 shrink-0">
         {/* Export PDF Button */}
         <button
           type="button"
           onClick={handleExportPdf}
-          className="bg-white hover:bg-[#F9FAF7] border border-[#D5DDD0] text-[#172115] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-2xs transition-all cursor-pointer select-none active:scale-95"
+          className="bg-white hover:bg-[#F9FAF7] drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] text-[#181D17] h-[44px] px-4 rounded-[12px] text-[14px] font-medium flex items-center gap-2 transition-all cursor-pointer select-none active:scale-98"
         >
-          <FileText className="w-4 h-4 text-[#7A8875]" />
+          <FileText className="w-4 h-4 text-[#181D17]" />
           <span>تصدير سجل العميل (PDF)</span>
         </button>
 
         {/* Back to Bookings Button */}
         <Link
           href="/dashboard/bookings"
-          className="bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#181D17] px-6 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer select-none active:scale-95"
+          className="bg-[#4B5940] hover:bg-[#3D4B33] text-white h-[44px] px-6 rounded-[12px] text-[14px] font-semibold flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-all cursor-pointer select-none active:scale-98"
         >
           <span>العودة إلى الحجوزات</span>
-          <ArrowLeft className="w-4 h-4 text-[#181D17]" />
+          <ArrowLeft className="w-3.5 h-3.5 text-white stroke-[2.2]" />
         </Link>
       </div>
     </div>
