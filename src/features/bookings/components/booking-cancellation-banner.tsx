@@ -49,40 +49,42 @@ export function BookingCancellationBanner({
         </div>
       </div>
 
-      {/* Bottom Row: 4 Metric Summary Items */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-3 border-t border-[#F8E1E2] text-xs">
-        {/* Item 1: Reason */}
-        <div className="space-y-0.5 text-right">
-          <div className="text-[11px] text-[#7A8875]">سبب الإلغاء المعتمد</div>
-          <div className="flex items-center gap-1.5 font-bold text-[#172115]">
-            <User className="w-3.5 h-3.5 text-[#3D4C35]" />
-            <span>{reason}</span>
+      {/* Bottom Row: 4 Metric Summary Items (Centered with spacing at start and end) */}
+      <div className="pt-3.5 border-t border-[#F8E1E2]">
+        <div className="flex flex-wrap items-center justify-around sm:justify-evenly gap-y-3 gap-x-6 text-xs px-3 sm:px-8 md:px-12">
+          {/* Item 1: Reason */}
+          <div className="space-y-0.5 text-right">
+            <div className="text-[11px] text-[#7A8875]">سبب الإلغاء المعتمد</div>
+            <div className="flex items-center gap-1.5 font-bold text-[#172115]">
+              <User className="w-3.5 h-3.5 text-[#3D4C35]" />
+              <span>{reason}</span>
+            </div>
           </div>
-        </div>
 
-        {/* Item 2: Smart Lock Code */}
-        <div className="space-y-0.5 text-right">
-          <div className="text-[11px] text-[#7A8875]">إلغاء كود القفل الذكي</div>
-          <div className="flex items-center gap-1.5 font-bold text-[#D9383A]">
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>تم سحب الصلاحية آلياً</span>
+          {/* Item 2: Smart Lock Code */}
+          <div className="space-y-0.5 text-right">
+            <div className="text-[11px] text-[#7A8875]">إلغاء كود القفل الذكي</div>
+            <div className="flex items-center gap-1.5 font-bold text-[#D9383A]">
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>تم سحب الصلاحية آلياً</span>
+            </div>
           </div>
-        </div>
 
-        {/* Item 3: Unit Status */}
-        <div className="space-y-0.5 text-right">
-          <div className="text-[11px] text-[#7A8875]">حالة الوحدة بعد الإلغاء</div>
-          <div className="flex items-center gap-1.5 font-bold text-[#2E7D32]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
-            <span>محررة ومتاحة بالتقويم</span>
+          {/* Item 3: Unit Status */}
+          <div className="space-y-0.5 text-right">
+            <div className="text-[11px] text-[#7A8875]">حالة الوحدة بعد الإلغاء</div>
+            <div className="flex items-center gap-1.5 font-bold text-[#2E7D32]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2E7D32]" />
+              <span>محررة ومتاحة بالتقويم</span>
+            </div>
           </div>
-        </div>
 
-        {/* Item 4: Financial Settlement */}
-        <div className="space-y-0.5 text-right">
-          <div className="text-[11px] text-[#7A8875]">التسوية المالية التقديرية</div>
-          <div className="font-bold text-[#172115]">
-            {refundAmount}
+          {/* Item 4: Financial Settlement */}
+          <div className="space-y-0.5 text-right">
+            <div className="text-[11px] text-[#7A8875]">التسوية المالية التقديرية</div>
+            <div className="font-bold text-[#172115]">
+              {refundAmount}
+            </div>
           </div>
         </div>
       </div>
