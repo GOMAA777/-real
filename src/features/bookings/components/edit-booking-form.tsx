@@ -28,7 +28,6 @@ import {
   Share2,
   BookmarkCheck,
   Check,
-  X,
   Plus,
   Minus,
   MessageSquare,
@@ -48,8 +47,6 @@ interface EditBookingFormProps {
 export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps) {
   const router = useRouter();
 
-  // Toast / Notification banner state
-  const [showToast, setShowToast] = useState(true);
 
   // Modals state
   const [isChangeUnitOpen, setIsChangeUnitOpen] = useState(false);
@@ -79,7 +76,6 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
     setIsSaving(true);
     setTimeout(() => {
       setIsSaving(false);
-      setShowToast(true);
       toast.success("تم تحديث الحجز بنجاح", {
         description: "تمت مزامنة المواعيد مع القنوات الذكية وتحديث الرمز الرقمي",
       });
@@ -93,32 +89,6 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
 
   return (
     <div className="space-y-6 pb-28" dir="rtl">
-      {/* Toast Notification Banner (Visible like in the user screenshot) */}
-      {showToast && (
-        <div className="bg-[#F8FAF6] border border-[#DEE7D7] rounded-2xl p-4 sm:p-4.5 flex items-center justify-between gap-4 shadow-2xs transition-all">
-          <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-xl bg-[#E2EFE0] text-[#3E6F3A] flex items-center justify-center shrink-0 shadow-3xs">
-              <Check className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div className="space-y-0.5">
-              <div className="text-xs sm:text-sm font-bold text-[#1E2B1A]">
-                تم تحديث الحجز بنجاح
-              </div>
-              <div className="text-[11px] sm:text-xs text-[#63755D] font-medium">
-                تمت مزامنة المواعيد مع القنوات الذكية وتحديث الرمز الرقمي
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowToast(false)}
-            className="w-7 h-7 rounded-lg text-[#7D8E78] hover:text-[#172115] hover:bg-[#EAEFE6] flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="إغلاق التنبيه"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      )}
 
       {/* Top Header Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
