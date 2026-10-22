@@ -28,6 +28,7 @@ import {
   Share2,
   BookmarkCheck,
   Check,
+  Copy,
   Plus,
   Minus,
   MessageSquare,
@@ -87,27 +88,37 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
     router.back();
   };
 
+  const copyBookingCode = () => {
+    navigator.clipboard.writeText(bookingId);
+    toast.success(`تم نسخ رقم الحجز: ${bookingId}`);
+  };
+
   return (
     <div className="space-y-6 pb-28" dir="rtl">
 
-      {/* Top Header Card */}
+      {/* Top Header Card (Exact match to design screenshot) */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">
-        {/* Right side: Title & Badges */}
+        {/* Right side in RTL: Title, Badges & Subtitle */}
         <div className="space-y-1.5">
           <div className="flex items-center flex-wrap gap-2.5">
             <h1 className="text-2xl sm:text-3xl font-black text-[#172115] tracking-tight">
               تعديل الحجز
             </h1>
 
-            {/* Booking Code Badge */}
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E5ECE0] border border-[#CFDBC9] text-[#2C3825] font-mono font-bold text-xs select-none shadow-3xs">
-              <Tag className="w-3.5 h-3.5 text-[#3D4C35]" />
+            {/* Booking Code Badge with Copy Icon */}
+            <button
+              type="button"
+              onClick={copyBookingCode}
+              title="نسخ رقم الحجز"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DFE4DB] hover:bg-[#D5DCD0] text-[#2C3825] font-mono font-bold text-xs transition-colors cursor-pointer select-none"
+            >
+              <Copy className="w-3.5 h-3.5 text-[#5C6B57]" />
               <span>{bookingId}</span>
-            </span>
+            </button>
 
             {/* Upcoming Status Badge */}
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EBF3FC] border border-[#CCE0FA] text-[#2563EB] font-bold text-xs select-none">
-              <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EBF2FC] text-[#2563EB] font-bold text-xs select-none">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
               <span>قادم</span>
             </span>
           </div>
@@ -115,6 +126,33 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
           <p className="text-xs sm:text-sm text-[#7D8A78] font-medium leading-relaxed">
             تحديث مواعيد الإقامة، بيانات الوحدة، وتفاصيل الدفع والنزيل للحجز رقم {bookingId}
           </p>
+        </div>
+
+        {/* Left side in RTL: Summary Pill (القناة الناقلة والمبلغ الإجمالي) */}
+        <div className="bg-[#F1F5EB] border border-[#DEE7D7] rounded-2xl px-5 py-2.5 flex items-center gap-5 shrink-0 self-start md:self-auto">
+          {/* Right Column in RTL: القناة الناقلة */}
+          <div className="space-y-0.5">
+            <div className="text-[11px] text-[#7A8774] font-medium">
+              القناة الناقلة
+            </div>
+            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#172115]">
+              <span className="w-2 h-2 rounded-full bg-[#3D8A55] shrink-0" />
+              <span>(مباشر) {bookingSource}</span>
+            </div>
+          </div>
+
+          {/* Vertical Divider */}
+          <div className="w-px h-8 bg-[#DCE4D6]" />
+
+          {/* Left Column in RTL: المبلغ الإجمالي */}
+          <div className="space-y-0.5">
+            <div className="text-[11px] text-[#7A8774] font-medium">
+              المبلغ الإجمالي
+            </div>
+            <div className="text-xs sm:text-sm font-bold text-[#172115]">
+              {totalAmount}
+            </div>
+          </div>
         </div>
       </div>
 
