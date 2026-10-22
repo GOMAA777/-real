@@ -82,8 +82,8 @@ export function BookingAssignedUnitCard({
         </div>
       </div>
 
-      {/* Action Links Row */}
-      <div className="pt-4 border-t border-[#EAEFE6] flex flex-wrap items-center justify-start gap-4 sm:gap-6 text-xs font-bold text-[#34432E]">
+      {/* Action Links Row (Centered) */}
+      <div className="pt-4 border-t border-[#EAEFE6] flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-bold text-[#34432E]">
         <Link
           href={`/dashboard/properties/${assigned.propertyId}`}
           className="inline-flex items-center gap-1.5 hover:text-[#172115] hover:underline transition-colors"
