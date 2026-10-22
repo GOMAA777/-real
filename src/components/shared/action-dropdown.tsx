@@ -211,6 +211,7 @@ export function ActionDropdown({
                   <Link
                     key={idx}
                     href={item.href}
+                    prefetch={true}
                     onClick={() => setIsOpen(false)}
                     className={itemClasses}
                   >

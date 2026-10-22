@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Plus, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -40,14 +41,14 @@ export function UnitsHeader() {
         </button>
 
         {/* Add Unit Button */}
-        <button
-          type="button"
-          onClick={handleAddUnit}
+        <Link
+          href="/dashboard/units/new"
+          prefetch={true}
           className="h-11 px-5 sm:px-6 bg-[#4B5940] hover:bg-[#3D4C35] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xs transition-colors cursor-pointer select-none"
         >
           <Plus className="w-4 h-4" />
           <span>إضافة وحدة</span>
-        </button>
+        </Link>
       </div>
     </div>
   );

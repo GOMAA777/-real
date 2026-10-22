@@ -212,6 +212,7 @@ export function Breadcrumb({
               ) : (
                 <Link
                   href={crumb.href || "/dashboard"}
+                  prefetch={true}
                   className="text-[#54624C] hover:text-[#181D17] hover:underline font-medium transition-colors"
                 >
                   {crumb.title}
@@ -236,6 +237,7 @@ function LinkCrumb({ crumb, isFirst }: { crumb: TrailItem; isFirst: boolean }) {
   return (
     <Link
       href={crumb.href || "/dashboard"}
+      prefetch={true}
       className={cn(
         "inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-medium text-[#54624C] hover:text-[#181D17] hover:bg-[#F1F5EB] transition-colors outline-none focus-visible:ring-1 focus-visible:ring-[#34422E]/30 whitespace-nowrap cursor-pointer",
         isFirst && "text-[#34422E] font-semibold"
@@ -496,6 +498,7 @@ function BreadcrumbDotItem({
                     <Link
                       key={`${c.href}-${i}`}
                       href={c.href || "/dashboard"}
+                      prefetch={true}
                       onClick={() => {
                         setIsOpen(false);
                         setIsHovered(false);
@@ -524,6 +527,7 @@ function BreadcrumbDotItem({
             <div className="pt-2.5 border-t border-[#EEF2E6] flex items-center justify-between gap-2">
               <Link
                 href={crumb.href || "/dashboard"}
+                prefetch={true}
                 onClick={() => {
                   setIsOpen(false);
                   setIsHovered(false);
@@ -723,6 +727,7 @@ function BreadcrumbGroupDots({
                 <Link
                   key={`${item.href}-${idx}`}
                   href={item.href || "/dashboard"}
+                  prefetch={true}
                   onClick={() => {
                     setIsOpen(false);
                     setIsHovered(false);

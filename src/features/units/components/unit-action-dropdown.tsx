@@ -246,6 +246,7 @@ export function UnitActionDropdown({ unit }: UnitActionDropdownProps) {
                   <Link
                     key={idx}
                     href={item.href}
+                    prefetch={true}
                     onClick={() => {
                       setIsOpen(false);
                       if (item.onClick) item.onClick();

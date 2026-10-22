@@ -264,6 +264,7 @@ export function MainBookingsPageView({
           {/* Add Booking Primary Action */}
           <Link
             href="/dashboard/bookings/new"
+            prefetch={true}
             className="bg-[#4b5940] hover:bg-[#3d4934] text-white text-[14px] font-semibold h-[44px] px-[20px] sm:px-[24px] rounded-[12px] flex items-center justify-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-all cursor-pointer whitespace-nowrap"
           >
             <Plus className="w-4 h-4" />

@@ -178,6 +178,9 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
+                onMouseEnter={() => router.prefetch(item.href)}
+                onFocus={() => router.prefetch(item.href)}
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
@@ -235,6 +238,9 @@ export function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
+                onMouseEnter={() => router.prefetch(item.href)}
+                onFocus={() => router.prefetch(item.href)}
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
@@ -358,6 +364,9 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
+                    onMouseEnter={() => router.prefetch(item.href)}
+                    onFocus={() => router.prefetch(item.href)}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
                       "group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
@@ -424,6 +433,9 @@ export function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
+                    onMouseEnter={() => router.prefetch(item.href)}
+                    onFocus={() => router.prefetch(item.href)}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
                       "group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
