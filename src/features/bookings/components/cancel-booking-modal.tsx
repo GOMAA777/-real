@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   CalendarX2,
@@ -14,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 interface CancelBookingModalProps {
   isOpen: boolean;
@@ -31,8 +33,15 @@ export function CancelBookingModal({
   const [selectedReason, setSelectedReason] = useState("طلب العميل");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useScrollLock(isOpen);
+
+  if (!isOpen || !mounted) return null;
 
   // In Figma 2x2 Grid (node 1:10418):
   // Right Column (col 2): طلب العميل, مشكلة في الوحدة
@@ -70,13 +79,17 @@ export function CancelBookingModal({
     }, 500);
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+      className="fixed inset-0 w-screen h-screen z-[100] flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
       dir="rtl"
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0" onClick={onClose} />
+      {/* Full-viewport Backdrop */}
+      <div
+        className="fixed inset-0 w-full h-full bg-black/60 backdrop-blur-xs"
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Modal Dialog Card (Matching Figma node 1:10356 exactly) */}
       <div className="relative bg-white rounded-[16px] max-w-[580px] w-full shadow-[0px_20px_25px_-5px_rgba(0,0,0,0.1),0px_8px_10px_-6px_rgba(0,0,0,0.1)] text-right z-10 max-h-[94vh] flex flex-col overflow-hidden">
@@ -306,6 +319,7 @@ export function CancelBookingModal({
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
