@@ -92,10 +92,10 @@ export function CancelBookingModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-xl bg-[#F1F5EB] hover:bg-[#E4ECDD] text-[#454840] flex items-center justify-center transition-colors cursor-pointer shrink-0"
+            className="text-[#75786F] hover:text-[#181D17] transition-colors cursor-pointer shrink-0 p-1"
             aria-label="إغلاق النافذة"
           >
-            <X className="w-4 h-4 stroke-[2]" />
+            <X className="w-5 h-5 stroke-[2]" />
           </button>
         </div>
 
@@ -181,17 +181,17 @@ export function CancelBookingModal({
                     <div
                       key={r.id}
                       onClick={() => setSelectedReason(r.label)}
-                      className="bg-[#F1F5EB] hover:bg-[#EAEFE3] h-[36px] px-3 rounded-[12px] flex items-center justify-between transition-colors cursor-pointer select-none"
+                      className="bg-[#F1F5EB] hover:bg-[#EAEFE3] h-[36px] px-3.5 rounded-[12px] flex items-center gap-2.5 transition-colors cursor-pointer select-none"
                     >
-                      <span className="text-[13px] font-semibold text-[#181D17]">
-                        {r.label}
-                      </span>
                       {/* Radio Indicator */}
                       <div className="w-4 h-4 rounded-full border border-[#34422A] bg-white flex items-center justify-center shrink-0">
                         {isSelected && (
                           <div className="w-2.5 h-2.5 rounded-full bg-[#34422A]" />
                         )}
                       </div>
+                      <span className="text-[13px] font-semibold text-[#181D17]">
+                        {r.label}
+                      </span>
                     </div>
                   );
                 })}
@@ -205,17 +205,17 @@ export function CancelBookingModal({
                     <div
                       key={r.id}
                       onClick={() => setSelectedReason(r.label)}
-                      className="bg-[#F1F5EB] hover:bg-[#EAEFE3] h-[36px] px-3 rounded-[12px] flex items-center justify-between transition-colors cursor-pointer select-none"
+                      className="bg-[#F1F5EB] hover:bg-[#EAEFE3] h-[36px] px-3.5 rounded-[12px] flex items-center gap-2.5 transition-colors cursor-pointer select-none"
                     >
-                      <span className="text-[13px] font-semibold text-[#181D17]">
-                        {r.label}
-                      </span>
                       {/* Radio Indicator */}
                       <div className="w-4 h-4 rounded-full border border-[#767676] bg-white flex items-center justify-center shrink-0">
                         {isSelected && (
                           <div className="w-2.5 h-2.5 rounded-full bg-[#34422A]" />
                         )}
                       </div>
+                      <span className="text-[13px] font-semibold text-[#181D17]">
+                        {r.label}
+                      </span>
                     </div>
                   );
                 })}
@@ -268,14 +268,15 @@ export function CancelBookingModal({
           </div>
         </div>
 
-        {/* 3. MODAL FOOTER (Matching Figma node 1:10467) */}
-        <div className="bg-[#F1F5EB] px-6 py-4 rounded-b-[16px] flex items-center justify-start gap-2.5 shrink-0">
+        {/* 3. MODAL FOOTER (Matching Figma node 1:10467 - buttons placed on left) */}
+        <div className="bg-[#F1F5EB] px-6 py-4 rounded-b-[16px] flex items-center justify-start gap-2.5 shrink-0" dir="ltr">
           {/* Destructive Confirm Button (node 1:10468) */}
           <button
             type="button"
             onClick={handleConfirm}
             disabled={isSubmitting}
             className="h-11 px-8 rounded-[12px] bg-[#B12515] hover:bg-[#961F12] text-white font-bold text-sm flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-all cursor-pointer disabled:opacity-70 active:scale-98"
+            dir="rtl"
           >
             <CalendarX className="w-4 h-4" />
             <span>{isSubmitting ? "جارٍ الإلغاء..." : "تأكيد إلغاء الحجز"}</span>
@@ -286,6 +287,7 @@ export function CancelBookingModal({
             type="button"
             onClick={onClose}
             className="h-11 px-6 rounded-[12px] bg-white hover:bg-[#EAEFE6] text-[#181D17] font-semibold text-sm flex items-center justify-center transition-colors cursor-pointer shadow-3xs"
+            dir="rtl"
           >
             إلغاء
           </button>
