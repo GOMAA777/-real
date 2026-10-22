@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { initialUnits } from "../../data/mock-units";
-import { UnitStatus } from "../../types";
-import { UnitPageHeader } from "./unit-page-header";
 import { UnitHeroCard } from "./unit-hero-card";
 import { UnitSpecsCard } from "./unit-specs-card";
 import { UnitActiveBookingCard } from "./unit-active-booking-card";
@@ -46,14 +44,7 @@ export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
 
   return (
     <div className="space-y-6 pb-12" dir="rtl">
-      {/* 1. Page Title Header Card (Requested by user: بنفس شكل الصفحات التانية) */}
-      <UnitPageHeader
-        title="تفاصيل الوحدة"
-        subtitle="إدارة ومتابعة بيانات ومواصفات الوحدة وحالة الإشغال والوصول الذكي وسجل التدقيق الإداري."
-        fallbackHref="/dashboard/units"
-      />
-
-      {/* 2. Top Hero Card with Unit Details (Requested by user: كارت فوق بتفاصيل الوحدة) */}
+      {/* Top Hero Card with Unit Details */}
       <UnitHeroCard
         unitNumber={unit.unitNumber}
         statusLabel="مشغولة (نزيل حالي)"
