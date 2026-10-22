@@ -1,84 +1,105 @@
 "use client";
 
-import { Eye, Image as ImageIcon, Maximize2, Plus } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { X } from "lucide-react";
 
 export function UnitGalleryCard() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const images = [
     {
-      title: "غرفة النوم الرئيسية",
-      sub: "سرير مزدوج كبير كينج وإضاءة محيطية",
-      badge: "الصورة الرئيسية",
-      bgGradient: "from-[#4B5940]/90 to-[#2A3524]/90",
+      title: "غرفة النوم الرئيسية والمجلس",
+      src: "/images/units/bedroom.png",
+      alt: "غرفة النوم الرئيسية والمجلس",
     },
     {
-      title: "دورة المياه والتعقيم الفندقي",
-      sub: "تجهيزات حديثة ومستلزمات فندقية كاملة",
-      badge: "مرافق",
-      bgGradient: "from-[#5B6D50]/90 to-[#374431]/90",
+      title: "المطبخ المفتوح وركن الطعام",
+      src: "/images/units/kitchen.png",
+      alt: "المطبخ المفتوح وركن الطعام",
     },
     {
-      title: "ركن الجلوس والشاشة الذكية",
-      sub: "شاشة 55 بوصة بدقة 4K ومكتب عمل تنفيذي",
-      badge: "معيشة",
-      bgGradient: "from-[#6D7F61]/90 to-[#42503B]/90",
+      title: "دورة المياه والتجهيزات الفندقية",
+      src: "/images/units/bathroom.png",
+      alt: "دورة المياه والتجهيزات الفندقية",
     },
   ];
 
   return (
-    <div className="bg-white rounded-[16px] p-5 sm:p-6 border border-[#EEF2E6] shadow-2xs space-y-4 text-start">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <ImageIcon className="w-4 h-4 text-[#34422A]" />
-          <h3 className="text-[17px] font-bold text-[#181D17]">
-            معرض صور وتجهيزات الوحدة
-          </h3>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => toast.info("إضافة صور جديدة للوحدة")}
-          className="text-[12px] font-bold text-[#34422A] hover:text-[#181D17] flex items-center gap-1 cursor-pointer"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>إضافة صور</span>
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        {images.map((img, idx) => (
-          <div
-            key={idx}
-            onClick={() => toast.info(`استعراض: ${img.title}`)}
-            className="group relative h-44 rounded-[14px] overflow-hidden border border-[#EDF1E7] cursor-pointer shadow-2xs flex flex-col justify-between p-3.5 text-white"
-          >
-            {/* Background Styled Container with Ambient Depth */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${img.bgGradient} transition-transform duration-300 group-hover:scale-105`}
-            />
-
-            {/* Top Bar with Badge */}
-            <div className="relative z-10 flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-white/20 backdrop-blur-md text-white border border-white/20">
-                {img.badge}
+    <>
+      <div
+        className="bg-white drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] border border-[#E2E6DC] rounded-[16px] p-5 sm:p-6 space-y-4"
+        dir="rtl"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between pb-4 border-b border-[#F1F5EB]/60">
+          <div className="flex items-center gap-2.5">
+            <span className="bg-[#34422A] h-[20px] w-[6px] rounded-full shrink-0" />
+            <div className="flex items-center gap-2">
+              <h2 className="font-bold text-[#181D17] text-[18px] leading-[28px]">
+                معرض صور الوحدة
+              </h2>
+              <span className="bg-[#E5EAE0] rounded-full px-2 py-0.5 font-medium text-[#75786F] text-[11px] leading-[16px]">
+                3 صور مسجلة
               </span>
-              <span className="w-7 h-7 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Maximize2 className="w-3.5 h-3.5 text-white" />
-              </span>
-            </div>
-
-            {/* Bottom Caption */}
-            <div className="relative z-10">
-              <div className="text-[14px] font-bold leading-snug drop-shadow-sm">
-                {img.title}
-              </div>
-              <div className="text-[11px] text-white/80 mt-0.5 line-clamp-1">
-                {img.sub}
-              </div>
             </div>
           </div>
-        ))}
+
+          <button
+            type="button"
+            onClick={() => setSelectedImage(images[0].src)}
+            className="font-bold text-[#34422A] text-[12px] leading-[18px] hover:underline cursor-pointer select-none"
+          >
+            عرض جميع الصور
+          </button>
+        </div>
+
+        {/* 3-Image Photographic Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {images.map((img, idx) => (
+            <div
+              key={idx}
+              onClick={() => setSelectedImage(img.src)}
+              className="group relative h-[135px] rounded-[12px] overflow-hidden shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] bg-[#E5EAE0] cursor-pointer"
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-transparent to-transparent flex items-end p-3">
+                <span className="font-semibold text-white text-[11px] leading-[16px] text-right">
+                  {img.title}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center">
+            <button
+              type="button"
+              onClick={() => setSelectedImage(null)}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 p-2 cursor-pointer"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={selectedImage}
+              alt=""
+              className="max-h-[85vh] w-auto rounded-xl object-contain shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

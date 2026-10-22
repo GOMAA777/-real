@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { initialUnits } from "../../data/mock-units";
 import { UnitStatus } from "../../types";
-import { UnitDetailHeader } from "./unit-detail-header";
-import { UnitSpecsOverview } from "./unit-specs-overview";
-import { UnitStatusContent } from "./unit-status-content";
+import { UnitPageHeader } from "./unit-page-header";
+import { UnitHeroCard } from "./unit-hero-card";
+import { UnitSpecsCard } from "./unit-specs-card";
+import { UnitActiveBookingCard } from "./unit-active-booking-card";
 import { UnitSmartLockCard } from "./unit-smart-lock-card";
 import { UnitGalleryCard } from "./unit-gallery-card";
-import { UnitAuditLogCard } from "./unit-audit-log-card";
-import { UnitSidebar } from "./unit-sidebar";
+import { UnitActivityTimelineCard } from "./unit-activity-timeline-card";
+import { UnitSidebarCards } from "./unit-sidebar-cards";
 import { AccessCodeModal } from "./access-code-modal";
 import { ShowCodeModal } from "./show-code-modal";
 import { OperationsLogView } from "./operations-log-view";
-
 import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 
 interface UnitDetailPageProps {
@@ -22,12 +22,11 @@ interface UnitDetailPageProps {
 
 export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
   // Find matching unit or fallback to Unit 204
-  const unit = initialUnits.find((u) => u.id === unitId) ?? initialUnits[0];
+  const unit = initialUnits.find((u) => u.id === unitId || u.unitNumber === unitId) ?? initialUnits[0];
 
   useSetBreadcrumbTitle(`وحدة ${unit.unitNumber}`, `#${unit.unitNumber}`);
 
-  // State management
-  const [currentStatus, setCurrentStatus] = useState<UnitStatus>(unit.status);
+  // Interactive modal states
   const [showAccessCodeModal, setShowAccessCodeModal] = useState(false);
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [showOperationsLog, setShowOperationsLog] = useState(false);
@@ -35,7 +34,7 @@ export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
   // If Operations Log view is active [1:15620]
   if (showOperationsLog) {
     return (
-      <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] min-h-screen p-4 sm:p-6 lg:p-8">
+      <div className="space-y-6 pb-12" dir="rtl">
         <OperationsLogView
           onBack={() => setShowOperationsLog(false)}
           unitNumber={unit.unitNumber}
@@ -46,74 +45,94 @@ export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
   }
 
   return (
-    <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] min-h-screen p-4 sm:p-6 lg:p-8 space-y-6">
-      {/* 1. Header Banner */}
-      <UnitDetailHeader
-        unitNumber={unit.unitNumber}
-        propertyName={unit.propertyName}
-        status={currentStatus}
-        onChangeStatus={(newStatus) => setCurrentStatus(newStatus)}
-        onOpenAccessCodeModal={() => setShowAccessCodeModal(true)}
-        onOpenOperationsLog={() => setShowOperationsLog(true)}
+    <div className="space-y-6 pb-12" dir="rtl">
+      {/* 1. Page Title Header Card (Requested by user: بنفس شكل الصفحات التانية) */}
+      <UnitPageHeader
+        title="تفاصيل الوحدة"
+        subtitle="إدارة ومتابعة بيانات ومواصفات الوحدة وحالة الإشغال والوصول الذكي وسجل التدقيق الإداري."
+        fallbackHref="/dashboard/units"
       />
 
-      {/* 2. Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Main Content Area (8 Cols) */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* Specifications Overview (6 Metrics + Amenities) */}
-          <UnitSpecsOverview
+      {/* 2. Top Hero Card with Unit Details (Requested by user: كارت فوق بتفاصيل الوحدة) */}
+      <UnitHeroCard
+        unitNumber={unit.unitNumber}
+        statusLabel="مشغولة (نزيل حالي)"
+        propertyName={unit.propertyName}
+        location="الرياض — حي العليا"
+        floor="الطابق الثاني"
+        iotStatus="متصل ونشط IoT"
+        iotSubtitle="ربط القفل السحابي"
+      />
+
+      {/* 3. Main Two-Column Layout (Figma Master Record Layout) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Primary Column (approx 65% width / 8 columns in RTL) */}
+        <div className="lg:col-span-8 space-y-8">
+          {/* Section 1: بيانات ومواصفات الوحدة */}
+          <UnitSpecsCard
             unitNumber={unit.unitNumber}
-            type={unit.type}
-            floor={unit.floor}
-            pricePerNight={unit.pricePerNight}
+            unitType="استوديو فندقي"
+            floorLevel="الطابق الثاني (2)"
+            actualArea="45"
+            capacity="2 ضيوف كحد أقصى"
+            basePrice="250"
+            pricingModel="يومي (لكل ليلة)"
+            systemEntryDate="10 سبتمبر 2026"
           />
 
-          {/* Operational State Section:
-              - Occupied [1:14845]: Active Booking Card & PIN code
-              - Available [1:16655]: 7-day timeline & readiness metrics
-              - Cleaning [1:17332]: 7-day timeline & cleaning mission
-              - Maintenance [1:17982]: 7-day timeline & maintenance ticket
-          */}
-          <UnitStatusContent
-            status={currentStatus}
-            unitNumber={unit.unitNumber}
-            propertyName={unit.propertyName}
-            onOpenShowCode={() => setShowCodeModal(true)}
-            onOpenAccessCodeModal={() => setShowAccessCodeModal(true)}
+          {/* Section 2: الحجز الحالي المسجل */}
+          <UnitActiveBookingCard
+            bookingId="BK-10482"
+            guestName="خالد العتيبي"
+            guestPhone="+966 54 887 2311"
+            guestInitial="خ"
+            stayDates="18 سبتمبر — 21 سبتمبر 2026"
+            stayRemaining="متبقي ليلتان (تسجيل الخروج: 12:00 م)"
+            totalAmount="750.00"
+            paymentStatus="مدفوع بالكامل عبر منصة شريكة"
+            channelName="قناة الحجز: بوابة Booking المزامنة"
+            bookingRef="معرف الحجز: BK-10482"
           />
 
-          {/* IoT Smart Lock Management Hub */}
+          {/* Section 3: نظام وكود الدخول الذكي */}
           <UnitSmartLockCard
             unitNumber={unit.unitNumber}
             onOpenAccessCodeModal={() => setShowAccessCodeModal(true)}
             onOpenShowCode={() => setShowCodeModal(true)}
+            lockProtocol="TTLock Cloud Gateway v4.2"
+            validityText="صلاحية الكود: ساري حتى 21 سبتمبر 2026 — 12:00 م (انتهاء الإقامة تلقائياً)"
           />
 
-          {/* Photos & Equipments Gallery */}
+          {/* Section 4: معرض صور الوحدة */}
           <UnitGalleryCard />
 
-          {/* Recent Smart Activity & Audit Log */}
-          <UnitAuditLogCard
+          {/* Section 5: سجل النشاط والتدقيق الإداري */}
+          <UnitActivityTimelineCard
             onOpenOperationsLog={() => setShowOperationsLog(true)}
           />
         </div>
 
-        {/* Sidebar Area (4 Cols) */}
+        {/* Secondary / Sidebar Column (approx 35% width / 4 columns in RTL) */}
         <div className="lg:col-span-4">
-          <UnitSidebar
+          <UnitSidebarCards
             propertyName={unit.propertyName}
+            propertyType="مجمع سكني فندقي فاخر"
+            cityArea="الرياض — حي العليا"
+            totalUnits="12 وحدة مخدومة"
+            connectionStatus="مكتمل التراخيص والمطابقة"
             propertyId={unit.propertyId}
             ownerName={unit.ownerName}
+            ownerPhone="+966 50 123 4567"
+            ownerPropertiesCount="3 مجمعات عقارية"
+            ownerPayoutRate="مباشر إلى الحساب البنكي"
             ownerId={unit.ownerId}
             onOpenOperationsLog={() => setShowOperationsLog(true)}
-            onOpenAccessCodeModal={() => setShowAccessCodeModal(true)}
           />
         </div>
       </div>
 
-      {/* 3. Interactive Modals */}
-      {/* [1:15392] إدارة كود الدخول (Access Code Management Modal) */}
+      {/* 4. Interactive Modals */}
+      {/* إدارة كود الدخول وسياسة الأمان */}
       <AccessCodeModal
         open={showAccessCodeModal}
         onClose={() => setShowAccessCodeModal(false)}
@@ -125,7 +144,7 @@ export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
         propertyName={unit.propertyName}
       />
 
-      {/* [1:15517] عرض الكود (Show Passcode Modal) */}
+      {/* عرض كود الدخول */}
       <ShowCodeModal
         open={showCodeModal}
         onClose={() => setShowCodeModal(false)}

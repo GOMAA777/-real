@@ -31,21 +31,25 @@ async function UnitRouteContent({ params }: PageProps) {
 
 function UnitDetailSkeleton() {
   return (
-    <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] min-h-screen p-4 sm:p-6 lg:p-8 space-y-6 animate-pulse">
-      {/* Header Skeleton */}
-      <div className="bg-white rounded-[16px] p-6 border border-[#EEF2E6] h-32" />
+    <div className="space-y-6 pb-12 animate-pulse" dir="rtl">
+      {/* Page Header Skeleton */}
+      <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] h-24" />
+
+      {/* Unit Hero Card Skeleton */}
+      <div className="bg-white rounded-[16px] p-6 border border-[#E2E6DC] h-28" />
 
       {/* Grid Skeleton */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div className="lg:col-span-8 space-y-6">
-          <div className="bg-white rounded-[16px] p-6 border border-[#EEF2E6] h-48" />
-          <div className="bg-white rounded-[16px] p-6 border border-[#EEF2E6] h-64" />
-          <div className="bg-white rounded-[16px] p-6 border border-[#EEF2E6] h-56" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="lg:col-span-8 space-y-8">
+          <div className="bg-white rounded-[16px] p-6 border border-[#E2E6DC] h-72" />
+          <div className="bg-white rounded-[16px] p-6 border border-[#E2E6DC] h-64" />
+          <div className="bg-white rounded-[16px] p-6 border border-[#E2E6DC] h-56" />
+          <div className="bg-white rounded-[16px] p-6 border border-[#E2E6DC] h-48" />
         </div>
-        <div className="lg:col-span-4 space-y-4">
-          <div className="bg-white rounded-[16px] p-5 border border-[#EEF2E6] h-44" />
-          <div className="bg-white rounded-[16px] p-5 border border-[#EEF2E6] h-44" />
-          <div className="bg-white rounded-[16px] p-5 border border-[#EEF2E6] h-60" />
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white rounded-[16px] p-5 border border-[#E2E6DC] h-60" />
+          <div className="bg-white rounded-[16px] p-5 border border-[#E2E6DC] h-60" />
+          <div className="bg-white rounded-[16px] p-5 border border-[#E2E6DC] h-72" />
         </div>
       </div>
     </div>
