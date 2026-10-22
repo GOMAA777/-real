@@ -12,6 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface ChangeUnitModalProps {
   isOpen: boolean;
@@ -80,7 +81,17 @@ export function ChangeUnitModal({
 
   const selectedUnit = units.find((u) => u.id === selectedUnitId) || units[0];
 
-  const handleConfirm = () => {
+  const confirm = useConfirm();
+
+  const handleConfirm = async () => {
+    const ok = await confirm({
+      title: "تأكيد نقل الوحدة",
+      message: `هل أنت متأكد من رغبتك في نقل الحجز ${bookingCode} إلى (${selectedUnit.name})؟ سيتم تحديث رمز القفل الذكي وإخطار النزيل فوراً.`,
+      confirmLabel: "تأكيد النقل",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

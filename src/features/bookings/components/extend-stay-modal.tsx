@@ -16,6 +16,7 @@ import {
   CalendarCheck,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface ExtendStayModalProps {
   isOpen: boolean;
@@ -30,11 +31,20 @@ export function ExtendStayModal({
   bookingCode = "BK-10482",
   onConfirm,
 }: ExtendStayModalProps) {
+  const confirm = useConfirm();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    const ok = await confirm({
+      title: "تأكيد تمديد الإقامة",
+      message: `هل أنت متأكد من تمديد إقامة الحجز ${bookingCode} حتى 22 سبتمبر (ليلة إضافية) بمبلغ 650.00 ر.س؟ سيتم تمديد صلاحية كود الدخول تلقائياً.`,
+      confirmLabel: "تأكيد التمديد",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

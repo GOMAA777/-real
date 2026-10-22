@@ -24,6 +24,7 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { cn } from "@/lib/utils";
 import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
@@ -51,8 +52,19 @@ export function AddPropertyForm({ onSuccess }: AddPropertyFormProps) {
   const [mapType, setMapType] = useState<"m" | "k">("m"); // 'm' roadmap, 'k' satellite
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const confirm = useConfirm();
+
+  const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد حفظ العقار",
+      message: `هل أنت متأكد من حفظ وتفعيل بيانات العقار "${propertyName}" في محفظة المالك؟`,
+      confirmLabel: "حفظ واعتماد العقار",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

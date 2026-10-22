@@ -28,6 +28,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/use-ui-store";
 import { showUnderConstructionToast } from "@/lib/toast";
+import { useNavigationTrail } from "@/hooks/use-navigation-trail";
 
 const isRouteAvailable = (href: string) => {
   return [
@@ -110,6 +111,8 @@ export function Sidebar() {
     router.push("/login");
   };
 
+  const { resetTrail } = useNavigationTrail();
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -119,6 +122,7 @@ export function Sidebar() {
       e.preventDefault();
       showUnderConstructionToast(`صفحة "${title}"`);
     } else {
+      resetTrail({ title, href });
       setOptimisticHref(href);
       if (typeof window !== "undefined" && window.innerWidth < 1024) {
         // Only close the drawer on mobile overlay mode, keep open on desktop

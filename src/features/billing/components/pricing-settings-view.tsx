@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ConfirmPricingModal } from "./modals/confirm-pricing-modal";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export function PricingSettingsView() {
   const router = useRouter();
+  const confirm = useConfirm();
 
   // Dynamic pricing state for live recalculation
   const [monthlyPrice, setMonthlyPrice] = useState<number>(99);
@@ -16,9 +17,6 @@ export function PricingSettingsView() {
   const [notes, setNotes] = useState<string>(
     "تثبيت تعرفة التسعير السنوي الموحدة عند 999 ر.س لكل وحدة سكنية مع إبقاء التسعير التناسبي Prorated."
   );
-
-  // Modal open state
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   // Calculated values
   const yearlyFromMonthly = monthlyPrice * 12;
@@ -34,12 +32,26 @@ export function PricingSettingsView() {
   const annualVat = (annualPrice * 0.15 * (100 / 115)).toFixed(2);
   const annualBasic = (annualPrice - parseFloat(annualVat)).toFixed(2);
 
-  const handleSaveDraft = () => {
+  const handleSaveDraft = async () => {
+    const ok = await confirm({
+      title: "حفظ مسودة التسعير",
+      message: "هل أنت متأكد من حفظ الإعدادات الحالية كمسودة غير منشورة؟",
+      confirmLabel: "حفظ كمسودة",
+      variant: "default",
+    });
+    if (!ok) return;
     toast.success("تم حفظ مسودة إعدادات التسعير بنجاح");
   };
 
-  const handleConfirmPublish = () => {
-    setIsConfirmModalOpen(false);
+  const handleConfirmPublish = async () => {
+    const ok = await confirm({
+      title: "تأكيد حفظ ونشر إعدادات التسعير",
+      message: `هل أنت متأكد من اعتماد ونشر تعرفة الأسعار الجديدة (تاريخ السريان: ${effectiveDate})؟ سيتم تطبيق الأسعار على دورات الفوترة القادمة.`,
+      confirmLabel: "حفظ ونشر التعديلات",
+      variant: "default",
+    });
+    if (!ok) return;
+
     toast.success("تم تحديث وجدولة تعرفة الأسعار الجديدة بنجاح", {
       description: `تاريخ السريان: ${effectiveDate} | السعر السنوي: ${annualPrice} ر.س`,
     });
@@ -431,8 +443,8 @@ export function PricingSettingsView() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => setIsConfirmModalOpen(true)}
-            className="bg-[#34422a] hover:bg-[#2b3823] text-white px-7 h-[44px] rounded-[12px] font-['Cairo'] font-semibold text-[14px] flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-colors"
+            onClick={handleConfirmPublish}
+            className="bg-[#34422a] hover:bg-[#2b3823] text-white px-7 h-[44px] rounded-[12px] font-['Cairo'] font-semibold text-[14px] flex items-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-colors cursor-pointer"
           >
             <img
               alt=""
@@ -445,7 +457,7 @@ export function PricingSettingsView() {
           <button
             type="button"
             onClick={handleSaveDraft}
-            className="bg-[#d8e8cb] hover:bg-[#cbdec0] text-[#5a6952] px-5 h-[44px] rounded-[12px] font-['Cairo'] font-semibold text-[14px] transition-colors"
+            className="bg-[#d8e8cb] hover:bg-[#cbdec0] text-[#5a6952] px-5 h-[44px] rounded-[12px] font-['Cairo'] font-semibold text-[14px] transition-colors cursor-pointer"
           >
             حفظ كمسودة
           </button>
@@ -468,16 +480,6 @@ export function PricingSettingsView() {
           <span>آخر تحديث تلقائي للمسودة منذ دقيقة واحدة</span>
         </div>
       </div>
-
-      {/* Confirmation Modal */}
-      <ConfirmPricingModal
-        isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
-        onConfirm={handleConfirmPublish}
-        monthlyPrice={monthlyPrice}
-        annualPrice={annualPrice}
-        effectiveDate={effectiveDate}
-      />
     </div>
   );
 }

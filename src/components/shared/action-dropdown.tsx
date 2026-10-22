@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { MoreVertical, MoreHorizontal, LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useConfirm, type ConfirmOptions } from "@/hooks/use-confirm";
 
 export interface ActionDropdownItem {
   label: string;
@@ -12,6 +13,7 @@ export interface ActionDropdownItem {
   onClick?: () => void;
   href?: string;
   variant?: "default" | "active" | "destructive";
+  confirm?: ConfirmOptions;
 }
 
 interface ActionDropdownProps {
@@ -29,6 +31,7 @@ export function ActionDropdown({
   align = "end",
   ariaLabel = "خيارات إضافية",
 }: ActionDropdownProps) {
+  const confirm = useConfirm();
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -220,8 +223,12 @@ export function ActionDropdown({
                 <button
                   key={idx}
                   type="button"
-                  onClick={() => {
+                  onClick={async () => {
                     setIsOpen(false);
+                    if (item.confirm) {
+                      const ok = await confirm(item.confirm);
+                      if (!ok) return;
+                    }
                     if (item.onClick) item.onClick();
                   }}
                   className={itemClasses}

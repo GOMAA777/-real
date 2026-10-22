@@ -10,8 +10,10 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export function OwnerQuickActions() {
+  const confirm = useConfirm();
   const actions = [
     {
       id: "edit",
@@ -60,11 +62,20 @@ export function OwnerQuickActions() {
             <button
               key={act.id}
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (act.id === "edit") {
                   toast.info("تعديل بيانات المالك (خالد العتيبي)");
                 } else if (act.id === "toggle_status") {
-                  toast.success("تم تحديث حالة حساب المالك إلى نشط");
+                  const ok = await confirm({
+                    title: "تغيير حالة حساب المالك",
+                    message: "هل أنت متأكد من تغيير حالة حساب المالك (خالد العتيبي) بين نشط ومعلق؟",
+                    confirmLabel: "تأكيد تغيير الحالة",
+                    cancelLabel: "إلغاء",
+                    variant: "default",
+                  });
+                  if (ok) {
+                    toast.success("تم تحديث حالة حساب المالك إلى نشط");
+                  }
                 } else if (act.id === "message") {
                   toast.info("جاري فتح نافذة المراسلة والبريد المباشر مع المالك");
                 } else if (act.id === "download_pdf") {
@@ -89,7 +100,18 @@ export function OwnerQuickActions() {
       <div className="pt-2 text-center">
         <button
           type="button"
-          onClick={() => toast.error("تم تعليق حساب المالك مؤقتاً وتجميد العمليات التشغيلية")}
+          onClick={async () => {
+            const ok = await confirm({
+              title: "تعليق حساب المالك مؤقتاً",
+              message: "هل أنت متأكد من تعليق حساب المالك (خالد العتيبي) وتجميد العمليات التشغيلية التابعة له مؤقتاً؟",
+              confirmLabel: "نعم، تعليق الحساب",
+              cancelLabel: "تراجع",
+              variant: "destructive",
+            });
+            if (ok) {
+              toast.error("تم تعليق حساب المالك مؤقتاً وتجميد العمليات التشغيلية");
+            }
+          }}
           className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] inline-flex items-center gap-2 cursor-pointer transition-colors"
         >
           <span>تعليق حساب المالك مؤقتاً</span>

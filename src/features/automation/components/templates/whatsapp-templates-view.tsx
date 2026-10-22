@@ -23,6 +23,7 @@ import {
   MoreVertical,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { WhatsAppTemplate, AutomationMainTab } from "../../types";
 import { initialWhatsAppTemplates } from "../../data/mock-automation";
 import { AutomationTabsNav } from "../automation-tabs-nav";
@@ -73,8 +74,19 @@ export function WhatsAppTemplatesView({ onTabChange }: WhatsAppTemplatesViewProp
     });
   }, [templates, searchQuery, selectedCategory, selectedStatus, forceEmpty]);
 
-  const handlePauseConfirm = () => {
+  const confirm = useConfirm();
+
+  const handlePauseConfirm = async () => {
     if (!pauseTargetTemplate) return;
+
+    const ok = await confirm({
+      title: "تأكيد إيقاف قالب واتساب",
+      message: `هل أنت متأكد من إيقاف قالب واتساب "${pauseTargetTemplate.title}" (${pauseTargetTemplate.templateCode})؟`,
+      confirmLabel: "إيقاف القالب",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     setTemplates((prev) =>
       prev.map((t) =>
         t.id === pauseTargetTemplate.id
@@ -86,7 +98,15 @@ export function WhatsAppTemplatesView({ onTabChange }: WhatsAppTemplatesViewProp
     setPauseTargetTemplate(null);
   };
 
-  const handleActivateTemplate = (tpl: WhatsAppTemplate) => {
+  const handleActivateTemplate = async (tpl: WhatsAppTemplate) => {
+    const ok = await confirm({
+      title: "تأكيد تفعيل قالب واتساب",
+      message: `هل أنت متأكد من تفعيل وتطبيق قالب واتساب "${tpl.title}" (${tpl.templateCode})؟`,
+      confirmLabel: "تفعيل القالب",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setTemplates((prev) =>
       prev.map((t) =>
         t.id === tpl.id ? { ...t, status: "active", statusLabel: "مفعلة" } : t

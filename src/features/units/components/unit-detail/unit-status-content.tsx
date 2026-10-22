@@ -24,6 +24,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { UnitStatus } from "../../types";
 import { UnitOccupancyTimeline } from "./unit-occupancy-timeline";
 
@@ -42,6 +43,7 @@ export function UnitStatusContent({
   onOpenShowCode,
   onOpenAccessCodeModal,
 }: UnitStatusContentProps) {
+  const confirm = useConfirm();
   // Case 1: Occupied State [1:14845]
   if (status === "occupied") {
     return (
@@ -403,7 +405,18 @@ export function UnitStatusContent({
             </button>
             <button
               type="button"
-              onClick={() => toast.success("تم تأكيد اكتمال التنظيف وتحويل الوحدة إلى متاحة")}
+              onClick={async () => {
+                const ok = await confirm({
+                  title: "تأكيد انتهاء التنظيف الفندقي",
+                  message: `هل أنت متأكد من اكتمال أعمال التنظيف والتعقيم للوحدة ${unitNumber} (${propertyName}) وتحويل حالتها إلى «متاحة»؟`,
+                  confirmLabel: "نعم، تأكيد الاكتمال",
+                  cancelLabel: "إلغاء",
+                  variant: "default",
+                });
+                if (ok) {
+                  toast.success("تم تأكيد اكتمال التنظيف وتحويل الوحدة إلى متاحة");
+                }
+              }}
               className="h-9 px-4 rounded-[8px] bg-[#34422A] text-white text-[12px] font-bold hover:bg-[#283420] transition-colors cursor-pointer"
             >
               تأكيد انتهاء التنظيف فوراً
@@ -505,7 +518,18 @@ export function UnitStatusContent({
             </button>
             <button
               type="button"
-              onClick={() => toast.success("تم إغلاق البلاغ بنجاح وإعادة الوحدة لحالة متاحة")}
+              onClick={async () => {
+                const ok = await confirm({
+                  title: "إكمال الصيانة وإعادة الإتاحة",
+                  message: `هل أنت متأكد من انتهاء أعمال الصيانة للبلاغ #MT-1082 بالكامل وإعادة الوحدة ${unitNumber} (${propertyName}) إلى الخدمة وجدول الإتاحة؟`,
+                  confirmLabel: "نعم، إكمال الصيانة",
+                  cancelLabel: "إلغاء",
+                  variant: "default",
+                });
+                if (ok) {
+                  toast.success("تم إغلاق البلاغ بنجاح وإعادة الوحدة لحالة متاحة");
+                }
+              }}
               className="h-9 px-4 rounded-[8px] bg-[#991B1B] text-white text-[12px] font-bold hover:bg-[#7F1D1D] transition-colors cursor-pointer"
             >
               إكمال الصيانة وإعادة الإتاحة

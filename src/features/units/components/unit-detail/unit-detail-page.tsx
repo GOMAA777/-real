@@ -14,6 +14,8 @@ import { AccessCodeModal } from "./access-code-modal";
 import { ShowCodeModal } from "./show-code-modal";
 import { OperationsLogView } from "./operations-log-view";
 
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
+
 interface UnitDetailPageProps {
   unitId?: string;
 }
@@ -21,6 +23,8 @@ interface UnitDetailPageProps {
 export function UnitDetailPage({ unitId = "1" }: UnitDetailPageProps) {
   // Find matching unit or fallback to Unit 204
   const unit = initialUnits.find((u) => u.id === unitId) ?? initialUnits[0];
+
+  useSetBreadcrumbTitle(`وحدة ${unit.unitNumber}`, `#${unit.unitNumber}`);
 
   // State management
   const [currentStatus, setCurrentStatus] = useState<UnitStatus>(unit.status);

@@ -9,6 +9,7 @@ import {
   DoorClosed,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { PropertyDetail } from "../types";
 
 interface PropertyHeroCardProps {
@@ -16,6 +17,7 @@ interface PropertyHeroCardProps {
 }
 
 export function PropertyHeroCard({ property }: PropertyHeroCardProps) {
+  useSetBreadcrumbTitle(property.name, `#${property.code}`);
   return (
     <div className="bg-white rounded-[28px] p-6 sm:p-8 border border-[#E2E6DC] shadow-2xs" dir="rtl">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">

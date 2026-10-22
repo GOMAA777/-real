@@ -11,6 +11,7 @@ import {
   SquarePen,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface PropertyAdminActionsProps {
   ownerId?: string;
@@ -23,6 +24,7 @@ export function PropertyAdminActions({
   ownerName = "محمد العتيبي",
   propertyId = "1",
 }: PropertyAdminActionsProps) {
+  const confirm = useConfirm();
   return (
     <div className="bg-white rounded-[28px] p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-4" dir="rtl">
       {/* 1. Header */}
@@ -135,7 +137,18 @@ export function PropertyAdminActions({
       <div className="pt-2 border-t border-[#E8EDE2]">
         <button
           type="button"
-          onClick={() => toast.error("تنبيه: أرشفة العقار تتطلب تأكيد المشرف العام")}
+          onClick={async () => {
+            const ok = await confirm({
+              title: "أرشفة العقار من المنظومة العامة",
+              message: `هل أنت متأكد من رغبتك في أرشفة هذا العقار؟ سيتم إخفاء جميع الوحدات التابعة له وتجميد قنوات الحجز المرتبطة.`,
+              confirmLabel: "نعم، أرشفة العقار",
+              cancelLabel: "إلغاء",
+              variant: "destructive",
+            });
+            if (ok) {
+              toast.error("تمت أرشفة العقار من المنظومة العامة بنجاح.");
+            }
+          }}
           className="w-full bg-white hover:bg-[#FEF2F2] border border-[#FCA5A5] text-[#D32F2F] font-black text-xs sm:text-sm py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
         >
           <span>أرشفة العقار من المنظومة العامة</span>

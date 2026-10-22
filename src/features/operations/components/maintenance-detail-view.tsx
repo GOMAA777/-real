@@ -24,6 +24,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { MaintenanceStartModal } from "./maintenance-start-modal";
 
 interface MaintenanceDetailViewProps {
@@ -31,10 +33,20 @@ interface MaintenanceDetailViewProps {
 }
 
 export function MaintenanceDetailView({ ticketId = "MT-2048" }: MaintenanceDetailViewProps) {
+  useSetBreadcrumbTitle(`بلاغ صيانة #${ticketId}`, `#${ticketId}`);
+  const confirm = useConfirm();
   const [status, setStatus] = useState<"in_progress" | "completed">("in_progress");
   const [isStartModalOpen, setIsStartModalOpen] = useState(false);
 
-  const handleCompleteMaintenance = () => {
+  const handleCompleteMaintenance = async () => {
+    const ok = await confirm({
+      title: "تأكيد إكمال الصيانة",
+      message: `هل أنت متأكد من إكمال أعمال الصيانة للبلاغ (${ticketId})؟ سيتم تحويل الوحدة آلياً إلى مرحلة التنظيف وإغلاق البلاغ الفني.`,
+      confirmLabel: "تأكيد إكمال الصيانة",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setStatus("completed");
     toast.success("تم إكمال الصيانة وتحويل الوحدة آلياً إلى مرحلة التنظيف!");
   };

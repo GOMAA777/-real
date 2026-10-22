@@ -21,6 +21,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export function CreateMaintenanceTicketView() {
   const router = useRouter();
@@ -43,13 +44,32 @@ export function CreateMaintenanceTicketView() {
     { name: "voltage_check_reading.png", size: "950 KB" },
   ]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const confirm = useConfirm();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد إنشاء بلاغ الصيانة",
+      message: `هل أنت متأكد من إنشاء بلاغ الصيانة لـ (${selectedUnit})؟ سيتم حظر الوحدة آلياً من التقويم المركزي وإخطار الفريق الفني.`,
+      confirmLabel: "تأكيد وبدء البلاغ",
+      variant: "default",
+    });
+    if (!ok) return;
+
     toast.success("تم إنشاء بلاغ الصيانة MT-2048 وحظر الوحدة آلياً من الحجوزات بنجاح!");
     router.push("/dashboard/operations/maintenance/MT-2048");
   };
 
-  const removeFile = (name: string) => {
+  const removeFile = async (name: string) => {
+    const ok = await confirm({
+      title: "تأكيد حذف الملف المرفق",
+      message: `هل أنت متأكد من رغبتك في حذف الملف "${name}" من مرفقات البلاغ؟`,
+      confirmLabel: "حذف الملف",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     setFiles(files.filter((f) => f.name !== name));
     toast.info(`تم حذف الملف ${name}`);
   };

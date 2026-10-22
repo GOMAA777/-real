@@ -479,6 +479,13 @@ export function PropertiesTable() {
                             label: "أرشفة العقار",
                             icon: Trash2,
                             variant: "destructive",
+                            confirm: {
+                              title: "أرشفة العقار",
+                              message: `هل أنت متأكد من رغبتك في أرشفة العقار "${property.title}"؟ سيتم إيقاف تشغيل العقار وإخفاؤه من القوائم النشطة.`,
+                              confirmLabel: "أرشفة العقار",
+                              cancelLabel: "إلغاء",
+                              variant: "destructive",
+                            },
                             onClick: () =>
                               toast.error(`تم أرشفة العقار: ${property.title}`),
                           },

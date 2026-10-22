@@ -27,6 +27,8 @@ import {
   Check,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { AutomationRule } from "../../types";
 
 interface EditRuleViewProps {
@@ -39,6 +41,7 @@ export function EditRuleView({ rule }: EditRuleViewProps) {
   // Form states initialized with rule AUT-102 values
   const [ruleCode] = useState(rule?.ruleCode || "AUT-102");
   const [ruleName, setRuleName] = useState(rule?.title || "إرسال تفاصيل الوصول وكود الدخول الذكي");
+  useSetBreadcrumbTitle(`تعديل ${ruleName}`, `#${ruleCode}`);
   const [category, setCategory] = useState("وصول ذاتي وكود الدخول");
   const [description, setDescription] = useState(
     rule?.description ||
@@ -61,8 +64,19 @@ export function EditRuleView({ rule }: EditRuleViewProps) {
     }, 900);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const confirm = useConfirm();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد حفظ تعديلات قاعدة الأتمتة",
+      message: `هل أنت متأكد من حفظ التعديلات على قاعدة الأتمتة "${ruleName}" (#${ruleCode})؟ سيتم تحديث معايير الإطلاق المعتمدة.`,
+      confirmLabel: "حفظ التعديلات",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

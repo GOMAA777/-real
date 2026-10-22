@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { BookingDetail } from "../types";
 import { BookingDetailHeader } from "./booking-detail-header";
 import { BookingCancellationBanner } from "./booking-cancellation-banner";
@@ -17,6 +18,7 @@ interface BookingDetailViewProps {
 }
 
 export function BookingDetailView({ booking }: BookingDetailViewProps) {
+  useSetBreadcrumbTitle(`حجز ${booking.bookingCode}`, booking.guest?.name);
   const [currentStatus, setCurrentStatus] = useState<BookingDetail["status"]>(booking.status);
 
   const isCancelled = currentStatus === "cancelled";

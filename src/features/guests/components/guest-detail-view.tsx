@@ -1,5 +1,6 @@
 "use client";
 
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { GuestDetail } from "../types";
 import { GuestProfileHeader } from "./guest-profile-header";
 import { GuestInfoMetricsCard } from "./guest-info-metrics-card";
@@ -10,6 +11,7 @@ interface GuestDetailViewProps {
 }
 
 export function GuestDetailView({ guest }: GuestDetailViewProps) {
+  useSetBreadcrumbTitle(`العميل ${guest.name}`, `#${guest.guestCode}`);
   return (
     <div className="space-y-6 pb-12" dir="rtl">
       {/* 1. Top Header Card */}

@@ -2,6 +2,7 @@
 
 import { X, Pause, ShieldCheck, FileCheck } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { AutomationRule } from "../../../types";
 
 interface PauseRuleModalProps {
@@ -17,9 +18,19 @@ export function PauseRuleModal({
   onConfirm,
   rule,
 }: PauseRuleModalProps) {
+  const confirm = useConfirm();
+
   if (!isOpen || !rule) return null;
 
-  const handlePause = () => {
+  const handlePause = async () => {
+    const ok = await confirm({
+      title: "تأكيد إيقاف قاعدة الأتمتة",
+      message: `هل أنت متأكد من إيقاف قاعدة الأتمتة "${rule.title}" (#${rule.ruleCode})؟ سيتم إيقاف كافة الرسائل والجدولة المرتبطة بها مؤقتاً.`,
+      confirmLabel: "إيقاف القاعدة",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     onConfirm();
     toast.success(`تم إيقاف قاعدة الأتمتة "${rule.title}" بنجاح!`);
     onClose();

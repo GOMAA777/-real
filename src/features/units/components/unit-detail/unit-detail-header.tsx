@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Breadcrumb } from "@/components/shared/breadcrumb";
 import {
   ArrowRight,
   BatteryMedium,
@@ -68,19 +69,9 @@ export function UnitDetailHeader({
     <div className="bg-white rounded-[16px] p-5 sm:p-6 border border-[#EEF2E6] shadow-2xs space-y-4">
       {/* Top Breadcrumb & Status Quick-Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-start">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-[13px] text-[#7C8773] flex-wrap">
-          <Link
-            href="/dashboard/units"
-            className="hover:text-[#181D17] transition-colors flex items-center gap-1.5"
-          >
-            <ArrowRight className="w-3.5 h-3.5" />
-            <span>الوحدات</span>
-          </Link>
-          <span className="text-[#A3AC9E]">/</span>
-          <span className="text-[#7C8773]">{propertyName}</span>
-          <span className="text-[#A3AC9E]">/</span>
-          <span className="text-[#181D17] font-bold">وحدة {unitNumber}</span>
+        {/* Central Breadcrumb */}
+        <div className="flex items-center">
+          <Breadcrumb variant="navbar" />
         </div>
 
         {/* Operational States Switcher (for previewing all 4 Figma states: 1:14845, 1:16655, 1:17332, 1:17982) */}

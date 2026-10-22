@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, Trash2, ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { AutomationRule } from "../../../types";
 
 interface DeleteRuleModalProps {
@@ -18,15 +19,25 @@ export function DeleteRuleModal({
   onConfirm,
   rule,
 }: DeleteRuleModalProps) {
+  const confirm = useConfirm();
   const [confirmed, setConfirmed] = useState(false);
 
   if (!isOpen || !rule) return null;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!confirmed) {
       toast.error("يرجى تأكيد الإقرار بالتدقيق الأمني قبل الحذف");
       return;
     }
+
+    const ok = await confirm({
+      title: "تأكيد حذف قاعدة الأتمتة",
+      message: `هل أنت متأكد من رغبتك في حذف قاعدة الأتمتة "${rule.title}" (#${rule.ruleCode}) نهائياً؟ هذا الإجراء لا يمكن التراجع عنه.`,
+      confirmLabel: "حذف القاعدة نهائياً",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     onConfirm();
     toast.success(`تم حذف قاعدة الأتمتة "${rule.title}" وأرشفة سجلاتها التاريخية.`);
     onClose();

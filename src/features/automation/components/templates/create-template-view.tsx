@@ -23,6 +23,7 @@ import {
   Info,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { PreviewTemplateModal } from "./modals/preview-template-modal";
 
 export function CreateTemplateView() {
@@ -61,8 +62,19 @@ export function CreateTemplateView() {
     .replace(/\{\{6\}\}|\{\{كود الدخول\}\}/g, "482913")
     .replace(/\{\{رابط الموقع\}\}/g, "https://maps.google.com/?q=24.77,46.68");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const confirm = useConfirm();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد اعتماد وحفظ القالب",
+      message: `هل أنت متأكد من رغبتك في إرسال قالب واتساب "${templateName}" (${templateCode}) للاعتماد الرسمي عبر Meta Cloud API؟`,
+      confirmLabel: "اعتماد وحفظ القالب",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

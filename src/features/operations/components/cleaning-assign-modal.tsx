@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, CheckCircle2, Key, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface CleaningAssignModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export function CleaningAssignModal({
   propertyName = "عمارة النخيل (الرياض - حي العليا)",
   ownerName = "محمد العتيبي",
 }: CleaningAssignModalProps) {
+  const confirm = useConfirm();
   const [selectedAssignee, setSelectedAssignee] = useState("أحمد سالم (شركة النقاء للتشغيل الفندقي)");
   const [notes, setNotes] = useState(
     "يرجى فحص بطارية القفل الذكي والتأكد من إغلاق النوافذ والشرفات بعد انتهاء التهوية."
@@ -30,8 +32,17 @@ export function CleaningAssignModal({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد تعيين مسؤول التنظيف",
+      message: `هل أنت متأكد من تعيين (${selectedAssignee}) لمهمة تنظيف (${unitName})؟ سيتم توليد كود دخول مؤقت وإرسال الإشعار آلياً.`,
+      confirmLabel: "تأكيد التعيين",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onConfirm(selectedAssignee, notes);
     toast.success("تم تعيين مسؤول التنظيف وتوليد كود الدخول المؤقت بنجاح!");
     onClose();

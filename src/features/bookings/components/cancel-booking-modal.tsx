@@ -13,6 +13,7 @@ import {
   CalendarX,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface CancelBookingModalProps {
   isOpen: boolean;
@@ -46,7 +47,18 @@ export function CancelBookingModal({
     { id: "other", label: "أخرى" },
   ];
 
-  const handleConfirm = () => {
+  const confirm = useConfirm();
+
+  const handleConfirm = async () => {
+    const ok = await confirm({
+      title: "تأكيد إلغاء الحجز",
+      message: `هل أنت متأكد من رغبتك في إلغاء الحجز رقم ${bookingCode} (${selectedReason})؟ سيتم تحرير الوحدة في التقويم وإلغاء مفتاح الدخول الرقمي فوراً.`,
+      confirmLabel: "تأكيد إلغاء الحجز",
+      cancelLabel: "تراجع",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);

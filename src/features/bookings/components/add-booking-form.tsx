@@ -30,6 +30,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
 interface AddBookingFormProps {
@@ -37,6 +38,7 @@ interface AddBookingFormProps {
 }
 
 export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
+  const confirm = useConfirm();
   // Guest Steppers State
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(1);
@@ -59,8 +61,17 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
     toast.success("تم نسخ رقم المعاملة: BK-10483");
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد اعتماد الحجز",
+      message: `هل أنت متأكد من حفظ واعتماد الحجز الجديد رقم BK-10483 باسم (${guestName})؟`,
+      confirmLabel: "حفظ واعتماد الحجز",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onSuccess();
   };
 

@@ -22,6 +22,7 @@ import {
   Share2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export function CreateRuleView() {
   const router = useRouter();
@@ -48,8 +49,19 @@ export function CreateRuleView() {
     }, 1000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const confirm = useConfirm();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد حفظ وتفعيل قاعدة الأتمتة",
+      message: `هل أنت متأكد من حفظ وتفعيل قاعدة الأتمتة الجديدة "${ruleName}"؟ سيتم تطبيق شروط الإطلاق التلقائية فوراً.`,
+      confirmLabel: "حفظ وتفعيل القاعدة",
+      variant: "default",
+    });
+    if (!ok) return;
+
     toast.success("تم إنشاء وتفعيل قاعدة الأتمتة بنجاح!");
     router.push("/dashboard/automation");
   };

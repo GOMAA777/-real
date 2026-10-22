@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { cn } from "@/lib/utils";
 
 interface AccessCodeModalProps {
@@ -52,6 +53,8 @@ export function AccessCodeModal({
 
   if (!open) return null;
 
+  const confirm = useConfirm();
+
   const handleCopy = () => {
     navigator.clipboard.writeText("129385");
     setCopied(true);
@@ -59,11 +62,29 @@ export function AccessCodeModal({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleRegenerate = () => {
+  const handleRegenerate = async () => {
+    const ok = await confirm({
+      title: "إعادة توليد كود الدخول",
+      message: `هل أنت متأكد من إعادة توليد كود دخول جديد للوحدة ${unitNumber}؟ سيتم تحديث القفل الذكي وتغيير الكود النشط فوراً.`,
+      confirmLabel: "تأكيد إعادة التوليد",
+      cancelLabel: "إلغاء",
+      variant: "default",
+    });
+    if (!ok) return;
+
     toast.info("جاري إعادة توليد كود دخول جديد وتحديثه في القفل الذكي...");
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const ok = await confirm({
+      title: "حفظ إعدادات كود الدخول",
+      message: `هل أنت متأكد من حفظ إعدادات كود الدخول وسياسة الأمان للوحدة ${unitNumber}؟`,
+      confirmLabel: "تأكيد وحفظ الإعدادات",
+      cancelLabel: "تراجع",
+      variant: "default",
+    });
+    if (!ok) return;
+
     toast.success("تم حفظ إعدادات كود الدخول وسياسة الأمان بنجاح");
     onClose();
   };

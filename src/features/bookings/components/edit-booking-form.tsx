@@ -37,6 +37,7 @@ import {
   Layers,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 import { ChangeUnitModal } from "./change-unit-modal";
 import { CancelBookingModal } from "./cancel-booking-modal";
@@ -71,9 +72,18 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
     "طلب النزيل تسجيل وصول مبكر في حال إمكانية ذلك، وتجهيز سرير إضافي للأطفال مع توفير بياضات قطنية إضافية."
   );
 
+  const confirm = useConfirm();
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const ok = await confirm({
+      title: "حفظ تعديلات الحجز",
+      message: `هل أنت متأكد من رغبتك في حفظ التعديلات على الحجز رقم ${bookingId}؟ سيتم تطبيق التعديلات وتحديث القنوات المرتبطة.`,
+      confirmLabel: "حفظ التعديلات",
+      variant: "default",
+    });
+    if (!ok) return;
+
     setIsSaving(true);
     setTimeout(() => {
       setIsSaving(false);

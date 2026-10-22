@@ -1,4 +1,7 @@
+"use client";
+
 import { CheckCircle2, IdCard, Calendar, CreditCard } from "lucide-react";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 
 interface OwnerProfileCardProps {
   owner?: {
@@ -23,6 +26,8 @@ export function OwnerProfileCard({ owner }: OwnerProfileCardProps) {
   const email = owner?.email || "m.otaibi@domain.sa";
   const phone = owner?.phone || "+966 50 482 9102";
   const paymentMethod = owner?.paymentMethod || "مدى / فيزا (4912••)";
+
+  useSetBreadcrumbTitle(name, code);
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] shadow-2xs space-y-6">

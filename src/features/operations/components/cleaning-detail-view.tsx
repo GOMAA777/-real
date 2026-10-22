@@ -21,6 +21,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { CleaningAssignModal } from "./cleaning-assign-modal";
 import { CleaningStartModal } from "./cleaning-start-modal";
 import { CleaningCompleteModal } from "./cleaning-complete-modal";
@@ -30,6 +32,8 @@ interface CleaningDetailViewProps {
 }
 
 export function CleaningDetailView({ taskId = "CL-10482" }: CleaningDetailViewProps) {
+  useSetBreadcrumbTitle(`مهمة تنظيف #${taskId}`, `#${taskId}`);
+  const confirm = useConfirm();
   // Interactive state
   const [status, setStatus] = useState<"needs_cleaning" | "in_progress" | "completed">("needs_cleaning");
   const [assignee, setAssignee] = useState<string>("غير معين");
@@ -37,7 +41,16 @@ export function CleaningDetailView({ taskId = "CL-10482" }: CleaningDetailViewPr
   const [isStartModalOpen, setIsStartModalOpen] = useState(false);
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
 
-  const handleCancelTask = () => {
+  const handleCancelTask = async () => {
+    const ok = await confirm({
+      title: "إلغاء مهمة التنظيف",
+      message: `هل أنت متأكد من إلغاء مهمة التنظيف المجدولة (${taskId})؟ سيتم توثيق سبب الإلغاء في سجل العقار وإشعار المشرف.`,
+      confirmLabel: "نعم، إلغاء المهمة",
+      cancelLabel: "تراجع",
+      variant: "destructive",
+    });
+    if (!ok) return;
+
     toast.error("تم إلغاء المهمة المجدولة وتوثيق السبب في سجل العقار.");
   };
 

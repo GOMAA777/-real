@@ -27,6 +27,7 @@ import {
   FileText,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useSetBreadcrumbTitle } from "@/hooks/use-navigation-trail";
 import { AutomationRule } from "../../types";
 import { PauseRuleModal } from "./modals/pause-rule-modal";
 import { ActivateRuleModal } from "./modals/activate-rule-modal";
@@ -39,6 +40,7 @@ interface RuleDetailViewProps {
 export function RuleDetailView({ rule: initialRule }: RuleDetailViewProps) {
   const router = useRouter();
   const [rule, setRule] = useState<AutomationRule>(initialRule);
+  useSetBreadcrumbTitle(rule.title, `#${rule.ruleCode}`);
 
   // Modals state
   const [showPauseModal, setShowPauseModal] = useState(false);

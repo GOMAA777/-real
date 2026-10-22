@@ -2,6 +2,7 @@
 
 import { X, CheckCircle2, RefreshCw, Clock, FileText, Lock, Shield } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface MaintenanceStartModalProps {
   isOpen: boolean;
@@ -23,9 +24,19 @@ export function MaintenanceStartModal({
   ownerName = "سارة القحطاني (OWN-8823)",
   assigneeName = "فريق الصيانة (م. طارق العسيري)",
 }: MaintenanceStartModalProps) {
+  const confirm = useConfirm();
+
   if (!isOpen) return null;
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    const ok = await confirm({
+      title: "تأكيد بدء أعمال الصيانة",
+      message: `هل أنت متأكد من بدء تنفيذ بلاغ الصيانة (${ticketNumber}) لـ (${unitName})؟ سيتم توثيق الطابع الزمني وبدء احتساب معيار SLA.`,
+      confirmLabel: "تأكيد وبدء الصيانة",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onConfirm();
     toast.success("تم بدء تنفيذ الصيانة وتوثيق الطابع الزمني في مقاييس SLA!");
     onClose();

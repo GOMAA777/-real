@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, CheckCircle2, Clock, CheckSquare, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface CleaningCompleteModalProps {
   isOpen: boolean;
@@ -23,12 +24,22 @@ export function CleaningCompleteModal({
   ownerName = "محمد العتيبي (OWN-4491)",
   assigneeName = "أحمد سالم (مشرف معتمد — النقاء)",
 }: CleaningCompleteModalProps) {
+  const confirm = useConfirm();
   const [notes, setNotes] = useState("");
 
   if (!isOpen) return null;
 
-  const handleComplete = (e: React.FormEvent) => {
+  const handleComplete = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const ok = await confirm({
+      title: "تأكيد اكتمال التنظيف واعتماد الجاهزية",
+      message: `هل أنت متأكد من اكتمال مهام التنظيف لـ (${unitName} — ${propertyName})؟ سيتم تحويل حالة الوحدة فورياً إلى «متاحة» في التقويم المركزي.`,
+      confirmLabel: "تأكيد واعتماد الجاهزية",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onConfirm(notes);
     toast.success("تم تأكيد اكتمال التنظيف واعتماد جاهزية الوحدة تلقائياً!");
     onClose();

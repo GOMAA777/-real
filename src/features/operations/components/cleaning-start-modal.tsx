@@ -2,6 +2,7 @@
 
 import { X, Play, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface CleaningStartModalProps {
   isOpen: boolean;
@@ -24,9 +25,19 @@ export function CleaningStartModal({
   ownerName = "محمد العتيبي (OWN-4491)",
   assigneeName = "أحمد سالم",
 }: CleaningStartModalProps) {
+  const confirm = useConfirm();
+
   if (!isOpen) return null;
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    const ok = await confirm({
+      title: "تأكيد بدء مهمة التنظيف",
+      message: `هل أنت متأكد من بدء تنفيذ مهمة التنظيف (${taskNumber}) لـ ${unitName}؟ سيتم تفعيل كود الدخول الذكي وبدء احتساب مؤشر SLA.`,
+      confirmLabel: "تأكيد وبدء المهمة",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onConfirm();
     toast.success("تم بدء مهمة التنظيف وتفعيل كود الدخول الذكي للطاقم!");
     onClose();

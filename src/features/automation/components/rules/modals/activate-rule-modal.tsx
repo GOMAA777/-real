@@ -2,6 +2,7 @@
 
 import { X, Play, ShieldCheck, Check } from "lucide-react";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
 import { AutomationRule } from "../../../types";
 
 interface ActivateRuleModalProps {
@@ -17,9 +18,19 @@ export function ActivateRuleModal({
   onConfirm,
   rule,
 }: ActivateRuleModalProps) {
+  const confirm = useConfirm();
+
   if (!isOpen || !rule) return null;
 
-  const handleActivate = () => {
+  const handleActivate = async () => {
+    const ok = await confirm({
+      title: "تأكيد إعادة تفعيل قاعدة الأتمتة",
+      message: `هل أنت متأكد من إعادة تفعيل قاعدة الأتمتة "${rule.title}" (#${rule.ruleCode})؟ سيتم استئناف الجدولة وإطلاق الرسائل تلقائياً.`,
+      confirmLabel: "تفعيل القاعدة",
+      variant: "default",
+    });
+    if (!ok) return;
+
     onConfirm();
     toast.success(`تمت إعادة تفعيل قاعدة الأتمتة "${rule.title}" بنجاح!`);
     onClose();
