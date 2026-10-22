@@ -76,7 +76,7 @@ export function AddBookingForm({ onSuccess }: AddBookingFormProps) {
   };
 
   return (
-    <div className="space-y-8 lg:space-y-10 pb-28" dir="rtl">
+    <div className="space-y-8 lg:space-y-10 pb-8" dir="rtl">
       {/* 1. Page Header Card (Matching exact user crop in media_1792324248844.png) */}
       <div className="bg-white rounded-[28px] py-7 px-8 sm:px-10 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-2xs">
         {/* Right side: Title & Subtitle */}

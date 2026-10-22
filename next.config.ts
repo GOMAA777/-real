@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   output: isDev ? undefined : "export",
   basePath: "/Edaret_Amlak",
   trailingSlash: true,
+  devIndicators: false,
   images: {
     loader: "custom",
     loaderFile: "./src/lib/image-loader.ts",

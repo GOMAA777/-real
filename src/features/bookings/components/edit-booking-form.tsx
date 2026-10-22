@@ -104,7 +104,7 @@ export function EditBookingForm({ bookingId = "BK-10482" }: EditBookingFormProps
   };
 
   return (
-    <div className="space-y-6 pb-28" dir="rtl">
+    <div className="space-y-6 pb-8" dir="rtl">
 
       {/* Top Header Card (Exact match to design screenshot) */}
       <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E2E6DC] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-2xs">

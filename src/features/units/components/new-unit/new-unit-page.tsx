@@ -47,7 +47,7 @@ export function NewUnitPage() {
 
   return (
     <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] min-h-screen flex flex-col">
-      <div className="flex-1 px-5 pt-5 space-y-6">
+      <div className="flex-1 px-5 pt-5 pb-8 space-y-6">
         {/* Page header */}
         <NewUnitHeaderCard />
 
