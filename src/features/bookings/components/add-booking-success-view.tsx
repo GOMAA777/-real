@@ -37,12 +37,15 @@ export function AddBookingSuccessView({
     <div className="space-y-6 pb-12 animate-in fade-in duration-300" dir="rtl">
       {/* 1. Top Success Hero (Matching exact user design: rendered seamlessly on page background) */}
       <div className="py-6 sm:py-8 text-center space-y-4">
-        {/* Success Icon Circle Badge */}
-        <div className="relative w-20 h-20 rounded-full bg-[#DCE6D5] flex items-center justify-center mx-auto">
-          <Check className="w-8 h-8 text-[#172115] stroke-[2.5]" />
-          {/* Bottom badge with zap at bottom-left in RTL */}
-          <div className="w-6 h-6 rounded-full bg-white border border-[#D5DDD0] shadow-xs flex items-center justify-center absolute -bottom-1 -start-1 text-[#172115]">
-            <Zap className="w-3.5 h-3.5 fill-[#172115] text-[#172115]" />
+        {/* Success Icon Circle Badge (Exact match to reference image: double concentric circles + bottom-left white zap badge) */}
+        <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#E7F0DE] flex items-center justify-center mx-auto">
+          {/* Inner concentric soft green circle */}
+          <div className="w-[74px] h-[74px] sm:w-[84px] sm:h-[84px] rounded-full bg-[#D8E8CB] flex items-center justify-center">
+            <Check className="w-8 h-8 sm:w-9 sm:h-9 text-[#34422A] stroke-[3]" />
+          </div>
+          {/* Bottom-left overlay white circular badge with outline zap */}
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] flex items-center justify-center absolute bottom-0.5 left-0.5 text-[#34422A]">
+            <Zap className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#34422A] stroke-[2.2]" />
           </div>
         </div>
 
