@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { NewUnitPage } from "@/features/units/components/new-unit/new-unit-page";
 
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AddUnitPage() {
-  return <NewUnitPage />;
+  return (
+    <Suspense fallback={null}>
+      <NewUnitPage />
+    </Suspense>
+  );
 }

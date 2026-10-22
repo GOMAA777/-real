@@ -17,7 +17,6 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import { toast } from "sonner";
-import { FloatingConfirmationBar } from "@/components/shared/floating-confirmation-bar";
 
 interface AddBookingSuccessViewProps {
   bookingCode?: string;
@@ -259,32 +258,33 @@ export function AddBookingSuccessView({
         </div>
       </div>
 
-      {/* 4. Floating Confirmation & Actions Bar */}
-      <FloatingConfirmationBar
-        noteText="تم تسجيل واعتماد الحجز بنجاح ومزامنة بيانات النزيل والأقفال الرقمية."
-        noteIcon={ShieldCheck}
-        actions={[
-          {
-            label: "العودة إلى الحجوزات",
-            href: "/dashboard/bookings",
-            variant: "secondary",
-            icon: ArrowLeft,
-            iconPosition: "end",
-          },
-          {
-            label: "إضافة حجز آخر",
-            onClick: onReset,
-            variant: "draft",
-            icon: PlusCircle,
-          },
-          {
-            label: "عرض الحجز",
-            href: `/dashboard/bookings/${bookingCode || "BK-10482"}`,
-            variant: "primary",
-            icon: Eye,
-          },
-        ]}
-      />
+      {/* 4. Action Buttons (Matching Figma: centered inline action buttons, no floating overlap) */}
+      <div className="flex items-center justify-center gap-3 pt-6 pb-6 flex-wrap">
+        <Link
+          href={`/dashboard/bookings/${bookingCode || "BK-10483"}`}
+          className="h-11 min-w-[150px] px-6 rounded-[12px] bg-[#34422A] hover:bg-[#2C3825] text-white text-[14px] font-semibold flex items-center justify-center gap-2 shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition-colors cursor-pointer"
+        >
+          <span>عرض الحجز</span>
+          <Eye className="w-4 h-4 text-white" />
+        </Link>
+
+        <button
+          type="button"
+          onClick={onReset}
+          className="h-11 min-w-[150px] px-5 rounded-[12px] bg-[#EBEFE6] hover:bg-[#DEE5D7] text-[#181D17] text-[14px] font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+        >
+          <span>إضافة حجز آخر</span>
+          <PlusCircle className="w-4 h-4 text-[#181D17]" />
+        </button>
+
+        <Link
+          href="/dashboard/bookings"
+          className="h-11 min-w-[140px] px-4 rounded-[12px] text-[#454840] hover:bg-[#F1F5EB] text-[14px] font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+        >
+          <span>العودة إلى الحجوزات</span>
+          <ArrowLeft className="w-4 h-4" />
+        </Link>
+      </div>
     </div>
   );
 }

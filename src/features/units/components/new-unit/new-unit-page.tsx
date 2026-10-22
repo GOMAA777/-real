@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { NewUnitHeaderCard } from "./header-card";
 import { OwnerCard } from "./owner-card";
 import { PropertyCard } from "./property-card";
@@ -19,12 +19,15 @@ import { pickerProperties, pickerOwners } from "./picker-data";
 
 export function NewUnitPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [showPropertyPicker, setShowPropertyPicker] = useState(false);
   const [showOwnerPicker, setShowOwnerPicker] = useState(false);
   const [selectedPropertyId, setSelectedPropertyId] = useState("pr-1");
   const [selectedOwnerId, setSelectedOwnerId] = useState("own-1");
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(
+    searchParams?.get("success") === "true"
+  );
 
   const selectedProperty =
     pickerProperties.find((p) => p.id === selectedPropertyId) ??
@@ -32,11 +35,23 @@ export function NewUnitPage() {
   const selectedOwner =
     pickerOwners.find((o) => o.id === selectedOwnerId) ?? pickerOwners[0];
 
+  const handleSave = () => {
+    setShowSuccess(true);
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
+    params.set("success", "true");
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleAddAnother = () => {
+    setShowSuccess(false);
+    router.push("/dashboard/units/new");
+  };
+
   if (showSuccess) {
     return (
       <div className="-m-4 sm:-m-6 lg:-m-8 bg-[#F1F5EB] min-h-screen">
         <UnitSuccessScreen
-          onAddAnother={() => setShowSuccess(false)}
+          onAddAnother={handleAddAnother}
           onBackToList={() => router.push("/dashboard/units")}
           property={selectedProperty.name}
           owner={selectedOwner.name}
@@ -88,9 +103,9 @@ export function NewUnitPage() {
 
       {/* Sticky footer */}
       <FormFooterBar
-        onSaveDraft={() => setShowSuccess(true)}
+        onSaveDraft={handleSave}
         onCancel={() => router.push("/dashboard/units")}
-        onSave={() => setShowSuccess(true)}
+        onSave={handleSave}
       />
 
       {/* Popups */}
