@@ -1,4 +1,4 @@
-import { Building2, LogIn, CreditCard, ArrowLeft, History } from "lucide-react";
+import { Building2, LogIn, CreditCard, ArrowLeft } from "lucide-react";
 
 interface TimelineEvent {
   id: string;
@@ -47,23 +47,37 @@ export function OwnerActivityTimeline({
     <div className="bg-white rounded-3xl p-6 border border-[#E2E6DC] shadow-2xs space-y-5">
       {/* Header Row */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-bold text-[#172115]">
-            آخر نشاط وسجل العمليات
-          </h2>
-          <p className="text-xs text-[#7D8A78] mt-0.5">
-            الأحداث الموثقة في حساب المالك
-          </p>
-        </div>
-
+        {/* Right side in RTL: Icon Squircle + Title & Subtitle */}
         <div className="flex items-center gap-3">
-          <span className="text-xs text-[#7D8A78] font-medium hidden sm:inline">
-            {totalEventsCount} حدث مسجل
-          </span>
-          <div className="w-9 h-9 rounded-xl bg-[#EEF2E6] text-[#34432E] flex items-center justify-center shrink-0">
-            <History className="w-5 h-5" />
+          <div className="w-10 h-10 rounded-2xl bg-[#D4E2C7] text-[#283820] flex items-center justify-center shrink-0">
+            <svg
+              className="w-5 h-5 text-[#2B3925]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect width="18" height="12" x="3" y="4" rx="2" />
+              <path d="M7 11l2.5-3 2.5 3 4-4" />
+              <path d="M9 19h6" />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-[#172115]">
+              آخر نشاط وسجل العمليات
+            </h2>
+            <p className="text-xs text-[#7D8A78] mt-0.5">
+              الأحداث الموثقة في حساب المالك
+            </p>
           </div>
         </div>
+
+        {/* Left side in RTL: Event Count */}
+        <span className="text-xs sm:text-sm text-[#7D8A78] font-medium">
+          {totalEventsCount} حدث مسجل
+        </span>
       </div>
 
       {/* Timeline Items */}

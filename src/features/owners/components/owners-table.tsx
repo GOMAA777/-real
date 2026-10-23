@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { MoreVertical, ChevronRight, ChevronLeft } from "lucide-react";
+import { MoreVertical, Eye, SlidersHorizontal, Building2, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Owner, OwnerStatus } from "../types";
 import { OwnersFilters } from "./owners-filters";
@@ -11,6 +10,9 @@ import {
   OwnersAdvancedFilterDrawer,
   type AdvancedFilterState,
 } from "./owners-advanced-filter-drawer";
+import { ActionDropdown } from "@/components/shared/action-dropdown";
+import { TableDateCell } from "@/components/shared/table-date-cell";
+import { TablePagination } from "@/components/shared/table-pagination";
 
 const initialOwners: Owner[] = [
   {
@@ -616,7 +618,6 @@ const initialOwners: Owner[] = [
 ];
 
 export function OwnersTable() {
-  const router = useRouter();
   const [pageSize, setPageSize] = useState<number>(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
@@ -724,7 +725,7 @@ export function OwnersTable() {
           يونيو: "06",
           يوليو: "07",
           أغسطس: "08",
-          سبتمبر: "09",
+          سبتمبر: "09",                     
           أكتوبر: "10",
           نوفمبر: "11",
           ديسمبر: "12",
@@ -796,22 +797,6 @@ export function OwnersTable() {
 
   const fromIndex = totalFiltered === 0 ? 0 : startIndex + 1;
   const toIndex = Math.min(startIndex + pageSize, totalFiltered);
-
-  // Visible pages sliding window to prevent overflowing on small screens
-  const getVisiblePages = (current: number, total: number) => {
-    if (total <= 5) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-    if (current <= 3) {
-      return [1, 2, 3, 4, 5];
-    }
-    if (current >= total - 2) {
-      return [total - 4, total - 3, total - 2, total - 1, total];
-    }
-    return [current - 2, current - 1, current, current + 1, current + 2];
-  };
-
-  const visiblePages = getVisiblePages(activePage, totalPages);
 
   const counts = {
     all: initialOwners.length,
@@ -894,28 +879,23 @@ export function OwnersTable() {
                 paginatedOwners.map((owner) => (
                   <tr
                     key={owner.id}
-                    onClick={() => router.push(`/dashboard/owners/${owner.id}`)}
-                    className="hover:bg-[#F9FAF7] transition-colors group cursor-pointer"
+                    className="hover:bg-[#F9FAF7] transition-colors group"
                   >
                     {/* Owner Name & Avatar */}
                     <td className="py-4 px-4 sm:px-6 text-start">
-                      <Link
-                        href={`/dashboard/owners/${owner.id}`}
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-3 group/link"
-                      >
+                      <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-[#E2E6DC] text-[#34432E] font-bold text-xs flex items-center justify-center shrink-0">
                           {owner.initials}
                         </div>
                         <div>
-                          <div className="font-bold text-xs text-[#172115] group-hover/link:text-[#34432E] transition-colors">
+                          <div className="font-bold text-xs text-[#172115]">
                             {owner.name}
                           </div>
                           <div className="text-[11px] text-[#7D8A78]">
                             {owner.email}
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </td>
 
                     {/* Phone */}
@@ -941,12 +921,10 @@ export function OwnersTable() {
 
                     {/* Registration Date */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <div className="font-medium text-[#172115]">
-                        {owner.registrationDate}
-                      </div>
-                      <div className="text-[10px] text-[#7D8A78]">
-                        {owner.relativeTime}
-                      </div>
+                      <TableDateCell
+                        date={owner.registrationDate}
+                        relativeTime={owner.relativeTime}
+                      />
                     </td>
 
                     {/* Status Badge */}
@@ -958,14 +936,33 @@ export function OwnersTable() {
 
                     {/* Actions Menu */}
                     <td className="py-4 px-4 sm:px-6 text-center">
-                      <button
-                        type="button"
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label="خيارات إضافية"
-                        className="w-8 h-8 rounded-lg hover:bg-[#EEF2E6] text-[#7D8A78] hover:text-[#172115] inline-flex items-center justify-center transition-colors cursor-pointer"
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
+                      <ActionDropdown
+                        items={[
+                          {
+                            label: "عرض ملف المالك",
+                            icon: Eye,
+                            href: `/dashboard/owners/${owner.id}`,
+                          },
+                          {
+                            label: "تعديل بيانات المالك",
+                            icon: SlidersHorizontal,
+                            onClick: () =>
+                              toast.info(`تعديل بيانات المالك: ${owner.name}`),
+                          },
+                          {
+                            label: "سجل العقارات والمحفظة",
+                            icon: Building2,
+                            href: `/dashboard/owners/${owner.id}`,
+                          },
+                          {
+                            label: "تعطيل حساب المالك",
+                            icon: Trash2,
+                            variant: "destructive",
+                            onClick: () =>
+                              toast.error(`تم تعطيل حساب: ${owner.name}`),
+                          },
+                        ]}
+                      />
                     </td>
                   </tr>
                 ))
@@ -975,93 +972,20 @@ export function OwnersTable() {
         </div>
 
         {/* Table Footer / Pagination */}
-        <div className="p-4 sm:px-6 border-t border-[#EEF2E6] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7D8A78]">
-          {/* Right Side in RTL: Item Count & Page Size Selector */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 font-medium">
-            <span>
-              عرض {fromIndex}-{toIndex} من أصل {totalHeadlineCount} مالك عقار
-            </span>
-
-            <span className="hidden sm:inline-block w-px h-4 bg-[#CCD5C5]/70" />
-
-            {/* Page Size Selector: 5 | 10 | 50 */}
-            <div className="flex items-center gap-2">
-              <span className="text-[#7D8A78]">عدد العرض:</span>
-              <div className="inline-flex items-center rounded-xl border border-[#CCD5C5] bg-[#F4F6F0]/70 p-0.5 shadow-2xs">
-                {[5, 10, 50].map((size) => (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => handlePageSizeChange(size)}
-                    className={cn(
-                      "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer select-none",
-                      pageSize === size
-                        ? "bg-[#34432E] text-white shadow-2xs"
-                        : "text-[#2C3825] hover:text-[#172115] hover:bg-white/80"
-                    )}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Left Side in RTL: Pagination Controls: السابق -> 1 -> 2 -> ... -> التالي */}
-          <div className="flex items-center gap-1.5" dir="ltr">
-            {/* Previous Button (Leftmost) */}
-            <button
-              type="button"
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={activePage === 1}
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
-                activePage === 1
-                  ? "opacity-40 cursor-not-allowed bg-white"
-                  : "hover:bg-[#F4F6F0] cursor-pointer bg-white"
-              )}
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span>السابق</span>
-            </button>
-
-            {/* Dynamic Page Numbers */}
-            {visiblePages.map((pageNum) => {
-              const isActive = pageNum === activePage;
-              return (
-                <button
-                  key={pageNum}
-                  type="button"
-                  onClick={() => setCurrentPage(pageNum)}
-                  className={cn(
-                    "w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center transition-all select-none",
-                    isActive
-                      ? "bg-[#34432E] text-white shadow-xs"
-                      : "border border-[#CCD5C5] text-[#2C3825] hover:bg-[#F4F6F0] bg-white cursor-pointer shadow-2xs"
-                  )}
-                >
-                  {pageNum}
-                </button>
-              );
-            })}
-
-            {/* Next Button (Right) */}
-            <button
-              type="button"
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={activePage === totalPages}
-              className={cn(
-                "px-3.5 py-1.5 rounded-xl border border-[#CCD5C5] text-[#2C3825] flex items-center gap-1.5 font-medium text-xs transition-colors shadow-2xs select-none",
-                activePage === totalPages
-                  ? "opacity-40 cursor-not-allowed bg-white"
-                  : "hover:bg-[#F4F6F0] cursor-pointer bg-white"
-              )}
-            >
-              <span>التالي</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          currentPage={activePage}
+          totalPages={totalPages}
+          totalCount={totalHeadlineCount}
+          fromIndex={fromIndex}
+          toIndex={toIndex}
+          pageSize={pageSize}
+          pageSizeOptions={[5, 10, 20, 50]}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => handlePageSizeChange(size)}
+          entityName="مالك"
+          pluralEntityName="ملاك"
+          registeredLabel="مسجل"
+        />
       </div>
     </div>
   );

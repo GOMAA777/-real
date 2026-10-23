@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
@@ -17,12 +17,22 @@ import {
 import { cn } from "@/lib/utils";
 import { registerSchema, type RegisterInput } from "../schemas/register.schema";
 import { registerAction } from "../actions/register.action";
+import { isUserAuthenticated, setAuthSession } from "@/lib/auth-session";
 
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    if (isUserAuthenticated()) {
+      router.replace("/dashboard");
+    } else {
+      setIsCheckingAuth(false);
+    }
+  }, [router]);
 
   const {
     register,
@@ -54,6 +64,10 @@ export function RegisterForm() {
     try {
       const res = await registerAction(data);
       if (res?.data?.success) {
+        setAuthSession({
+          fullName: data.fullName,
+          email: data.email,
+        });
         setFeedback(res.data.message || "تم إنشاء الحساب بنجاح");
         router.push("/dashboard");
       }
@@ -63,6 +77,15 @@ export function RegisterForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (isCheckingAuth) {
+    return (
+      <div className="w-full max-w-md mx-auto py-16 flex flex-col items-center justify-center gap-3">
+        <div className="w-8 h-8 rounded-full border-2 border-[#344230]/20 border-t-[#344230] animate-spin" />
+        <span className="text-xs text-[#616E5D]">جاري التحقق من الجلسة...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-xl mx-auto space-y-7">
@@ -227,17 +250,17 @@ export function RegisterForm() {
             رقم الجوال
           </label>
           <div className="flex items-center rounded-2xl bg-white border border-[#E0E4D8] focus-within:ring-2 focus-within:ring-[#374732]/20 focus-within:border-[#374732] transition-all shadow-xs overflow-hidden">
+            <div className="h-12 px-3.5 bg-[#F4F6F0] border-e border-[#E0E4D8] text-xs font-semibold text-[#4A5745] flex items-center justify-center select-none shrink-0">
+              +966
+            </div>
             <input
               id="phone"
               type="tel"
               {...register("phone")}
               dir="ltr"
               placeholder="501234567"
-              className="flex-1 h-12 px-4 text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none text-end"
+              className="flex-1 h-12 px-4 text-sm text-[#182016] placeholder:text-[#9BA596] placeholder:text-xs focus:outline-none text-right"
             />
-            <div className="h-12 px-3.5 bg-[#F4F6F0] border-s border-[#E0E4D8] text-xs font-semibold text-[#4A5745] flex items-center justify-center select-none">
-              +966
-            </div>
           </div>
           {errors.phone && (
             <p className="text-[11px] text-red-600 font-medium">

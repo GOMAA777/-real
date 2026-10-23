@@ -10,19 +10,20 @@ import {
   CartesianGrid,
 } from "recharts";
 import { TrendingUp, Download } from "lucide-react";
+import { toast } from "sonner";
 
 const data = [
-  { month: "أبريل", count: 140 },
-  { month: "مايو", count: 164 },
-  { month: "يونيو", count: 188 },
-  { month: "يوليو", count: 210 },
-  { month: "أغسطس", count: 232 },
-  { month: "سبتمبر", count: 248 },
+  { month: "أبريل", count: 140, change: "+8%" },
+  { month: "مايو", count: 164, change: "+17%" },
+  { month: "يونيو", count: 188, change: "+15%" },
+  { month: "يوليو", count: 210, change: "+12%" },
+  { month: "أغسطس", count: 232, change: "+10%" },
+  { month: "سبتمبر", count: 248, change: "+12%" },
 ];
 
 export function DashboardGrowthChart() {
   return (
-    <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#E0E4D8] shadow-xs flex flex-col justify-between h-full">
+    <div className="p-5 sm:p-6 rounded-3xl bg-white border border-[#E0E4D8]/60 shadow-xs flex flex-col justify-between h-full">
       {/* Chart Header */}
       <div className="flex items-center justify-between pb-4 border-b border-[#F0F2EB]">
         <div className="flex items-center gap-2">
@@ -35,28 +36,29 @@ export function DashboardGrowthChart() {
           </div>
         </div>
 
-        {/* Filter / Download button */}
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F4F6F0] hover:bg-[#EAEFE5] border border-[#E0E4D8] text-xs font-semibold text-[#3C4A38] transition-colors"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>آخر 6 أشهر</span>
-        </button>
-      </div>
+        {/* Period badge & Download button */}
+        <div className="flex items-center gap-2">
+          {/* Badge: آخر 6 أشهر (Right in RTL) */}
+          <div className="px-4 py-1.5 rounded-full bg-[#EAF0E6] text-xs sm:text-sm font-medium text-[#172115] select-none">
+            آخر 6 أشهر
+          </div>
 
-      {/* Peak Badge Callout */}
-      <div className="pt-3 pb-1 flex justify-start">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#34432E] text-white text-[11px] font-bold shadow-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#86EFAC]" />
-          <span>سبتمبر: 248 مالك (+12%)</span>
+          {/* Download button (Left in RTL) */}
+          <button
+            type="button"
+            onClick={() => toast.info("جاري تحميل تقرير النمو...")}
+            title="تحميل التقرير"
+            className="w-9 h-9 rounded-xl bg-[#EAF0E6] hover:bg-[#DDE6D8] flex items-center justify-center text-[#172115] transition-colors cursor-pointer select-none"
+          >
+            <Download className="w-4 h-4 text-[#172115]" />
+          </button>
         </div>
       </div>
 
       {/* Recharts Area Container */}
-      <div className="w-full h-56 pt-2">
+      <div className="w-full h-64 pt-2">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 25, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="growthGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#374732" stopOpacity={0.25} />
@@ -74,17 +76,25 @@ export function DashboardGrowthChart() {
               tickLine={false}
               axisLine={false}
               tick={{ fill: "#97A393", fontSize: 10 }}
-              domain={[100, 260]}
+              domain={[100, 275]}
             />
             <Tooltip
+              defaultIndex={5}
+              offset={-30}
+              cursor={{ stroke: "#374732", strokeWidth: 1.5, strokeDasharray: "3 3" }}
               content={({ active, payload }) => {
                 if (active && payload && payload.length) {
+                  const item = payload[0].payload as {
+                    month: string;
+                    count: number;
+                    change?: string;
+                  };
                   return (
-                    <div className="rounded-xl bg-[#273323] p-2.5 text-xs text-white shadow-lg border border-white/10">
-                      <div className="font-bold">{payload[0].payload.month}</div>
-                      <div className="text-[#86EFAC] text-[11px]">
-                        {payload[0].value} مالك مسجل
-                      </div>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#34432E] border border-white/10 text-white text-[11px] font-bold shadow-lg select-none whitespace-nowrap -translate-y-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#86EFAC] shrink-0" />
+                      <span>
+                        {item.month}: {item.count} مالك ({item.change || "+12%"})
+                      </span>
                     </div>
                   );
                 }

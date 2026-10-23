@@ -1,17 +1,17 @@
 "use client";
 
 import { Plus, Upload } from "lucide-react";
-import { showUnderConstructionToast } from "@/lib/toast";
+import { toast } from "sonner";
 
 export function OwnersHeader() {
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-white border border-[#E2E6DC] flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-2xs">
+    <div className="rounded-3xl p-6 sm:p-8 bg-white border border-[#DCE2D7] flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-2xs font-cairo">
       {/* Title & Subtitle */}
       <div className="space-y-1 text-start">
-        <h1 className="text-xl sm:text-2xl font-bold text-[#172115] tracking-tight">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#252A24] tracking-tight">
           إدارة أصحاب العقارات
         </h1>
-        <p className="text-xs sm:text-sm text-[#7D8A78]">
+        <p className="text-xs sm:text-sm text-[#687163]">
           إدارة ومتابعة جميع أصحاب العقارات المسجلين وتراخيصهم على المنصة.
         </p>
       </div>
@@ -21,18 +21,18 @@ export function OwnersHeader() {
         {/* Secondary: Export Data */}
         <button
           type="button"
-          onClick={() => showUnderConstructionToast("خدمة تصدير البيانات")}
-          className="rounded-2xl px-4 py-2.5 bg-white border border-[#CCD5C5] hover:bg-[#F4F6F0] text-[#2C3825] text-xs sm:text-sm font-medium flex items-center gap-2 transition-all shadow-2xs cursor-pointer select-none"
+          onClick={() => toast.info("جاري تصدير بيانات قائمة الملاك (CSV / Excel)...")}
+          className="rounded-xl px-5 py-2.5 bg-white border border-[#CCD4C6] hover:bg-[#EFF2EB] text-[#252A24] text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all shadow-2xs cursor-pointer select-none"
         >
-          <Upload className="w-4 h-4 text-[#4A5745]" />
+          <Upload className="w-4 h-4 text-[#252A24]" />
           <span>تصدير البيانات</span>
         </button>
 
         {/* Primary: Add Owner (Outer left in RTL) */}
         <button
           type="button"
-          onClick={() => showUnderConstructionToast("إضافة مالك عقار جديد")}
-          className="rounded-2xl px-5 py-2.5 bg-[#34432E] hover:bg-[#2A3725] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer select-none"
+          onClick={() => toast.info("فتح نموذج تسجيل مالك عقار جديد")}
+          className="rounded-xl px-5 py-2.5 bg-[#4B5940] hover:bg-[#3E4A35] text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs cursor-pointer select-none"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>إضافة مالك عقار جديد</span>

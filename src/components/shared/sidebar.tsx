@@ -1,9 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { motion } from "motion/react";
+import { clearAuthSession, getAuthUser, type AuthUser } from "@/lib/auth-session";
+import Image from "next/image";
 import {
-  Building,
   LayoutGrid,
   Users,
   Building2,
@@ -17,14 +21,28 @@ import {
   UserCircle2,
   ShieldCheck,
   LogOut,
+  MessageSquare,
+  Zap,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/use-ui-store";
 import { showUnderConstructionToast } from "@/lib/toast";
+import { useNavigationTrail } from "@/hooks/use-navigation-trail";
 
 const isRouteAvailable = (href: string) => {
-  return ["/dashboard", "/dashboard/owners", "/dashboard/properties"].includes(href);
+  return [
+    "/dashboard",
+    "/dashboard/owners",
+    "/dashboard/properties",
+    "/dashboard/units",
+    "/dashboard/bookings",
+    "/dashboard/operations",
+    "/dashboard/whatsapp",
+    "/dashboard/automation",
+    "/dashboard/billing",
+    "/dashboard/styleguide",
+  ].includes(href);
 };
 
 interface NavItem {
@@ -39,8 +57,10 @@ const mainNavItems: NavItem[] = [
   { title: "أصحاب العقارات", href: "/dashboard/owners", icon: Users2 },
   { title: "العقارات", href: "/dashboard/properties", icon: Building2 },
   { title: "الوحدات", href: "/dashboard/units", icon: Home },
-  { title: "الحجوزات", href: "/dashboard/bookings", icon: CalendarDays, badge: "2" },
-  { title: "العمليات", href: "/dashboard/operations", icon: Wrench, badge: "2" },
+  { title: "الحجوزات", href: "/dashboard/bookings", icon: CalendarDays },
+  { title: "العمليات", href: "/dashboard/operations", icon: Wrench },
+  { title: "الأتمتة والرسائل", href: "/dashboard/automation", icon: Zap },
+  { title: "الواتساب", href: "/dashboard/whatsapp", icon: MessageSquare },
   { title: "فريق العمل", href: "/dashboard/team", icon: Users },
   { title: "الاشتراكات والفوترة", href: "/dashboard/billing", icon: Receipt },
   { title: "التقارير", href: "/dashboard/reports", icon: BarChart3 },
@@ -53,7 +73,45 @@ const systemNavItems: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [optimisticHref, setOptimisticHref] = useState<string | null>(null);
+
+  // Normalize pathname to strip basePath (/Edaret_Amlak) and any trailing slash
+  const cleanPathname = (pathname || "")
+    .replace(/^\/Edaret_Amlak/, "")
+    .replace(/\/+$/, "") || "/";
+
+  // Reset optimistic href when URL changes
+  useEffect(() => {
+    setOptimisticHref(null);
+  }, [cleanPathname]);
+
+  const isItemActive = (href: string) => {
+    const current = optimisticHref ?? cleanPathname;
+    const cleanHref = href.replace(/^\/Edaret_Amlak/, "").replace(/\/+$/, "");
+    if (cleanHref === "/dashboard") {
+      return current === "/dashboard" || current === "/";
+    }
+    return (
+      current === cleanHref ||
+      current.startsWith(cleanHref + "/")
+    );
+  };
+
+  useEffect(() => {
+    setCurrentUser(getAuthUser());
+  }, []);
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    clearAuthSession();
+    toast.success("تم تسجيل الخروج بنجاح");
+    router.push("/login");
+  };
+
+  const { resetTrail } = useNavigationTrail();
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -63,9 +121,13 @@ export function Sidebar() {
     if (!isRouteAvailable(href)) {
       e.preventDefault();
       showUnderConstructionToast(`صفحة "${title}"`);
-    } else if (typeof window !== "undefined" && window.innerWidth < 1024) {
-      // Only close the drawer on mobile overlay mode, keep open on desktop
-      setSidebarOpen(false);
+    } else {
+      resetTrail({ title, href });
+      setOptimisticHref(href);
+      if (typeof window !== "undefined" && window.innerWidth < 1024) {
+        // Only close the drawer on mobile overlay mode, keep open on desktop
+        setSidebarOpen(false);
+      }
     }
   };
 
@@ -80,18 +142,25 @@ export function Sidebar() {
       )}
 
       {/* ========================================================= */}
-      {/* 1. COLLAPSED MINI SIDEBAR (In Website's Dark Olive Colors) */}
+      {/* 1. COLLAPSED MINI SIDEBAR (In Design System's Tertiary Forest Olive) */}
       {/* ========================================================= */}
       <aside
         className={cn(
-          "hidden fixed top-0 bottom-0 start-0 z-40 w-[72px] bg-[#34432E] border-e border-white/10 flex-col justify-between py-4 select-none shadow-xs transition-all duration-300",
+          "hidden fixed top-0 bottom-0 start-0 z-40 w-[72px] bg-[#303A2C] border-e border-white/10 flex-col justify-between py-4 select-none shadow-xs transition-all duration-300 font-cairo",
           !sidebarOpen && "lg:flex"
         )}
       >
         {/* Top Header: Brand Squircle Icon */}
         <div className="relative flex flex-col items-center">
-          <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center text-white/90 shadow-2xs">
-            <Building className="w-5 h-5 text-white/90" />
+          <div className="w-10 h-10 rounded-xl bg-[#252A24] border border-white/15 flex items-center justify-center p-2 shadow-2xs">
+            <Image
+              src="/logo.png"
+              alt="ابراج"
+              width={24}
+              height={24}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
 
           {/* Divider */}
@@ -102,37 +171,52 @@ export function Sidebar() {
         <div className="flex-1 flex flex-col items-center gap-2 overflow-y-auto no-scrollbar py-1">
           {/* Main Navigation Items */}
           {mainNavItems.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href === "/dashboard" && pathname === "/");
+            const isActive = isItemActive(item.href);
             const Icon = item.icon;
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
+                onMouseEnter={() => router.prefetch(item.href)}
+                onFocus={() => router.prefetch(item.href)}
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
-                className="group relative flex items-center justify-center"
+                className="group relative flex items-center justify-center w-11 h-11 select-none outline-none"
               >
-                {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
-                    <Icon className="w-5 h-5 text-[#2C3825]" />
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                {isActive && (
+                  <motion.div
+                    layoutId="miniMainNavActivePill"
+                    className="absolute inset-0 rounded-[14px] bg-[#4B5940] shadow-xs border border-white/15 z-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                      mass: 0.8,
+                    }}
+                  />
                 )}
+
+                <div
+                  className={cn(
+                    "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
+                    isActive
+                      ? "text-white"
+                      : "text-white/75 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
 
                 {item.badge && (
                   <span
                     className={cn(
-                      "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center",
+                      "absolute -top-1 -end-1 min-w-4 h-4 px-1 rounded-full text-[9px] font-bold flex items-center justify-center z-20",
                       isActive
-                        ? "bg-[#2C3825] text-[#DCE7D3] ring-2 ring-[#DCE7D3]"
-                        : "bg-[#DCE7D3] text-[#2C3825] ring-2 ring-[#34432E]"
+                        ? "bg-[#C9B99A] text-[#252A24] ring-2 ring-[#4B5940]"
+                        : "bg-[#C9B99A] text-[#252A24] ring-2 ring-[#303A2C]"
                     )}
                   >
                     {item.badge}
@@ -147,27 +231,44 @@ export function Sidebar() {
 
           {/* System Items */}
           {systemNavItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = isItemActive(item.href);
             const Icon = item.icon;
 
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
+                onMouseEnter={() => router.prefetch(item.href)}
+                onFocus={() => router.prefetch(item.href)}
                 title={item.title}
                 aria-label={item.title}
                 onClick={(e) => handleNavClick(e, item.href, item.title)}
-                className="group relative flex items-center justify-center"
+                className="group relative flex items-center justify-center w-11 h-11 select-none outline-none"
               >
-                {isActive ? (
-                  <div className="w-11 h-11 rounded-[14px] bg-[#DCE7D3] text-[#2C3825] flex items-center justify-center shadow-xs">
-                    <Icon className="w-5 h-5 text-[#2C3825]" />
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                {isActive && (
+                  <motion.div
+                    layoutId="miniSystemNavActivePill"
+                    className="absolute inset-0 rounded-[14px] bg-[#4B5940] shadow-xs border border-white/15 z-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                      mass: 0.8,
+                    }}
+                  />
                 )}
+
+                <div
+                  className={cn(
+                    "relative z-10 w-full h-full rounded-xl flex items-center justify-center transition-colors duration-200",
+                    isActive
+                      ? "text-white"
+                      : "text-white/75 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
               </Link>
             );
           })}
@@ -184,41 +285,48 @@ export function Sidebar() {
             title="الملف الشخصي - محمد أحمد"
             aria-label="الملف الشخصي"
           >
-            <div className="w-10 h-10 rounded-xl bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center shadow-xs group-hover:opacity-90 transition-opacity">
+            <div className="w-10 h-10 rounded-xl bg-[#C9B99A] text-[#252A24] font-bold text-xs flex items-center justify-center shadow-xs group-hover:opacity-90 transition-opacity">
               م
             </div>
-            <span className="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#86EFAC] ring-2 ring-[#34432E]" />
+            <span className="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#4B5940] ring-2 ring-[#303A2C]" />
           </Link>
 
           {/* Logout Button */}
-          <Link
-            href="/login"
-            className="mt-2 p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-2 p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
             title="تسجيل الخروج"
             aria-label="تسجيل الخروج"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </aside>
 
       {/* ========================================================= */}
-      {/* 2. EXPANDED SIDEBAR (Full width in Website Colors)       */}
+      {/* 2. EXPANDED SIDEBAR (Full width in Design System Colors)  */}
       {/* ========================================================= */}
       <aside
         className={cn(
-          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#34432E] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5",
+          "fixed top-0 bottom-0 start-0 z-50 w-64 bg-[#303A2C] text-white flex flex-col justify-between p-4 transition-transform duration-300 ease-in-out select-none shadow-xl lg:shadow-none border-e border-white/5 font-cairo",
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:hidden"
         )}
       >
-
         {/* Top Scrollable Area: Brand & Main Navigation */}
         <div className="flex flex-col gap-5 overflow-y-auto no-scrollbar">
           {/* Header Brand */}
           <div className="flex items-center justify-between pt-2 px-2">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2A3725] border border-white/10 flex items-center justify-center shrink-0">
-                <Building className="w-5 h-5 text-white/90" />
+              <div className="w-10 h-10 rounded-xl bg-[#252A24] border border-white/15 flex items-center justify-center shrink-0 p-2 shadow-2xs">
+                <Image
+                  src="/logo.png"
+                  alt="ابراج"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                  priority
+                />
               </div>
               <div className="space-y-0.5">
                 <h1 className="text-base font-bold tracking-tight text-white leading-tight">
@@ -249,28 +357,43 @@ export function Sidebar() {
 
             <nav className="space-y-1">
               {mainNavItems.map((item) => {
-                const isActive =
-                  pathname === item.href ||
-                  (item.href === "/dashboard" && pathname === "/");
+                const isActive = isItemActive(item.href);
                 const Icon = item.icon;
 
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
+                    onMouseEnter={() => router.prefetch(item.href)}
+                    onFocus={() => router.prefetch(item.href)}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
+                      "group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
-                        ? "bg-[#DCE7D3] text-[#2C3825] font-bold shadow-xs"
-                        : "text-white/75 hover:text-white hover:bg-white/5"
+                        ? "text-white font-bold"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.08] font-medium"
                     )}
                   >
-                    <div className="flex items-center gap-2.5">
+                    {/* Animated Sliding Active Indicator Pill */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="mainNavActivePill"
+                        className="absolute inset-0 bg-[#4B5940] rounded-xl border border-white/15 shadow-xs z-0"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                          mass: 0.8,
+                        }}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-2.5">
                       <Icon
                         className={cn(
-                          "w-4 h-4 transition-colors",
-                          isActive ? "text-[#2C3825]" : "text-white/60 group-hover:text-white"
+                          "w-4 h-4 shrink-0 transition-colors duration-200",
+                          isActive ? "text-white" : "text-white/60 group-hover:text-white"
                         )}
                       />
                       <span>{item.title}</span>
@@ -279,10 +402,8 @@ export function Sidebar() {
                     {item.badge && (
                       <span
                         className={cn(
-                          "text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center",
-                          isActive
-                            ? "bg-[#2C3825] text-[#DCE7D3]"
-                            : "bg-[#DCE7D3] text-[#2C3825]"
+                          "relative z-10 text-[10px] font-bold min-w-5 h-5 px-1.5 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105",
+                          "bg-[#C9B99A] text-[#252A24]"
                         )}
                       >
                         {item.badge}
@@ -305,28 +426,47 @@ export function Sidebar() {
 
             <nav className="space-y-1">
               {systemNavItems.map((item) => {
-                const isActive = pathname === item.href;
+                const isActive = isItemActive(item.href);
                 const Icon = item.icon;
 
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={true}
+                    onMouseEnter={() => router.prefetch(item.href)}
+                    onFocus={() => router.prefetch(item.href)}
                     onClick={(e) => handleNavClick(e, item.href, item.title)}
                     className={cn(
-                      "group flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all",
+                      "group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-xs select-none transition-colors duration-200 outline-none",
                       isActive
-                        ? "bg-[#DCE7D3] text-[#2C3825] font-bold shadow-xs"
-                        : "text-white/75 hover:text-white hover:bg-white/5"
+                        ? "text-white font-bold"
+                        : "text-white/75 hover:text-white hover:bg-white/[0.08] font-medium"
                     )}
                   >
-                    <Icon
-                      className={cn(
-                        "w-4 h-4 transition-colors",
-                        isActive ? "text-[#2C3825]" : "text-white/60 group-hover:text-white"
-                      )}
-                    />
-                    <span>{item.title}</span>
+                    {/* Animated Sliding Active Indicator Pill */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="systemNavActivePill"
+                        className="absolute inset-0 bg-[#4B5940] rounded-xl border border-white/15 shadow-xs z-0"
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                          mass: 0.8,
+                        }}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-2.5">
+                      <Icon
+                        className={cn(
+                          "w-4 h-4 shrink-0 transition-colors duration-200",
+                          isActive ? "text-white" : "text-white/60 group-hover:text-white"
+                        )}
+                      />
+                      <span>{item.title}</span>
+                    </div>
                   </Link>
                 );
               })}
@@ -336,25 +476,29 @@ export function Sidebar() {
           {/* User Profile Card */}
           <div className="p-2.5 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#DCE7D3] text-[#2C3825] font-bold text-xs flex items-center justify-center">
-                م
+              <div className="w-8 h-8 rounded-full bg-[#C9B99A] text-[#252A24] font-bold text-xs flex items-center justify-center">
+                {currentUser?.fullName ? currentUser.fullName.charAt(0) : "م"}
               </div>
               <div>
-                <div className="text-xs font-bold text-white">محمد أحمد</div>
+                <div className="text-xs font-bold text-white">
+                  {currentUser?.fullName || "محمد أحمد"}
+                </div>
                 <div className="flex items-center gap-1 text-[10px] text-white/60">
-                  <ShieldCheck className="w-3 h-3 text-[#86EFAC]" />
-                  <span>مدير النظام</span>
+                  <ShieldCheck className="w-3 h-3 text-[#C9B99A]" />
+                  <span>{currentUser?.role || "مدير النظام"}</span>
                 </div>
               </div>
             </div>
 
-            <Link
-              href="/login"
-              className="p-1.5 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="p-1.5 text-white/50 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
               title="تسجيل الخروج"
+              aria-label="تسجيل الخروج"
             >
               <LogOut className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

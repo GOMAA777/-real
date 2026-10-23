@@ -19,8 +19,14 @@ import {
   ChevronRight,
   ChevronLeft,
   CheckCircle2,
+  SlidersHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import {
+  OwnerActivityFilterDrawer,
+  ActivityFilterState,
+} from "./owner-activity-filter-drawer";
 
 export interface AuditEvent {
   id: string;
@@ -327,17 +333,45 @@ export function OwnerActivityTabView() {
   const [events] = useState<AuditEvent[]>(defaultAuditEvents);
   const [selectedEventId, setSelectedEventId] = useState<string>("aud-1");
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [activityFilters, setActivityFilters] = useState<ActivityFilterState>({
+    category: "all",
+    actor: "all",
+    timeRange: "all",
+    sortBy: "latest",
+  });
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (activityFilters.category !== "all") count++;
+    if (activityFilters.actor !== "all") count++;
+    if (activityFilters.timeRange !== "all") count++;
+    if (activityFilters.sortBy !== "latest") count++;
+    return count;
+  }, [activityFilters]);
 
   const selectedEvent = useMemo(() => {
     return events.find((e) => e.id === selectedEventId) || events[0];
   }, [events, selectedEventId]);
 
   const filteredEvents = useMemo(() => {
-    return events.filter((evt) => {
-      if (categoryFilter !== "all" && evt.actionCategory !== categoryFilter) {
+    const result = events.filter((evt) => {
+      // Category filter
+      if (activityFilters.category !== "all" && evt.actionCategory !== activityFilters.category) {
         return false;
       }
+
+      // Actor filter
+      if (activityFilters.actor !== "all" && !evt.actorName.includes(activityFilters.actor)) {
+        return false;
+      }
+
+      // Time range filter
+      if (activityFilters.timeRange === "today" && !evt.date.includes("16 سبتمبر")) {
+        return false;
+      }
+
+      // Search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchesTitle = evt.actionTitle.toLowerCase().includes(q);
@@ -350,7 +384,13 @@ export function OwnerActivityTabView() {
       }
       return true;
     });
-  }, [events, categoryFilter, searchQuery]);
+
+    if (activityFilters.sortBy === "oldest") {
+      return [...result].reverse();
+    }
+
+    return result;
+  }, [events, activityFilters, searchQuery]);
 
   return (
     <div className="space-y-6">
@@ -432,61 +472,57 @@ export function OwnerActivityTabView() {
           </div>
 
           {/* Filters Bar */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+          <div className="bg-white rounded-3xl p-2 sm:p-2.5 border border-[#E0E4D8]/60 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xs">
             {/* Search Input */}
-            <div className="relative flex-1 min-w-[200px]">
+            <div className="relative w-full md:w-96 lg:w-[440px]">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="ابحث في سجل النشاط (نوع الإجراء، العنصر، المنفذ...)"
-                className="w-full bg-[#F6F8F4] border border-[#E2E6DC] rounded-xl px-4 py-2 pe-9 text-xs text-[#172115] placeholder:text-[#7D8A78] focus:outline-none focus:border-[#CCD5C5] transition-all"
+                className="w-full h-10 pe-4 ps-11 rounded-2xl bg-[#F1F5EB] border border-transparent text-xs text-[#172115] placeholder:text-[#8D9B88] focus:bg-white focus:border-[#CCD5C5] focus:outline-none transition-all shadow-2xs"
               />
-              <Search className="w-4 h-4 text-[#7D8A78] absolute end-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <div className="absolute start-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#7D8A78]">
+                <Search className="w-4 h-4" />
+              </div>
             </div>
 
-            {/* Filter 1: نوع الإجراء */}
-            <button
-              type="button"
-              onClick={() => {
-                setCategoryFilter((prev) => (prev === "all" ? "إدارة الأصول" : "all"));
-                toast.info("تم تطبيق فلتر نوع الإجراء");
-              }}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-            >
-              <span>جميع الإجراءات (الكل)</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
+            {/* Filter and Action Buttons */}
+            <div className="flex items-center gap-2 w-full md:w-auto">
+              <button
+                type="button"
+                onClick={() => setIsFilterDrawerOpen(true)}
+                className={cn(
+                  "h-10 px-4 rounded-2xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer select-none",
+                  activeFiltersCount > 0
+                    ? "bg-[#34432E] text-white shadow-xs"
+                    : "bg-[#F1F5EB] hover:bg-[#E5EBDD] text-[#172115]"
+                )}
+                title="تصفية سجل النشاط"
+              >
+                <span>فلتر</span>
+                <SlidersHorizontal
+                  className={cn(
+                    "w-3.5 h-3.5",
+                    activeFiltersCount > 0 ? "text-white" : "text-[#172115]"
+                  )}
+                />
+                {activeFiltersCount > 0 && (
+                  <span className="w-4 h-4 rounded-full bg-white text-[#34432E] text-[10px] font-bold flex items-center justify-center">
+                    {activeFiltersCount}
+                  </span>
+                )}
+              </button>
 
-            {/* Filter 2: المنفذ */}
-            <button
-              type="button"
-              onClick={() => toast.info("فلتر المنفذ: الكل")}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-            >
-              <span>المنفذ: الكل</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
-
-            {/* Filter 3: التاريخ */}
-            <button
-              type="button"
-              onClick={() => toast.info("النطاق الزمني: آخر 30 يوماً")}
-              className="bg-white border border-[#E2E6DC] hover:bg-[#F6F8F4] rounded-xl px-3 py-2 text-xs text-[#172115] font-medium flex items-center gap-1.5 cursor-pointer transition-colors"
-            >
-              <span>آخر 30 يوماً</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#7D8A78]" />
-            </button>
-
-            {/* Refresh Button */}
-            <button
-              type="button"
-              onClick={() => toast.success("تم تحديث سجل العمليات بنجاح")}
-              className="w-9 h-9 rounded-xl border border-[#E2E6DC] flex items-center justify-center text-[#7D8A78] hover:text-[#172115] hover:bg-[#F6F8F4] transition-colors cursor-pointer shrink-0"
-              title="تحديث السجل"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
+              <button
+                type="button"
+                onClick={() => toast.success("تم تحديث سجل العمليات بنجاح")}
+                className="w-10 h-10 rounded-2xl bg-[#F1F5EB] hover:bg-[#E5EBDD] flex items-center justify-center text-[#172115] transition-colors cursor-pointer shrink-0 select-none"
+                title="تحديث السجل"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Table */}
@@ -733,6 +769,25 @@ export function OwnerActivityTabView() {
           </div>
         </div>
       </div>
+
+      {/* Activity Filter Drawer */}
+      <OwnerActivityFilterDrawer
+        isOpen={isFilterDrawerOpen}
+        onClose={() => setIsFilterDrawerOpen(false)}
+        filters={activityFilters}
+        onApplyFilters={(newFilters) => {
+          setActivityFilters(newFilters);
+        }}
+        onResetFilters={() => {
+          setActivityFilters({
+            category: "all",
+            actor: "all",
+            timeRange: "all",
+            sortBy: "latest",
+          });
+        }}
+        totalResultsCount={filteredEvents.length}
+      />
     </div>
   );
 }

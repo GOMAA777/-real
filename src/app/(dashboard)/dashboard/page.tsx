@@ -22,11 +22,11 @@ export default function DashboardPage() {
       {/* 2. Top Metric KPI Cards */}
       <Suspense
         fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 animate-pulse">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="h-32 rounded-2xl bg-white/70 border border-[#E0E4D8]"
+                className="h-44 rounded-3xl bg-white/70 border border-[#E0E4D8]"
               />
             ))}
           </div>
@@ -54,11 +54,11 @@ export default function DashboardPage() {
 
       {/* 4. Recent Owners Table & Recent Properties List */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-7">
           <DashboardRecentOwners />
         </div>
 
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-5">
           <DashboardRecentProperties />
         </div>
       </div>

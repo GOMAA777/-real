@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PropertiesPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-3.5 font-cairo">
       {/* 1. Header Card */}
       <PropertiesHeader />
 

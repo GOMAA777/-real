@@ -1,6 +1,4 @@
 import { Suspense } from "react";
-import Link from "next/link";
-import { ChevronRight, ArrowRight } from "lucide-react";
 import { OwnerProfileCard } from "@/features/owners/components/owner-profile-card";
 import { OwnerKPICards } from "@/features/owners/components/owner-kpi-cards";
 import { OwnerTabsSection } from "@/features/owners/components/owner-tabs-section";
@@ -10,39 +8,30 @@ export const metadata = {
   description: "ملف صاحب العقار وتفاصيل العقارات والوحدات والحجوزات والأداء التشغيلي",
 };
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-  searchParams?: Promise<{ tab?: string }>;
+export function generateStaticParams() {
+  const numericIds = Array.from({ length: 100 }, (_, i) => ({ id: String(i + 1) }));
+  const ownerIds = Array.from({ length: 100 }, (_, i) => ({ id: `owner-${i + 1}` }));
+  return [...numericIds, ...ownerIds];
 }
 
-export default function OwnerDetailPage({ params, searchParams }: PageProps) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default function OwnerDetailPage({ params }: PageProps) {
   return (
     <div className="space-y-6 pb-12">
-      {/* Top Breadcrumb Navigation (Instant Static Shell) */}
-      <div className="flex items-center gap-2 text-xs text-[#7D8A78]">
-        <Link
-          href="/dashboard/owners"
-          className="hover:text-[#172115] transition-colors flex items-center gap-1 font-medium"
-        >
-          <ArrowRight className="w-3.5 h-3.5" />
-          <span>أصحاب العقارات</span>
-        </Link>
-        <ChevronRight className="w-3.5 h-3.5 rotate-180 text-[#CCD5C5]" />
-        <span className="font-bold text-[#172115]">بيانات صاحب العقار</span>
-      </div>
-
       {/* Dynamic Data wrapped in Suspense for Instant Navigation */}
       <Suspense fallback={<OwnerDetailSkeleton />}>
-        <OwnerDetailContent params={params} searchParams={searchParams} />
+        <OwnerDetailContent params={params} />
       </Suspense>
     </div>
   );
 }
 
-async function OwnerDetailContent({ params, searchParams }: PageProps) {
+async function OwnerDetailContent({ params }: PageProps) {
   const { id } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const initialTab = resolvedSearchParams?.tab || "overview";
+  const initialTab = "overview";
 
   // Mock owner matching design screenshots
   const ownerData = {

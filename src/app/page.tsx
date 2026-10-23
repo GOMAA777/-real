@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { RootAuthRedirect } from "@/features/auth/components/root-auth-redirect";
 
 export default function RootPage() {
-  redirect("/login");
+  return <RootAuthRedirect />;
 }

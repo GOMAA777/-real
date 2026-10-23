@@ -1,4 +1,4 @@
-import { Building } from "lucide-react";
+import Image from "next/image";
 
 export default function Loading() {
   return (
@@ -6,8 +6,15 @@ export default function Loading() {
       <div className="flex flex-col items-center gap-6 max-w-sm text-center">
         {/* Animated Brand Emblem */}
         <div className="relative flex items-center justify-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#344230] border border-[#273323] flex items-center justify-center shadow-md animate-pulse">
-            <Building className="w-8 h-8 text-white/90" />
+          <div className="w-16 h-16 rounded-2xl bg-[#344230] border border-[#273323] flex items-center justify-center p-3 shadow-md animate-pulse">
+            <Image
+              src="/logo.png"
+              alt="ابراج"
+              width={40}
+              height={40}
+              className="w-full h-full object-contain"
+              priority
+            />
           </div>
           {/* Subtle spinning indicator ring */}
           <div className="absolute -inset-2 rounded-3xl border-2 border-[#344230]/20 border-t-[#344230] animate-spin" />
